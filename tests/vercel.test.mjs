@@ -30,7 +30,7 @@ test('Home retains all product links, both floating collections and the approved
   for(const p of PRODUCTS)assert.ok(home.includes(`href="${pages.path(p)}"`));
   assert.ok(home.includes('id="sel-masc-btn"'));
   assert.ok(home.includes('id="sel-fem-btn"'));
-  assert.ok(home.includes('compact-buttons-v23'));
+  assert.ok(home.includes('hero-return-v28'));
   assert.deepEqual(readFileSync(new URL('../public/enhancements.css',import.meta.url)),readFileSync(new URL('../source/enhancements.css',import.meta.url)));
   assert.deepEqual(readFileSync(new URL('../public/enhancements.js',import.meta.url)),readFileSync(new URL('../source/enhancements.js',import.meta.url)));
   for(const p of PRODUCTS)assert.deepEqual(readFileSync(new URL('../public/'+p.image,import.meta.url)),readFileSync(new URL('../source/'+p.image,import.meta.url)));
