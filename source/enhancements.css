@@ -1,0 +1,538 @@
+/* Refinements to the supplied Sillocta layout. */
+:root{--sl-ease:cubic-bezier(.22,1,.36,1);--sl-gold:#D4AF37}html{scroll-padding-top:112px!important}body{overflow-x:clip!important}#smooth-wrapper{height:auto!important;overflow:visible!important;touch-action:pan-y pinch-zoom!important}#smooth-content{transform:none!important}header.glass{transition:background .4s,box-shadow .4s!important}header.glass.sl-scrolled{box-shadow:0 10px 35px #0006;background:rgba(5,4,4,.97)!important}#hero{padding-top:180px!important;padding-bottom:60px!important;overflow:hidden!important}#hero-txt{animation:sl-copy-entry 1.1s var(--sl-ease) both}#hero-txt h1{line-height:1.14!important}#hero-txt>p{font-size:14px!important;letter-spacing:.07em!important;line-height:1.9!important}#hero-txt>span{font-size:12px!important;letter-spacing:.19em!important;margin-top:0!important}#hero-txt>button{min-height:48px;font-size:12px!important}#o1,#o2,#o3{animation:sl-ambience 12s ease-in-out infinite alternate;filter:blur(60px)!important}#o2{animation-delay:-5s}#o3{animation-delay:-8s}#stars{animation:sl-star-drift 22s linear infinite;opacity:.2!important}#colecao-selector{display:block!important;margin-top:0!important;padding:10px 0 28px!important;background:#050404!important;isolation:isolate}#colecao-selector>div{max-width:850px!important;gap:8px}#sel-masc-btn,#sel-fem-btn{position:relative;min-width:0;outline-offset:6px;border-radius:16px;transition:filter .5s var(--sl-ease),translate .5s var(--sl-ease)!important}#sel-masc-btn:focus-visible,#sel-fem-btn:focus-visible{outline:1px solid #D4AF37}#sel-masc-btn:hover,#sel-fem-btn:hover{transform:none!important;translate:0 -5px}#sel-masc-btn>div:first-child,#sel-fem-btn>div:first-child{animation:sl-collection-float 7s ease-in-out infinite;will-change:translate}#sel-fem-btn>div:first-child{animation-delay:-3.5s}#img-masc,#img-fem{transition:opacity .6s var(--sl-ease),filter .6s var(--sl-ease),scale .6s var(--sl-ease)!important;aspect-ratio:1;object-fit:cover!important}#sel-masc-btn[aria-pressed=true] img,#sel-fem-btn[aria-pressed=true] img{filter:drop-shadow(0 0 16px #D4AF3720);scale:1.025}#sel-masc-label,#sel-fem-label{font-size:12px!important;letter-spacing:.2em!important;transition:color .35s!important}#sel-masc-bar,#sel-fem-bar{transition:width .5s var(--sl-ease),opacity .5s!important}.perfume-grid{gap:24px!important;align-items:stretch}body.collection-view #shop{padding-top:20px!important}body.collection-view #colecao-selector{display:block!important}.card{transition:translate .45s var(--sl-ease),opacity .7s var(--sl-ease),filter .45s!important;translate:0 0}.card:hover{transform:none!important;translate:0 -6px}.card .img-box{overflow:hidden!important;border-radius:8px!important}.card img{transition:transform .9s var(--sl-ease),filter .5s!important}.card:hover .img-box img{transform:scale(1.045)!important}.card.sl-pending{opacity:0!important;translate:0 24px}.card.sl-in{opacity:1!important;translate:0 0}.card.sl-added .btn-buy{animation:sl-buy-pulse .6s ease}.card .vbtn{min-height:42px;font-size:12px!important;transition:background .25s,border-color .25s,color .25s,scale .2s!important}.card .vbtn:active{scale:.96}.card .btn-buy{min-height:46px;font-size:12px!important}.card .badge{font-size:12px!important;letter-spacing:.08em!important}.card h3{font-size:24px!important;line-height:1.3!important}.card h3 span{font-size:12px!important}.card p{font-size:12px!important;letter-spacing:.12em!important}.card span[style*="font-size:7px"]{font-size:12px!important;letter-spacing:0!important}.card .price-old{font-size:12px!important;color:#b2aaa0!important}.card .price-cur{font-size:19px!important;transition:opacity .2s,scale .2s!important}.card .price-cur.sl-price-change{animation:sl-price-entry .25s var(--sl-ease)}.card button[onclick*="changeQty"]{min-width:36px;min-height:36px}.card .qty-val{font-size:16px!important}.card .qty-val.sl-count-pop{animation:sl-price-entry .2s ease}.sl-collection-enter{animation:sl-content-entry .5s var(--sl-ease)}#px-title,#pxf-title{font-size:clamp(26px,4vw,48px)!important;line-height:1.22!important}#px-title-wrap,#pxf-title-wrap{z-index:2!important;pointer-events:none!important}#parallax-hero,#parallax-fem{isolation:isolate;overflow:hidden!important;height:24vh!important;min-height:150px!important;max-height:210px!important}.px-layer,.pxf-layer{translate:0 var(--sl-parallax,0px);will-change:translate}#cart-overlay{z-index:1000!important;backdrop-filter:blur(6px);transition:opacity .35s ease!important}#cart-drawer{z-index:1001!important;top:0!important;height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;max-width:100%;width:min(470px,100%)!important;transition:transform .5s var(--sl-ease)!important}#cart-drawer-head{padding:24px 22px!important;position:relative!important;min-height:86px;flex-shrink:0}#cart-drawer-head p{font-size:25px!important}#cart-drawer-head button{min-width:44px;min-height:44px}#cart-items{min-height:0;flex:1;overflow-y:auto!important;overflow-x:hidden!important;padding-bottom:28px!important;overscroll-behavior:contain}#cart-footer:empty{display:none}#cart-drawer .sl-input,#cart-drawer .sl-textarea{font-size:16px!important;min-height:46px!important}#cart-drawer .sl-label,#cart-drawer .sl-checkout-kicker{font-size:12px!important;letter-spacing:.1em!important}#cart-drawer .sl-checkout-name{font-size:23px!important;line-height:1.3!important}#cart-drawer .sl-checkout-brand,#cart-drawer .sl-checkout-meta,#cart-drawer .sl-note,#cart-drawer #coupon-msg,#cart-drawer .sl-pay-btn,#cart-drawer .sl-pay-caption,#cart-drawer .sl-pay-notes{font-size:12px!important;line-height:1.8!important}#cart-drawer .sl-checkout-block>p[style*="font-size:11px"]{font-size:14px!important}#cart-drawer .sl-summary-row{font-size:14px!important}#cart-drawer .sl-cta,#cart-drawer .sl-cta-secondary,#cart-drawer .sl-coupon-btn{min-height:46px!important;font-size:14px!important}#cart-drawer .sl-gift-wrap p{font-size:12px!important;letter-spacing:0!important}.sl-error{font:13px/1.6 Montserrat,sans-serif;color:#ffb3a7!important;margin-bottom:12px!important}.sl-pay-action{transition:border-color .3s,background .3s,scale .2s!important}.sl-pay-action:active{scale:.96}.sl-pay-action.is-on{border-color:#D4AF37!important;background:#D4AF3712!important}.sl-qty button{min-width:38px;min-height:38px}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,[role=button]:focus-visible{outline:2px solid #D4AF37!important;outline-offset:3px}#mobile-menu-drawer{max-height:calc(100dvh - 24px)!important}#mobile-menu-drawer a{font-size:14px!important;letter-spacing:.13em!important}#footer-info-overlay{z-index:1200!important}#footer-info-modal{animation:sl-content-entry .35s var(--sl-ease);font-size:16px!important}#footer-info-modal p{font-size:14px!important;line-height:1.9!important}#site-footer a,#site-footer p{font-size:12px!important;line-height:1.8!important}#preloader{transition:opacity .4s,visibility .4s!important;pointer-events:none!important}.wa{bottom:calc(22px + env(safe-area-inset-bottom))!important;right:22px!important;transition:translate .3s,scale .3s,opacity .3s!important}.wa:hover{translate:0 -3px;scale:1.03}#catalog-search{max-width:760px;margin:0 auto 28px;padding:20px;background:#090807;border:1px solid #D4AF3724;border-radius:10px;animation:sl-content-entry .35s var(--sl-ease)}#catalog-search label{display:block;font:14px Montserrat,sans-serif;color:#D4AF37;margin-bottom:10px}#catalog-search>div{display:flex;gap:10px}#catalog-query{font:16px Montserrat,sans-serif;flex:1;min-width:0;background:#050404;border:1px solid #D4AF3736;color:#fff;padding:12px;border-radius:6px}#catalog-search button,#catalog-empty button{font:14px Montserrat,sans-serif;border:1px solid #D4AF3736;border-radius:6px;padding:10px 14px;color:#D4AF37}#catalog-status{font:12px Montserrat,sans-serif;margin-top:12px;color:#b9b0a3}#catalog-empty{text-align:center;padding:35px;font:16px Montserrat,sans-serif}#catalog-empty p{margin-bottom:16px}#sl-toast{position:fixed;z-index:1100;bottom:calc(85px + env(safe-area-inset-bottom));left:50%;translate:-50% 10px;max-width:90vw;width:max-content;border:1px solid #D4AF3740;background:#12100ff5;backdrop-filter:blur(12px);border-radius:10px;padding:13px 20px;font:13px/1.6 Montserrat,sans-serif;color:#ecd391;opacity:0;pointer-events:none;transition:opacity .3s,translate .3s}#sl-toast.visible{opacity:1;translate:-50% 0}[hidden]{display:none!important}.sl-paused *,.sl-paused *::before,.sl-paused *::after{animation-play-state:paused!important}@keyframes sl-collection-float{0%,100%{translate:0 0}50%{translate:0 -12px}}@keyframes sl-copy-entry{from{opacity:0;translate:0 20px}to{opacity:1;translate:0 0}}@keyframes sl-content-entry{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}@keyframes sl-ambience{from{translate:-8px 0;scale:.92}to{translate:18px -15px;scale:1.08}}@keyframes sl-star-drift{from{translate:0 0}to{translate:0 -28px}}@keyframes sl-price-entry{from{opacity:.25;scale:.96}to{opacity:1;scale:1}}@keyframes sl-buy-pulse{0%,100%{box-shadow:0 12px 32px #D4AF3733}50%{box-shadow:0 12px 40px #D4AF3766}}@media(max-width:768px){#hero{padding-top:160px!important;padding-bottom:42px!important}#hero-txt h1{font-size:clamp(38px,9vw,60px)!important}#hero-txt>p{font-size:14px!important}#colecao-selector>div{gap:0!important}#sel-masc-btn,#sel-fem-btn{padding:7px!important}#sel-masc-label,#sel-fem-label{font-size:12px!important;letter-spacing:.12em!important}.perfume-grid,body.collection-view .perfume-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px!important}.card>div:last-child{padding:16px 10px!important}.card h3{font-size:21px!important}.card p{letter-spacing:.04em!important}.card .btn-buy{font-size:11px!important;letter-spacing:.08em!important;padding:12px 4px!important}.card span[style*="font-size:7px"]{font-size:11px!important;padding:3px 5px!important}.card .price-cur{font-size:16px!important}.card .price-old{font-size:11px!important}.card .vbtn{font-size:12px!important}.card button[onclick*="changeQty"]{min-width:34px;min-height:34px}#cart-drawer .sl-grid{gap:14px!important}#cart-drawer .sl-checkout-block{padding:18px 12px!important}#catalog-search{padding:15px}#site-footer{padding-inline:22px!important}.card.sl-pending{translate:0 16px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation:none!important;transition:none!important}.card.sl-pending{opacity:1!important;translate:0 0!important}.px-layer,.pxf-layer{translate:0 0!important}}
+/* One native scrolling surface; open dialogs lock it explicitly. */
+html{height:auto!important;min-height:100%;overflow-x:clip!important;overflow-y:auto!important;touch-action:pan-y pinch-zoom!important}
+body{height:auto!important;min-height:100%;position:static!important;overflow-y:visible!important;touch-action:pan-y pinch-zoom!important}
+body.sl-modal-open{overflow:hidden!important}
+#smooth-wrapper,#smooth-content{position:relative!important;height:auto!important;max-height:none!important;overflow:visible!important;transform:none!important;touch-action:pan-y pinch-zoom!important;overscroll-behavior:auto!important}
+/* The existing two artworks float without a moving rectangular surface. */
+#colecao-selector,#colecao-selector>div,#sel-masc-btn,#sel-fem-btn,#sel-masc-btn>div,#sel-fem-btn>div{background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;border:0!important;isolation:auto!important}
+#sel-masc-btn,#sel-fem-btn{border-radius:0!important;filter:none!important;overflow:visible!important}
+#sel-masc-btn>div:first-child,#sel-fem-btn>div:first-child{animation:sl-refined-float 9s ease-in-out infinite!important;background:transparent!important}
+#sel-fem-btn>div:first-child{animation-delay:-4.5s!important}
+#img-masc,#img-fem{background:transparent!important;mix-blend-mode:screen!important;filter:none!important;transform:none!important;scale:1!important;opacity:1!important;mask-image:linear-gradient(to bottom,transparent,#000 4%,#000 92%,transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 4%,#000 92%,transparent)}
+#sel-masc-btn:hover,#sel-fem-btn:hover{filter:none!important;transform:none!important;translate:0 -3px!important}
+#sel-masc-btn[aria-pressed=false] img,#sel-fem-btn[aria-pressed=false] img{opacity:.78!important}
+#sel-masc-btn[aria-pressed=true] img,#sel-fem-btn[aria-pressed=true] img{filter:none!important;scale:1!important}
+@keyframes sl-refined-float{0%,100%{translate:0 0;rotate:-.3deg}50%{translate:0 -8px;rotate:.3deg}}
+@media(prefers-reduced-motion:reduce){#sel-masc-btn>div:first-child,#sel-fem-btn>div:first-child{animation:none!important;translate:0 0!important;rotate:0deg!important}}
+
+html.sl-modal-open{overflow-y:hidden!important}
+/* Checkout: one full-height scrolling surface, without a cropped inner viewport. */
+html body #cart-drawer{display:block!important;position:fixed!important;top:var(--sl-checkout-top,0px)!important;right:0!important;height:var(--sl-checkout-height,100dvh)!important;max-height:var(--sl-checkout-height,100dvh)!important;min-height:0!important;width:min(470px,100vw)!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;touch-action:pan-y!important;scroll-behavior:auto!important;scroll-padding-top:18px!important;scroll-padding-bottom:calc(28px + env(safe-area-inset-bottom))!important;padding:0!important;box-sizing:border-box!important}
+html body #cart-drawer::before,html body #cart-drawer::after,html body #cart-drawer>#cart-items::before,html body #cart-drawer>#cart-items::after{content:none!important;display:none!important}
+html body #cart-drawer>#cart-drawer-head{position:relative!important;top:auto!important;z-index:1!important;min-height:0!important;height:auto!important;max-height:none!important;flex:none!important;overflow:visible!important;padding:calc(22px + env(safe-area-inset-top)) 22px 20px!important;margin:0!important;background:#080707!important;backdrop-filter:none!important;box-shadow:none!important}
+html body #cart-drawer>#cart-items{display:block!important;position:relative!important;min-height:0!important;height:auto!important;max-height:none!important;flex:none!important;overflow:visible!important;padding:18px 22px calc(40px + env(safe-area-inset-bottom))!important;margin:0!important;touch-action:pan-y!important}
+html body #cart-drawer>#cart-footer{display:none!important;height:0!important;min-height:0!important;padding:0!important;margin:0!important}
+html body #cart-drawer .sl-checkout-wrap{height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;padding-bottom:16px!important}
+html body #cart-drawer .sl-checkout-block:last-child{position:relative!important;bottom:auto!important;height:auto!important;min-height:0!important;overflow:visible!important;background:transparent!important;padding-bottom:12px!important}
+html body #cart-drawer .sl-cta,html body #cart-drawer .sl-cta-secondary{position:relative!important;min-height:50px!important;height:auto!important;white-space:normal!important;line-height:1.6!important;padding:14px 12px!important;letter-spacing:.1em!important;touch-action:manipulation!important}
+html body #cart-drawer .sl-field{min-width:0!important;overflow:visible!important}
+html body #cart-drawer input,html body #cart-drawer textarea,html body #cart-drawer select{max-width:100%!important;transform:none!important;scroll-margin-block:24px!important;touch-action:manipulation!important}
+html body #cart-drawer .sl-pay-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+html body #cart-drawer .sl-pay-btn{min-width:0!important;min-height:68px!important;letter-spacing:.06em!important}
+html body #cart-drawer::-webkit-scrollbar{width:4px}
+html body #cart-drawer::-webkit-scrollbar-track{background:transparent}
+html body #cart-drawer::-webkit-scrollbar-thumb{background:#D4AF3755;border-radius:4px}
+/* Full physical borders replace all fractional inset outlines. */
+html body .perfume-grid .card .sl-volume-options{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:8px!important;width:100%!important;min-width:0!important;padding:2px!important;margin-bottom:14px!important;overflow:visible!important;isolation:auto!important;box-sizing:border-box!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;height:44px!important;min-height:44px!important;margin:0!important;padding:8px 6px!important;border:2px solid rgba(255,255,255,.23)!important;border-radius:8px!important;box-shadow:none!important;background:transparent!important;background-clip:border-box!important;color:rgba(255,255,255,.76)!important;font-size:14px!important;line-height:1.2!important;letter-spacing:.06em!important;transform:none!important;translate:0 0!important;scale:1!important;overflow:visible!important;isolation:auto!important;z-index:auto!important;transition:border-color .25s ease,background-color .25s ease,color .25s ease!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn::before,html body .perfume-grid .card .sl-volume-options>.vbtn::after{content:none!important;display:none!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn.on{border:2px solid #D4AF37!important;box-shadow:none!important;background:transparent!important;color:#e6c96f!important;z-index:auto!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn:hover{border-color:rgba(212,175,55,.7)!important;background:transparent!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn:focus-visible{outline:2px solid #e6c96f!important;outline-offset:3px!important}
+@media(max-width:768px){html body #cart-drawer{width:100vw!important;border-left:0!important}html body #cart-drawer>#cart-drawer-head{padding-inline:20px!important}html body #cart-drawer>#cart-items{padding-inline:16px!important}html body #cart-drawer .sl-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}html body .perfume-grid .card .sl-volume-options{gap:7px!important}html body .perfume-grid .card .sl-volume-options>.vbtn{font-size:13px!important}}
+@media(max-width:360px){html body #cart-drawer .sl-grid{grid-template-columns:1fr!important}html body #cart-drawer .sl-grid .sl-field{grid-column:1!important}}
+
+/* Maison finish: solid champagne, quiet typography and complete control borders. */
+:root{--sl-champagne:#cbb477;--sl-ivory:#efebe4;--sl-muted:#a9a198;--sl-control-border:rgba(255,255,255,.2)}
+html body #site-footer{background:#070606!important;border-top:1px solid rgba(255,255,255,.07)!important;padding:72px 28px 32px!important;box-shadow:none!important}
+html body #site-footer::before,html body #site-footer::after{content:none!important;display:none!important}
+#site-footer .sl-footer-columns{display:grid;grid-template-columns:1.6fr repeat(3,minmax(0,1fr));gap:48px;margin-bottom:48px}
+html body #site-footer .sl-footer-brand{display:block;background:none!important;background-image:none!important;background-clip:initial!important;-webkit-background-clip:initial!important;-webkit-text-fill-color:currentColor!important;color:var(--sl-champagne)!important;box-shadow:none!important;text-shadow:none!important;filter:none!important;font:400 30px/1.3 'Cormorant Garamond',serif;letter-spacing:.12em;margin-bottom:6px}
+html body #site-footer .sl-footer-subtitle{display:block;font:italic 13px/1.6 'Cormorant Garamond',serif;letter-spacing:.09em;color:var(--sl-muted);margin-bottom:20px}
+html body #site-footer .sl-footer-description{font:400 13px/1.9 Montserrat,sans-serif!important;color:var(--sl-muted)!important;letter-spacing:0!important}
+html body #site-footer .sl-footer-heading{font:500 13px/1.5 Montserrat,sans-serif!important;color:#ddd7cd!important;letter-spacing:.04em!important;text-transform:none!important;margin-bottom:16px}
+html body #site-footer a{font:400 14px/1.8 Montserrat,sans-serif!important;color:#aaa39a;letter-spacing:0;min-height:28px;text-shadow:none!important;transition:color .22s ease,translate .22s ease!important}
+html body #site-footer a:hover{color:var(--sl-champagne)!important;transform:none!important;translate:2px 0}
+html body #site-footer a.sl-footer-social{display:inline-flex;align-items:center;justify-content:center;min-width:36px;min-height:36px;font-size:18px!important}
+#site-footer .sl-footer-divider{height:1px;background:rgba(203,180,119,.17);margin-bottom:24px}
+html body #site-footer .sl-footer-copyright{font:400 12px/1.8 Montserrat,sans-serif!important;color:#9c9790!important;text-align:center;text-transform:none!important;letter-spacing:.015em!important;margin:0!important;text-shadow:none!important}
+html body .card .btn-buy{background:var(--sl-champagne)!important;background-image:none!important;color:#17130c!important;border:1px solid var(--sl-champagne)!important;box-shadow:none!important;font-weight:600;transition:background-color .22s ease,border-color .22s ease,color .22s ease!important}
+html body .card .btn-buy:hover{background:#dec894!important;border-color:#dec894!important;filter:none!important}
+html body .card.sl-added .btn-buy{animation:none!important;background:#dfc994!important}
+html body .card button[onclick*="changeQty"]{border:1px solid rgba(203,180,119,.5)!important;transition:color .2s,background-color .2s,border-color .2s!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn{gap:6px!important;letter-spacing:.015em!important}
+.sl-volume-check{width:12px;flex:none;font-size:12px;visibility:hidden;opacity:0;transition:opacity .22s ease}
+.vbtn.on .sl-volume-check{visibility:visible;opacity:1}
+html body .perfume-grid .card .sl-volume-options>.vbtn.on{border-color:var(--sl-champagne)!important;background:transparent!important;color:#e1cd9b!important}
+#cc.sl-bag-updated{animation:sl-bag-confirm .32s ease}
+@keyframes sl-bag-confirm{0%,100%{scale:1}45%{scale:1.2}}
+#sl-toast{font-size:14px!important;letter-spacing:0!important;background:#12100ff5!important;border:1px solid rgba(203,180,119,.3)!important;box-shadow:0 8px 30px #0004!important;color:#e4d4af!important;transition:opacity .22s ease,translate .22s ease!important}
+.sl-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+html body #cart-drawer{background:#080707!important;scrollbar-color:rgba(203,180,119,.35) transparent}
+html body #cart-drawer>#cart-drawer-head{border-bottom:1px solid rgba(255,255,255,.07)!important;padding-bottom:24px!important}
+html body #cart-drawer>#cart-drawer-head p{font-size:34px!important;letter-spacing:.02em!important;color:var(--sl-ivory)!important}
+html body #cart-drawer>#cart-drawer-head>div>div{display:none!important}
+html body #cart-drawer>#cart-drawer-head button{border:1px solid rgba(255,255,255,.13)!important;border-radius:50%!important;font-size:15px!important;color:#bcb4aa!important}
+html body #cart-drawer .sl-checkout-wrap{gap:22px!important;padding-bottom:12px!important}
+#cart-drawer .sl-checkout-intro{padding:2px 2px 4px}
+#cart-drawer .sl-checkout-service{display:flex;align-items:center;gap:8px;font:400 12px/1.6 Montserrat,sans-serif;color:var(--sl-champagne)}
+#cart-drawer .sl-checkout-intro p{font:400 16px/1.7 Montserrat,sans-serif;color:#c6beb4;margin:10px 0 0}
+html body #cart-drawer .sl-checkout-block{padding:24px 20px!important;border:1px solid rgba(255,255,255,.09)!important;border-radius:14px!important;background:#0e0c0b!important;box-shadow:none!important}
+html body #cart-drawer :is(.sl-checkout-wrap,.sl-grid,.sl-field,.sl-summary,.sl-summary-row,.sl-inline,.sl-pay-grid){background:transparent!important}
+html body #cart-drawer .sl-checkout-kicker{font:400 27px/1.25 'Cormorant Garamond',serif!important;text-transform:none!important;letter-spacing:.01em!important;color:var(--sl-ivory)!important;margin:0 0 22px!important}
+html body #cart-drawer .sl-checkout-item{position:relative;display:grid!important;grid-template-columns:72px minmax(0,1fr);gap:16px!important;padding:22px 0!important;border-bottom:1px solid rgba(255,255,255,.07)!important}
+html body #cart-drawer .sl-checkout-item:nth-child(2){padding-top:0!important}
+html body #cart-drawer .sl-checkout-item:last-child{padding-bottom:0!important;border-bottom:0!important}
+#cart-drawer .sl-checkout-thumb{height:96px;overflow:hidden;border:1px solid rgba(255,255,255,.06);border-radius:8px;background:#070606;align-self:start}
+#cart-drawer .sl-checkout-thumb img{display:block;width:100%;height:100%;object-fit:contain}
+#cart-drawer .sl-item-detail{min-width:0}
+html body #cart-drawer .sl-checkout-brand{font-size:12px!important;line-height:1.5!important;letter-spacing:.07em!important;color:var(--sl-champagne)!important;margin:0 30px 5px 0!important;overflow-wrap:anywhere}
+html body #cart-drawer .sl-checkout-name{font:400 24px/1.2 'Cormorant Garamond',serif!important;color:var(--sl-ivory)!important;letter-spacing:0!important;margin:0 22px 6px 0!important;overflow-wrap:anywhere}
+html body #cart-drawer .sl-checkout-meta{font-size:12px!important;letter-spacing:0!important;color:var(--sl-muted)!important;line-height:1.7!important;margin:0 0 14px!important}
+#cart-drawer .sl-item-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+html body #cart-drawer .sl-qty{border:1px solid var(--sl-control-border)!important;border-radius:8px!important;min-width:100px}
+html body #cart-drawer .sl-qty button{min-width:34px!important;min-height:38px!important;font-size:18px;color:#ded7ca;transition:background-color .2s,color .2s}
+#cart-drawer .sl-qty button:hover{background:rgba(203,180,119,.08);color:var(--sl-champagne)}
+#cart-drawer .sl-qty span{font:400 14px/1.5 Montserrat,sans-serif;min-width:30px}
+#cart-drawer .sl-item-price{font:500 14px/1.6 Montserrat,sans-serif;color:#e0d0aa;white-space:nowrap;font-variant-numeric:tabular-nums}
+html body #cart-drawer .sl-remove{position:absolute;right:-6px;top:16px;width:32px;height:32px;padding:0!important;font-size:12px!important;color:#aaa198!important}
+html body #cart-drawer .sl-checkout-item:nth-child(2) .sl-remove{top:-6px}
+html body #cart-drawer .sl-grid{gap:20px 14px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#cart-drawer .sl-field-full{grid-column:1/-1}
+html body #cart-drawer .sl-label{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px;font:400 14px/1.5 Montserrat,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#d0c8bd!important}
+html body #cart-drawer .sl-field{gap:9px!important}
+#cart-drawer .sl-optional{font:400 12px/1.5 Montserrat,sans-serif;color:#9f9588;margin-left:4px}
+html body #cart-drawer .sl-input,html body #cart-drawer .sl-textarea{font:400 16px/1.5 Montserrat,sans-serif!important;letter-spacing:0!important;background:#090808!important;color:var(--sl-ivory)!important;border:1px solid var(--sl-control-border)!important;border-radius:9px!important;padding:13px 12px!important;min-height:50px!important;transition:border-color .22s ease,background-color .22s ease!important}
+html body #cart-drawer .sl-input::placeholder,html body #cart-drawer .sl-textarea::placeholder{color:#8f877d!important;opacity:1}
+html body #cart-drawer .sl-input:focus,html body #cart-drawer .sl-textarea:focus{border-color:var(--sl-champagne)!important;background:#100e0b!important;outline:none!important}
+html body #cart-drawer .sl-input:focus-visible,html body #cart-drawer .sl-textarea:focus-visible{outline:none!important}
+html body #cart-drawer .sl-field.is-invalid .sl-input{border-color:#d59185!important}
+#cart-drawer .sl-field-error{font:400 12px/1.6 Montserrat,sans-serif;color:#edb2a5}
+#cart-drawer .sl-field-note,#cart-drawer .sl-shipping-note{font:400 12px/1.8 Montserrat,sans-serif;color:var(--sl-muted);letter-spacing:0;margin:14px 0 0}
+#cart-drawer .sl-field-note:empty,#cart-drawer .sl-error:empty{display:none}
+#cart-drawer .sl-inline{margin-top:10px;background:transparent!important}
+html body #cart-drawer .sl-coupon-btn{min-height:50px!important;height:auto!important;padding:12px 16px!important;border:1px solid rgba(203,180,119,.45)!important;border-radius:9px!important;background:transparent!important;color:#dfc994!important;text-transform:none!important;letter-spacing:0!important;font-weight:500;transition:background-color .22s,border-color .22s}
+#cart-drawer .sl-coupon-btn:hover{background:rgba(203,180,119,.06)!important;border-color:var(--sl-champagne)!important}
+html body #cart-drawer #coupon-msg{font:400 12px/1.8 Montserrat,sans-serif!important;color:var(--sl-muted);letter-spacing:0!important;margin:10px 0 20px}
+#cart-drawer #coupon-msg.is-success{color:#bfcead}
+html body #cart-drawer .sl-gift-wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:18px 0 0;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent!important;text-align:left;cursor:pointer}
+#cart-drawer .sl-gift-copy{display:flex;gap:12px;align-items:center;min-width:0}
+#cart-drawer .sl-gift-copy>i{color:var(--sl-champagne);font-size:17px;flex:none}
+#cart-drawer .sl-gift-title{display:block;font:400 14px/1.6 Montserrat,sans-serif;color:#d8d1c6}
+#cart-drawer .sl-gift-description{display:block;font:400 12px/1.7 Montserrat,sans-serif;color:var(--sl-muted);margin-top:4px}
+#cart-drawer .sl-gift-toggle{width:40px;height:24px;flex:none;background:#3a3530;border-radius:30px;padding:3px;box-sizing:border-box;transition:background-color .22s}
+#cart-drawer .sl-gift-toggle>span{display:block;width:18px;height:18px;border-radius:50%;background:#efe9de;translate:0 0;transition:translate .22s}
+#cart-drawer .sl-gift-wrap[aria-checked=true] .sl-gift-toggle{background:var(--sl-champagne)}
+#cart-drawer .sl-gift-wrap[aria-checked=true] .sl-gift-toggle>span{translate:16px 0;background:#1a160f}
+html body #cart-drawer .sl-pay-grid{background:transparent!important;gap:10px!important}
+html body #cart-drawer .sl-pay-btn{position:relative;border:1px solid var(--sl-control-border)!important;background:transparent!important;color:#c5bdb2!important;border-radius:10px!important;min-height:90px!important;padding:20px 5px 14px!important;gap:10px!important;font:400 14px/1.5 Montserrat,sans-serif!important;text-transform:none!important;letter-spacing:0!important;box-shadow:none!important;scale:1!important;transition:border-color .22s ease,background-color .22s ease,color .22s ease!important}
+html body #cart-drawer .sl-pay-btn.is-on{border:1px solid var(--sl-champagne)!important;background:transparent!important;color:#e0cd9f!important;box-shadow:none!important}
+#cart-drawer .sl-option-check{position:absolute;top:6px;right:8px;font-size:12px;color:var(--sl-champagne);opacity:0;transition:opacity .22s ease}
+#cart-drawer .sl-pay-btn.is-on .sl-option-check{opacity:1}
+html body #cart-drawer .sl-textarea{min-height:114px!important;resize:vertical;line-height:1.8!important}
+html body #cart-drawer .sl-summary-row{font:400 14px/1.8 Montserrat,sans-serif!important;color:#b8afa3!important;letter-spacing:0!important;gap:18px!important}
+#cart-drawer .sl-summary-row strong{font-weight:400;color:#ded6ca;text-align:right;font-variant-numeric:tabular-nums}
+#cart-drawer .sl-summary-row small{display:block;font-size:12px;line-height:1.6;color:#afa688}
+#cart-drawer .sl-discount-row strong{color:#bfcead}
+html body #cart-drawer .sl-summary-row.total{padding-top:18px!important;margin-top:8px!important;border-top:1px solid rgba(203,180,119,.2)!important;align-items:center!important;color:#e7ddcc!important;font-weight:500!important}
+html body #cart-drawer .sl-summary-row.total strong{font:500 24px/1.4 Montserrat,sans-serif!important;letter-spacing:0!important;color:#dec995!important;white-space:nowrap}
+#cart-drawer .sl-summary-updated #checkout-total{animation:sl-total-update .24s ease}
+@keyframes sl-total-update{from{opacity:.55}to{opacity:1}}
+#cart-drawer .sl-checkout-actions{display:flex;flex-direction:column;gap:16px;background:transparent!important;position:relative!important}
+html body #cart-drawer .sl-cta{background:var(--sl-champagne)!important;background-image:none!important;color:#18140c!important;border:1px solid var(--sl-champagne)!important;border-radius:10px!important;min-height:56px!important;text-transform:none!important;letter-spacing:0!important;font:600 14px/1.6 Montserrat,sans-serif!important;gap:9px!important;text-decoration:none;box-shadow:none!important;transition:background-color .22s,border-color .22s!important}
+html body #cart-drawer .sl-cta:hover{background:#dec894!important;border-color:#dec894!important}
+html body #cart-drawer .sl-cta i{font-size:20px!important}
+html body #cart-drawer .sl-cta-secondary{background:transparent!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:10px!important;color:#b9b0a4!important;min-height:50px!important;font:400 14px/1.6 Montserrat,sans-serif!important;letter-spacing:0!important;text-transform:none!important;box-shadow:none!important;transition:color .22s,border-color .22s!important}
+html body #cart-drawer .sl-cta-secondary:hover{border-color:rgba(203,180,119,.5)!important;color:#deca9e!important}
+html body #cart-drawer .sl-note{font:400 12px/1.8 Montserrat,sans-serif!important;color:#a89d8d!important;letter-spacing:0!important;margin:0!important;text-align:center!important}
+#cart-drawer .sl-error{margin:0!important;font:400 14px/1.7 Montserrat,sans-serif}
+#cart-drawer .sl-empty-bag{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:18px;text-align:center;padding:20px 0}
+#cart-drawer .sl-empty-bag>i{font-size:32px;color:var(--sl-champagne);opacity:.6}
+#cart-drawer .sl-empty-bag h2{font:400 30px/1.2 'Cormorant Garamond',serif;color:var(--sl-ivory);margin:0}
+#cart-drawer .sl-empty-bag p{font:400 14px/1.8 Montserrat,sans-serif;color:var(--sl-muted);margin:0 0 8px}
+@media(max-width:768px){html body #site-footer{padding:58px 24px 28px!important}#site-footer .sl-footer-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 24px;margin-bottom:36px}#site-footer .sl-footer-columns>div:first-child,#site-footer .sl-footer-columns>div:last-child{grid-column:1/-1}html body #cart-drawer .sl-checkout-block{padding:22px 16px!important}}
+@media(max-width:390px){html body #cart-drawer .sl-checkout-item{grid-template-columns:60px minmax(0,1fr);gap:12px!important}#cart-drawer .sl-checkout-thumb{height:84px}html body #cart-drawer .sl-checkout-name{font-size:23px!important}html body #cart-drawer .sl-grid{grid-template-columns:1fr!important}#cart-drawer .sl-field{grid-column:1/-1}html body #cart-drawer .sl-summary-row.total strong{font-size:22px!important}#cart-drawer .sl-summary-row{gap:12px!important}}
+@media(max-width:430px){html body #cart-drawer .sl-grid{grid-template-columns:1fr!important}#cart-drawer .sl-field{grid-column:1/-1}}
+@media(max-width:360px){#site-footer .sl-footer-columns{gap:30px 16px}html body #cart-drawer .sl-inline{flex-direction:column;align-items:stretch}html body #cart-drawer .sl-checkout-block{padding-inline:14px!important}}
+@media(prefers-reduced-motion:reduce){#cc.sl-bag-updated,#cart-drawer .sl-summary-updated #checkout-total{animation:none!important}.sl-volume-check,#cart-drawer .sl-option-check{transition:none!important}}
+
+/* Compact collection dividers and a quieter checkout type scale. */
+html body #parallax-hero.sl-collection-banner,html body #parallax-fem.sl-collection-banner{display:grid!important;place-items:center!important;height:auto!important;min-height:clamp(92px,10vh,128px)!important;max-height:none!important;padding:0!important;margin:0!important;overflow:visible!important;background:transparent!important}
+html body #parallax-hero #px-title-wrap.sl-collection-title-wrap,html body #parallax-fem #pxf-title-wrap.sl-collection-title-wrap{position:relative!important;inset:auto!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;width:100%!important;height:auto!important;max-width:1400px!important;min-height:0!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:18px 24px!important;margin:0!important;transform:none!important;translate:none!important;scale:1!important;opacity:1!important;visibility:visible!important;white-space:normal!important;overflow:visible!important;z-index:2!important;isolation:auto!important;background:transparent!important}
+html body #parallax-hero #px-title.sl-collection-title,html body #parallax-fem #pxf-title.sl-collection-title{font-size:clamp(1.375rem,2.8vw,2.125rem)!important;font-weight:400!important;line-height:1.15!important;letter-spacing:.025em!important;white-space:normal!important;text-wrap:balance;max-width:100%!important;overflow-wrap:normal!important;margin:0!important;background:none!important;-webkit-background-clip:initial!important;background-clip:initial!important;-webkit-text-fill-color:currentColor!important;color:#e3ded4!important;text-shadow:none!important;filter:none!important}
+html body #parallax-hero #px-orb-wrap,html body #parallax-fem #pxf-orb-wrap{display:none!important}
+html body #parallax-hero #px-title-wrap.sl-collection-title-wrap::before,html body #parallax-hero #px-title-wrap.sl-collection-title-wrap::after,html body #parallax-fem #pxf-title-wrap.sl-collection-title-wrap::before,html body #parallax-fem #pxf-title-wrap.sl-collection-title-wrap::after,html body #parallax-hero #px-title.sl-collection-title::before,html body #parallax-hero #px-title.sl-collection-title::after,html body #parallax-fem #pxf-title.sl-collection-title::before,html body #parallax-fem #pxf-title.sl-collection-title::after{content:none!important;display:none!important}
+html body #parallax-hero #px-title-wrap>.sl-collection-line,html body #parallax-fem #pxf-title-wrap>.sl-collection-line{position:static!important;width:44px!important;height:1px!important;min-height:1px!important;flex:none!important;background:rgba(203,180,119,.35)!important;background-image:none!important;box-shadow:none!important;margin:0!important;transform:none!important;filter:none!important}
+html body #cart-drawer>#cart-drawer-head p{font-size:1.75rem!important;line-height:1.2!important;letter-spacing:.01em!important}
+html body #cart-drawer .sl-checkout-kicker{font-size:1.375rem!important;line-height:1.3!important;letter-spacing:0!important;margin-bottom:16px!important}
+html body #cart-drawer .sl-checkout-name{font-size:1.3125rem!important;line-height:1.3!important;letter-spacing:0!important}
+html body #cart-drawer .sl-checkout-intro p{font-size:.875rem!important;line-height:1.8!important;margin-top:8px!important}
+html body #cart-drawer .sl-summary-row.total strong{font-size:1.25rem!important;line-height:1.5!important;font-weight:500!important}
+html body #cart-drawer .sl-checkout-wrap{gap:18px!important}
+html body #cart-drawer .sl-checkout-block{padding:20px 18px!important}
+html body #cart-drawer .sl-grid{gap:18px 14px!important}
+html body #cart-drawer .sl-input,html body #cart-drawer .sl-textarea{font-size:1rem!important;min-height:48px!important;padding:11px 12px!important}
+html body #cart-drawer .sl-textarea{min-height:104px!important}
+html body #cart-drawer .sl-coupon-btn{min-height:48px!important}
+html body #cart-drawer .sl-cta{min-height:52px!important}
+@media(max-width:768px){html body #parallax-hero.sl-collection-banner,html body #parallax-fem.sl-collection-banner{min-height:92px!important}html body #cart-drawer>#cart-drawer-head p{font-size:1.625rem!important}html body #cart-drawer .sl-checkout-kicker{font-size:1.3125rem!important}html body #cart-drawer .sl-checkout-name{font-size:1.25rem!important}html body #cart-drawer .sl-checkout-block{padding:18px 16px!important}}
+@media(max-width:360px){html body #cart-drawer .sl-checkout-block{padding-inline:14px!important}}
+
+/* Blend the whole animated selector, so its opaque dark artwork has no panel. */
+html body #colecao-selector{position:relative!important;z-index:auto!important;isolation:auto!important;transform:none!important;filter:none!important;background:transparent!important}
+html body #colecao-selector>div{isolation:auto!important;transform:none!important;filter:none!important;background:transparent!important}
+html body #colecao-selector #sel-masc-btn,html body #colecao-selector #sel-fem-btn{mix-blend-mode:lighten!important;isolation:auto!important;z-index:auto!important;background:none!important;background-image:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;filter:none!important}
+html body #colecao-selector #img-masc,html body #colecao-selector #img-fem{mix-blend-mode:normal!important;background:transparent!important;mask-image:none!important;-webkit-mask-image:none!important;box-shadow:none!important}
+html body #sel-masc-btn::before,html body #sel-masc-btn::after,html body #sel-fem-btn::before,html body #sel-fem-btn::after{content:none!important;display:none!important}
+html body #sel-masc-btn>div,html body #sel-fem-btn>div{background:none!important;box-shadow:none!important}
+
+/* Checkout is reachable from the confirmation and from anywhere in the catalog. */
+#sl-bag-shortcut{position:fixed;left:22px;bottom:calc(22px + env(safe-area-inset-bottom));z-index:95;display:inline-flex;align-items:center;justify-content:center;gap:10px;max-width:calc(100vw - 110px);min-height:52px;padding:12px 18px;box-sizing:border-box;border:1px solid rgba(203,180,119,.5);border-radius:40px;background:#100e0df5;color:#e5d1a4;font:500 14px/1.5 Montserrat,sans-serif;letter-spacing:0;cursor:pointer;box-shadow:0 8px 30px #0005;touch-action:manipulation;transition:background-color .22s,border-color .22s}
+#sl-bag-shortcut>i{font-size:17px;flex:none}
+#sl-bag-shortcut>span:nth-child(2){white-space:nowrap}
+#sl-bag-count{min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#cbb477;color:#18130b;font:600 12px/1 Montserrat,sans-serif;padding:0 4px;box-sizing:border-box}
+#sl-bag-shortcut:hover{background:#1a160ff5;border-color:#cbb477}
+body.sl-has-bag{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+body.sl-modal-open #sl-bag-shortcut,body.sl-modal-open #sl-toast{visibility:hidden!important;pointer-events:none!important}
+html body #sl-toast{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:min(520px,calc(100vw - 32px));width:max-content;box-sizing:border-box;bottom:calc(90px + env(safe-area-inset-bottom))!important;padding:12px 14px!important;pointer-events:none!important;font:400 13px/1.6 Montserrat,sans-serif!important;overflow-wrap:anywhere}
+html body #sl-toast.visible{pointer-events:auto!important}
+#sl-toast .sl-toast-copy{min-width:0;flex:1}
+#sl-toast .sl-toast-action{flex:none;min-height:44px;padding:10px 14px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(203,180,119,.55);border-radius:8px;background:#cbb477;color:#18140b;font:500 13px/1.4 Montserrat,sans-serif;white-space:nowrap;cursor:pointer;touch-action:manipulation;transition:background-color .22s}
+#sl-toast .sl-toast-action:hover{background:#ddc693}
+html body #cart-drawer{touch-action:pan-y pinch-zoom!important}
+html body .perfume-grid>.card{min-width:0!important}
+html body .card h3{overflow-wrap:anywhere}
+html body .card .sl-price-row{flex-wrap:wrap!important;gap:5px 8px!important;align-items:baseline!important}
+html body .card .price-cur,html body .card .price-old{white-space:nowrap}
+html body #catalog-search>div{min-width:0}
+@media(max-width:768px){#sl-bag-shortcut{left:16px;bottom:calc(20px + env(safe-area-inset-bottom));padding:10px 14px;gap:8px;min-height:50px;max-width:calc(100vw - 96px)}html body #sl-toast{gap:12px;padding:12px!important}#sl-toast .sl-toast-action{padding:10px 12px}html body #site-footer{width:100%;box-sizing:border-box}}
+@media(max-width:400px){html body .perfume-grid .card .sl-volume-options>.vbtn{padding-inline:3px!important;gap:4px!important}}
+@media(max-width:360px){html body .perfume-grid,html body.collection-view .perfume-grid{grid-template-columns:minmax(0,1fr)!important}html body #sl-toast{align-items:flex-start;flex-direction:column;gap:10px;width:calc(100vw - 32px)}#sl-toast .sl-toast-action{align-self:flex-end}html body #catalog-search>div{flex-wrap:wrap}#catalog-search button{min-height:44px}}
+@media(prefers-reduced-motion:reduce){#sl-bag-shortcut,#sl-toast .sl-toast-action{transition:none!important}}
+
+/* Compact, centered masthead and a calm, accessible navigation panel. */
+html body header.glass{height:64px!important}
+.sl-header-inner{max-width:1400px;margin:0 auto;padding:0 20px;height:100%;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;box-sizing:border-box}
+.sl-header-start,.sl-header-actions{display:flex;align-items:center;min-width:0;gap:12px}
+.sl-header-actions{justify-content:flex-end}
+.sl-header-inner button{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:44px;min-height:44px;padding:0;border:0;background:none;color:#c0b9ae;font-size:15px;cursor:pointer;touch-action:manipulation;transition:color .2s}
+.sl-header-inner button:hover{color:#d8c599}
+html body #sl-header-brand{flex-direction:column;gap:3px;color:#cbb477;line-height:1;min-width:0;white-space:nowrap}
+.sl-header-wordmark{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;letter-spacing:.1em;padding-left:.1em;background:none;-webkit-text-fill-color:currentColor;text-shadow:none}
+.sl-header-brand-rule{display:block;width:48px;height:1px;background:linear-gradient(90deg,transparent,#cbb47780,transparent)}
+.sl-header-subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;font-weight:400;letter-spacing:.04em;color:#a49a8a;line-height:1.15}
+#header-bag-button{position:relative}
+html body #cc{position:absolute;top:2px;right:0;min-width:17px;height:17px;box-sizing:border-box;padding:0 3px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#cbb477;color:#18130b;font:600 10px/1 Montserrat,sans-serif}
+html body #mobile-menu-overlay{background:#0008;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transition:opacity .25s ease}
+html body #mobile-menu-drawer{top:12px;left:12px;width:min(340px,calc(100vw - 24px));height:calc(100dvh - 24px);max-height:calc(100dvh - 24px)!important;box-sizing:border-box;padding:22px;background:#0d0b0a;backdrop-filter:none;-webkit-backdrop-filter:none;border:1px solid #ffffff16;border-radius:14px;box-shadow:12px 0 40px #0005;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y pinch-zoom;scrollbar-width:thin;scrollbar-color:#5c5140 #0d0b0a;transform:translate3d(calc(-100% - 24px),0,0);opacity:1;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+html body #mobile-menu-drawer::before{content:none;display:none}
+html body #mobile-menu-drawer.open{transform:translate3d(0,0,0);box-shadow:12px 0 40px #0005}
+html body #mobile-menu-drawer .mobile-menu-head{align-items:center;flex:none;padding-bottom:22px;border-bottom:1px solid #ffffff12}
+html body #mobile-menu-drawer .mobile-menu-head button{display:flex;align-items:center;justify-content:center;flex:none;min-width:44px;min-height:44px;margin-right:-8px;padding:0;font-size:17px;color:#b7afa3;transform:none;transition:color .2s}
+html body #mobile-menu-drawer .mobile-menu-head button:hover{color:#d8c599;transform:none}
+html body #mobile-menu-drawer .mobile-menu-brand{font-size:22px;letter-spacing:.1em;color:#cbb477;background:none;-webkit-text-fill-color:currentColor;text-shadow:none}
+html body #mobile-menu-drawer .mobile-menu-sub{font-size:12px;letter-spacing:.04em;color:#a49a8a;margin-top:6px}
+html body #mobile-menu-drawer .mobile-menu-links{display:flex;flex:none;gap:0;padding:20px 0 0}
+html body #mobile-menu-drawer .sl-menu-group{display:flex;flex-direction:column;gap:2px}
+html body #mobile-menu-drawer .sl-menu-label{font:400 12px/1.6 Montserrat,sans-serif;color:#9e9588;letter-spacing:.02em;margin:0 0 8px;padding:0 12px}
+html body #mobile-menu-drawer .mobile-menu-links a{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:10px 12px;box-sizing:border-box;border:0;border-radius:5px;background:none;text-decoration:none;font:400 14px/1.6 Montserrat,sans-serif!important;letter-spacing:.01em!important;text-transform:none;color:#d5cec3;opacity:1;transform:none;transition:color .2s,background-color .2s;transition-delay:0s!important}
+html body #mobile-menu-drawer .mobile-menu-links a::after{content:none;display:none}
+html body #mobile-menu-drawer .mobile-menu-links a:hover{color:#eadab7;background:#ffffff06;transform:none}
+html body #mobile-menu-drawer .mobile-menu-links a.is-current{color:#d8c599}
+html body #mobile-menu-drawer .mobile-menu-links a.is-current::before{content:'';position:absolute;left:0;top:12px;bottom:12px;width:2px;border-radius:2px;background:#cbb477}
+html body #mobile-menu-drawer .sl-menu-shopping{padding-top:18px;margin-top:18px;border-top:1px solid #ffffff12}
+html body #mobile-menu-drawer .sl-menu-support{padding-top:20px;margin-top:18px;border-top:1px solid #ffffff12;padding-bottom:calc(4px + env(safe-area-inset-bottom))}
+html body #mobile-menu-drawer .mobile-menu-links a>span:first-child{display:flex;align-items:center;gap:12px}
+html body #mobile-menu-drawer .mobile-menu-links a i{width:16px;text-align:center;font-size:14px;color:#a49a8a}
+html body #menu-bag-count{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:24px;height:24px;padding:0 5px;box-sizing:border-box;border:1px solid #cbb47740;border-radius:50%;color:#d8c599;font:500 12px/1 Montserrat,sans-serif}
+@media(max-width:400px){.sl-header-inner{padding-inline:12px}.sl-header-start,.sl-header-actions{gap:0}.sl-header-wordmark{letter-spacing:.08em;padding-left:.08em}html body #mobile-menu-drawer{padding:20px}}
+@media(prefers-reduced-motion:reduce){html body #mobile-menu-drawer,html body #mobile-menu-overlay,html body #mobile-menu-drawer .mobile-menu-links a{transition:none!important}}
+
+/* Utility controls sit directly on their surface, with no native plate or glow. */
+html body button,html body button:hover{appearance:none!important;-webkit-appearance:none!important;box-shadow:none!important;text-shadow:none!important;-webkit-tap-highlight-color:transparent}
+html body .sl-header-inner button,
+html body #cart-drawer button,
+html body #mobile-menu-drawer button,
+html body #footer-info-modal button:not(.primary),
+html body #hero button,
+html body #catalog-search button,
+html body #catalog-empty button,
+html body .card button[onclick*="changeQty"]{background:transparent!important;background-image:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html body #cart-drawer .sl-pay-btn,html body #cart-drawer .sl-pay-btn.is-on{background:transparent!important;background-image:none!important;box-shadow:none!important;transform:none!important}
+html body #cart-drawer .sl-coupon-btn:hover,html body #cart-drawer .sl-qty button:hover{background:transparent!important}
+html body #cart-drawer>#cart-drawer-head button,
+html body #mobile-menu-drawer .mobile-menu-head button,
+html body #footer-info-close{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;min-height:44px;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#c0b7a9!important;transform:none!important;transition:color .2s!important}
+html body #cart-drawer>#cart-drawer-head button:hover,
+html body #mobile-menu-drawer .mobile-menu-head button:hover,
+html body #footer-info-close:hover{color:#e1cd9b!important}
+.sl-close-icon{display:block;flex:none;width:20px;height:20px;fill:none;pointer-events:none}
+html body #cart-drawer .sl-remove{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;min-height:44px;right:-8px;top:10px;border:0!important;border-radius:0!important;background:transparent!important;transform:none!important;color:#ada497!important;transition:color .2s!important}
+html body #cart-drawer .sl-checkout-item:nth-child(2) .sl-remove{top:-12px}
+html body #cart-drawer .sl-remove:hover{color:#e1cd9b!important}
+html body #cart-drawer .sl-checkout-brand,html body #cart-drawer .sl-checkout-name{margin-right:36px!important}
+html body .card button[onclick*="changeQty"]{min-width:44px!important;min-height:44px!important;border-color:#cbb47755!important;color:#d2c5ab!important;transition:border-color .2s,color .2s!important}
+html body .card .sl-catalog-quantity{gap:12px!important;min-width:0;flex-wrap:wrap}
+html body .card button[onclick*="changeQty"]:hover{border-color:#cbb477!important;color:#ead8ad!important}
+html body #cart-drawer .sl-qty{background:transparent!important;min-width:120px;border-color:#cbb47745!important}
+html body #cart-drawer .sl-qty button{min-width:44px!important;min-height:44px!important;background:transparent!important;border:0!important;transform:none!important;color:#d2c5ab!important}
+html body #cart-drawer .sl-qty button:hover{color:#ead8ad!important}
+html body #cart-drawer .sl-pay-btn:hover{border-color:#cbb477aa!important;color:#e1cd9b!important}
+html body #cart-drawer .sl-pay-btn:active{scale:1!important}
+html body #cart-drawer .sl-gift-wrap{box-shadow:none!important;transform:none!important}
+html body #cart-drawer .sl-gift-toggle{background:transparent!important;border:1px solid #cbb47765!important}
+html body #cart-drawer .sl-gift-toggle>span{width:16px;height:16px;background:#bdb5a9;box-shadow:none!important}
+html body #cart-drawer .sl-gift-wrap[aria-checked=true] .sl-gift-toggle{background:transparent!important;border-color:#cbb477!important}
+html body #cart-drawer .sl-gift-wrap[aria-checked=true] .sl-gift-toggle>span{background:#cbb477}
+html body #catalog-search button,html body #catalog-empty button{min-height:44px;border-color:#cbb47765;color:#d8c599;transition:color .2s,border-color .2s}
+html body #catalog-search button:hover,html body #catalog-empty button:hover{border-color:#cbb477;color:#ead8ad}
+html body #footer-info-modal .footer-info-btn{font:500 14px/1.6 Montserrat,sans-serif;letter-spacing:.01em;text-transform:none;border-radius:8px;box-shadow:none!important;transition:color .2s,border-color .2s,background-color .2s}
+html body #footer-info-modal .footer-info-btn.secondary{background:transparent!important;border:1px solid #cbb47765;color:#d8c599}
+html body #footer-info-modal .footer-info-btn.secondary:hover{border-color:#cbb477;color:#ead8ad}
+html body #footer-info-modal .footer-info-btn.primary{background:#cbb477;background-image:none;color:#18140c}
+html body #footer-info-modal .footer-info-btn.primary:hover{background:#dec894}
+html body #sl-bag-shortcut{background:#cbb477!important;background-image:none!important;backdrop-filter:none!important;border-color:#cbb477!important;color:#18140c!important;box-shadow:none!important}
+html body #sl-bag-shortcut:hover{background:#dec894!important;border-color:#dec894!important}
+html body #sl-bag-count{background:transparent!important;color:#18140c!important;border:1px solid #18140c40}
+@media(prefers-reduced-motion:reduce){html body button,html body #footer-info-modal .footer-info-btn{transition:none!important}}
+
+/* Shipping choices follow the existing transparent, outlined control system. */
+.sl-shipping-options{display:grid;gap:10px}
+.sl-shipping-choice{display:flex;align-items:center;gap:12px;width:100%;min-height:72px;padding:15px 12px;border:1px solid rgba(212,175,55,.25);border-radius:0;background:transparent!important;box-shadow:none!important;color:#e9e4d9;text-align:left;cursor:pointer;font:inherit;transition:border-color .2s,color .2s}
+.sl-shipping-choice:hover,.sl-shipping-choice.is-on{border-color:#d4af37;color:#d4af37}
+.sl-shipping-choice .sl-option-check{position:static;flex:0 0 18px;opacity:0}
+.sl-shipping-choice.is-on .sl-option-check{opacity:1}
+.sl-shipping-copy{display:grid;gap:5px;flex:1;min-width:0}
+.sl-shipping-copy strong{font-size:12px;font-weight:500;letter-spacing:.03em}
+.sl-shipping-copy small{font-size:10px;line-height:1.5;color:#aaa59a}
+.sl-shipping-choice>strong{font-size:12px;white-space:nowrap}
+.sl-recalculate{margin-top:4px;font-size:10px!important;min-height:44px}
+#checkout-finalize-btn[aria-disabled="true"]{opacity:.65;cursor:wait}
+@media(max-width:380px){.sl-shipping-choice{gap:7px;padding:12px 8px}.sl-shipping-copy strong,.sl-shipping-choice>strong{font-size:11px}}
+
+/* Quiet, self-contained social icons with a full mobile touch target. */
+#site-footer .sl-footer-social-links{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:-6px 0 0 -10px;overflow:visible}
+html body #site-footer a.sl-footer-social{display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;margin:0;line-height:1!important;color:#bcb4a5;background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:none!important;text-decoration:none!important;transform:none!important;translate:0 0!important;transition:color .22s ease!important;-webkit-tap-highlight-color:transparent}
+html body #site-footer a.sl-footer-social::before,html body #site-footer a.sl-footer-social::after{content:none!important;display:none!important}
+html body #site-footer a.sl-footer-social:hover,html body #site-footer a.sl-footer-social:focus-visible{color:var(--sl-champagne)!important;transform:none!important;translate:0 0!important}
+html body #site-footer a.sl-footer-social:focus-visible{outline:1px solid var(--sl-champagne)!important;outline-offset:0;border-radius:4px!important}
+#site-footer .sl-social-icon{display:block;width:22px;height:22px;flex-shrink:0;overflow:visible;pointer-events:none}
+@media(prefers-reduced-motion:reduce){html body #site-footer a.sl-footer-social{transition:none!important}}
+
+/* Checkout controls: quiet outlines, consistent strokes and an intentional primary action. */
+#cart-drawer .sl-control-icon{display:block;flex:none;width:20px;height:20px;overflow:visible;pointer-events:none}
+html body #cart-drawer button{appearance:none;-webkit-appearance:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
+html body #cart-drawer :is(.sl-coupon-btn,.sl-pay-btn,.sl-gift-wrap,.sl-qty button,.sl-remove,.sl-cta-secondary){background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important}
+html body #cart-drawer :is(.sl-cta,.sl-cta-secondary,.sl-coupon-btn,.sl-pay-btn,.sl-qty button,.sl-gift-wrap,.sl-remove):focus-visible{outline:1px solid var(--sl-champagne)!important;outline-offset:4px!important}
+html body #cart-drawer .sl-checkout-primary{display:flex!important;align-items:center;justify-content:center;width:100%;box-sizing:border-box;min-height:56px!important;padding:16px 18px!important;border-radius:8px!important;background:#cbb477!important;border:1px solid #cbb477!important;color:#18140c!important;font:500 .875rem/1.5 Montserrat,sans-serif!important;letter-spacing:.015em!important;gap:12px!important;box-shadow:none!important;white-space:normal!important;translate:0 0!important;transition:background-color .2s,border-color .2s,translate .16s ease!important}
+html body #cart-drawer .sl-checkout-primary .sl-control-icon{width:23px;height:23px;stroke-width:1.6}
+html body #cart-drawer .sl-checkout-primary:hover:not(:disabled){background:#ddc791!important;border-color:#ddc791!important}
+html body #cart-drawer .sl-checkout-primary:active:not(:disabled){background:#c1a967!important;border-color:#c1a967!important;translate:0 1px!important}
+html body #cart-drawer .sl-checkout-primary:disabled{opacity:.72!important;cursor:wait}
+html body #cart-drawer .sl-checkout-actions{gap:13px}
+html body #cart-drawer .sl-checkout-actions>.sl-cta-secondary{min-height:48px!important;padding:12px 16px!important;border-radius:8px!important;border-color:#ffffff20!important;font-weight:400!important;color:#bfb5a6!important}
+html body #cart-drawer .sl-checkout-actions>.sl-cta-secondary:hover{border-color:#cbb47770!important;color:#e1cd9b!important}
+html body #cart-drawer .sl-note{max-width:310px;align-self:center;font-size:.75rem!important;line-height:1.8!important;color:#aea495!important;text-wrap:pretty}
+html body #cart-drawer .sl-coupon-btn{flex-shrink:0;min-width:88px;min-height:48px!important;padding:11px 15px!important;border-radius:7px!important;border-color:#cbb47760!important;font:500 .8125rem/1.5 Montserrat,sans-serif!important;letter-spacing:.01em!important;color:#d9c695!important;transition:color .2s,border-color .2s!important}
+html body #cart-drawer .sl-coupon-btn:hover:not(:disabled){color:#e8d6aa!important;border-color:#cbb477!important}
+html body #cart-drawer .sl-coupon-btn:disabled{cursor:default;opacity:.85;border-color:#cbb47736!important;color:#c3bba9!important}
+html body #cart-drawer .sl-qty{display:inline-flex;align-items:center;justify-content:space-between;min-width:122px;border-radius:7px!important;border:1px solid #cbb47742!important;overflow:visible;gap:0}
+html body #cart-drawer .sl-qty button{display:inline-flex;align-items:center;justify-content:center;width:44px;min-width:44px!important;height:44px;min-height:44px!important;padding:0;border-radius:6px!important;color:#c9b994!important;transition:color .18s!important}
+#cart-drawer .sl-qty .sl-control-icon{width:16px;height:16px;stroke-width:1.4}
+html body #cart-drawer .sl-qty button:disabled{color:#716a5e!important;cursor:default;opacity:.7}
+#cart-drawer .sl-qty>span{min-width:32px;text-align:center;font-variant-numeric:tabular-nums}
+html body #cart-drawer .sl-pay-btn{display:flex!important;flex-direction:column;align-items:center;justify-content:center;min-height:82px!important;border-radius:8px!important;padding:18px 7px 13px!important;gap:9px!important;color:#bdb5aa!important;font:400 .8125rem/1.5 Montserrat,sans-serif!important;border-color:#ffffff26!important;transition:border-color .2s,color .2s!important}
+html body #cart-drawer .sl-pay-btn .sl-control-icon{width:21px;height:21px;stroke-width:1.45}
+html body #cart-drawer .sl-pay-btn.is-on{border-color:#cbb477!important;color:#e3d0a2!important}
+#cart-drawer .sl-pay-btn .sl-option-check{display:flex;align-items:center;justify-content:center;width:15px;height:15px;top:6px;right:7px;line-height:1;font-size:10px}
+html body #cart-drawer .sl-gift-wrap{min-height:66px;padding-top:17px!important;gap:12px!important;transition:color .2s!important}
+#cart-drawer .sl-gift-copy>.sl-control-icon{color:#cbb477;width:20px;height:20px}
+html body #cart-drawer .sl-gift-toggle{width:40px;height:24px;padding:3px;border-color:#cbb47765!important;box-shadow:none!important}
+html body #cart-drawer .sl-gift-wrap[aria-checked=true] .sl-gift-toggle{border-color:#cbb477!important}
+@media(max-width:360px){html body #cart-drawer .sl-checkout-primary{padding:14px 12px!important;font-size:.8125rem!important;gap:10px!important}html body #cart-drawer .sl-pay-btn{padding-inline:4px!important;font-size:.75rem!important}html body #cart-drawer .sl-coupon-btn{width:100%}}
+@media(prefers-reduced-motion:reduce){html body #cart-drawer :is(.sl-checkout-primary,.sl-cta-secondary,.sl-coupon-btn,.sl-pay-btn,.sl-qty button,.sl-gift-wrap){transition:none!important;translate:0 0!important}}
+
+/* Discovery controls extend the maison palette without a backing panel. */
+html body #catalog-search.sl-catalog-tools{max-width:1040px;margin:28px auto 32px;padding:24px 0 18px;border:0;border-top:1px solid #cbb47729;border-bottom:1px solid #cbb47729;border-radius:0;background:transparent!important;box-shadow:none;animation:none;scroll-margin-top:110px}
+html body #catalog-search .sl-catalog-search-row{display:flex;align-items:flex-end;flex-wrap:nowrap;gap:16px;min-width:0}
+.sl-catalog-search-field{flex:1;min-width:0}
+html body #catalog-search label{font:400 .875rem/1.6 Montserrat,sans-serif;color:#c5bdb1;letter-spacing:0;margin-bottom:8px}
+html body #catalog-search :is(input[type=search],select){display:block;box-sizing:border-box;width:100%;min-width:0;min-height:48px;padding:11px 12px;border:1px solid #ffffff35;border-radius:5px;background:transparent!important;box-shadow:none!important;color:#efebe4;font:400 1rem/1.5 Montserrat,sans-serif;letter-spacing:0;color-scheme:dark;transition:border-color .2s}
+html body #catalog-search input::placeholder{color:#aaa198;opacity:1}
+html body #catalog-search select{padding-right:8px;white-space:normal;text-overflow:ellipsis}
+#catalog-search option{background:#100e0b;color:#efebe4}
+html body #catalog-search .sl-catalog-filter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+.sl-catalog-field{min-width:0}
+html body #catalog-search button{font:400 .875rem/1.5 Montserrat,sans-serif;letter-spacing:0;min-height:48px;border-radius:5px;box-shadow:none!important;background:transparent!important;transform:none!important;color:#d8c9ac;padding:11px 14px}
+html body #catalog-search .sl-catalog-reset{flex:none;white-space:normal}
+html body #catalog-search .sl-catalog-actions{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:16px}
+html body #catalog-search .sl-catalog-checkbox{display:inline-flex;gap:10px;align-items:center;min-height:48px;cursor:pointer;margin:0}
+html body #catalog-search .sl-catalog-checkbox input{width:18px;height:18px;accent-color:#cbb477;flex-shrink:0}
+html body #catalog-search #catalog-saved{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-color:#ffffff35}
+html body #catalog-search #catalog-saved[aria-pressed=true]{border-color:#cbb477;color:#e3d0a2}
+#catalog-favorite-count{font-variant-numeric:tabular-nums;font-size:.8125rem;min-width:17px}
+html body #catalog-status{font:400 .8125rem/1.7 Montserrat,sans-serif;color:#b4aa9b;margin:12px 0 0;min-height:23px}
+html body #catalog-search :is(input,select,button):focus-visible{outline:2px solid #cbb477!important;outline-offset:3px}
+html body :is(#sec-masculino,#sec-feminino,.perfume-grid .card,#catalog-empty)[hidden]{display:none!important}
+html body .sl-favorite{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:44px;height:44px;min-width:44px;min-height:44px;padding:10px;border:0!important;border-radius:0;background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;color:#eadbc2;cursor:pointer;touch-action:manipulation;transform:none!important;transition:color .2s}
+.sl-favorite svg{display:block;width:21px;height:21px;fill:transparent;transition:fill .2s,color .2s}
+.sl-favorite[aria-pressed=true] svg{fill:#cbb47745;color:#e5cd96}
+html body .sl-favorite:hover{color:#fff2d8;box-shadow:none!important}
+html body .sl-favorite:focus-visible{outline:2px solid #cbb477!important;outline-offset:2px}
+html body .sl-favorite-card{position:absolute;top:8px;right:8px;z-index:3}
+.sl-favorite-card svg{filter:drop-shadow(0 1px 2px #0008)}
+#menu-favorites-link>span:first-child{display:flex;align-items:center;gap:13px}
+#menu-favorites-link svg{width:17px;height:17px;flex-shrink:0}
+#menu-favorite-count{font:400 .8125rem/1.6 Montserrat,sans-serif;color:#b8ac96;font-variant-numeric:tabular-nums}
+html body .perfume-grid .card .sl-volume-options>.vbtn{height:auto!important;min-height:66px!important;padding:9px 22px 9px 8px!important;font-size:.875rem!important;letter-spacing:0!important;border-width:1px!important;border-radius:5px!important}
+.sl-volume-copy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;max-width:100%;line-height:1.5;white-space:normal}
+.sl-volume-price{display:block;font-size:.8125rem;font-variant-numeric:tabular-nums;line-height:1.4;letter-spacing:0;white-space:nowrap}
+html body .perfume-grid .card .sl-volume-check{position:absolute;top:50%;right:5px;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:14px;height:14px;opacity:0;font-size:0}
+html body .perfume-grid .card .vbtn.on .sl-volume-check{opacity:1}
+html body .perfume-grid .card .sl-volume-check::before,html body .perfume-grid .card .sl-volume-check::after{content:none!important;display:none!important}
+html body .card .sl-card-brand{font-size:.75rem!important;line-height:1.7!important;letter-spacing:.07em!important;color:#b8afa2!important}
+html body .card .sl-card-note{font-size:.75rem!important;line-height:1.5!important;letter-spacing:0!important;padding:4px 7px!important;color:#d4ccbf!important;border-color:#ffffff29!important}
+html body #cart-drawer :is(.sl-label,.sl-checkout-kicker,.sl-gift-title){font-size:.875rem!important;line-height:1.6!important;color:#d1c8bb!important}
+html body #cart-drawer :is(.sl-field-note,.sl-note,.sl-shipping-note,.sl-checkout-meta,.sl-gift-description,.sl-coupon-message){font-size:.8125rem!important;line-height:1.8!important;color:#b5ab9c!important}
+html body #cart-drawer .sl-pay-btn{font-size:.875rem!important}
+html body #cart-drawer :is(.sl-summary-row,.sl-cta-secondary){font-size:.875rem!important}
+html body #cart-drawer .sl-checkout-primary{font-size:.9375rem!important;letter-spacing:0!important}
+html body #cart-drawer .sl-checkout-name{overflow-wrap:anywhere}
+@media(max-width:720px){html body #catalog-search.sl-catalog-tools{margin-inline:0;padding-block:20px}html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}#catalog-search .sl-catalog-field:last-child{grid-column:1/-1}html body #catalog-search .sl-catalog-search-row{gap:10px}html body #catalog-search .sl-catalog-reset{max-width:95px;padding-inline:10px}html body .perfume-grid .card .sl-volume-options{grid-template-columns:minmax(0,1fr)!important;gap:7px!important}html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:60px!important}html body #catalog-search .sl-catalog-actions{gap:8px}html body .sl-favorite-card{top:3px;right:3px}}
+@media(max-width:360px){html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:minmax(0,1fr)}html body #catalog-search .sl-catalog-actions{align-items:flex-start}html body #catalog-search :is(input[type=search],select){padding-inline:9px}}
+@media(prefers-reduced-motion:reduce){.sl-favorite,.sl-favorite svg,#catalog-search *{transition:none!important}}
+
+/* Mobile typography: lighter weights, quieter labels and a compact hierarchy. */
+@media(max-width:720px){
+  html body #shop,html body #cart-drawer,html body #mobile-menu-drawer,html body #site-footer{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html body .perfume-grid .card h3{font-size:1.1875rem!important;font-weight:400!important;line-height:1.3!important;letter-spacing:.005em!important;margin-bottom:10px!important}
+  html body .perfume-grid .card h3 span{font-size:.75rem!important;font-weight:300!important;line-height:1.6!important;letter-spacing:.01em!important}
+  html body .perfume-grid .card .sl-card-brand{font-weight:300!important;letter-spacing:.055em!important;color:#b4aa9b!important}
+  html body .perfume-grid .card .sl-card-note{font-weight:300!important;line-height:1.55!important;padding:3px 6px!important;color:#c7beaf!important}
+  html body .perfume-grid .card .price-cur{font-size:.9375rem!important;font-weight:400!important;letter-spacing:.005em!important}
+  html body .perfume-grid .card .price-old{font-weight:300!important;letter-spacing:0!important}
+  html body .perfume-grid .card .btn-buy{font-size:.75rem!important;font-weight:400!important;letter-spacing:.035em!important;line-height:1.6!important;min-height:46px!important}
+  html body .perfume-grid .card .sl-volume-options>.vbtn{font-size:.8125rem!important;font-weight:400!important;min-height:56px!important}
+  html body .perfume-grid .card .sl-volume-price{font-size:.75rem!important;font-weight:300!important;line-height:1.55!important}
+  html body #catalog-search label{font-size:.8125rem!important;font-weight:400!important;line-height:1.65!important;color:#bfb5a7!important;margin-bottom:6px}
+  html body #catalog-search :is(input[type=search],select){font-weight:300!important;letter-spacing:-.01em!important}
+  html body #catalog-search button{font-size:.8125rem!important;font-weight:400!important;letter-spacing:.01em!important}
+  html body #catalog-status{font-size:.75rem!important;font-weight:300!important;line-height:1.8!important;color:#b4aa9b!important}
+  html body #catalog-search .sl-catalog-filter-grid{row-gap:16px}
+  html body #cart-drawer :is(.sl-label,.sl-checkout-kicker,.sl-gift-title){font-size:.8125rem!important;font-weight:400!important;line-height:1.65!important;letter-spacing:.015em!important;text-transform:none!important}
+  html body #cart-drawer :is(.sl-field-note,.sl-note,.sl-shipping-note,.sl-checkout-meta,.sl-gift-description,.sl-coupon-message){font-size:.75rem!important;font-weight:300!important;line-height:1.85!important;color:#bdb3a4!important;letter-spacing:.005em!important}
+  html body #cart-drawer .sl-checkout-intro p{font-size:.8125rem!important;font-weight:300!important;line-height:1.85!important;color:#c7beaf!important}
+  html body #cart-drawer .sl-checkout-name{font-size:1.1875rem!important;font-weight:400!important;line-height:1.3!important;letter-spacing:0!important}
+  html body #cart-drawer .sl-checkout-brand{font-size:.75rem!important;font-weight:300!important;letter-spacing:.045em!important;color:#b8ae9f!important}
+  html body #cart-drawer :is(.sl-item-price,.sl-summary-row,.sl-pay-btn,.sl-coupon-btn,.sl-cta-secondary){font-size:.8125rem!important;font-weight:400!important;letter-spacing:.005em!important}
+  html body #cart-drawer .sl-summary-row strong{font-weight:400!important}
+  html body #cart-drawer .sl-summary-row.total strong{font-size:1.125rem!important;font-weight:400!important;line-height:1.6!important}
+  html body #cart-drawer .sl-checkout-primary{font-size:.8125rem!important;font-weight:400!important;letter-spacing:.02em!important}
+  html body #cart-drawer :is(.sl-input,.sl-textarea){font-size:1rem!important;font-weight:300!important;line-height:1.6!important;letter-spacing:0!important}
+  html body #cart-drawer .sl-checkout-block{padding-block:20px!important}
+  html body #mobile-menu-drawer .mobile-menu-links a{font-size:.8125rem!important;font-weight:300!important;line-height:1.7!important;letter-spacing:.01em!important}
+  html body #mobile-menu-drawer .sl-menu-label{font-size:.75rem!important;font-weight:400!important;letter-spacing:.02em!important}
+  html body #site-footer .sl-footer-brand{font-size:1.625rem!important;font-weight:400!important;letter-spacing:.09em!important}
+  html body #site-footer .sl-footer-heading{font-size:.8125rem!important;font-weight:400!important;letter-spacing:.02em!important}
+  html body #site-footer .sl-footer-description{font-size:.8125rem!important;font-weight:300!important;line-height:1.9!important}
+  html body #site-footer a{font-size:.8125rem!important;font-weight:300!important;line-height:1.9!important}
+}
+@media(max-width:360px){html body .perfume-grid .card h3{font-size:1.125rem!important}}
+
+/* Fine quantity controls share one quiet outline and generous touch targets. */
+html body .card .sl-catalog-quantity,
+html body #cart-drawer .sl-qty{display:inline-flex!important;align-items:center!important;justify-content:space-between!important;width:122px;min-width:122px;max-width:100%;min-height:46px;gap:0!important;padding:0!important;border:1px solid #cbb47738!important;border-radius:6px!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+html body .card .sl-catalog-quantity{display:flex!important;margin:0 auto 16px!important}
+html body .card button[onclick*="changeQty"],
+html body #cart-drawer .sl-qty button{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 44px;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;margin:0!important;padding:0!important;border:0!important;border-radius:5px!important;background:transparent!important;box-shadow:none!important;color:#cfc0a3!important;cursor:pointer;touch-action:manipulation;transform:none!important;scale:1!important;transition:color .18s ease,translate .18s ease!important}
+html body .card .qty-val,
+html body #cart-drawer .sl-qty>span{min-width:32px;font:400 .8125rem/1.5 Montserrat,sans-serif!important;text-align:center;color:#e1d8cb!important;font-variant-numeric:tabular-nums}
+html body .sl-catalog-quantity svg,
+html body #cart-drawer .sl-qty svg{display:block;width:15px;height:15px;stroke-width:1.35;pointer-events:none}
+html body .card button[onclick*="changeQty"]:hover:not(:disabled),
+html body #cart-drawer .sl-qty button:hover:not(:disabled){color:#ead7aa!important;background:transparent!important}
+html body .card button[onclick*="changeQty"]:active:not(:disabled),
+html body #cart-drawer .sl-qty button:active:not(:disabled){translate:0 1px}
+html body .card button[onclick*="changeQty"]:disabled,
+html body #cart-drawer .sl-qty button:disabled{color:#847a67!important;opacity:.65;cursor:default;translate:0 0}
+html body .card button[onclick*="changeQty"]:focus-visible,
+html body #cart-drawer .sl-qty button:focus-visible{outline:1px solid #dec894!important;outline-offset:3px!important}
+#hero.sl-ambient-paused :is(#o1,#o2,#o3,#stars),
+#colecao-selector.sl-ambient-paused :is(#sel-masc-btn,#sel-fem-btn)>div:first-child{animation-play-state:paused!important}
+
+/* On wide screens, content stays measured instead of scaling with the monitor. */
+@media(min-width:721px){
+  html body #shop{max-width:1120px!important;padding-inline:32px!important}
+  html body .perfume-grid{max-width:1000px;margin-inline:auto;gap:32px!important}
+  html body #catalog-search.sl-catalog-tools{max-width:1000px}
+  html body #hero-txt{max-width:640px!important}
+  html body #hero-txt h1{font-size:clamp(2.875rem,4.4vw,3.75rem)!important;line-height:1.12!important;font-weight:300!important;letter-spacing:-.015em!important}
+  html body #hero-txt>p{max-width:460px;margin-inline:auto;font-size:.875rem!important;line-height:1.95!important;letter-spacing:.025em!important;font-weight:300!important}
+  html body #px-title,html body #pxf-title{font-size:clamp(1.875rem,3vw,2.5rem)!important;font-weight:300!important;letter-spacing:0!important}
+  html body .perfume-grid .card>div:last-child{padding:24px 22px!important}
+  html body .perfume-grid .card h3{font-size:1.5rem!important;line-height:1.25!important;font-weight:400!important;letter-spacing:0!important}
+  html body .perfume-grid .card .sl-card-brand{font-size:.6875rem!important;font-weight:300!important;letter-spacing:.075em!important}
+  html body .perfume-grid .card .price-cur{font-size:1.0625rem!important;font-weight:400!important;letter-spacing:0!important}
+  html body .perfume-grid .card .price-old{font-size:.75rem!important;font-weight:300!important}
+  html body .perfume-grid .card .btn-buy{font-size:.75rem!important;font-weight:400!important;letter-spacing:.035em!important;min-height:48px!important}
+  html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:60px!important;font-size:.8125rem!important;font-weight:400!important}
+  html body .perfume-grid .card .sl-volume-price{font-size:.75rem!important;font-weight:300!important}
+  html body #cart-drawer .sl-checkout-name{font-size:1.375rem!important;line-height:1.25!important;font-weight:400!important}
+  html body #cart-drawer .sl-checkout-brand{font-size:.6875rem!important;font-weight:300!important;letter-spacing:.06em!important}
+  html body #cart-drawer .sl-summary-row.total strong{font-size:1.25rem!important;font-weight:400!important}
+}
+@media(prefers-reduced-motion:reduce){html body :is(.sl-catalog-quantity button,#cart-drawer .sl-qty button){transition:none!important;translate:0 0!important}}
+
+/* Compact catalog controls keep a comfortable touch area without visual bulk. */
+html body #catalog-search.sl-catalog-tools{max-width:900px;margin:24px auto 28px;padding:20px 0 16px}
+html body #catalog-search .sl-catalog-search-row{gap:12px}
+html body #catalog-search label{font-size:.75rem;line-height:1.6;margin-bottom:6px;font-weight:400;color:#bdb3a4}
+html body #catalog-search :is(input[type=search],select){height:44px;min-height:44px;padding:10px 12px;border-color:#ffffff26;border-radius:4px;font-size:.875rem;line-height:1.5;transition:border-color .2s,color .2s}
+html body #catalog-search select{appearance:none;-webkit-appearance:none;padding-right:32px;white-space:nowrap;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='m3 4.5 3 3 3-3' fill='none' stroke='%23bcae96' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center!important}
+html body #catalog-search :is(input[type=search],select):hover{border-color:#cbb47765}
+html body #catalog-search .sl-catalog-filter-grid{gap:12px;margin-top:14px;grid-template-columns:1.15fr 1fr 1fr}
+html body #catalog-search button{min-height:44px;padding:9px 12px;border-radius:4px;font-size:.75rem;line-height:1.5}
+html body #catalog-search .sl-catalog-reset{max-width:none;white-space:nowrap;border-color:#ffffff26}
+html body #catalog-search .sl-catalog-actions{gap:10px;margin-top:10px}
+html body #catalog-search .sl-catalog-checkbox{min-height:44px;gap:8px;font-size:.75rem;margin:0}
+html body #catalog-search .sl-catalog-checkbox input{width:16px;height:16px}
+html body #catalog-search #catalog-saved{gap:7px;border-color:#ffffff26}
+html body #catalog-search #catalog-saved svg{width:16px;height:16px;stroke-width:1.3}
+html body #catalog-status{font-size:.75rem;line-height:1.7;margin-top:8px;min-height:21px}
+@media(max-width:720px){
+  html body #catalog-search.sl-catalog-tools{margin:20px auto 24px;padding:16px 0 12px}
+  html body #catalog-search .sl-catalog-search-row{gap:8px}
+  html body #catalog-search :is(input[type=search],select){font-size:1rem;padding-left:10px}
+  html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+  html body #catalog-search .sl-catalog-field:first-child{grid-column:1/-1}
+  html body #catalog-search .sl-catalog-field:last-child{grid-column:auto}
+  html body #catalog-search .sl-catalog-reset{padding-inline:9px;font-size:.6875rem}
+}
+@media(max-width:360px){
+  html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:minmax(0,1fr)}
+  html body #catalog-search .sl-catalog-field{grid-column:1/-1}
+}
+
+/* Purchase actions use fine outlines and measured widths across the catalog. */
+html body .perfume-grid .card .btn-buy{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html body .perfume-grid .card .btn-buy{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;max-width:13.75rem;min-height:44px!important;height:auto!important;margin:0 auto!important;padding:9px 12px!important;border:1px solid #cbb47770!important;border-radius:4px!important;background:transparent!important;background-image:none!important;box-shadow:none!important;color:#decca6!important;font:400 .8125rem/1.6 Montserrat,sans-serif!important;letter-spacing:.015em!important;text-transform:none!important;white-space:normal;overflow-wrap:anywhere;touch-action:manipulation;transform:none!important;transition:border-color .2s,color .2s,background-color .2s!important}
+html body .perfume-grid .card .btn-buy:hover{border-color:#dfc994!important;background:#cbb4770a!important;color:#f0dfb9!important;filter:none!important}
+html body .perfume-grid .card .btn-buy:active{border-color:#e5d1a4!important;background:#cbb47715!important}
+html body .perfume-grid .card.sl-added .btn-buy{border-color:#dec894!important;background:#cbb47712!important;color:#ecd8ad!important}
+html body .perfume-grid .card .btn-buy:focus-visible{outline:1px solid #dec894!important;outline-offset:4px}
+html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:58px!important;padding:7px 22px 7px 8px!important;border-radius:4px!important}
+html body #hero-txt>button{min-height:44px!important;padding:10px 24px!important;border-radius:4px!important;font-size:.8125rem!important;line-height:1.6!important;font-weight:400!important;letter-spacing:.025em!important;text-transform:none!important}
+html body #cart-drawer .sl-checkout-primary{min-height:48px!important;padding:11px 14px!important;border-radius:4px!important;font:400 .8125rem/1.6 Montserrat,sans-serif!important;letter-spacing:.015em!important;gap:9px!important}
+html body #cart-drawer .sl-checkout-primary .sl-control-icon{width:18px;height:18px;stroke-width:1.4;flex-shrink:0}
+html body #cart-drawer .sl-cta-secondary{min-height:44px!important;height:auto!important;padding:10px 14px!important;border-radius:4px!important;font:400 .8125rem/1.6 Montserrat,sans-serif!important;letter-spacing:.01em!important}
+html body #cart-drawer .sl-checkout-actions>.sl-cta-secondary{width:auto!important;max-width:100%;margin-inline:auto;border:0!important;min-height:44px!important;padding:10px 16px!important}
+html body #cart-drawer .sl-coupon-btn{min-height:44px!important;min-width:78px;padding:9px 12px!important;border-radius:4px!important;font-weight:400!important}
+html body #cart-drawer .sl-pay-btn{min-height:64px!important;padding:10px 7px!important;border-radius:4px!important;gap:6px!important;font-size:.8125rem!important;font-weight:400!important}
+html body #cart-drawer .sl-pay-btn .sl-control-icon{width:18px;height:18px;stroke-width:1.35}
+html body #sl-bag-shortcut{min-height:44px;padding:9px 13px;gap:7px;font:400 .8125rem/1.6 Montserrat,sans-serif;letter-spacing:.01em}
+html body #sl-bag-shortcut svg{width:17px;height:17px}
+html body #sl-toast .sl-toast-action{min-height:44px;padding:9px 12px;border-radius:4px;font:400 .8125rem/1.6 Montserrat,sans-serif;letter-spacing:.01em}
+@media(max-width:720px){html body .perfume-grid .card .btn-buy{font-size:.75rem!important;padding-inline:8px!important}}
