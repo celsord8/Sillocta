@@ -1,12 +1,12 @@
 # Sillocta · publicação na Vercel
 
-Este pacote preserva a versão 23 aprovada: visual, tipografia para celular, dois botões flutuantes de coleção, catálogo, filtros, favoritos, páginas de perfumes, seleção de 5/10 ml, sacola e checkout pelo WhatsApp.
+Este pacote preserva a versão 28 aprovada: visual, tipografia para celular, dois botões flutuantes de coleção, catálogo, filtros, favoritos, páginas de perfumes, seleção de 5/10 ml, sacola e checkout pelo WhatsApp.
 
 As páginas de perfumes são geradas como HTML individual. Assim, abrir um link diretamente ou atualizar a página não depende de um servidor Cloudflare.
 
 Os seletores de quantidade usam ícones discretos, limites de 1 a 99 e botões com área de toque de 44 px. A largura do conteúdo e os títulos são limitados em telas grandes. As duas imagens de coleção são arquivos separados para reduzir o HTML e aproveitar o cache.
 
-Os dois seletores de coleção levam ao início do próprio banner, alinhado abaixo da altura real do cabeçalho. A posição é medida após a troca de coleção, e cliques rápidos usam apenas o destino mais recente.
+No celular, os dois seletores flutuam acima do texto do hero, com colunas iguais e espaçamento próprio. O primeiro toque destaca a coleção; o segundo leva ao início do seu banner, alinhado abaixo da altura real do cabeçalho. A posição é medida após a troca de coleção, e cliques rápidos usam apenas o destino mais recente. O texto do hero permanece visível ao voltar à apresentação; o retorno pela marca preserva o destaque escolhido. Os links do menu continuam levando diretamente às coleções.
 
 Os filtros de marca, preço, disponibilidade, favoritos e ordenação levam aos resultados, alinhados abaixo do cabeçalho. As marcas acompanham a coleção ativa. A área de seleção foi compactada, com campos de 44 px, tipografia discreta e organização adaptada ao celular. A busca por texto mantém o foco durante a digitação.
 
@@ -50,4 +50,4 @@ A Vercel restringe o plano Hobby ao uso pessoal e não comercial. Para operar a 
 
 Referência: https://vercel.com/docs/plans/hobby
 
-Este pacote é uma exportação da versão 23; não altera a publicação existente em Sites.
+Este pacote é uma exportação da versão 28; não altera a publicação existente em Sites.

@@ -21,7 +21,7 @@ npm test
 
 O build gera a home e 26 páginas de perfumes. Não há dependências de produção adicionais. Os arquivos em `source/` são a fonte da publicação; `public/` é gerado e não deve ser editado ou versionado.
 
-A versão atual é a **23**, com controles de coleção precisos e botões de compra, volume e checkout refinados para celular e telas grandes. Consulte [LEIA-ME.md](LEIA-ME.md) para detalhes de publicação, domínio e checkout.
+A versão atual é a **28**, com as coleções antes do título no hero de celular, imagens flutuantes sem painel e seleção em duas etapas: o primeiro toque destaca a coleção; o segundo abre seu banner. O texto do hero permanece visível ao voltar, e o retorno pela marca preserva a coleção selecionada. Os botões de compra, volume e checkout mantêm o refinamento aprovado para celular e telas grandes. Consulte [LEIA-ME.md](LEIA-ME.md) para detalhes de publicação, domínio e checkout.
 
 O checkout atual é pelo WhatsApp. Mercado Pago permanece desativado até que o servidor de pagamentos e suas credenciais sejam configurados e validados. As consultas de CEP dependem dos serviços externos utilizados pelo site.
 
