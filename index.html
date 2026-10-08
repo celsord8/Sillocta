@@ -1581,7 +1581,7 @@ body.footer-info-open{overflow:hidden!important}
 
 
 
-<div id="colecao-selector" style="text-align:center;padding:0;background:#050404;position:relative;z-index:5;margin-top:-6px;;overflow:visible;"><div style="display:flex;align-items:flex-end;justify-content:center;max-width:960px;margin:0 auto;overflow:visible;"><div id="sel-masc-btn" onclick="handleCollectionSelector('m');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Explorar coleção masculina" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-masc" src="/assets/img-masc.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.95;transition:opacity .7s;display:block;transform:scale(1.03);overflow:visible;" alt="Coleção masculina Sillocta"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-masc-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:#D4AF37;display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-mars" style="font-size:10px;overflow:visible;"></i>Masculino</p><div id="sel-masc-bar" style="width:28px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:1;transition:opacity .5s;overflow:visible;"></div></div></div><div id="sel-fem-btn" onclick="handleCollectionSelector('f');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Explorar coleção feminina" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-fem" src="/assets/img-fem.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.38;transition:opacity .7s;display:block;transform:scale(1);overflow:visible;" alt="Coleção feminina Sillocta"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-fem-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.32);display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-venus" style="font-size:10px;overflow:visible;"></i>Feminino</p><div id="sel-fem-bar" style="width:0px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:0;transition:opacity .5s;overflow:visible;"></div></div></div></div></div>
+<div id="colecao-selector" style="text-align:center;padding:0;background:#050404;position:relative;z-index:5;margin-top:-6px;;overflow:visible;"><div style="display:flex;align-items:flex-end;justify-content:center;max-width:960px;margin:0 auto;overflow:visible;"><div id="sel-masc-btn" onclick="activateCollectionArtwork('m');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Selecionar coleção masculina" aria-describedby="sl-collection-hint" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-masc" src="/assets/img-masc.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.95;transition:opacity .7s;display:block;transform:scale(1.03);overflow:visible;" alt="Coleção masculina Sillocta"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-masc-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:#D4AF37;display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-mars" style="font-size:10px;overflow:visible;"></i>Masculino</p><div id="sel-masc-bar" style="width:28px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:1;transition:opacity .5s;overflow:visible;"></div></div></div><div id="sel-fem-btn" onclick="activateCollectionArtwork('f');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Selecionar coleção feminina" aria-describedby="sl-collection-hint" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-fem" src="/assets/img-fem.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.38;transition:opacity .7s;display:block;transform:scale(1);overflow:visible;" alt="Coleção feminina Sillocta"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-fem-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.32);display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-venus" style="font-size:10px;overflow:visible;"></i>Feminino</p><div id="sel-fem-bar" style="width:0px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:0;transition:opacity .5s;overflow:visible;"></div></div></div></div><p id="sl-collection-hint" role="status" aria-live="polite" aria-atomic="true">Selecione uma coleção</p></div>
 <section id="catalog-search" class="sl-catalog-tools" aria-label="Buscar e filtrar perfumes">
   <div class="sl-catalog-search-row"><div class="sl-catalog-search-field"><label for="catalog-query">Buscar na coleção</label><input id="catalog-query" type="search" placeholder="Perfume, marca ou nota" autocomplete="off"></div><button type="button" class="sl-catalog-reset" onclick="return clearSearch()">Limpar filtros</button></div>
   <div class="sl-catalog-filter-grid">
@@ -3272,6 +3272,72 @@ html body #sl-bag-shortcut svg{width:17px;height:17px}
 html body #sl-toast .sl-toast-action{min-height:44px;padding:9px 12px;border-radius:4px;font:400 .8125rem/1.6 Montserrat,sans-serif;letter-spacing:.01em}
 @media(max-width:720px){html body .perfume-grid .card .btn-buy{font-size:.75rem!important;padding-inline:8px!important}}
 
+/* Mobile hero: aligned floating artwork above a separate, naturally sized copy block. */
+@keyframes sl-mobile-artwork-float{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@media(max-width:720px){
+  html body:not(.sl-detail-view) #hero{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;height:auto!important;min-height:0!important;padding:12px 18px 22px!important;gap:16px!important;box-sizing:border-box;background:#050404!important}
+  html body #hero>#colecao-selector{width:100%!important;max-width:324px!important;margin:0!important;padding:0!important;flex:none;position:relative!important;z-index:auto!important;isolation:auto!important}
+  html body #hero>#colecao-selector>div{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px!important;align-items:end!important;width:100%}
+  html body #hero #sel-masc-btn,html body #hero #sel-fem-btn{display:flex!important;flex-direction:column;align-items:stretch;gap:0;padding:0!important;touch-action:manipulation;outline-offset:4px}
+  html body #hero #sel-masc-btn:hover,html body #hero #sel-fem-btn:hover{translate:none!important}
+  html body #hero #sel-masc-btn>div:first-child,html body #hero #sel-fem-btn>div:first-child{aspect-ratio:1!important;animation:none!important;will-change:auto!important;transform:none!important;translate:none!important;rotate:none!important;isolation:auto!important;z-index:auto!important}
+  html body #hero #img-masc,html body #hero #img-fem{object-fit:contain!important;transform:none!important;scale:1!important;animation:sl-mobile-artwork-float 8s ease-in-out infinite!important;transition:opacity .4s var(--sl-ease),filter .4s var(--sl-ease),scale .2s var(--sl-ease)!important}
+  html body #hero #img-fem{animation-delay:-4s!important}
+  html body #hero #sel-masc-btn:active img,html body #hero #sel-fem-btn:active img{scale:.97!important}
+  html body #hero #sel-masc-btn[aria-pressed=false] img,html body #hero #sel-fem-btn[aria-pressed=false] img{opacity:.66!important}
+  html body #hero #sel-masc-btn>div:last-child,html body #hero #sel-fem-btn>div:last-child{padding:4px 0 0!important}
+  html body #hero #sel-masc-label,html body #hero #sel-fem-label{margin:0!important;font-size:11px!important;font-weight:400!important;letter-spacing:.14em!important;line-height:1.6!important;gap:6px!important;color:#d6cdbdb3!important;text-align:center}
+  html body #hero #sel-masc-btn[aria-pressed=true] #sel-masc-label,html body #hero #sel-fem-btn[aria-pressed=true] #sel-fem-label{color:#d3b675!important}
+  html body #hero #sel-masc-label i,html body #hero #sel-fem-label i{display:none!important}
+  html body #hero #sel-masc-bar,html body #hero #sel-fem-bar{margin-top:7px!important}
+  html body #hero>#hero-txt{display:flex!important;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:360px!important;flex:none;margin:0!important;padding:0!important;position:relative!important;inset:auto!important;transform:none!important;translate:none!important;animation:none!important;will-change:auto!important}
+  /* Both scoped IDs outrank the old attribute rule that applied margin-top:-64px. */
+  html body #hero>#hero-txt>span{position:static!important;transform:none!important;translate:none!important;font-size:9px!important;line-height:1.8!important;font-weight:400!important;letter-spacing:.16em!important;margin:0!important;color:#cbb477b3!important;max-width:100%;text-align:center}
+  html body #hero>#hero-txt>h1{font-size:clamp(30px,8.2vw,34px)!important;line-height:1.12!important;letter-spacing:-.015em!important;font-weight:300!important;margin:0!important;width:100%;text-align:center;text-shadow:none}
+  html body #hero>#hero-txt>div{display:none!important}
+  html body #hero>#hero-txt>p{width:100%;max-width:320px!important;margin:0!important;font-size:13px!important;font-weight:300!important;line-height:1.8!important;letter-spacing:.01em!important;color:#d5cec0b3!important;text-wrap:pretty;text-align:center}
+  html body #hero>#hero-txt>button{display:none!important}
+  html body #hero>div[style*="position:absolute"]{display:none!important}
+  html body #hero :is(#o1,#o2,#o3,#stars){display:none!important;animation:none!important}
+  html body #hero::before,html body #hero::after{content:none!important;display:none!important}
+  /* Collection filtering leaves the home presentation and its spacing intact. */
+  html body #catalog-search.sl-catalog-tools{margin-top:12px;padding-top:14px}
+  html body.collection-view #shop{padding-top:0!important}
+  html body #hero #colecao-selector.sl-ambient-paused img{animation-play-state:paused!important}
+}
+@media(max-width:360px){html body:not(.sl-detail-view) #hero{padding-inline:14px!important;gap:16px!important}html body #hero>#colecao-selector{max-width:292px!important}html body #hero>#hero-txt>span{font-size:8.5px!important;letter-spacing:.14em!important}}
+@media(prefers-reduced-motion:reduce){html body #hero #img-masc,html body #hero #img-fem,html body #hero>#hero-txt{animation:none!important;transition:none!important}}
+
+/* Floating artwork: remove JPEG black-level noise before compositing.
+   Keep blending on the complete control so image effects cannot create a panel. */
+html body #colecao-selector #img-masc,
+html body #colecao-selector #img-fem{
+  filter:contrast(1.12)!important;
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 10%,#000 90%,transparent 93%)!important;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 10%,#000 90%,transparent 93%)!important;
+}
+
+/* A deliberate first selection lights the artwork; the next activation explores it. */
+html body #colecao-selector #sl-collection-hint{
+  margin:9px auto 0!important;padding:0!important;min-height:18px;
+  font:400 .6875rem/1.6 Montserrat,sans-serif;letter-spacing:.025em;
+  color:#bdb4a49e!important;text-align:center;
+}
+html body #colecao-selector #sel-masc-btn[aria-pressed=false] #img-masc,
+html body #colecao-selector #sel-fem-btn[aria-pressed=false] #img-fem{
+  opacity:.66!important;filter:contrast(1.12) brightness(.9) saturate(.8)!important;
+}
+html body #colecao-selector #sel-masc-btn[aria-pressed=true] #img-masc,
+html body #colecao-selector #sel-fem-btn[aria-pressed=true] #img-fem{
+  opacity:1!important;filter:contrast(1.12) brightness(1.06)!important;
+}
+html body #colecao-selector #img-masc,html body #colecao-selector #img-fem{
+  transition:opacity .4s var(--sl-ease),filter .4s var(--sl-ease),scale .2s var(--sl-ease)!important;
+}
+@media(prefers-reduced-motion:reduce){
+  html body #colecao-selector #img-masc,html body #colecao-selector #img-fem{transition:none!important}
+}
+
 </style><style>
 /* Individual perfume pages share the approved maison palette and controls. */
 .sl-product-image-link{display:block;width:100%;height:100%;color:inherit;text-decoration:none}
@@ -3532,6 +3598,22 @@ const byId=id=>document.getElementById(id);
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const brl=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v/100);
 const motion=()=>!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Move the existing controls, preserving their state, keyboard access and URLs.
+// The marker restores their original desktop position when the screen widens.
+function initializeMobileHero(){
+  const hero=byId('hero'),copy=byId('hero-txt'),collections=byId('colecao-selector');
+  if(!hero||!copy||!collections)return;
+  const home=document.createComment('Sillocta collection controls: desktop position');
+  collections.before(home);
+  const mobile=window.matchMedia('(max-width:720px)');
+  const placeCollections=()=>{
+    if(mobile.matches)hero.insertBefore(collections,copy);
+    else home.after(collections);
+  };
+  placeCollections();
+  mobile.addEventListener?.('change',placeCollections);
+}
+initializeMobileHero();
 const catalogState={mode:'all',brand:'',price:'',available:false,savedOnly:false,sort:'curated'};
 let catalogLastSort='curated';
 const favoriteIds=new Set();
@@ -3637,8 +3719,22 @@ function closeCart(){setPanel('cart-drawer',false);byId('cart-overlay').classLis
 function syncMenuState(){const detail=currentProduct();const current=detail?detail.gender:document.body.classList.contains('collection-view')?activeTab:'all';for(const key of ['all','m','f']){const link=byId('menu-collection-'+key);if(link){const on=key===current;link.classList.toggle('is-current',on);link.setAttribute('aria-current',on?'page':'false');}}}
 function openMobileMenu(){closeCart();closeFooterInfo();syncMenuState();setPanel('mobile-menu-drawer',true);lastFocused=byId('menu-trigger');byId('menu-trigger').setAttribute('aria-expanded','true');byId('mobile-menu-overlay').classList.add('open');}
 function closeMobileMenu(){setPanel('mobile-menu-drawer',false);byId('menu-trigger')?.setAttribute('aria-expanded','false');byId('mobile-menu-overlay').classList.remove('open');return false;}
-function updateIndicators(){for(const [gender,word] of [['m','masc'],['f','fem']]){if(!byId('img-'+word))continue;const on=activeTab===gender;byId('img-'+word).style.opacity=on?'.95':'.55';byId('sel-'+word+'-label').style.color=on?'#D4AF37':'rgba(255,255,255,.7)';byId('sel-'+word+'-bar').style.width=on?'36px':'0';byId('sel-'+word+'-bar').style.opacity=on?'1':'0';byId('sel-'+word+'-btn').setAttribute('aria-pressed',String(on));}}
+function updateIndicators(){
+  for(const [gender,word,name] of [['m','masc','masculina'],['f','fem','feminina']]){
+    if(!byId('img-'+word))continue;
+    const on=heroCollectionSelection===gender,button=byId('sel-'+word+'-btn');
+    byId('img-'+word).style.opacity=on?'1':'.66';
+    byId('sel-'+word+'-label').style.color=on?'#D4AF37':'rgba(255,255,255,.7)';
+    byId('sel-'+word+'-bar').style.width=on?'28px':'0';
+    byId('sel-'+word+'-bar').style.opacity=on?'1':'0';
+    button.setAttribute('aria-pressed',String(on));
+    button.setAttribute('aria-label',`${on?'Explorar':'Selecionar'} coleção ${name}`);
+  }
+  const hint=byId('sl-collection-hint');
+  if(hint)hint.textContent=heroCollectionSelection?'Selecione novamente para explorar':'Selecione uma coleção';
+}
 let collectionNavigation=0;
+let heroCollectionSelection='';
 function scrollToCatalogTarget(resolveTarget){
   const navigation=++collectionNavigation;
   // Measure after collection visibility and overlay changes have been painted.
@@ -3661,14 +3757,20 @@ function scrollToCatalogResults(){
     return byId(card.closest('#sec-masculino')?'parallax-hero':'parallax-fem');
   });
 }
-function scrollToSectionLux(id){closeCart();closeMobileMenu();if(['hero','shop','sec-masculino','sec-feminino','catalog-search','colecao-selector'].includes(id)&&navigateToCatalog(id))return false;if(['sec-masculino','sec-feminino'].includes(id)){scrollToCollectionBanner(id==='sec-masculino'?'m':'f');return false;}byId(id)?.scrollIntoView({behavior:motion()?'smooth':'auto',block:'start'});return false;}
-function headerBrandHomeLux(){closeCart();closeMobileMenu();if(navigateToCatalog())return false;exitCollectionView();window.scrollTo({top:0,behavior:motion()?'smooth':'auto'});return false;}
+function scrollToSectionLux(id){if(id==='hero')return headerBrandHomeLux();closeCart();closeMobileMenu();if(['hero','shop','sec-masculino','sec-feminino','catalog-search','colecao-selector'].includes(id)&&navigateToCatalog(id))return false;if(['sec-masculino','sec-feminino'].includes(id)){scrollToCollectionBanner(id==='sec-masculino'?'m':'f');return false;}byId(id)?.scrollIntoView({behavior:motion()?'smooth':'auto',block:'start'});return false;}
+function headerBrandHomeLux(){closeCart();closeMobileMenu();if(navigateToCatalog())return false;exitCollectionView({preserveSelection:true});window.scrollTo({top:0,behavior:motion()?'smooth':'auto'});return false;}
 function scrollToFooterLux(){return scrollToSectionLux('site-footer');}
 function goToCartLux(){openCart();return false;}
-function switchTab(gender){if(!['m','f'].includes(gender))return;activeTab=gender;updateIndicators();}
+function switchTab(gender){if(!['m','f'].includes(gender))return;activeTab=gender;heroCollectionSelection=gender;updateIndicators();}
+function activateCollectionArtwork(gender){
+  if(!['m','f'].includes(gender))return false;
+  if(heroCollectionSelection===gender)return handleCollectionSelector(gender);
+  // Preview only: cancel an older pending scroll without touching filters or view.
+  ++collectionNavigation;heroCollectionSelection=gender;updateIndicators();return false;
+}
 function enterCollectionView(gender){if(!['m','f'].includes(gender))return false;closeCart();closeMobileMenu();if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;switchTab(gender);document.body.classList.add('collection-view');document.body.classList.toggle('collection-m',gender==='m');document.body.classList.toggle('collection-f',gender==='f');syncMenuState();applyCatalogFilters();const section=byId('catalog-search');section.classList.remove('sl-collection-enter');requestAnimationFrame(()=>section.classList.add('sl-collection-enter'));scrollToCollectionBanner(gender);return false;}
 function handleCollectionSelector(gender){if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;byId('catalog-query').value='';resetCatalogVisibility();return enterCollectionView(gender);}
-function exitCollectionView(){document.body.classList.remove('collection-view','collection-m','collection-f');for(const id of ['sec-masculino','sec-feminino'])if(byId(id))byId(id).hidden=false;syncMenuState();applyCatalogFilters();return false;}
+function exitCollectionView({preserveSelection=false}={}){++collectionNavigation;document.body.classList.remove('collection-view','collection-m','collection-f');if(!preserveSelection)heroCollectionSelection='';updateIndicators();for(const id of ['sec-masculino','sec-feminino'])if(byId(id))byId(id).hidden=false;syncMenuState();applyCatalogFilters();return false;}
 function showAllCollections(){if(navigateToCatalog('shop'))return false;byId('catalog-query').value='';resetCatalogVisibility();exitCollectionView();return scrollToSectionLux('shop');}
 function continueShoppingSafely(){closeCart();const detail=currentProduct();if(detail)return handleCollectionSelector(detail.gender);const target=document.body.classList.contains('collection-view')?(activeTab==='m'?'sec-masculino':'sec-feminino'):'colecao-selector';return scrollToSectionLux(target);}
 const continueShoppingLux=continueShoppingSafely;
@@ -4022,7 +4124,7 @@ openFooterInfo=function(type){const origin=document.activeElement,fromMenu=!!ori
 closeFooterInfo=function(){const wasOpen=byId('footer-info-overlay').classList.contains('open'),result=originalCloseInfo();byId('footer-info-overlay').inert=true;lockPage();if(wasOpen&&lastFocused?.isConnected)lastFocused.focus({preventScroll:true});return result;};
 byId('cart-overlay').onclick=()=>closeCart();
 byId('catalog-query')?.addEventListener('input',updateCatalogFilters);
-for(const id of ['sel-masc-btn','sel-fem-btn'])byId(id)?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handleCollectionSelector(id==='sel-masc-btn'?'m':'f');}});
+for(const id of ['sel-masc-btn','sel-fem-btn'])byId(id)?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(!e.repeat)activateCollectionArtwork(id==='sel-masc-btn'?'m':'f');}});
 document.addEventListener('click',e=>{if(e.target.closest('[data-continue-shopping]'))continueShoppingSafely();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCart();closeMobileMenu();closeFooterInfo();}if(e.key!=='Tab')return;const panel=[byId('cart-drawer'),byId('mobile-menu-drawer'),byId('footer-info-modal')].find(p=>p.classList.contains('open')||p===byId('footer-info-modal')&&byId('footer-info-overlay').classList.contains('open'));if(!panel)return;const focusable=[...panel.querySelectorAll('button,a[href],input,textarea,select,[tabindex="0"]')].filter(n=>!n.disabled&&n.getClientRects().length);const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}});
 const brand=document.querySelector('header [onclick="headerBrandHomeLux()"]');if(brand&&brand.tagName!=='BUTTON'){brand.setAttribute('tabindex','0');brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();headerBrandHomeLux();}});}

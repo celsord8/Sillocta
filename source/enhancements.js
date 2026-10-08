@@ -14,6 +14,22 @@ const byId=id=>document.getElementById(id);
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const brl=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v/100);
 const motion=()=>!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Move the existing controls, preserving their state, keyboard access and URLs.
+// The marker restores their original desktop position when the screen widens.
+function initializeMobileHero(){
+  const hero=byId('hero'),copy=byId('hero-txt'),collections=byId('colecao-selector');
+  if(!hero||!copy||!collections)return;
+  const home=document.createComment('Sillocta collection controls: desktop position');
+  collections.before(home);
+  const mobile=window.matchMedia('(max-width:720px)');
+  const placeCollections=()=>{
+    if(mobile.matches)hero.insertBefore(collections,copy);
+    else home.after(collections);
+  };
+  placeCollections();
+  mobile.addEventListener?.('change',placeCollections);
+}
+initializeMobileHero();
 const catalogState={mode:'all',brand:'',price:'',available:false,savedOnly:false,sort:'curated'};
 let catalogLastSort='curated';
 const favoriteIds=new Set();
@@ -119,8 +135,22 @@ function closeCart(){setPanel('cart-drawer',false);byId('cart-overlay').classLis
 function syncMenuState(){const detail=currentProduct();const current=detail?detail.gender:document.body.classList.contains('collection-view')?activeTab:'all';for(const key of ['all','m','f']){const link=byId('menu-collection-'+key);if(link){const on=key===current;link.classList.toggle('is-current',on);link.setAttribute('aria-current',on?'page':'false');}}}
 function openMobileMenu(){closeCart();closeFooterInfo();syncMenuState();setPanel('mobile-menu-drawer',true);lastFocused=byId('menu-trigger');byId('menu-trigger').setAttribute('aria-expanded','true');byId('mobile-menu-overlay').classList.add('open');}
 function closeMobileMenu(){setPanel('mobile-menu-drawer',false);byId('menu-trigger')?.setAttribute('aria-expanded','false');byId('mobile-menu-overlay').classList.remove('open');return false;}
-function updateIndicators(){for(const [gender,word] of [['m','masc'],['f','fem']]){if(!byId('img-'+word))continue;const on=activeTab===gender;byId('img-'+word).style.opacity=on?'.95':'.55';byId('sel-'+word+'-label').style.color=on?'#D4AF37':'rgba(255,255,255,.7)';byId('sel-'+word+'-bar').style.width=on?'36px':'0';byId('sel-'+word+'-bar').style.opacity=on?'1':'0';byId('sel-'+word+'-btn').setAttribute('aria-pressed',String(on));}}
+function updateIndicators(){
+  for(const [gender,word,name] of [['m','masc','masculina'],['f','fem','feminina']]){
+    if(!byId('img-'+word))continue;
+    const on=heroCollectionSelection===gender,button=byId('sel-'+word+'-btn');
+    byId('img-'+word).style.opacity=on?'1':'.66';
+    byId('sel-'+word+'-label').style.color=on?'#D4AF37':'rgba(255,255,255,.7)';
+    byId('sel-'+word+'-bar').style.width=on?'28px':'0';
+    byId('sel-'+word+'-bar').style.opacity=on?'1':'0';
+    button.setAttribute('aria-pressed',String(on));
+    button.setAttribute('aria-label',`${on?'Explorar':'Selecionar'} coleção ${name}`);
+  }
+  const hint=byId('sl-collection-hint');
+  if(hint)hint.textContent=heroCollectionSelection?'Selecione novamente para explorar':'Selecione uma coleção';
+}
 let collectionNavigation=0;
+let heroCollectionSelection='';
 function scrollToCatalogTarget(resolveTarget){
   const navigation=++collectionNavigation;
   // Measure after collection visibility and overlay changes have been painted.
@@ -143,14 +173,20 @@ function scrollToCatalogResults(){
     return byId(card.closest('#sec-masculino')?'parallax-hero':'parallax-fem');
   });
 }
-function scrollToSectionLux(id){closeCart();closeMobileMenu();if(['hero','shop','sec-masculino','sec-feminino','catalog-search','colecao-selector'].includes(id)&&navigateToCatalog(id))return false;if(['sec-masculino','sec-feminino'].includes(id)){scrollToCollectionBanner(id==='sec-masculino'?'m':'f');return false;}byId(id)?.scrollIntoView({behavior:motion()?'smooth':'auto',block:'start'});return false;}
-function headerBrandHomeLux(){closeCart();closeMobileMenu();if(navigateToCatalog())return false;exitCollectionView();window.scrollTo({top:0,behavior:motion()?'smooth':'auto'});return false;}
+function scrollToSectionLux(id){if(id==='hero')return headerBrandHomeLux();closeCart();closeMobileMenu();if(['hero','shop','sec-masculino','sec-feminino','catalog-search','colecao-selector'].includes(id)&&navigateToCatalog(id))return false;if(['sec-masculino','sec-feminino'].includes(id)){scrollToCollectionBanner(id==='sec-masculino'?'m':'f');return false;}byId(id)?.scrollIntoView({behavior:motion()?'smooth':'auto',block:'start'});return false;}
+function headerBrandHomeLux(){closeCart();closeMobileMenu();if(navigateToCatalog())return false;exitCollectionView({preserveSelection:true});window.scrollTo({top:0,behavior:motion()?'smooth':'auto'});return false;}
 function scrollToFooterLux(){return scrollToSectionLux('site-footer');}
 function goToCartLux(){openCart();return false;}
-function switchTab(gender){if(!['m','f'].includes(gender))return;activeTab=gender;updateIndicators();}
+function switchTab(gender){if(!['m','f'].includes(gender))return;activeTab=gender;heroCollectionSelection=gender;updateIndicators();}
+function activateCollectionArtwork(gender){
+  if(!['m','f'].includes(gender))return false;
+  if(heroCollectionSelection===gender)return handleCollectionSelector(gender);
+  // Preview only: cancel an older pending scroll without touching filters or view.
+  ++collectionNavigation;heroCollectionSelection=gender;updateIndicators();return false;
+}
 function enterCollectionView(gender){if(!['m','f'].includes(gender))return false;closeCart();closeMobileMenu();if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;switchTab(gender);document.body.classList.add('collection-view');document.body.classList.toggle('collection-m',gender==='m');document.body.classList.toggle('collection-f',gender==='f');syncMenuState();applyCatalogFilters();const section=byId('catalog-search');section.classList.remove('sl-collection-enter');requestAnimationFrame(()=>section.classList.add('sl-collection-enter'));scrollToCollectionBanner(gender);return false;}
 function handleCollectionSelector(gender){if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;byId('catalog-query').value='';resetCatalogVisibility();return enterCollectionView(gender);}
-function exitCollectionView(){document.body.classList.remove('collection-view','collection-m','collection-f');for(const id of ['sec-masculino','sec-feminino'])if(byId(id))byId(id).hidden=false;syncMenuState();applyCatalogFilters();return false;}
+function exitCollectionView({preserveSelection=false}={}){++collectionNavigation;document.body.classList.remove('collection-view','collection-m','collection-f');if(!preserveSelection)heroCollectionSelection='';updateIndicators();for(const id of ['sec-masculino','sec-feminino'])if(byId(id))byId(id).hidden=false;syncMenuState();applyCatalogFilters();return false;}
 function showAllCollections(){if(navigateToCatalog('shop'))return false;byId('catalog-query').value='';resetCatalogVisibility();exitCollectionView();return scrollToSectionLux('shop');}
 function continueShoppingSafely(){closeCart();const detail=currentProduct();if(detail)return handleCollectionSelector(detail.gender);const target=document.body.classList.contains('collection-view')?(activeTab==='m'?'sec-masculino':'sec-feminino'):'colecao-selector';return scrollToSectionLux(target);}
 const continueShoppingLux=continueShoppingSafely;
@@ -504,7 +540,7 @@ openFooterInfo=function(type){const origin=document.activeElement,fromMenu=!!ori
 closeFooterInfo=function(){const wasOpen=byId('footer-info-overlay').classList.contains('open'),result=originalCloseInfo();byId('footer-info-overlay').inert=true;lockPage();if(wasOpen&&lastFocused?.isConnected)lastFocused.focus({preventScroll:true});return result;};
 byId('cart-overlay').onclick=()=>closeCart();
 byId('catalog-query')?.addEventListener('input',updateCatalogFilters);
-for(const id of ['sel-masc-btn','sel-fem-btn'])byId(id)?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handleCollectionSelector(id==='sel-masc-btn'?'m':'f');}});
+for(const id of ['sel-masc-btn','sel-fem-btn'])byId(id)?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(!e.repeat)activateCollectionArtwork(id==='sel-masc-btn'?'m':'f');}});
 document.addEventListener('click',e=>{if(e.target.closest('[data-continue-shopping]'))continueShoppingSafely();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCart();closeMobileMenu();closeFooterInfo();}if(e.key!=='Tab')return;const panel=[byId('cart-drawer'),byId('mobile-menu-drawer'),byId('footer-info-modal')].find(p=>p.classList.contains('open')||p===byId('footer-info-modal')&&byId('footer-info-overlay').classList.contains('open'));if(!panel)return;const focusable=[...panel.querySelectorAll('button,a[href],input,textarea,select,[tabindex="0"]')].filter(n=>!n.disabled&&n.getClientRects().length);const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}});
 const brand=document.querySelector('header [onclick="headerBrandHomeLux()"]');if(brand&&brand.tagName!=='BUTTON'){brand.setAttribute('tabindex','0');brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();headerBrandHomeLux();}});}
