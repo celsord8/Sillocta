@@ -536,3 +536,69 @@ html body #sl-bag-shortcut{min-height:44px;padding:9px 13px;gap:7px;font:400 .81
 html body #sl-bag-shortcut svg{width:17px;height:17px}
 html body #sl-toast .sl-toast-action{min-height:44px;padding:9px 12px;border-radius:4px;font:400 .8125rem/1.6 Montserrat,sans-serif;letter-spacing:.01em}
 @media(max-width:720px){html body .perfume-grid .card .btn-buy{font-size:.75rem!important;padding-inline:8px!important}}
+
+/* Mobile hero: aligned floating artwork above a separate, naturally sized copy block. */
+@keyframes sl-mobile-artwork-float{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@media(max-width:720px){
+  html body:not(.sl-detail-view) #hero{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;height:auto!important;min-height:0!important;padding:12px 18px 22px!important;gap:16px!important;box-sizing:border-box;background:#050404!important}
+  html body #hero>#colecao-selector{width:100%!important;max-width:324px!important;margin:0!important;padding:0!important;flex:none;position:relative!important;z-index:auto!important;isolation:auto!important}
+  html body #hero>#colecao-selector>div{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px!important;align-items:end!important;width:100%}
+  html body #hero #sel-masc-btn,html body #hero #sel-fem-btn{display:flex!important;flex-direction:column;align-items:stretch;gap:0;padding:0!important;touch-action:manipulation;outline-offset:4px}
+  html body #hero #sel-masc-btn:hover,html body #hero #sel-fem-btn:hover{translate:none!important}
+  html body #hero #sel-masc-btn>div:first-child,html body #hero #sel-fem-btn>div:first-child{aspect-ratio:1!important;animation:none!important;will-change:auto!important;transform:none!important;translate:none!important;rotate:none!important;isolation:auto!important;z-index:auto!important}
+  html body #hero #img-masc,html body #hero #img-fem{object-fit:contain!important;transform:none!important;scale:1!important;animation:sl-mobile-artwork-float 8s ease-in-out infinite!important;transition:opacity .4s var(--sl-ease),filter .4s var(--sl-ease),scale .2s var(--sl-ease)!important}
+  html body #hero #img-fem{animation-delay:-4s!important}
+  html body #hero #sel-masc-btn:active img,html body #hero #sel-fem-btn:active img{scale:.97!important}
+  html body #hero #sel-masc-btn[aria-pressed=false] img,html body #hero #sel-fem-btn[aria-pressed=false] img{opacity:.66!important}
+  html body #hero #sel-masc-btn>div:last-child,html body #hero #sel-fem-btn>div:last-child{padding:4px 0 0!important}
+  html body #hero #sel-masc-label,html body #hero #sel-fem-label{margin:0!important;font-size:11px!important;font-weight:400!important;letter-spacing:.14em!important;line-height:1.6!important;gap:6px!important;color:#d6cdbdb3!important;text-align:center}
+  html body #hero #sel-masc-btn[aria-pressed=true] #sel-masc-label,html body #hero #sel-fem-btn[aria-pressed=true] #sel-fem-label{color:#d3b675!important}
+  html body #hero #sel-masc-label i,html body #hero #sel-fem-label i{display:none!important}
+  html body #hero #sel-masc-bar,html body #hero #sel-fem-bar{margin-top:7px!important}
+  html body #hero>#hero-txt{display:flex!important;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:360px!important;flex:none;margin:0!important;padding:0!important;position:relative!important;inset:auto!important;transform:none!important;translate:none!important;animation:none!important;will-change:auto!important}
+  /* Both scoped IDs outrank the old attribute rule that applied margin-top:-64px. */
+  html body #hero>#hero-txt>span{position:static!important;transform:none!important;translate:none!important;font-size:9px!important;line-height:1.8!important;font-weight:400!important;letter-spacing:.16em!important;margin:0!important;color:#cbb477b3!important;max-width:100%;text-align:center}
+  html body #hero>#hero-txt>h1{font-size:clamp(30px,8.2vw,34px)!important;line-height:1.12!important;letter-spacing:-.015em!important;font-weight:300!important;margin:0!important;width:100%;text-align:center;text-shadow:none}
+  html body #hero>#hero-txt>div{display:none!important}
+  html body #hero>#hero-txt>p{width:100%;max-width:320px!important;margin:0!important;font-size:13px!important;font-weight:300!important;line-height:1.8!important;letter-spacing:.01em!important;color:#d5cec0b3!important;text-wrap:pretty;text-align:center}
+  html body #hero>#hero-txt>button{display:none!important}
+  html body #hero>div[style*="position:absolute"]{display:none!important}
+  html body #hero :is(#o1,#o2,#o3,#stars){display:none!important;animation:none!important}
+  html body #hero::before,html body #hero::after{content:none!important;display:none!important}
+  /* Collection filtering leaves the home presentation and its spacing intact. */
+  html body #catalog-search.sl-catalog-tools{margin-top:12px;padding-top:14px}
+  html body.collection-view #shop{padding-top:0!important}
+  html body #hero #colecao-selector.sl-ambient-paused img{animation-play-state:paused!important}
+}
+@media(max-width:360px){html body:not(.sl-detail-view) #hero{padding-inline:14px!important;gap:16px!important}html body #hero>#colecao-selector{max-width:292px!important}html body #hero>#hero-txt>span{font-size:8.5px!important;letter-spacing:.14em!important}}
+@media(prefers-reduced-motion:reduce){html body #hero #img-masc,html body #hero #img-fem,html body #hero>#hero-txt{animation:none!important;transition:none!important}}
+
+/* Floating artwork: remove JPEG black-level noise before compositing.
+   Keep blending on the complete control so image effects cannot create a panel. */
+html body #colecao-selector #img-masc,
+html body #colecao-selector #img-fem{
+  filter:contrast(1.12)!important;
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 10%,#000 90%,transparent 93%)!important;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 10%,#000 90%,transparent 93%)!important;
+}
+
+/* A deliberate first selection lights the artwork; the next activation explores it. */
+html body #colecao-selector #sl-collection-hint{
+  margin:9px auto 0!important;padding:0!important;min-height:18px;
+  font:400 .6875rem/1.6 Montserrat,sans-serif;letter-spacing:.025em;
+  color:#bdb4a49e!important;text-align:center;
+}
+html body #colecao-selector #sel-masc-btn[aria-pressed=false] #img-masc,
+html body #colecao-selector #sel-fem-btn[aria-pressed=false] #img-fem{
+  opacity:.66!important;filter:contrast(1.12) brightness(.9) saturate(.8)!important;
+}
+html body #colecao-selector #sel-masc-btn[aria-pressed=true] #img-masc,
+html body #colecao-selector #sel-fem-btn[aria-pressed=true] #img-fem{
+  opacity:1!important;filter:contrast(1.12) brightness(1.06)!important;
+}
+html body #colecao-selector #img-masc,html body #colecao-selector #img-fem{
+  transition:opacity .4s var(--sl-ease),filter .4s var(--sl-ease),scale .2s var(--sl-ease)!important;
+}
+@media(prefers-reduced-motion:reduce){
+  html body #colecao-selector #img-masc,html body #colecao-selector #img-fem{transition:none!important}
+}
