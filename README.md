@@ -1,28 +1,36 @@
 # Sillocta · Maison de Decants
 
-Loja de decants com catálogo, filtros por coleção e marca, páginas individuais de fragrâncias, favoritos, sacola e checkout pelo WhatsApp.
+Loja de decants com catálogo, coleções, favoritos, sacola, 26 páginas individuais de perfumes e pedidos pelo WhatsApp.
 
-## Publicação na Vercel
+## Publicação
 
-- Raiz do projeto: este diretório.
-- Framework: Other.
-- Node.js: 22.x.
-- Build: `npm run build`.
-- Saída: `public`.
+A versão 35 inclui as seis campanhas, bordas douradas uniformes e carrossel contínuo a cada 1,8 segundo. O movimento respeita navegação manual, teclado, redução de movimento e a visibilidade da página.
 
-O arquivo `vercel.json` define o build e a saída. O deploy de produção acompanha a branch `main` na integração existente com a Vercel.
+O projeto preserva a integração do repositório `celsord8/Sillocta` com a Vercel. A branch `main` recebe produção; branches e pull requests podem gerar prévias pela integração existente.
 
-## Desenvolvimento e verificação
+- Framework: **Other**; raiz do projeto: este diretório.
+- Node.js: **22.x**, com versão declarada em `package.json` e `.nvmrc`.
+- Instalação: `npm ci --ignore-scripts`.
+- Publicação: `npm run verify` — gera o site e executa todos os testes antes de liberar a versão.
+- Saída: `public`; apenas o resultado do build fica público.
+
+As configurações de publicação ficam em `vercel.json`. Não há dependências de produção adicionais. `package-lock.json` fixa a instalação. O workflow de GitHub Actions verifica pushes e pull requests com permissões somente de leitura e ações fixadas por commit.
+
+## Desenvolvimento
 
 ```sh
-npm run build
-npm test
+npm ci --ignore-scripts
+npm run verify
 ```
 
-O build gera a home e 26 páginas de perfumes. Não há dependências de produção adicionais. Os arquivos em `source/` são a fonte da publicação; `public/` é gerado e não deve ser editado ou versionado.
+Edite `source/`; `public/` é gerado e ignorado pelo Git. Os arquivos legados na raiz do repositório não fazem parte da saída da Vercel e foram preservados.
 
-A versão atual é a **28**, com as coleções antes do título no hero de celular, imagens flutuantes sem painel e seleção em duas etapas: o primeiro toque destaca a coleção; o segundo abre seu banner. O texto do hero permanece visível ao voltar, e o retorno pela marca preserva a coleção selecionada. Os botões de compra, volume e checkout mantêm o refinamento aprovado para celular e telas grandes. Consulte [LEIA-ME.md](LEIA-ME.md) para detalhes de publicação, domínio e checkout.
+O build gera páginas com URLs limpas e canônicas, `robots.txt`, sitemap de produção e uma página de erro 404. Prévias recebem `noindex` e bloqueiam indexação em `robots.txt`. Configure `PUBLIC_SITE_URL` apenas ao usar um domínio definitivo; sem ele, o build usa o domínio de produção informado pela Vercel.
 
-O checkout atual é pelo WhatsApp. Mercado Pago permanece desativado até que o servidor de pagamentos e suas credenciais sejam configurados e validados. As consultas de CEP dependem dos serviços externos utilizados pelo site.
+O HTML sempre revalida. Fotografias originais usam cache de um dia; variantes de imagens identificadas pelo conteúdo e CSS/JS da versão corrente usam cache duradouro. Os cabeçalhos restringem incorporação por outros sites, objetos e alteração da URL base, sem bloquear os scripts e serviços já usados pela loja.
 
-O `index.html` e a pasta `assets/` na raiz preservam um modo de compatibilidade com a hospedagem estática anterior. O arquivo `index.html.html` mantém a versão legada já existente no repositório.
+## Checkout e contas
+
+Os pedidos atuais continuam pelo WhatsApp. Mercado Pago permanece desativado até existir servidor de pagamentos, banco persistente e credenciais homologadas. Nenhuma chave privada deve entrar no Git ou nos arquivos públicos.
+
+A configuração por código não altera plano, cobrança, domínio contratado, permissões da conta ou proteções de branch. Consulte [LEIA-ME.md](LEIA-ME.md) para os requisitos de operação e publicação.
