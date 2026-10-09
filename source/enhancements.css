@@ -540,7 +540,7 @@ html body #sl-toast .sl-toast-action{min-height:44px;padding:9px 12px;border-rad
 /* Mobile hero: aligned floating artwork above a separate, naturally sized copy block. */
 @keyframes sl-mobile-artwork-float{0%,100%{translate:0 0}50%{translate:0 -4px}}
 @media(max-width:720px){
-  html body:not(.sl-detail-view) #hero{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;height:auto!important;min-height:0!important;padding:12px 18px 22px!important;gap:16px!important;box-sizing:border-box;background:#050404!important}
+  html body:not(.sl-detail-view) #hero{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;height:auto!important;min-height:0!important;padding:12px 18px 16px!important;gap:12px!important;box-sizing:border-box;background:#050404!important}
   html body #hero>#colecao-selector{width:100%!important;max-width:324px!important;margin:0!important;padding:0!important;flex:none;position:relative!important;z-index:auto!important;isolation:auto!important}
   html body #hero>#colecao-selector>div{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px!important;align-items:end!important;width:100%}
   html body #hero #sel-masc-btn,html body #hero #sel-fem-btn{display:flex!important;flex-direction:column;align-items:stretch;gap:0;padding:0!important;touch-action:manipulation;outline-offset:4px}
@@ -555,12 +555,11 @@ html body #sl-toast .sl-toast-action{min-height:44px;padding:9px 12px;border-rad
   html body #hero #sel-masc-btn[aria-pressed=true] #sel-masc-label,html body #hero #sel-fem-btn[aria-pressed=true] #sel-fem-label{color:#d3b675!important}
   html body #hero #sel-masc-label i,html body #hero #sel-fem-label i{display:none!important}
   html body #hero #sel-masc-bar,html body #hero #sel-fem-bar{margin-top:7px!important}
-  html body #hero>#hero-txt{display:flex!important;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:360px!important;flex:none;margin:0!important;padding:0!important;position:relative!important;inset:auto!important;transform:none!important;translate:none!important;animation:none!important;will-change:auto!important}
+  html body #hero>#hero-txt{display:flex!important;flex-direction:column;align-items:center;gap:8px;width:100%;max-width:360px!important;flex:none;margin:0!important;padding:0!important;position:relative!important;inset:auto!important;transform:none!important;translate:none!important;animation:none!important;will-change:auto!important}
   /* Both scoped IDs outrank the old attribute rule that applied margin-top:-64px. */
   html body #hero>#hero-txt>span{position:static!important;transform:none!important;translate:none!important;font-size:9px!important;line-height:1.8!important;font-weight:400!important;letter-spacing:.16em!important;margin:0!important;color:#cbb477b3!important;max-width:100%;text-align:center}
   html body #hero>#hero-txt>h1{font-size:clamp(30px,8.2vw,34px)!important;line-height:1.12!important;letter-spacing:-.015em!important;font-weight:300!important;margin:0!important;width:100%;text-align:center;text-shadow:none}
   html body #hero>#hero-txt>div{display:none!important}
-  html body #hero>#hero-txt>p{width:100%;max-width:320px!important;margin:0!important;font-size:13px!important;font-weight:300!important;line-height:1.8!important;letter-spacing:.01em!important;color:#d5cec0b3!important;text-wrap:pretty;text-align:center}
   html body #hero>#hero-txt>button{display:none!important}
   html body #hero>div[style*="position:absolute"]{display:none!important}
   html body #hero :is(#o1,#o2,#o3,#stars){display:none!important;animation:none!important}
@@ -570,7 +569,7 @@ html body #sl-toast .sl-toast-action{min-height:44px;padding:9px 12px;border-rad
   html body.collection-view #shop{padding-top:0!important}
   html body #hero #colecao-selector.sl-ambient-paused img{animation-play-state:paused!important}
 }
-@media(max-width:360px){html body:not(.sl-detail-view) #hero{padding-inline:14px!important;gap:16px!important}html body #hero>#colecao-selector{max-width:292px!important}html body #hero>#hero-txt>span{font-size:8.5px!important;letter-spacing:.14em!important}}
+@media(max-width:360px){html body:not(.sl-detail-view) #hero{padding-inline:14px!important;gap:12px!important}html body #hero>#colecao-selector{max-width:292px!important}html body #hero>#hero-txt>span{font-size:8.5px!important;letter-spacing:.14em!important}}
 @media(prefers-reduced-motion:reduce){html body #hero #img-masc,html body #hero #img-fem,html body #hero>#hero-txt{animation:none!important;transition:none!important}}
 
 /* Floating artwork: remove JPEG black-level noise before compositing.
@@ -601,4 +600,57 @@ html body #colecao-selector #img-masc,html body #colecao-selector #img-fem{
 }
 @media(prefers-reduced-motion:reduce){
   html body #colecao-selector #img-masc,html body #colecao-selector #img-fem{transition:none!important}
+}
+
+/* A lighter discovery area leaves room for the fragrance imagery. */
+html body #catalog-search.sl-catalog-tools{max-width:1040px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.35fr);column-gap:20px;row-gap:10px;margin:20px auto 18px;padding:16px 0 12px}
+html body #catalog-search .sl-catalog-search-row{gap:8px}
+html body #catalog-search label{font-size:.75rem;line-height:1.35;margin-bottom:5px;font-weight:400;letter-spacing:0}
+html body #catalog-search :is(input[type=search],select){height:40px;min-height:40px;padding:8px 10px;border-radius:3px;font-size:.875rem;line-height:1.4;border-color:#cbb47730;color:#d4cec4}
+html body #catalog-search select{padding-right:26px;background-position:right 9px center!important;background-size:10px!important}
+html body #catalog-search .sl-catalog-select{position:relative;min-width:0;height:40px}
+html body #catalog-search .sl-catalog-select-value{display:block;height:40px;padding:9px 26px 9px 10px;border:1px solid #cbb47730;border-radius:3px;color:#d4cec4;font:400 .875rem/20px Montserrat,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath d='m3 4.5 3 3 3-3' fill='none' stroke='%23bcae96' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center;transition:border-color .2s}
+html body #catalog-search .sl-catalog-select select{position:absolute;inset:0;width:100%;height:40px;margin:0;opacity:0;cursor:pointer;font-size:1rem}
+html body #catalog-search .sl-catalog-select:hover .sl-catalog-select-value{border-color:#cbb47765}
+html body #catalog-search .sl-catalog-select:focus-within .sl-catalog-select-value{border-color:#cbb477;outline:1px solid #cbb477;outline-offset:3px}
+html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:1.08fr .94fr 1fr;gap:9px;margin:0}
+html body #catalog-search .sl-catalog-field,html body #catalog-search .sl-catalog-field:first-child,html body #catalog-search .sl-catalog-field:last-child{grid-column:auto}
+html body #catalog-search button{min-height:40px;padding:7px 10px;border-radius:3px;font-size:.75rem}
+html body #catalog-search .sl-catalog-reset{padding-inline:9px;border-color:transparent!important;background:transparent!important;color:#bcb09a;white-space:nowrap}
+html body #catalog-search .sl-catalog-reset:hover{color:#e2cea2;text-decoration:underline;text-underline-offset:4px}
+html body #catalog-search .sl-catalog-actions{grid-column:1/-1;justify-content:flex-start;gap:18px;margin:0;align-items:center}
+html body #catalog-search .sl-catalog-checkbox{min-height:36px;margin:0;gap:7px;font-size:.75rem;line-height:1.4}
+html body #catalog-search .sl-catalog-checkbox input{width:14px;height:14px;flex:none;accent-color:#cbb477}
+html body #catalog-search #catalog-saved{min-height:36px;padding:5px 9px;font-size:.75rem;gap:6px;border-color:#cbb47726}
+html body #catalog-search #catalog-saved svg{width:15px;height:15px}
+html body #catalog-status{grid-column:1/-1;margin:0;font-size:.6875rem;line-height:1.5;min-height:17px;color:#9e9587}
+@media(max-width:850px){
+  html body #catalog-search.sl-catalog-tools{display:block}
+  html body #catalog-search .sl-catalog-filter-grid{margin-top:10px}
+  html body #catalog-search .sl-catalog-actions{margin-top:7px}
+  html body #catalog-status{margin-top:3px}
+}
+@media(max-width:720px){
+  html body #catalog-search.sl-catalog-tools{margin:12px auto 14px;padding:12px 0 10px}
+  html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:1.08fr .94fr 1fr;gap:7px}
+  html body #catalog-search .sl-catalog-field,html body #catalog-search .sl-catalog-field:first-child,html body #catalog-search .sl-catalog-field:last-child{grid-column:auto}
+  html body #catalog-search label{font-size:.6875rem;margin-bottom:4px}
+  html body #catalog-search input[type=search]{font-size:1rem;letter-spacing:-.025em}
+  html body #catalog-search select{padding-left:8px;padding-right:23px;font-size:.8125rem;letter-spacing:-.015em}
+  html body #catalog-search .sl-catalog-select-value{padding-left:8px;padding-right:23px;font-size:.8125rem;letter-spacing:-.015em}
+  html body #catalog-search .sl-catalog-select select{font-size:1rem}
+  html body #catalog-search .sl-catalog-reset{min-width:48px;font-size:.6875rem;padding-inline:5px}
+  html body #catalog-search .sl-catalog-actions{justify-content:space-between;gap:8px}
+}
+@media(max-width:340px){
+  html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:8px}
+  html body #catalog-search .sl-catalog-field:last-child{grid-column:1/-1}
+}
+
+/* Shorter hero copy keeps a clear rhythm between the masthead and collection. */
+@media(min-width:721px){
+  html body #hero{height:auto!important;min-height:0!important;padding:144px 24px 36px!important}
+  html body #hero>#hero-txt{display:flex!important;flex-direction:column;align-items:center;gap:16px;margin:0!important}
+  html body #hero>#hero-txt>span,html body #hero>#hero-txt>h1{margin:0!important}
+  html body #hero>#hero-txt>button{margin:6px 0 0!important}
 }

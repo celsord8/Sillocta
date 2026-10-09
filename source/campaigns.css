@@ -1,0 +1,42 @@
+/* Campaign imagery is a quiet, touch-driven extension of the collection. */
+html body #catalog-campaigns{max-width:1040px;min-width:0;margin:0 auto 22px;padding:0;background:transparent}
+html body #hero>#catalog-campaigns{width:100%;flex:none;margin:0;max-width:1040px;align-self:center}
+html body .sl-campaign-pagination{display:flex;justify-content:center;align-items:center;gap:2px;margin-top:2px}
+html body .sl-campaign-pagination[hidden]{display:none!important}
+html body .sl-campaign-pagination button{display:grid;place-items:center;width:30px;min-height:30px;padding:0;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:#e1cfa4;cursor:pointer}
+html body .sl-campaign-dot{display:block;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.35;transition:opacity .2s,transform .2s}
+html body .sl-campaign-pagination button[aria-pressed=true] .sl-campaign-dot{opacity:1;transform:scale(1.15)}
+html body .sl-campaign-pagination button:focus-visible{outline:1px solid #cbb477;outline-offset:2px}
+html body .sl-campaign-track{display:flex;gap:12px;min-width:0;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y pinch-zoom;scroll-behavior:smooth;padding:2px 0 0}
+html body .sl-campaign-track::-webkit-scrollbar{display:none}
+html body .sl-campaign-track[data-jump=true]{scroll-behavior:auto!important;scroll-snap-type:none}
+html body .sl-campaign-track:focus-visible{outline:1px solid #cbb477;outline-offset:4px}
+html body .sl-campaign-card{display:block;position:relative;flex:0 0 min(62%,620px);min-width:0;aspect-ratio:2.15;overflow:hidden;scroll-snap-align:start;scroll-snap-stop:normal;isolation:isolate;background:#0b0907;border:0;border-radius:3px;color:#fff;text-decoration:none}
+/* Keep a single fine frame above the image, its zoom and the caption shade. */
+html body .sl-campaign-card::before{content:'';position:absolute;z-index:2;inset:0;border:1px solid #cbb477b3;border-radius:inherit;pointer-events:none;opacity:.76;transition:opacity .35s ease}
+html body .sl-campaign-card[data-active=true]::before,html body .sl-campaign-card:hover::before,html body .sl-campaign-card:focus-visible::before{opacity:1}
+@supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
+  html body .sl-campaign-card::before{border:0;padding:1px;background:linear-gradient(135deg,#ead39ad9 0%,#cbb477a6 38%,#a27c427a 68%,#e5ca91cf 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+}
+html body .sl-campaign-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:var(--campaign-focus,center);transition:transform 1s cubic-bezier(.22,1,.36,1);transform:scale(1)}
+html body .sl-campaign-card[data-active=true] img{transform:scale(1.014)}
+html body .sl-campaign-card::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 38%,#08060420 53%,#080604c9 100%)}
+html body .sl-campaign-caption{position:absolute;z-index:1;bottom:20px;left:24px;right:20px;display:flex;flex-direction:column;gap:5px}
+html body .sl-campaign-caption .sl-campaign-brand{color:#eee3cf;font:400 .625rem/1.4 Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+html body .sl-campaign-caption strong{color:#fff5e5;font:400 clamp(24px,2.4vw,32px)/1.1 'Cormorant Garamond',serif}
+html body .sl-campaign-card:hover img{transform:scale(1.035)}
+html body .sl-campaign-card:focus-visible{outline:2px solid #dec99b;outline-offset:-3px}
+@media(max-width:720px){
+  html body #catalog-campaigns{margin-bottom:14px}
+  html body #hero>#catalog-campaigns{margin:0}
+  html body .sl-campaign-pagination button{width:30px}
+  html body .sl-campaign-track{gap:10px}
+  html body .sl-campaign-card{flex-basis:84%;aspect-ratio:1.78;border-radius:2px}
+  html body .sl-campaign-caption{left:16px;right:14px;bottom:14px;gap:4px}
+  html body .sl-campaign-caption strong{font-size:26px}
+}
+@media(prefers-reduced-motion:reduce){
+  html body .sl-campaign-track{scroll-behavior:auto}
+  html body .sl-campaign-card img,html body .sl-campaign-dot{transition:none}
+  html body .sl-campaign-card:hover img,html body .sl-campaign-card[data-active=true] img{transform:none}
+}

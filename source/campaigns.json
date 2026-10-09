@@ -1,0 +1,170 @@
+[
+  {
+    "productId": 1,
+    "image": "assets/campaign-aventus.webp",
+    "position": "55% 50%",
+    "alt": "Frasco de Creed Aventus na areia, em imagem oficial da Creed.",
+    "sourcePage": "https://www.creedfragrance.com/c/journal/a-collection-of-true-distinction/",
+    "originalImage": "https://static.thcdn.com/widgets/216-us/11/original-av_blog_desktop-091011.png",
+    "width": 1920,
+    "height": 700,
+    "originalSha256": "99f108005b00a334c4b7ad478f23c57f0591afe4287dbae2da7dd85e2956fff1",
+    "media": {
+      "width": 1920,
+      "height": 700,
+      "originalSha256": "b2b1490eae7a972895a1350e6c2d98171ac0e6c21a48a4fef27afbe5c95b6be1",
+      "sources": [
+        {
+          "url": "assets/responsive/campaign-aventus-640-65feda13e297.webp",
+          "width": 640,
+          "height": 233,
+          "bytes": 78086,
+          "quality": 94,
+          "psnr": 41.82
+        },
+        {
+          "url": "assets/campaign-aventus.webp",
+          "width": 1920,
+          "bytes": 454762
+        }
+      ]
+    }
+  },
+  {
+    "productId": 6,
+    "image": "assets/campaign-miss-dior.webp",
+    "position": "50% 45%",
+    "alt": "Natalie Portman entre flores, na campanha oficial de Miss Dior Eau de Parfum.",
+    "sourcePage": "https://www.dior.com/en_us/beauty/discover-miss-dior-eau-de-parfum/discover-miss-dior-eau-de-parfum.html",
+    "originalImage": "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Library-Sites-DiorSharedLibrary/default/dw15ac0a55/images/beauty/discovery-pages/fragrance/MDEDP2021/Poster_video_TVC_MD.JPG?sw=1680",
+    "width": 1680,
+    "height": 938,
+    "originalSha256": "42f0068f0e5b21f72942e40f0e23ca291543d758253a94df6723f50246b7fbda",
+    "media": {
+      "width": 1680,
+      "height": 938,
+      "originalSha256": "c8f0c6b262a10e5363232022b955f2eabde27e3951ecc87d1403e7f2d21c3df7",
+      "sources": [
+        {
+          "url": "assets/campaign-miss-dior.webp",
+          "width": 1680,
+          "bytes": 320378
+        }
+      ]
+    }
+  },
+  {
+    "productId": 2,
+    "image": "assets/campaign-tobacco-vanille.webp",
+    "position": "50% 60%",
+    "alt": "Frasco de Tom Ford Tobacco Vanille Eau de Parfum com folhas de tabaco e baunilha.",
+    "sourcePage": "https://www.tomfordbeauty.com/products/tobacco-vanille-eau-de-parfum",
+    "originalImage": "https://www.tomfordbeauty.com/cdn/shop/files/tf_sku_T01K01_2000x2000_1.jpg?v=1791498379&width=2000",
+    "originalWidth": 2000,
+    "originalHeight": 2000,
+    "originalSha256": "5c26cce41a76c12b7ed41f3a8fd9f0992c8fab44d39c37e10e8ed7fde8a0cdc9",
+    "width": 1280,
+    "height": 1280,
+    "media": {
+      "width": 1280,
+      "height": 1280,
+      "originalSha256": "175b1227e08aa171a78f8d9b517df6445993f99110ab453ccbde9cd8255fbef7",
+      "sources": [
+        {
+          "url": "assets/campaign-tobacco-vanille.webp",
+          "width": 1280,
+          "bytes": 157740
+        }
+      ]
+    }
+  },
+  {
+    "productId": 12,
+    "image": "assets/campaign-libre.webp",
+    "position": "50% 57%",
+    "alt": "Frasco de Libre Eau de Parfum entre flores e o monograma dourado da Yves Saint Laurent.",
+    "sourcePage": "https://www.yslbeauty.co.uk/fragrances/fragrances-for-her/libre/libre-eau-de-parfum/WW-50424YSL.html",
+    "originalImage": "https://www.yslbeauty.co.uk/on/demandware.static/-/Sites-ysl-master-catalog/default/dwa5d12e13/pdp/WW-50424YSL/pdp-sec03-img-desk.jpg",
+    "width": 1170,
+    "height": 1170,
+    "originalSha256": "b1440a759864e4397b805ace7694a66216a82a9b875a22ed0478f60a149ab0a2",
+    "media": {
+      "width": 1170,
+      "height": 1170,
+      "originalSha256": "aa409d61fb54cfeba25e57130816dd39dd5415f5eaa4473288efe0c640900a1a",
+      "sources": [
+        {
+          "url": "assets/campaign-libre.webp",
+          "width": 1170,
+          "bytes": 484782
+        }
+      ]
+    }
+  },
+  {
+    "productId": 3,
+    "image": "assets/campaign-naxos.webp",
+    "position": "50% 65%",
+    "alt": "Frasco de Xerjoff Naxos 1861 com fitas verdes sobre um mapa da Sicília.",
+    "sourcePage": "https://www.xerjoff.com/en-hu/products/naxos-eau-de-parfum",
+    "originalImage": "https://www.xerjoff.com/cdn/shop/files/gallery-xerjoff-naxos-still.jpg?v=1778740907&width=1946",
+    "originalWidth": 1604,
+    "originalHeight": 1604,
+    "originalSha256": "36583b7648ef12378f375a803333002fb87ee2a2d5aeae2547998bf704f23c23",
+    "width": 1280,
+    "height": 1280,
+    "media": {
+      "width": 1280,
+      "height": 1280,
+      "originalSha256": "738d4b8c43f25298c7365beee29d9d7a384523038affb3211a167195ca72c692",
+      "sources": [
+        {
+          "url": "assets/responsive/campaign-naxos-640-dd59520c56a2.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 123826,
+          "quality": 98,
+          "psnr": 41.15
+        },
+        {
+          "url": "assets/campaign-naxos.webp",
+          "width": 1280,
+          "bytes": 185964
+        }
+      ]
+    }
+  },
+  {
+    "productId": 26,
+    "image": "assets/campaign-irresistible.webp",
+    "position": "50% 55%",
+    "alt": "Frasco de Givenchy Irresistible Eau de Parfum entre rosas, pera e madeira clara.",
+    "sourcePage": "https://www.givenchybeauty.com/en/pt/p/irresistible-P090767.html",
+    "originalImage": "https://www.givenchybeauty.com/dw/image/v2/BBZW_PRD/on/demandware.static/-/Library-Sites-GivenchySharedLibrary/default/dwaaad6a2d/pageDesigner/PDP/Fragrance/IRRESISTIBLE/F10100128/IRRESISTIBLE-NECTAR-STILL-LIFE-BOTTLE-%26-INGREDIENTS-EAU-DE-PARFUM-1x1.jpg?sw=2000&sh=2000&strip=false",
+    "originalWidth": 2000,
+    "originalHeight": 2000,
+    "originalSha256": "af3291e122311bed41955118c74983144ec0019a32cfe4663945896be755c43c",
+    "width": 1280,
+    "height": 1280,
+    "media": {
+      "width": 1280,
+      "height": 1280,
+      "originalSha256": "2b552925377ca5516907e04e5dbbbbcd4f4fd4a391a629e79fbdf51ed0059bdf",
+      "sources": [
+        {
+          "url": "assets/responsive/campaign-irresistible-640-035354eb29ba.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 69104,
+          "quality": 94,
+          "psnr": 43.63
+        },
+        {
+          "url": "assets/campaign-irresistible.webp",
+          "width": 1280,
+          "bytes": 126438
+        }
+      ]
+    }
+  }
+]

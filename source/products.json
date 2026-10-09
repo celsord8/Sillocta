@@ -1,1 +1,1388 @@
-[{"id": 1, "brand": "Creed", "name": "Aventus", "type": "Eau de Parfum", "gender": "m", "prices": {"5": 14500, "10": 24500}, "oldPrices": {"5": 16000, "10": 28000}, "notes": ["Abacaxi", "Bergamota", "Bétula"], "image": "assets/perfume-1.jpg", "available": true, "badge": "", "description": "Aventus combina o frescor da bergamota com um acorde de abacaxi e a presença esfumaçada da bétula. Uma composição frutada e amadeirada que alterna luminosidade e profundidade, com uma assinatura seca e marcante.", "profile": "Amadeirado · Frutado", "descriptionSource": {"name": "Creed", "url": "https://www.creedfragrance.com/p/aventus/12870029/"}}, {"id": 2, "brand": "Tom Ford", "name": "Tobacco Vanille", "type": "Eau de Parfum", "gender": "m", "prices": {"5": 16500, "10": 29500}, "oldPrices": {"5": 18000, "10": 32000}, "notes": ["Tabaco", "Baunilha", "Cacau"], "image": "assets/perfume-2.jpg", "available": true, "badge": "", "description": "Folhas de tabaco e especiarias encontram a cremosidade da baunilha, acompanhadas por cacau, fava tonka e frutas secas. Tobacco Vanille tem um perfil quente e encorpado, no qual a doçura se equilibra com nuances amadeiradas.", "profile": "Ambarado · Especiado", "descriptionSource": {"name": "Tom Ford Beauty", "url": "https://www.tomfordbeauty.com/products/tobacco-vanille-eau-de-parfum"}}, {"id": 3, "brand": "Xerjoff", "name": "Naxos", "type": "Eau de Parfum", "gender": "m", "prices": {"5": 18900, "10": 34900}, "oldPrices": {"5": 21000, "10": 38000}, "notes": ["Lavanda", "Mel", "Tabaco"], "image": "assets/perfume-3.jpg", "available": true, "badge": "", "description": "Naxos abre com bergamota, limão e lavanda, antes de revelar um coração de mel com nuances de canela. Tabaco, baunilha e fava tonka dão profundidade à composição, unindo o frescor aromático a um fundo quente e gourmand.", "profile": "Aromático · Gourmand", "descriptionSource": {"name": "Xerjoff", "url": "https://www.xerjoff.com/en-us/products/naxos-eau-de-parfum"}}, {"id": 4, "brand": "Maison Francis Kurkdjian", "name": "Baccarat Rouge 540", "type": "Eau de Parfum", "gender": "m", "prices": {"5": 13500, "10": 24500}, "oldPrices": {"5": 15000, "10": 27000}, "notes": ["Açafrão", "Jasmim", "Acorde ambarado"], "image": "assets/perfume-4.jpg", "available": true, "badge": "", "description": "Jasmim e açafrão iluminam uma composição que combina acordes de âmbar cinzento, madeiras secas e uma doçura sutil. Baccarat Rouge 540 Eau de Parfum explora o contraste entre transparência floral e densidade ambarada, com uma assinatura envolvente.", "profile": "Floral · Ambarado · Amadeirado", "descriptionSource": {"name": "Maison Francis Kurkdjian", "url": "https://www.franciskurkdjian.com/us-en/p/baccarat-rouge-540-eau-de-parfum-RA12232.html"}}, {"id": 5, "brand": "Burberry", "name": "Her", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 7100, "10": 13400}, "oldPrices": {"5": 8000, "10": 15000}, "notes": ["Frutas vermelhas", "Violeta", "Jasmim"], "image": "assets/perfume-5.jpg", "available": true, "badge": "", "description": "Burberry Her Eau de Parfum reúne frutas vermelhas e escuras com um coração de violeta e jasmim. O fundo de âmbar e madeiras brancas acrescenta uma textura cremosa ao perfume, equilibrando o lado frutado com uma assinatura floral gourmand.", "profile": "Frutado · Floral · Gourmand", "descriptionSource": {"name": "Burberry", "url": "https://br.burberry.com/c/burberry-her/?brbref=beauty_lp_burberry_her_lp"}}, {"id": 6, "brand": "Dior", "name": "Miss Dior", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 8000, "10": 15200}, "oldPrices": {"5": 9000, "10": 17000}, "notes": ["Rosa centifolia", "Peônia", "Íris"], "image": "assets/perfume-6.jpg", "available": true, "badge": "", "description": "Um buquê construído em torno da rosa centifolia, com a leveza do lírio-do-vale, o acorde de peônia e a delicadeza atalcada da íris. Miss Dior apresenta um floral aveludado, equilibrando o frescor das pétalas com uma textura macia.", "profile": "Floral · Aveludado", "descriptionSource": {"name": "Dior", "url": "https://www.dior.com/en_int/beauty/products/personalizable-miss-dior-eau-de-parfum-C099700167.html"}}, {"id": 7, "brand": "Jean Paul Gaultier", "name": "Scandal Intense", "type": "Eau de Parfum Intense", "gender": "f", "prices": {"5": 8000, "10": 16100}, "oldPrices": {"5": 9000, "10": 18000}, "notes": ["Cardamomo", "Ylang-ylang", "Baunilha"], "image": "assets/perfume-7.jpg", "available": true, "badge": "Novo", "description": "Scandal Intense combina a riqueza floral do ylang-ylang com o toque especiado do cardamomo e a textura cremosa da baunilha. Um floral ambarado de caráter quente, que destaca o contraste entre pétalas exuberantes e uma doçura envolvente.", "profile": "Floral · Ambarado · Especiado", "descriptionSource": {"name": "Jean Paul Gaultier", "url": "https://www.jeanpaulgaultier.com/br/pt/p/linha-scandal/scandal-intense-eau-de-parfum-intense-000000000065214933"}}, {"id": 8, "brand": "Armaf", "name": "Club de Nuit Woman", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 7900, "10": 14900}, "oldPrices": {"5": 8900, "10": 17100}, "notes": ["Pêssego", "Rosa", "Patchouli"], "image": "assets/perfume-8.jpg", "available": true, "badge": "", "description": "Bergamota, toranja, laranja e pêssego dão início a um coração de rosa, jasmim, gerânio e lichia. Club de Nuit Woman termina com patchouli, vetiver, almíscar e baunilha, criando um floral frutado com estrutura amadeirada e doçura equilibrada.", "profile": "Floral · Frutado", "descriptionSource": {"name": "Armaf", "url": "https://armaf.com/products/club-de-nuit-w"}}, {"id": 9, "brand": "Paco Rabanne", "name": "Fame", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 6200, "10": 13400}, "oldPrices": {"5": 6900, "10": 15000}, "notes": ["Manga", "Jasmim", "Incenso"], "image": "assets/perfume-9.jpg", "available": true, "badge": "Novo", "description": "Fame Eau de Parfum destaca o contraste entre manga suculenta, jasmim luminoso e um acorde de incenso cremoso. O resultado é um floral frutado que combina o frescor tropical da abertura com um fundo mais macio e envolvente.", "profile": "Floral · Frutado", "descriptionSource": {"name": "Rabanne", "url": "https://www.rabanne.com/us/en_US/fragrance/p/fame--000000000065170086"}}, {"id": 10, "brand": "Paco Rabanne", "name": "Fame In Love", "type": "Elixir", "gender": "f", "prices": {"5": 6200, "10": 13400}, "oldPrices": {"5": 6900, "10": 15000}, "notes": ["Morango", "Íris", "Baunilha"], "image": "assets/perfume-10.jpg", "available": true, "badge": "Novo", "description": "Fame In Love Elixir traz o morango como protagonista, acompanhado pela textura atalcada da íris e pelo calor da baunilha. Uma interpretação floral, frutada e amadeirada da linha Fame, que combina fruta suculenta com um fundo cremoso.", "profile": "Frutado · Floral · Amadeirado", "descriptionSource": {"name": "Rabanne", "url": "https://www.rabanne.com/ww/en/fragrance/p/fame-in-love--000000000065215585"}}, {"id": 11, "brand": "Yves Saint Laurent", "name": "Libre L'Absolu Platine", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 9800, "10": 16100}, "oldPrices": {"5": 11000, "10": 18000}, "notes": ["Lavanda branca", "Lavanda Diva", "Flor de laranjeira"], "image": "assets/perfume-11.jpg", "available": true, "badge": "Novo", "description": "Libre L’Absolu Platine explora o contraste entre a lavanda fresca e o absoluto de flor de laranjeira. O acorde de lavanda branca amplia a faceta fria e luminosa da composição, enquanto o coração floral acrescenta uma presença mais quente.", "profile": "Floral · Aromático", "descriptionSource": {"name": "Yves Saint Laurent Beauty", "url": "https://www.yslbeauty.com/int/fragrance/feminine-fragrance/libre/libre-l-absolu-platine/WW-51114YSL.html"}}, {"id": 12, "brand": "Yves Saint Laurent", "name": "Libre", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 9800, "10": 16100}, "oldPrices": {"5": 11000, "10": 18000}, "notes": ["Lavanda", "Flor de laranjeira", "Baunilha"], "image": "assets/perfume-12.jpg", "available": true, "badge": "Novo", "description": "Libre Eau de Parfum aproxima a lavanda francesa da flor de laranjeira marroquina, criando um contraste entre frescor aromático e intensidade floral. Baunilha e almíscar suavizam o fundo e acrescentam calor à assinatura da fragrância.", "profile": "Floral · Aromático", "descriptionSource": {"name": "Yves Saint Laurent Beauty", "url": "https://www.yslbeautyus.com/fragrance/womens-fragrances/libre/libre-eau-de-parfum/109YSL.html"}}, {"id": 13, "brand": "Chanel", "name": "Coco Mademoiselle", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 9800, "10": 17000}, "oldPrices": {"5": 11000, "10": 19000}, "notes": ["Laranja", "Rosa", "Patchouli"], "image": "assets/perfume-13.jpg", "available": false, "badge": "Esgotado", "description": "Coco Mademoiselle Eau de Parfum começa com o brilho cítrico da laranja e revela um coração de rosa e jasmim. Patchouli e vetiver dão estrutura ao fundo, formando uma composição ambarada e amadeirada que equilibra frescor e profundidade.", "profile": "Ambarado · Amadeirado", "descriptionSource": {"name": "Chanel", "url": "https://www.chanel.com/br/perfumes/p/116420/coco-mademoiselle-eau-de-parfum-spray/"}}, {"id": 14, "brand": "Chloé", "name": "Love Story", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 7100, "10": 14030}, "oldPrices": {"5": 8000, "10": 16000}, "notes": ["Néroli", "Flor de laranjeira", "Jasmim"], "image": "assets/perfume-14.jpg", "available": true, "badge": "", "description": "Love Story combina a abertura luminosa de néroli com flor de laranjeira e jasmim stephanotis. O cedro sustenta o buquê com uma base amadeirada delicada, compondo um floral fresco que valoriza a leveza das flores brancas.", "profile": "Floral · Fresco", "descriptionSource": {"name": "Chloé", "url": "https://www.chloe.com/en-us/p/fragrances/eau-de-parfum/CHCA64788116.html"}}, {"id": 15, "brand": "Maison Alhambra", "name": "La Voie", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 3500, "10": 6200}, "oldPrices": {"5": 3900, "10": 6900}, "notes": ["Flor de laranjeira", "Tuberosa", "Baunilha"], "image": "assets/perfume-15.jpg", "available": true, "badge": "", "description": "La Voie abre com bergamota e flor de laranjeira, evoluindo para um coração de jasmim e tuberosa. Baunilha, almíscar e cedro deixam o fundo mais macio, criando um floral branco que combina luminosidade cítrica e cremosidade.", "profile": "Floral · Flores brancas", "descriptionSource": {"name": "Maison Alhambra USA", "url": "https://maisonalhambra-usa.com/products/maison-alhambra-la-voie-eau-de-parfum-for-women"}}, {"id": 16, "brand": "Lancôme", "name": "La Vie Est Belle", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 6200, "10": 12500}, "oldPrices": {"5": 6900, "10": 14000}, "notes": ["Íris", "Patchouli", "Baunilha"], "image": "assets/perfume-16.jpg", "available": false, "badge": "Esgotado", "description": "La Vie Est Belle reúne a textura delicada da íris, a profundidade do patchouli e um acorde gourmand de baunilha. Pera e cassis iluminam a abertura, enquanto pralinê e fava tonka reforçam o caráter doce e acolhedor do fundo.", "profile": "Floral · Gourmand", "descriptionSource": {"name": "Lancôme", "url": "https://www.lancome.com.br/perfume-feminino-la-vie-est-belle-eau-de-parfum/LABR3605532612768.html"}}, {"id": 17, "brand": "Lattafa", "name": "Teriaq", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 2600, "10": 5300}, "oldPrices": {"5": 2900, "10": 5900}, "notes": ["Caramelo", "Mel", "Couro"], "image": "assets/perfume-17.jpg", "available": true, "badge": "Novo", "description": "Teriaq combina caramelo, amêndoa amarga e damasco com uma abertura de pimenta rosa. Mel, flores brancas e ruibarbo criam contrastes no coração; baunilha, couro e notas resinosas dão profundidade a um gourmand de facetas doces e secas.", "profile": "Gourmand · Couro", "descriptionSource": {"name": "Lattafa", "url": "https://lattafa.com/product/teriaq/"}}, {"id": 18, "brand": "Maison Alhambra", "name": "Rose Origami", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 4400, "10": 8000}, "oldPrices": {"5": 4900, "10": 9000}, "notes": ["Rosa", "Café", "Sândalo"], "image": "assets/perfume-18.jpg", "available": true, "badge": "", "description": "Rose Origami aproxima rosas turca e búlgara de um acorde de café, com nuances de cardamomo, coentro e patchouli. Sândalo e olíbano sustentam o fundo, criando um floral de caráter quente, especiado e amadeirado.", "profile": "Floral · Especiado · Amadeirado", "descriptionSource": {"name": "Maison Alhambra USA", "url": "https://maisonalhambra-usa.com/products/maison-alhambra-rose-origami-eau-de-parfum-for-everyone"}}, {"id": 19, "brand": "Al Wataniah", "name": "Sabah Al Ward", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 4400, "10": 8000}, "oldPrices": {"5": 4900, "10": 9000}, "notes": ["Mandarina", "Cacau", "Baunilha"], "image": "assets/perfume-19.jpg", "available": true, "badge": "", "description": "Sabah Al Ward começa com mandarina e pimenta rosa e revela um coração de cacau, flor de laranjeira e jasmim sambac. Baunilha, fava tonka e patchouli completam a composição, aproximando o frescor cítrico de uma doçura quente e floral.", "profile": "Floral · Ambarado", "descriptionSource": {"name": "Al Wataniah", "url": "https://www.alwataniah.com/products/sabah-al-ward"}}, {"id": 20, "brand": "Maison Alhambra", "name": "Narissa et moi", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 3500, "10": 6200}, "oldPrices": {"5": 3900, "10": 6900}, "notes": ["Pêssego", "Tuberosa", "Caramelo"], "image": "assets/perfume-20.jpg", "available": true, "badge": "", "description": "Narissa et moi abre com cassis e pêssego e ganha um coração floral de rosa, jasmim, magnólia e tuberosa. Caramelo, coco e um acorde de leite acrescentam cremosidade ao fundo amadeirado, formando uma assinatura frutada, floral e gourmand.", "profile": "Floral · Frutado · Gourmand", "descriptionSource": {"name": "Maison Alhambra USA", "url": "https://maisonalhambra-usa.com/products/maison-alhambra-narissa-et-moi-eau-de-parfum-for-women"}}, {"id": 21, "brand": "Dior", "name": "Forever and Ever", "type": "Eau de Toilette", "gender": "f", "prices": {"5": 7200, "10": 13400}, "oldPrices": {"5": 8100, "10": 15000}, "notes": ["Frésia", "Jasmim", "Rosa"], "image": "assets/perfume-21.jpg", "available": true, "badge": "Novo", "description": "Forever and Ever é um floral delicado que reúne frésia, pétalas de jasmim e rosa búlgara. Sua assinatura fresca e almiscarada lembra um buquê recém-aberto, com uma composição suave que valoriza a luminosidade das flores.", "profile": "Floral · Almiscarado", "descriptionSource": {"name": "Dior", "url": "https://www.dior.com/en_qa/beauty/products/forever-and-ever-dior-Y0030726.html"}}, {"id": 22, "brand": "Dolce&Gabbana", "name": "Devotion", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 7100, "10": 13400}, "oldPrices": {"5": 8000, "10": 15000}, "notes": ["Cítricos cristalizados", "Flor de laranjeira", "Baunilha"], "image": "assets/perfume-22.jpg", "available": true, "badge": "Novo", "description": "Devotion Eau de Parfum combina a doçura dos cítricos cristalizados com a luminosidade da flor de laranjeira e um fundo de baunilha. Uma composição gourmand que conserva o brilho cítrico na abertura e ganha uma textura quente e cremosa.", "profile": "Cítrico · Gourmand", "descriptionSource": {"name": "Dolce&Gabbana", "url": "https://www.dolcegabbana.com/en-us/beauty/perfumes-for-her/devotion-duo-edp-gift-set---158054754400526.html"}}, {"id": 23, "brand": "Maison Alhambra", "name": "Reyna", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 3500, "10": 6200}, "oldPrices": {"5": 3900, "10": 6900}, "notes": ["Framboesa", "Flor de laranjeira", "Marshmallow"], "image": "assets/perfume-23.jpg", "available": true, "badge": "Novo", "description": "Reyna parte de mandarina, bergamota e toranja para um coração de framboesa, cassis e flor de laranjeira. Acordes de marshmallow e chantilly se unem ao almíscar no fundo, dando uma textura macia e doce ao floral frutado.", "profile": "Floral · Frutado · Gourmand", "descriptionSource": {"name": "Fragrantica", "url": "https://www.fragrantica.com/perfume/Maison-Alhambra/Reyna-89732.html"}}, {"id": 24, "brand": "Maison Alhambra", "name": "Léonie", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 3500, "10": 6200}, "oldPrices": {"5": 3900, "10": 6900}, "notes": ["Lavanda", "Flor de laranjeira", "Baunilha"], "image": "assets/perfume-24.jpg", "available": true, "badge": "Novo", "description": "Léonie combina lavanda, mandarina, petitgrain e cassis na abertura, seguida por flor de laranjeira e jasmim. Baunilha, almíscar e cedro suavizam o fundo, criando um floral aromático que alterna frescor cítrico e calor delicado.", "profile": "Floral · Aromático", "descriptionSource": {"name": "Fragrantica", "url": "https://www.fragrantica.com/perfume/Maison-Alhambra/Leonie-95881.html"}}, {"id": 25, "brand": "New Brand", "name": "Dangerous Woman", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 1700, "10": 3140}, "oldPrices": {"5": 1900, "10": 3500}, "notes": ["Baunilha", "Caramelo", "Fava tonka"], "image": "assets/perfume-25.jpg", "available": true, "badge": "Novo", "description": "Dangerous Woman, da New Brand, tem um perfil oriental gourmand que reúne facetas de caramelo e frutas com um coração floral. Baunilha e fava tonka dão uma textura doce e cremosa ao fundo, acompanhadas por nuances de jasmim e flor de laranjeira.", "profile": "Ambarado · Gourmand", "descriptionSource": {"name": "Beleza na Web", "url": "https://www.belezanaweb.com.br/dangerous-woman-new-brand-prestige-eau-de-parfum-perfume-feminino-100ml/"}}, {"id": 26, "brand": "Givenchy", "name": "Irresistible", "type": "Eau de Parfum", "gender": "f", "prices": {"5": 7100, "10": 14300}, "oldPrices": {"5": 8000, "10": 16000}, "notes": ["Pera", "Rosa", "Íris"], "image": "assets/perfume-26.jpg", "available": true, "badge": "Novo", "description": "Irresistible Eau de Parfum combina pera e ambrette com um coração de rosa e íris. O contraste entre as flores, o cedro e as madeiras claras cria uma assinatura frutada e amadeirada, suavizada por uma faceta almiscarada.", "profile": "Floral · Frutado · Amadeirado", "descriptionSource": {"name": "Givenchy Beauty", "url": "https://www.givenchybeauty.com/int/en/p/irresistible-P036173.html"}}]
+[
+  {
+    "id": 1,
+    "brand": "Creed",
+    "name": "Aventus",
+    "type": "Eau de Parfum",
+    "gender": "m",
+    "prices": {
+      "5": 14500,
+      "10": 24500
+    },
+    "oldPrices": {
+      "5": 16000,
+      "10": 28000
+    },
+    "notes": [
+      "Abacaxi",
+      "Bergamota",
+      "Bétula"
+    ],
+    "image": "assets/perfume-1.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Aventus combina o frescor da bergamota com um acorde de abacaxi e a presença esfumaçada da bétula. Uma composição frutada e amadeirada que alterna luminosidade e profundidade, com uma assinatura seca e marcante.",
+    "profile": "Amadeirado · Frutado",
+    "descriptionSource": {
+      "name": "Creed",
+      "url": "https://www.creedfragrance.com/p/aventus/12870029/"
+    },
+    "media": {
+      "width": 800,
+      "height": 1000,
+      "originalSha256": "dadb73d7e23fd6cefd81b5f011ad3b0bb5c1e2db52ac22eca9175b93a813aa96",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-1-320-5822c047f93a.webp",
+          "width": 320,
+          "height": 400,
+          "bytes": 28810,
+          "quality": 94,
+          "psnr": 43.22
+        },
+        {
+          "url": "assets/responsive/perfume-1-640-29daa81d3613.webp",
+          "width": 640,
+          "height": 800,
+          "bytes": 83754,
+          "quality": 94,
+          "psnr": 45.06
+        },
+        {
+          "url": "assets/perfume-1.jpg",
+          "width": 800,
+          "bytes": 148491
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "brand": "Tom Ford",
+    "name": "Tobacco Vanille",
+    "type": "Eau de Parfum",
+    "gender": "m",
+    "prices": {
+      "5": 16500,
+      "10": 29500
+    },
+    "oldPrices": {
+      "5": 18000,
+      "10": 32000
+    },
+    "notes": [
+      "Tabaco",
+      "Baunilha",
+      "Cacau"
+    ],
+    "image": "assets/perfume-2.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Folhas de tabaco e especiarias encontram a cremosidade da baunilha, acompanhadas por cacau, fava tonka e frutas secas. Tobacco Vanille tem um perfil quente e encorpado, no qual a doçura se equilibra com nuances amadeiradas.",
+    "profile": "Ambarado · Especiado",
+    "descriptionSource": {
+      "name": "Tom Ford Beauty",
+      "url": "https://www.tomfordbeauty.com/products/tobacco-vanille-eau-de-parfum"
+    },
+    "media": {
+      "width": 800,
+      "height": 1000,
+      "originalSha256": "20bcfa82f5f24b4c6c88b93598a183635ce6912a8c316fb2083084f45520f330",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-2-320-30cf0695c5bc.webp",
+          "width": 320,
+          "height": 400,
+          "bytes": 25542,
+          "quality": 94,
+          "psnr": 43.25
+        },
+        {
+          "url": "assets/responsive/perfume-2-640-f25a6ba5e4fa.webp",
+          "width": 640,
+          "height": 800,
+          "bytes": 81582,
+          "quality": 94,
+          "psnr": 44.94
+        },
+        {
+          "url": "assets/perfume-2.jpg",
+          "width": 800,
+          "bytes": 149841
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "brand": "Xerjoff",
+    "name": "Naxos",
+    "type": "Eau de Parfum",
+    "gender": "m",
+    "prices": {
+      "5": 18900,
+      "10": 34900
+    },
+    "oldPrices": {
+      "5": 21000,
+      "10": 38000
+    },
+    "notes": [
+      "Lavanda",
+      "Mel",
+      "Tabaco"
+    ],
+    "image": "assets/perfume-3.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Naxos abre com bergamota, limão e lavanda, antes de revelar um coração de mel com nuances de canela. Tabaco, baunilha e fava tonka dão profundidade à composição, unindo o frescor aromático a um fundo quente e gourmand.",
+    "profile": "Aromático · Gourmand",
+    "descriptionSource": {
+      "name": "Xerjoff",
+      "url": "https://www.xerjoff.com/en-us/products/naxos-eau-de-parfum"
+    },
+    "media": {
+      "width": 800,
+      "height": 1000,
+      "originalSha256": "93ca2b983a4d4fa8f73d7ab2783240e7f3fc4166a6f7abe3a73eb01359fc8cb3",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-3-320-8f8eee62ac2c.webp",
+          "width": 320,
+          "height": 400,
+          "bytes": 24076,
+          "quality": 94,
+          "psnr": 44.31
+        },
+        {
+          "url": "assets/responsive/perfume-3-640-c95124d8651d.webp",
+          "width": 640,
+          "height": 800,
+          "bytes": 66764,
+          "quality": 94,
+          "psnr": 46.07
+        },
+        {
+          "url": "assets/perfume-3.jpg",
+          "width": 800,
+          "bytes": 122881
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "brand": "Maison Francis Kurkdjian",
+    "name": "Baccarat Rouge 540",
+    "type": "Eau de Parfum",
+    "gender": "m",
+    "prices": {
+      "5": 13500,
+      "10": 24500
+    },
+    "oldPrices": {
+      "5": 15000,
+      "10": 27000
+    },
+    "notes": [
+      "Açafrão",
+      "Jasmim",
+      "Acorde ambarado"
+    ],
+    "image": "assets/perfume-4.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Jasmim e açafrão iluminam uma composição que combina acordes de âmbar cinzento, madeiras secas e uma doçura sutil. Baccarat Rouge 540 Eau de Parfum explora o contraste entre transparência floral e densidade ambarada, com uma assinatura envolvente.",
+    "profile": "Floral · Ambarado · Amadeirado",
+    "descriptionSource": {
+      "name": "Maison Francis Kurkdjian",
+      "url": "https://www.franciskurkdjian.com/us-en/p/baccarat-rouge-540-eau-de-parfum-RA12232.html"
+    },
+    "media": {
+      "width": 800,
+      "height": 1000,
+      "originalSha256": "46c7c5e5599d303b6ae3d989a4282489f40e884bd8f7f7a55d3cc5c7fc52644e",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-4-320-2a04f989a6ff.webp",
+          "width": 320,
+          "height": 400,
+          "bytes": 19736,
+          "quality": 94,
+          "psnr": 43.29
+        },
+        {
+          "url": "assets/responsive/perfume-4-640-fd5b34eccce5.webp",
+          "width": 640,
+          "height": 800,
+          "bytes": 54538,
+          "quality": 94,
+          "psnr": 45.98
+        },
+        {
+          "url": "assets/perfume-4.jpg",
+          "width": 800,
+          "bytes": 108740
+        }
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "brand": "Burberry",
+    "name": "Her",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 7100,
+      "10": 13400
+    },
+    "oldPrices": {
+      "5": 8000,
+      "10": 15000
+    },
+    "notes": [
+      "Frutas vermelhas",
+      "Violeta",
+      "Jasmim"
+    ],
+    "image": "assets/perfume-5.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Burberry Her Eau de Parfum reúne frutas vermelhas e escuras com um coração de violeta e jasmim. O fundo de âmbar e madeiras brancas acrescenta uma textura cremosa ao perfume, equilibrando o lado frutado com uma assinatura floral gourmand.",
+    "profile": "Frutado · Floral · Gourmand",
+    "descriptionSource": {
+      "name": "Burberry",
+      "url": "https://br.burberry.com/c/burberry-her/?brbref=beauty_lp_burberry_her_lp"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "b2c284ab5ab6027a97ffa51614646ea82d48c57fdb9247d6309445b27c877865",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-5-320-6929a526870b.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 18948,
+          "quality": 94,
+          "psnr": 43.56
+        },
+        {
+          "url": "assets/responsive/perfume-5-640-73fa204e6b39.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 54624,
+          "quality": 94,
+          "psnr": 45.21
+        },
+        {
+          "url": "assets/perfume-5.jpg",
+          "width": 870,
+          "bytes": 153544
+        }
+      ]
+    }
+  },
+  {
+    "id": 6,
+    "brand": "Dior",
+    "name": "Miss Dior",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 8000,
+      "10": 15200
+    },
+    "oldPrices": {
+      "5": 9000,
+      "10": 17000
+    },
+    "notes": [
+      "Rosa centifolia",
+      "Peônia",
+      "Íris"
+    ],
+    "image": "assets/perfume-6.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Um buquê construído em torno da rosa centifolia, com a leveza do lírio-do-vale, o acorde de peônia e a delicadeza atalcada da íris. Miss Dior apresenta um floral aveludado, equilibrando o frescor das pétalas com uma textura macia.",
+    "profile": "Floral · Aveludado",
+    "descriptionSource": {
+      "name": "Dior",
+      "url": "https://www.dior.com/en_int/beauty/products/personalizable-miss-dior-eau-de-parfum-C099700167.html"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "ebc81a00f5914a6bfca02acaba151ee6d0bec35e45a3b0a6617efb34d6680be0",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-6-320-56682efe8e1e.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 26152,
+          "quality": 94,
+          "psnr": 43.24
+        },
+        {
+          "url": "assets/responsive/perfume-6-640-b77f22e307c8.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 72960,
+          "quality": 94,
+          "psnr": 45.09
+        },
+        {
+          "url": "assets/perfume-6.jpg",
+          "width": 870,
+          "bytes": 178436
+        }
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "brand": "Jean Paul Gaultier",
+    "name": "Scandal Intense",
+    "type": "Eau de Parfum Intense",
+    "gender": "f",
+    "prices": {
+      "5": 8000,
+      "10": 16100
+    },
+    "oldPrices": {
+      "5": 9000,
+      "10": 18000
+    },
+    "notes": [
+      "Cardamomo",
+      "Ylang-ylang",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-7.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Scandal Intense combina a riqueza floral do ylang-ylang com o toque especiado do cardamomo e a textura cremosa da baunilha. Um floral ambarado de caráter quente, que destaca o contraste entre pétalas exuberantes e uma doçura envolvente.",
+    "profile": "Floral · Ambarado · Especiado",
+    "descriptionSource": {
+      "name": "Jean Paul Gaultier",
+      "url": "https://www.jeanpaulgaultier.com/br/pt/p/linha-scandal/scandal-intense-eau-de-parfum-intense-000000000065214933"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "2208e5ee05ead5cff9d8e439cdc04548eb998057ddca4008e3ce7134dca36d76",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-7-320-34f108448989.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 26080,
+          "quality": 94,
+          "psnr": 43.09
+        },
+        {
+          "url": "assets/responsive/perfume-7-640-53a8af589580.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 73018,
+          "quality": 94,
+          "psnr": 44.87
+        },
+        {
+          "url": "assets/perfume-7.jpg",
+          "width": 870,
+          "bytes": 174521
+        }
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "brand": "Armaf",
+    "name": "Club de Nuit Woman",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 7900,
+      "10": 14900
+    },
+    "oldPrices": {
+      "5": 8900,
+      "10": 17100
+    },
+    "notes": [
+      "Pêssego",
+      "Rosa",
+      "Patchouli"
+    ],
+    "image": "assets/perfume-8.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Bergamota, toranja, laranja e pêssego dão início a um coração de rosa, jasmim, gerânio e lichia. Club de Nuit Woman termina com patchouli, vetiver, almíscar e baunilha, criando um floral frutado com estrutura amadeirada e doçura equilibrada.",
+    "profile": "Floral · Frutado",
+    "descriptionSource": {
+      "name": "Armaf",
+      "url": "https://armaf.com/products/club-de-nuit-w"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "4ab76affa19564c8eae95bd91dead22d16f036b876a42a0dbe6e85258520d102",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-8-320-c96a4dcaab02.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 28070,
+          "quality": 94,
+          "psnr": 42.48
+        },
+        {
+          "url": "assets/responsive/perfume-8-640-69be733e9b28.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 79216,
+          "quality": 94,
+          "psnr": 44.36
+        },
+        {
+          "url": "assets/perfume-8.jpg",
+          "width": 870,
+          "bytes": 194389
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "brand": "Paco Rabanne",
+    "name": "Fame",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 6200,
+      "10": 13400
+    },
+    "oldPrices": {
+      "5": 6900,
+      "10": 15000
+    },
+    "notes": [
+      "Manga",
+      "Jasmim",
+      "Incenso"
+    ],
+    "image": "assets/perfume-9.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Fame Eau de Parfum destaca o contraste entre manga suculenta, jasmim luminoso e um acorde de incenso cremoso. O resultado é um floral frutado que combina o frescor tropical da abertura com um fundo mais macio e envolvente.",
+    "profile": "Floral · Frutado",
+    "descriptionSource": {
+      "name": "Rabanne",
+      "url": "https://www.rabanne.com/us/en_US/fragrance/p/fame--000000000065170086"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "579825d8aa723cdc9f2ed0e1b421899273cca52b097d5c41e3337a257d3f8031",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-9-320-07639e417695.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 29446,
+          "quality": 94,
+          "psnr": 41.55
+        },
+        {
+          "url": "assets/responsive/perfume-9-640-a0c37918d251.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 84516,
+          "quality": 94,
+          "psnr": 44.17
+        },
+        {
+          "url": "assets/perfume-9.jpg",
+          "width": 870,
+          "bytes": 216412
+        }
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "brand": "Paco Rabanne",
+    "name": "Fame In Love",
+    "type": "Elixir",
+    "gender": "f",
+    "prices": {
+      "5": 6200,
+      "10": 13400
+    },
+    "oldPrices": {
+      "5": 6900,
+      "10": 15000
+    },
+    "notes": [
+      "Morango",
+      "Íris",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-10.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Fame In Love Elixir traz o morango como protagonista, acompanhado pela textura atalcada da íris e pelo calor da baunilha. Uma interpretação floral, frutada e amadeirada da linha Fame, que combina fruta suculenta com um fundo cremoso.",
+    "profile": "Frutado · Floral · Amadeirado",
+    "descriptionSource": {
+      "name": "Rabanne",
+      "url": "https://www.rabanne.com/ww/en/fragrance/p/fame-in-love--000000000065215585"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "69da0befa42224199c48cc95de03acfbcb6cc575586a806bc37bc8fd4cc2f1f1",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-10-320-ad78941492b6.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 45292,
+          "quality": 98,
+          "psnr": 41.45
+        },
+        {
+          "url": "assets/responsive/perfume-10-640-32e2c76ddff2.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 98588,
+          "quality": 94,
+          "psnr": 43.43
+        },
+        {
+          "url": "assets/perfume-10.jpg",
+          "width": 870,
+          "bytes": 235802
+        }
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "brand": "Yves Saint Laurent",
+    "name": "Libre L'Absolu Platine",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 9800,
+      "10": 16100
+    },
+    "oldPrices": {
+      "5": 11000,
+      "10": 18000
+    },
+    "notes": [
+      "Lavanda branca",
+      "Lavanda Diva",
+      "Flor de laranjeira"
+    ],
+    "image": "assets/perfume-11.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Libre L’Absolu Platine explora o contraste entre a lavanda fresca e o absoluto de flor de laranjeira. O acorde de lavanda branca amplia a faceta fria e luminosa da composição, enquanto o coração floral acrescenta uma presença mais quente.",
+    "profile": "Floral · Aromático",
+    "descriptionSource": {
+      "name": "Yves Saint Laurent Beauty",
+      "url": "https://www.yslbeauty.com/int/fragrance/feminine-fragrance/libre/libre-l-absolu-platine/WW-51114YSL.html"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "13be262ba81ea9c7ccdb49c595c045c816e1942ee0d7da83a356b6647286b962",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-11-320-b071dd1544df.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 22220,
+          "quality": 94,
+          "psnr": 43.52
+        },
+        {
+          "url": "assets/responsive/perfume-11-640-bb796127b136.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 66084,
+          "quality": 94,
+          "psnr": 44.68
+        },
+        {
+          "url": "assets/perfume-11.jpg",
+          "width": 870,
+          "bytes": 184613
+        }
+      ]
+    }
+  },
+  {
+    "id": 12,
+    "brand": "Yves Saint Laurent",
+    "name": "Libre",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 9800,
+      "10": 16100
+    },
+    "oldPrices": {
+      "5": 11000,
+      "10": 18000
+    },
+    "notes": [
+      "Lavanda",
+      "Flor de laranjeira",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-12.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Libre Eau de Parfum aproxima a lavanda francesa da flor de laranjeira marroquina, criando um contraste entre frescor aromático e intensidade floral. Baunilha e almíscar suavizam o fundo e acrescentam calor à assinatura da fragrância.",
+    "profile": "Floral · Aromático",
+    "descriptionSource": {
+      "name": "Yves Saint Laurent Beauty",
+      "url": "https://www.yslbeautyus.com/fragrance/womens-fragrances/libre/libre-eau-de-parfum/109YSL.html"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "4c61075550843b0a2eb3893fb68ad15b3a6936f519be6386f1c1f8f67b74530b",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-12-320-1a401890cf61.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 31184,
+          "quality": 94,
+          "psnr": 41.32
+        },
+        {
+          "url": "assets/responsive/perfume-12-640-60841f2132d8.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 92072,
+          "quality": 94,
+          "psnr": 43.75
+        },
+        {
+          "url": "assets/perfume-12.jpg",
+          "width": 870,
+          "bytes": 228128
+        }
+      ]
+    }
+  },
+  {
+    "id": 13,
+    "brand": "Chanel",
+    "name": "Coco Mademoiselle",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 9800,
+      "10": 17000
+    },
+    "oldPrices": {
+      "5": 11000,
+      "10": 19000
+    },
+    "notes": [
+      "Laranja",
+      "Rosa",
+      "Patchouli"
+    ],
+    "image": "assets/perfume-13.jpg",
+    "available": false,
+    "badge": "Esgotado",
+    "description": "Coco Mademoiselle Eau de Parfum começa com o brilho cítrico da laranja e revela um coração de rosa e jasmim. Patchouli e vetiver dão estrutura ao fundo, formando uma composição ambarada e amadeirada que equilibra frescor e profundidade.",
+    "profile": "Ambarado · Amadeirado",
+    "descriptionSource": {
+      "name": "Chanel",
+      "url": "https://www.chanel.com/br/perfumes/p/116420/coco-mademoiselle-eau-de-parfum-spray/"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "e6c82d16ddd63004b1ea737275d363274a88fbb7080b540be7f33772431bae99",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-13-320-e421430344fa.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 22696,
+          "quality": 94,
+          "psnr": 42.98
+        },
+        {
+          "url": "assets/responsive/perfume-13-640-74b83bf5f598.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 61528,
+          "quality": 94,
+          "psnr": 45.35
+        },
+        {
+          "url": "assets/perfume-13.jpg",
+          "width": 870,
+          "bytes": 165671
+        }
+      ]
+    }
+  },
+  {
+    "id": 14,
+    "brand": "Chloé",
+    "name": "Love Story",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 7100,
+      "10": 14030
+    },
+    "oldPrices": {
+      "5": 8000,
+      "10": 16000
+    },
+    "notes": [
+      "Néroli",
+      "Flor de laranjeira",
+      "Jasmim"
+    ],
+    "image": "assets/perfume-14.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Love Story combina a abertura luminosa de néroli com flor de laranjeira e jasmim stephanotis. O cedro sustenta o buquê com uma base amadeirada delicada, compondo um floral fresco que valoriza a leveza das flores brancas.",
+    "profile": "Floral · Fresco",
+    "descriptionSource": {
+      "name": "Chloé",
+      "url": "https://www.chloe.com/en-us/p/fragrances/eau-de-parfum/CHCA64788116.html"
+    },
+    "media": {
+      "width": 806,
+      "height": 1080,
+      "originalSha256": "f8775c21f63d5e758a56a5999ab05387ba03181c9c4e19b58c884f623f7b0340",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-14-320-749b7c7bbc38.webp",
+          "width": 320,
+          "height": 429,
+          "bytes": 26950,
+          "quality": 94,
+          "psnr": 42.9
+        },
+        {
+          "url": "assets/perfume-14.jpg",
+          "width": 806,
+          "bytes": 154695
+        }
+      ]
+    }
+  },
+  {
+    "id": 15,
+    "brand": "Maison Alhambra",
+    "name": "La Voie",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 3500,
+      "10": 6200
+    },
+    "oldPrices": {
+      "5": 3900,
+      "10": 6900
+    },
+    "notes": [
+      "Flor de laranjeira",
+      "Tuberosa",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-15.jpg",
+    "available": true,
+    "badge": "",
+    "description": "La Voie abre com bergamota e flor de laranjeira, evoluindo para um coração de jasmim e tuberosa. Baunilha, almíscar e cedro deixam o fundo mais macio, criando um floral branco que combina luminosidade cítrica e cremosidade.",
+    "profile": "Floral · Flores brancas",
+    "descriptionSource": {
+      "name": "Maison Alhambra USA",
+      "url": "https://maisonalhambra-usa.com/products/maison-alhambra-la-voie-eau-de-parfum-for-women"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "c8fa8970025b58c13472416b2b1f5f18dce13d99a87cb610a8110d75399d6729",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-15-320-0a1380410f35.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 26418,
+          "quality": 94,
+          "psnr": 42.45
+        },
+        {
+          "url": "assets/perfume-15.jpg",
+          "width": 870,
+          "bytes": 190323
+        }
+      ]
+    }
+  },
+  {
+    "id": 16,
+    "brand": "Lancôme",
+    "name": "La Vie Est Belle",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 6200,
+      "10": 12500
+    },
+    "oldPrices": {
+      "5": 6900,
+      "10": 14000
+    },
+    "notes": [
+      "Íris",
+      "Patchouli",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-16.jpg",
+    "available": false,
+    "badge": "Esgotado",
+    "description": "La Vie Est Belle reúne a textura delicada da íris, a profundidade do patchouli e um acorde gourmand de baunilha. Pera e cassis iluminam a abertura, enquanto pralinê e fava tonka reforçam o caráter doce e acolhedor do fundo.",
+    "profile": "Floral · Gourmand",
+    "descriptionSource": {
+      "name": "Lancôme",
+      "url": "https://www.lancome.com.br/perfume-feminino-la-vie-est-belle-eau-de-parfum/LABR3605532612768.html"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "c3600b92535f4e78437da94e9f87f454ee07246ced069097da805a56a97bfd9e",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-16-320-ad94d48d0c5f.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 25732,
+          "quality": 94,
+          "psnr": 42.34
+        },
+        {
+          "url": "assets/perfume-16.jpg",
+          "width": 870,
+          "bytes": 201206
+        }
+      ]
+    }
+  },
+  {
+    "id": 17,
+    "brand": "Lattafa",
+    "name": "Teriaq",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 2600,
+      "10": 5300
+    },
+    "oldPrices": {
+      "5": 2900,
+      "10": 5900
+    },
+    "notes": [
+      "Caramelo",
+      "Mel",
+      "Couro"
+    ],
+    "image": "assets/perfume-17.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Teriaq combina caramelo, amêndoa amarga e damasco com uma abertura de pimenta rosa. Mel, flores brancas e ruibarbo criam contrastes no coração; baunilha, couro e notas resinosas dão profundidade a um gourmand de facetas doces e secas.",
+    "profile": "Gourmand · Couro",
+    "descriptionSource": {
+      "name": "Lattafa",
+      "url": "https://lattafa.com/product/teriaq/"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "e52fa1deef9f311765efc38c31040618cda56a05f93a91276fb9308ab2cefe24",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-17-320-fc31d18e52d0.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 39726,
+          "quality": 94,
+          "psnr": 41.19
+        },
+        {
+          "url": "assets/perfume-17.jpg",
+          "width": 870,
+          "bytes": 244484
+        }
+      ]
+    }
+  },
+  {
+    "id": 18,
+    "brand": "Maison Alhambra",
+    "name": "Rose Origami",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 4400,
+      "10": 8000
+    },
+    "oldPrices": {
+      "5": 4900,
+      "10": 9000
+    },
+    "notes": [
+      "Rosa",
+      "Café",
+      "Sândalo"
+    ],
+    "image": "assets/perfume-18.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Rose Origami aproxima rosas turca e búlgara de um acorde de café, com nuances de cardamomo, coentro e patchouli. Sândalo e olíbano sustentam o fundo, criando um floral de caráter quente, especiado e amadeirado.",
+    "profile": "Floral · Especiado · Amadeirado",
+    "descriptionSource": {
+      "name": "Maison Alhambra USA",
+      "url": "https://maisonalhambra-usa.com/products/maison-alhambra-rose-origami-eau-de-parfum-for-everyone"
+    },
+    "media": {
+      "width": 1024,
+      "height": 1024,
+      "originalSha256": "b167144e19e84000cb396143c6666b86c77073880e6de01dfe684632fa4ef926",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-18-320-2d4f4c9c13df.webp",
+          "width": 320,
+          "height": 320,
+          "bytes": 17844,
+          "quality": 94,
+          "psnr": 42.01
+        },
+        {
+          "url": "assets/responsive/perfume-18-640-57d8459bc041.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 54788,
+          "quality": 94,
+          "psnr": 44.1
+        },
+        {
+          "url": "assets/perfume-18.jpg",
+          "width": 1024,
+          "bytes": 211776
+        }
+      ]
+    }
+  },
+  {
+    "id": 19,
+    "brand": "Al Wataniah",
+    "name": "Sabah Al Ward",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 4400,
+      "10": 8000
+    },
+    "oldPrices": {
+      "5": 4900,
+      "10": 9000
+    },
+    "notes": [
+      "Mandarina",
+      "Cacau",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-19.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Sabah Al Ward começa com mandarina e pimenta rosa e revela um coração de cacau, flor de laranjeira e jasmim sambac. Baunilha, fava tonka e patchouli completam a composição, aproximando o frescor cítrico de uma doçura quente e floral.",
+    "profile": "Floral · Ambarado",
+    "descriptionSource": {
+      "name": "Al Wataniah",
+      "url": "https://www.alwataniah.com/products/sabah-al-ward"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "4c49635f7a34e18e4d12d8b360a62cdcecf66f56b7873521da188c828bd504f0",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-19-320-b32467313fac.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 38504,
+          "quality": 98,
+          "psnr": 41.76
+        },
+        {
+          "url": "assets/perfume-19.jpg",
+          "width": 870,
+          "bytes": 175708
+        }
+      ]
+    }
+  },
+  {
+    "id": 20,
+    "brand": "Maison Alhambra",
+    "name": "Narissa et moi",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 3500,
+      "10": 6200
+    },
+    "oldPrices": {
+      "5": 3900,
+      "10": 6900
+    },
+    "notes": [
+      "Pêssego",
+      "Tuberosa",
+      "Caramelo"
+    ],
+    "image": "assets/perfume-20.jpg",
+    "available": true,
+    "badge": "",
+    "description": "Narissa et moi abre com cassis e pêssego e ganha um coração floral de rosa, jasmim, magnólia e tuberosa. Caramelo, coco e um acorde de leite acrescentam cremosidade ao fundo amadeirado, formando uma assinatura frutada, floral e gourmand.",
+    "profile": "Floral · Frutado · Gourmand",
+    "descriptionSource": {
+      "name": "Maison Alhambra USA",
+      "url": "https://maisonalhambra-usa.com/products/maison-alhambra-narissa-et-moi-eau-de-parfum-for-women"
+    },
+    "media": {
+      "width": 1024,
+      "height": 1024,
+      "originalSha256": "898c5345daf20fdeb014d030b5d777570b87f1e2563a0d2648896ec824b954ef",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-20-320-f5a62a3c3b39.webp",
+          "width": 320,
+          "height": 320,
+          "bytes": 22290,
+          "quality": 94,
+          "psnr": 42.33
+        },
+        {
+          "url": "assets/perfume-20.jpg",
+          "width": 1024,
+          "bytes": 219510
+        }
+      ]
+    }
+  },
+  {
+    "id": 21,
+    "brand": "Dior",
+    "name": "Forever and Ever",
+    "type": "Eau de Toilette",
+    "gender": "f",
+    "prices": {
+      "5": 7200,
+      "10": 13400
+    },
+    "oldPrices": {
+      "5": 8100,
+      "10": 15000
+    },
+    "notes": [
+      "Frésia",
+      "Jasmim",
+      "Rosa"
+    ],
+    "image": "assets/perfume-21.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Forever and Ever é um floral delicado que reúne frésia, pétalas de jasmim e rosa búlgara. Sua assinatura fresca e almiscarada lembra um buquê recém-aberto, com uma composição suave que valoriza a luminosidade das flores.",
+    "profile": "Floral · Almiscarado",
+    "descriptionSource": {
+      "name": "Dior",
+      "url": "https://www.dior.com/en_qa/beauty/products/forever-and-ever-dior-Y0030726.html"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "fdd147d0b5ffee5f8ece80643a413fbcbf81861f05437f188081fbb255989aa5",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-21-320-7c2872f35e53.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 34624,
+          "quality": 94,
+          "psnr": 41.93
+        },
+        {
+          "url": "assets/perfume-21.jpg",
+          "width": 870,
+          "bytes": 250175
+        }
+      ]
+    }
+  },
+  {
+    "id": 22,
+    "brand": "Dolce&Gabbana",
+    "name": "Devotion",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 7100,
+      "10": 13400
+    },
+    "oldPrices": {
+      "5": 8000,
+      "10": 15000
+    },
+    "notes": [
+      "Cítricos cristalizados",
+      "Flor de laranjeira",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-22.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Devotion Eau de Parfum combina a doçura dos cítricos cristalizados com a luminosidade da flor de laranjeira e um fundo de baunilha. Uma composição gourmand que conserva o brilho cítrico na abertura e ganha uma textura quente e cremosa.",
+    "profile": "Cítrico · Gourmand",
+    "descriptionSource": {
+      "name": "Dolce&Gabbana",
+      "url": "https://www.dolcegabbana.com/en-us/beauty/perfumes-for-her/devotion-duo-edp-gift-set---158054754400526.html"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "e1981d99ae97919fe0901ad2607c1eb7d1e4a7c7520219b0c707e8bb6800d842",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-22-320-5da5b1657861.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 26984,
+          "quality": 94,
+          "psnr": 42.01
+        },
+        {
+          "url": "assets/perfume-22.jpg",
+          "width": 870,
+          "bytes": 222245
+        }
+      ]
+    }
+  },
+  {
+    "id": 23,
+    "brand": "Maison Alhambra",
+    "name": "Reyna",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 3500,
+      "10": 6200
+    },
+    "oldPrices": {
+      "5": 3900,
+      "10": 6900
+    },
+    "notes": [
+      "Framboesa",
+      "Flor de laranjeira",
+      "Marshmallow"
+    ],
+    "image": "assets/perfume-23.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Reyna parte de mandarina, bergamota e toranja para um coração de framboesa, cassis e flor de laranjeira. Acordes de marshmallow e chantilly se unem ao almíscar no fundo, dando uma textura macia e doce ao floral frutado.",
+    "profile": "Floral · Frutado · Gourmand",
+    "descriptionSource": {
+      "name": "Fragrantica",
+      "url": "https://www.fragrantica.com/perfume/Maison-Alhambra/Reyna-89732.html"
+    },
+    "media": {
+      "width": 1024,
+      "height": 1024,
+      "originalSha256": "f0f5e9686baeb914d3278e17de68f6a7facd05475f6f30479cce920bd908aca4",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-23-320-d4a06c4e8f63.webp",
+          "width": 320,
+          "height": 320,
+          "bytes": 30024,
+          "quality": 98,
+          "psnr": 41.81
+        },
+        {
+          "url": "assets/perfume-23.jpg",
+          "width": 1024,
+          "bytes": 141305
+        }
+      ]
+    }
+  },
+  {
+    "id": 24,
+    "brand": "Maison Alhambra",
+    "name": "Léonie",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 3500,
+      "10": 6200
+    },
+    "oldPrices": {
+      "5": 3900,
+      "10": 6900
+    },
+    "notes": [
+      "Lavanda",
+      "Flor de laranjeira",
+      "Baunilha"
+    ],
+    "image": "assets/perfume-24.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Léonie combina lavanda, mandarina, petitgrain e cassis na abertura, seguida por flor de laranjeira e jasmim. Baunilha, almíscar e cedro suavizam o fundo, criando um floral aromático que alterna frescor cítrico e calor delicado.",
+    "profile": "Floral · Aromático",
+    "descriptionSource": {
+      "name": "Fragrantica",
+      "url": "https://www.fragrantica.com/perfume/Maison-Alhambra/Leonie-95881.html"
+    },
+    "media": {
+      "width": 1024,
+      "height": 1024,
+      "originalSha256": "65e3581d355cdf0e21a4b0485a496a2557fae2ab90ecbe61b1e7ed5a4ea6cf4d",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-24-320-17743c3abdd1.webp",
+          "width": 320,
+          "height": 320,
+          "bytes": 20804,
+          "quality": 94,
+          "psnr": 42.2
+        },
+        {
+          "url": "assets/perfume-24.jpg",
+          "width": 1024,
+          "bytes": 149788
+        }
+      ]
+    }
+  },
+  {
+    "id": 25,
+    "brand": "New Brand",
+    "name": "Dangerous Woman",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 1700,
+      "10": 3140
+    },
+    "oldPrices": {
+      "5": 1900,
+      "10": 3500
+    },
+    "notes": [
+      "Baunilha",
+      "Caramelo",
+      "Fava tonka"
+    ],
+    "image": "assets/perfume-25.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Dangerous Woman, da New Brand, tem um perfil oriental gourmand que reúne facetas de caramelo e frutas com um coração floral. Baunilha e fava tonka dão uma textura doce e cremosa ao fundo, acompanhadas por nuances de jasmim e flor de laranjeira.",
+    "profile": "Ambarado · Gourmand",
+    "descriptionSource": {
+      "name": "Beleza na Web",
+      "url": "https://www.belezanaweb.com.br/dangerous-woman-new-brand-prestige-eau-de-parfum-perfume-feminino-100ml/"
+    },
+    "media": {
+      "width": 870,
+      "height": 1080,
+      "originalSha256": "52edc58041800fb3c2d7e4daafe0514082554524088853f32e9061d9287ea217",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-25-320-c0828e16b37b.webp",
+          "width": 320,
+          "height": 397,
+          "bytes": 24866,
+          "quality": 94,
+          "psnr": 41.19
+        },
+        {
+          "url": "assets/perfume-25.jpg",
+          "width": 870,
+          "bytes": 185925
+        }
+      ]
+    }
+  },
+  {
+    "id": 26,
+    "brand": "Givenchy",
+    "name": "Irresistible",
+    "type": "Eau de Parfum",
+    "gender": "f",
+    "prices": {
+      "5": 7100,
+      "10": 14300
+    },
+    "oldPrices": {
+      "5": 8000,
+      "10": 16000
+    },
+    "notes": [
+      "Pera",
+      "Rosa",
+      "Íris"
+    ],
+    "image": "assets/perfume-26.jpg",
+    "available": true,
+    "badge": "Novo",
+    "description": "Irresistible Eau de Parfum combina pera e ambrette com um coração de rosa e íris. O contraste entre as flores, o cedro e as madeiras claras cria uma assinatura frutada e amadeirada, suavizada por uma faceta almiscarada.",
+    "profile": "Floral · Frutado · Amadeirado",
+    "descriptionSource": {
+      "name": "Givenchy Beauty",
+      "url": "https://www.givenchybeauty.com/int/en/p/irresistible-P036173.html"
+    },
+    "media": {
+      "width": 1024,
+      "height": 1024,
+      "originalSha256": "66b92dce75785489e9676699b5c7c3a7cc88b85e494eac6820adb7abcd7e1fce",
+      "sources": [
+        {
+          "url": "assets/responsive/perfume-26-320-690979be86c1.webp",
+          "width": 320,
+          "height": 320,
+          "bytes": 23368,
+          "quality": 94,
+          "psnr": 41.09
+        },
+        {
+          "url": "assets/perfume-26.jpg",
+          "width": 1024,
+          "bytes": 230925
+        }
+      ]
+    }
+  }
+]
