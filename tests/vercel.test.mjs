@@ -7,6 +7,24 @@ import '../source/product-pages.js';
 const pages=globalThis.SilloctaProductPages;
 const read=name=>readFileSync(new URL('../public/'+name,import.meta.url),'utf8');
 
+test('Responsive assets accompany every generated page and home-only image preload stays out of detail pages',()=>{
+  const media=JSON.parse(read('media.json'));
+  for(const [name,entry] of Object.entries(media)){
+    assert.equal(entry.sources.at(-1).url,name);
+    for(const item of entry.sources){
+      const output=readFileSync(new URL('../public/'+item.url,import.meta.url));
+      assert.equal(output.length,item.bytes);
+      assert.deepEqual(output,readFileSync(new URL('../source/'+item.url,import.meta.url)));
+    }
+  }
+  assert.ok(read('index.html').includes('id="sl-home-media-preload"'));
+  for(const p of PRODUCTS){
+    const detail=read(pages.path(p).slice(1)+'.html');
+    assert.ok(!detail.includes('id="sl-home-media-preload"'));
+    assert.ok(detail.includes('srcset="'+p.media.sources.map(item=>'/'+item.url+' '+item.width+'w').join(', ')+'"'));
+  }
+});
+
 test('Every perfume has a static page usable on a direct URL and refresh, with all local resources present',()=>{
   for(const p of PRODUCTS){
     const route=pages.path(p),html=read(route.slice(1)+'.html');
@@ -30,7 +48,9 @@ test('Home retains all product links, both floating collections and the approved
   for(const p of PRODUCTS)assert.ok(home.includes(`href="${pages.path(p)}"`));
   assert.ok(home.includes('id="sel-masc-btn"'));
   assert.ok(home.includes('id="sel-fem-btn"'));
-  assert.ok(home.includes('hero-return-v28'));
+  assert.ok(home.includes('campaigns-v35'));
+  assert.equal((home.match(/class="sl-campaign-card"/g)||[]).length,6);
+  for(const asset of ['campaigns.css','campaigns.js','campaigns.json','navigation.js','media.json'])assert.ok(existsSync(new URL('../public/'+asset,import.meta.url)));
   assert.deepEqual(readFileSync(new URL('../public/enhancements.css',import.meta.url)),readFileSync(new URL('../source/enhancements.css',import.meta.url)));
   assert.deepEqual(readFileSync(new URL('../public/enhancements.js',import.meta.url)),readFileSync(new URL('../source/enhancements.js',import.meta.url)));
   for(const p of PRODUCTS)assert.deepEqual(readFileSync(new URL('../public/'+p.image,import.meta.url)),readFileSync(new URL('../source/'+p.image,import.meta.url)));
