@@ -17,7 +17,7 @@ const motion=()=>!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Move the existing controls, preserving their state, keyboard access and URLs.
 // The marker restores their original desktop position when the screen widens.
 function initializeMobileHero(){
-  const hero=byId('hero'),copy=byId('hero-txt'),collections=byId('colecao-selector');
+  const hero=byId('hero'),copy=byId('hero-txt'),collections=byId('colecao-selector'),campaigns=byId('catalog-campaigns');
   if(!hero||!copy||!collections)return;
   const home=document.createComment('Sillocta collection controls: desktop position');
   collections.before(home);
@@ -25,6 +25,7 @@ function initializeMobileHero(){
   const placeCollections=()=>{
     if(mobile.matches)hero.insertBefore(collections,copy);
     else home.after(collections);
+    if(campaigns)collections.after(campaigns);
   };
   placeCollections();
   mobile.addEventListener?.('change',placeCollections);
@@ -48,7 +49,10 @@ function toggleFavorite(id){
   toast(`${p.name} ${wasSaved?'removido dos':'salvo nos'} favoritos`);return false;
 }
 function syncCatalogControls(){
-  for(const [id,key] of [['catalog-brand','brand'],['catalog-price','price'],['catalog-sort','sort']])if(byId(id))byId(id).value=catalogState[key];
+  for(const [id,key] of [['catalog-brand','brand'],['catalog-price','price'],['catalog-sort','sort']]){
+    const select=byId(id);if(!select)continue;select.value=catalogState[key];
+    const value=byId(id+'-value');if(value)value.textContent=select.selectedOptions[0]?.textContent||'';
+  }
   if(byId('catalog-available'))byId('catalog-available').checked=catalogState.available;
   byId('catalog-saved')?.setAttribute('aria-pressed',String(catalogState.savedOnly));
 }
@@ -58,7 +62,7 @@ function syncCatalogBrands(gender){
   if(!brands.includes(catalogState.brand))catalogState.brand='';
   const scope=gender||'all';
   if(select.dataset.catalogScope!==scope){
-    select.innerHTML='<option value="">Todas as marcas</option>'+brands.map(brand=>`<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join('');
+    select.innerHTML='<option value="">Todas</option>'+brands.map(brand=>`<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join('');
     select.dataset.catalogScope=scope;
   }
   select.value=catalogState.brand;
