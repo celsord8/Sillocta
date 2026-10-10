@@ -31,7 +31,7 @@ function initializeMobileHero(){
   mobile.addEventListener?.('change',placeCollections);
 }
 initializeMobileHero();
-const catalogState={mode:'all',brand:'',aroma:'',price:'',available:false,savedOnly:false,sort:'curated'};
+const catalogState={mode:'all',brand:'',price:'',available:false,savedOnly:false,sort:'curated'};
 let catalogLastSort='curated';
 const favoriteIds=new Set();
 try{const saved=JSON.parse(localStorage.getItem('sillocta-favorites-v1')||'[]');if(Array.isArray(saved))saved.forEach(id=>{if(PRODUCTS.some(p=>p.id===id))favoriteIds.add(id);});}catch{}
@@ -81,12 +81,10 @@ function applyCatalogFilters(){
   }
   for(const id of ['sec-masculino','sec-feminino']){const section=byId(id);if(section)section.hidden=(gender&&gender!==(id==='sec-masculino'?'m':'f'))||![...section.querySelectorAll('.card')].some(c=>!c.hidden);}
   const scope=gender?` na coleção ${gender==='m'?'masculina':'feminina'}`:'';
-  const aroma=SilloctaProductPages.aromas.find(item=>item.value===catalogState.aroma);
-  byId('catalog-status').textContent=`${products.length} ${products.length===1?'perfume':'perfumes'}${scope}${catalogState.brand?' · '+catalogState.brand:''}${aroma?' · '+aroma.label:''}${catalogState.savedOnly?' · favoritos':''}${catalogState.mode==='new'?' · novidades':catalogState.mode==='niche'?' · nicho':catalogState.mode==='designer'?' · designer':''}`;
+  byId('catalog-status').textContent=`${products.length} ${products.length===1?'perfume':'perfumes'}${scope}${catalogState.brand?' · '+catalogState.brand:''}${catalogState.savedOnly?' · favoritos':''}${catalogState.mode==='new'?' · novidades':catalogState.mode==='niche'?' · nicho':catalogState.mode==='designer'?' · designer':''}`;
   byId('catalog-empty').hidden=products.length>0;
   const message=byId('catalog-empty-copy');if(message)message.textContent=catalogState.savedOnly&&!favoriteIds.size?'Você ainda não salvou perfumes. Toque no coração para criar sua seleção.':'Nenhum perfume corresponde à sua seleção. Experimente ajustar os filtros.';
   syncCatalogControls();
-  syncMenuState();
 }
 function updateCatalogFilters(source=''){
   if(!byId('catalog-query'))return;
@@ -138,43 +136,9 @@ function lockPage(){const open=byId('cart-drawer').classList.contains('open')||b
 function setPanel(id,open){const panel=byId(id),wasOpen=panel.classList.contains('open');panel.classList.toggle('open',open);panel.setAttribute('aria-hidden',String(!open));panel.inert=!open;lockPage();if(open){lastFocused=document.activeElement;requestAnimationFrame(()=>panel.querySelector('button,input,a,[tabindex="0"]')?.focus({preventScroll:true}));}else if(wasOpen&&lastFocused?.isConnected)lastFocused.focus({preventScroll:true});}
 function openCart(){const origin=document.activeElement,fromToast=!!origin?.closest?.('#sl-toast'),fromMenu=!!origin?.closest?.('#mobile-menu-drawer');dismissToast();closeMobileMenu();closeFooterInfo();renderCart();setPanel('cart-drawer',true);lastFocused=fromToast?byId('sl-bag-shortcut'):fromMenu?byId('header-bag-button'):origin;syncCheckoutViewport();byId('cart-drawer').scrollTop=0;byId('cart-overlay').classList.add('open');byId('cart-overlay').setAttribute('aria-hidden','false');byId('wa-float').style.opacity='0';byId('wa-float').style.pointerEvents='none';}
 function closeCart(){setPanel('cart-drawer',false);byId('cart-overlay').classList.remove('open');byId('cart-overlay').setAttribute('aria-hidden','true');byId('wa-float').style.opacity='';byId('wa-float').style.pointerEvents='';return false;}
-const menuSections=['decants','brands','aroma','info'];
-function syncMenuState(){
-  const detail=currentProduct();
-  const current=detail?detail.gender:document.body.classList.contains('collection-view')?activeTab:catalogState.savedOnly?'saved':['new','niche','designer'].includes(catalogState.mode)?catalogState.mode:catalogState.brand||catalogState.aroma?'filtered':'all';
-  for(const key of ['all','m','f','new','niche','designer']){
-    const link=byId('menu-collection-'+key);
-    if(link){const on=key===current;link.classList.toggle('is-current',on);link.setAttribute('aria-current',on?'page':'false');}
-  }
-  for(const kind of ['brand','aroma'])document.querySelectorAll(`[data-catalog-${kind}]`).forEach(link=>{
-    const on=!detail&&link.getAttribute('data-catalog-'+kind)===catalogState[kind];
-    link.classList.toggle('is-current',on);link.setAttribute('aria-current',on?'page':'false');
-  });
-  const favorites=byId('menu-favorites-link');
-  if(favorites){favorites.classList.toggle('is-current',current==='saved');favorites.setAttribute('aria-current',current==='saved'?'page':'false');}
-}
-function toggleMenuSection(section,force){
-  if(!menuSections.includes(section))return false;
-  const button=byId('menu-'+section+'-toggle'),links=byId('menu-'+section+'-links');
-  if(!button||!links)return false;
-  const expanded=typeof force==='boolean'?force:button.getAttribute('aria-expanded')!=='true';
-  if(!expanded&&links.contains(document.activeElement))button.focus({preventScroll:true});
-  button.setAttribute('aria-expanded',String(expanded));
-  links.hidden=!expanded;
-  if(expanded)for(const other of menuSections)if(other!==section)toggleMenuSection(other,false);
-  return false;
-}
-function toggleMenuDecants(force){return toggleMenuSection('decants',force);}
-function openMenuCategory(mode){if(!['new','niche','designer'].includes(mode))return false;if(navigateToCatalog('catalog-search',mode))return false;closeMobileMenu();resetCatalogVisibility();filterCatalog(mode);return false;}
-function validCatalogFacet(kind,value){return kind==='brand'?PRODUCTS.some(p=>p.brand===value):kind==='aroma'?SilloctaProductPages.aromas.some(aroma=>aroma.value===value):false;}
-function openMenuFacet(kind,value){
-  if(!validCatalogFacet(kind,value))return false;
-  if(navigateToCatalog('catalog-search','',{[kind]:value}))return false;
-  closeMobileMenu();resetCatalogVisibility();exitCollectionView();catalogState[kind]=value;
-  applyCatalogFilters();scrollToSectionLux('catalog-search');return false;
-}
-function openMobileMenu(){closeCart();closeFooterInfo();syncMenuState();for(const section of menuSections)toggleMenuSection(section,false);setPanel('mobile-menu-drawer',true);byId('mobile-menu-drawer').querySelector('.mobile-menu-links').scrollTop=0;lastFocused=byId('menu-trigger');byId('menu-trigger').setAttribute('aria-expanded','true');byId('mobile-menu-overlay').classList.add('open');}
-function closeMobileMenu(){setPanel('mobile-menu-drawer',false);for(const section of menuSections)toggleMenuSection(section,false);byId('menu-trigger')?.setAttribute('aria-expanded','false');byId('mobile-menu-overlay').classList.remove('open');return false;}
+function syncMenuState(){const detail=currentProduct();const current=detail?detail.gender:document.body.classList.contains('collection-view')?activeTab:'all';for(const key of ['all','m','f']){const link=byId('menu-collection-'+key);if(link){const on=key===current;link.classList.toggle('is-current',on);link.setAttribute('aria-current',on?'page':'false');}}}
+function openMobileMenu(){closeCart();closeFooterInfo();syncMenuState();setPanel('mobile-menu-drawer',true);lastFocused=byId('menu-trigger');byId('menu-trigger').setAttribute('aria-expanded','true');byId('mobile-menu-overlay').classList.add('open');}
+function closeMobileMenu(){setPanel('mobile-menu-drawer',false);byId('menu-trigger')?.setAttribute('aria-expanded','false');byId('mobile-menu-overlay').classList.remove('open');return false;}
 function updateIndicators(){
   for(const [gender,word,name] of [['m','masc','masculina'],['f','fem','feminina']]){
     if(!byId('img-'+word))continue;
@@ -295,7 +259,7 @@ function finalizeOrder(event){event?.preventDefault();if(!cart.length||whatsappO
 const checkout=finalizeOrder;
 function aviseMe(name){window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Olá! Gostaria de saber quando '+name+' estará disponível novamente.'),'_blank','noopener');return false;}
 function askForKits(){window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Olá! Gostaria de conhecer as opções de kits de decants.'),'_blank','noopener');}
-function resetCatalogVisibility(){Object.assign(catalogState,{mode:'all',brand:'',aroma:'',price:'',available:false,savedOnly:false,sort:'curated'});if(byId('catalog-query'))byId('catalog-query').value='';syncCatalogControls();applyCatalogFilters();}
+function resetCatalogVisibility(){Object.assign(catalogState,{mode:'all',brand:'',price:'',available:false,savedOnly:false,sort:'curated'});if(byId('catalog-query'))byId('catalog-query').value='';syncCatalogControls();applyCatalogFilters();}
 function clearSearch(){if(navigateToCatalog('shop'))return false;resetCatalogVisibility();toast('Filtros removidos');return false;}
 function openSearch(){if(navigateToCatalog('catalog-search'))return;exitCollectionView();byId('catalog-search').hidden=false;scrollToSectionLux('catalog-search');byId('catalog-query').focus({preventScroll:true});}
 function filterCatalog(mode){if(navigateToCatalog('catalog-search',mode))return;catalogState.mode=['new','niche','designer'].includes(mode)?mode:'all';exitCollectionView();byId('catalog-search').hidden=false;applyCatalogFilters();scrollToSectionLux('catalog-search');}
@@ -510,13 +474,10 @@ function removeLocalProduct(){
   document.title=localHomeTitle;const meta=document.querySelector('meta[name="description"]');if(meta)meta.content=localHomeDescription;
   syncMenuState();
 }
-function navigateToCatalog(section='',mode='',facets={}){
+function navigateToCatalog(section='',mode=''){
   if(!currentProduct())return false;
   if(!isStandaloneStorefront()){
-    const params=new URLSearchParams();
-    if(['new','niche','designer','saved'].includes(mode))params.set('catalog',mode);
-    for(const kind of ['brand','aroma'])if(validCatalogFacet(kind,facets[kind]))params.set(kind,facets[kind]);
-    const query=params.size?'?'+params.toString():'';
+    const query=['new','niche','designer','saved'].includes(mode)?'?catalog='+mode:'';
     window.location.assign('/'+query+(section?'#'+section:''));return true;
   }
   const url=new URL(window.location.href);url.hash=section;history.pushState({},'',url.href);removeLocalProduct();return false;
@@ -570,11 +531,9 @@ function initializeProductPages(){
     document.addEventListener('click',event=>{const link=event.target.closest('[data-product-back]');if(link&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();handleCollectionSelector(link.dataset.productBack);}});
     window.addEventListener('hashchange',syncLocalProductRoute);window.addEventListener('popstate',syncLocalProductRoute);syncLocalProductRoute();
   }else if(!currentProduct()){
-    const params=new URL(window.location.href).searchParams,mode=params.get('catalog');
+    const mode=new URL(window.location.href).searchParams.get('catalog');
     if(mode==='saved')openFavorites();
     else if(['new','niche','designer'].includes(mode))filterCatalog(mode);
-    else if(validCatalogFacet('brand',params.get('brand')))openMenuFacet('brand',params.get('brand'));
-    else if(validCatalogFacet('aroma',params.get('aroma')))openMenuFacet('aroma',params.get('aroma'));
     else if(window.location.hash==='#catalog-search')openSearch();
     else if(['#sec-masculino','#sec-feminino'].includes(window.location.hash))handleCollectionSelector(window.location.hash==='#sec-masculino'?'m':'f');
   }
