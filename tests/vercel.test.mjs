@@ -48,7 +48,10 @@ test('Home retains all product links, both floating collections and the approved
   for(const p of PRODUCTS)assert.ok(home.includes(`href="${pages.path(p)}"`));
   assert.ok(home.includes('id="sel-masc-btn"'));
   assert.ok(home.includes('id="sel-fem-btn"'));
-  assert.ok(home.includes('type-v40'));
+  assert.ok(home.includes('family=Montserrat'));
+  assert.ok(!home.includes('Manrope'));
+  assert.ok(!home.includes('/menu.css'));
+  assert.ok(!home.includes('/impact.css'));
   assert.equal((home.match(/class="sl-campaign-card"/g)||[]).length,6);
   for(const asset of ['campaigns.css','campaigns.js','campaigns.json','navigation.js','media.json'])assert.ok(existsSync(new URL('../public/'+asset,import.meta.url)));
   assert.deepEqual(readFileSync(new URL('../public/enhancements.css',import.meta.url)),readFileSync(new URL('../source/enhancements.css',import.meta.url)));
