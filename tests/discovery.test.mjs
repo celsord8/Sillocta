@@ -55,7 +55,7 @@ function catalogHarness(saved='[]',storageBlocked=false){
   const document={getElementById:id=>id==='sillocta-products'?{textContent:JSON.stringify(PRODUCTS)}:nodes.get(id)||null,querySelectorAll:sel=>sel==='[data-favorite-id]'?buttons:sel==='.perfume-grid .card'?cards:sel==='.perfume-grid'?grids:[],querySelector:sel=>sel==='header.glass'?{getBoundingClientRect:()=>({bottom:64})}:sel==='.perfume-grid .card:not([hidden])'?grids.flatMap(g=>g.children).find(c=>!c.hidden)||null:null,body:{classList},activeElement:null};
   const localStorage={getItem:k=>{if(storageBlocked)throw Error('Blocked');return storage.get(k)||null;},setItem:(k,v)=>{if(storageBlocked)throw Error('Blocked');storage.set(k,v);}};
   const window={matchMedia:()=>({matches:true}),get scrollY(){return scrollTop;},scrollTo(options){scrollTop=options.top;scrollCalls.push(options);}};
-  const context=vm.createContext({document,window,requestAnimationFrame:callback=>frames.push(callback),localStorage,Intl,URL,console,setTimeout:()=>1,clearTimeout(){}});
+  const context=vm.createContext({currentProduct:()=>null,document,window,requestAnimationFrame:callback=>frames.push(callback),localStorage,Intl,URL,console,setTimeout:()=>1,clearTimeout(){}});
   const code=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8');
   vm.runInContext(code.slice(0,code.indexOf('\n\n(function(){')),context);
   context.SilloctaProductPages=pages;

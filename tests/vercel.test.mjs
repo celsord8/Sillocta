@@ -48,7 +48,7 @@ test('Home retains all product links, both floating collections and the approved
   for(const p of PRODUCTS)assert.ok(home.includes(`href="${pages.path(p)}"`));
   assert.ok(home.includes('id="sel-masc-btn"'));
   assert.ok(home.includes('id="sel-fem-btn"'));
-  assert.ok(home.includes('campaigns-v35'));
+  assert.ok(home.includes('type-v40'));
   assert.equal((home.match(/class="sl-campaign-card"/g)||[]).length,6);
   for(const asset of ['campaigns.css','campaigns.js','campaigns.json','navigation.js','media.json'])assert.ok(existsSync(new URL('../public/'+asset,import.meta.url)));
   assert.deepEqual(readFileSync(new URL('../public/enhancements.css',import.meta.url)),readFileSync(new URL('../source/enhancements.css',import.meta.url)));
@@ -56,15 +56,14 @@ test('Home retains all product links, both floating collections and the approved
   for(const p of PRODUCTS)assert.deepEqual(readFileSync(new URL('../public/'+p.image,import.meta.url)),readFileSync(new URL('../source/'+p.image,import.meta.url)));
 });
 
-test('Vercel publishes generated HTML with clean URLs and explicitly keeps automated payments disabled',()=>{
+test('Vercel publishes generated HTML with clean URLs and uses private serverless routes for the sandbox',()=>{
   const config=JSON.parse(readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
   assert.equal(config.outputDirectory,'public');
   assert.equal(config.cleanUrls,true);
   assert.equal(config.trailingSlash,false);
-  assert.equal(config.rewrites.find(r=>r.source==='/api/checkout/config')?.destination,'/checkout-config.json');
-  const checkout=JSON.parse(read('checkout-config.json'));
-  assert.equal(checkout.enabled,false);
-  assert.equal(checkout.shippingEnabled,false);
+  assert.ok(!config.rewrites?.some(r=>r.source==='/api/checkout/config'));
+  assert.ok(existsSync(new URL('../api/checkout/order.js',import.meta.url)));
+  assert.ok(config.headers.some(h=>h.source==='/api/checkout/:path*'));
   assert.ok(!existsSync(new URL('../public/server',import.meta.url)));
   assert.ok(!existsSync(new URL('../public/.openai',import.meta.url)));
   assert.ok(!existsSync(new URL('../public/product-shell.html',import.meta.url)));

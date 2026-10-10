@@ -6,9 +6,9 @@ import PRODUCTS from '../source/products.json' with {type:'json'};
 import CAMPAIGNS from '../source/campaigns.json' with {type:'json'};
 import '../source/product-pages.js';
 
-function harness({reduced=false,width=1040,cardWidth=620,observer=false}={}){
+function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialVisible=!observer,readyState='complete'}={}){
   const frames=[],scrolls=[],timers=new Map(),windowEvents=new Map(),documentEvents=new Map();
-  let clock=0,timerId=0,intersection,preference;
+  let clock=0,timerId=0,intersection,preference,onScreen=initialVisible;
   const node=()=>({hidden:false,attributes:{},listeners:new Map(),setAttribute(key,value){this.attributes[key]=value;},getAttribute(key){return this.attributes[key];},removeAttribute(key){delete this.attributes[key];},addEventListener(type,action){this.listeners.set(type,action);}});
   const rendered=[];
   const shown=()=>rendered.filter(card=>!card.hidden);
@@ -21,30 +21,57 @@ function harness({reduced=false,width=1040,cardWidth=620,observer=false}={}){
   const buttons=CAMPAIGNS.map(node),pagination={hidden:false,querySelectorAll:()=>buttons};
   const track=Object.assign(node(),{scrollLeft:0,get clientWidth(){return width;},get scrollWidth(){return shown().length*cardWidth+Math.max(0,shown().length-1)*12;},getBoundingClientRect:()=>({left:50}),querySelectorAll:()=>rendered,insertBefore(card,before){rendered.splice(rendered.indexOf(before),0,card);},appendChild(card){rendered.push(card);},scrollTo(options){const previous=this.scrollLeft;this.scrollLeft=Math.min(Math.max(0,this.scrollWidth-this.clientWidth),Math.max(0,options.left));const closest=Math.min(shown().length-1,Math.round(this.scrollLeft/(cardWidth+12)));scrolls.push({...options,previous,actual:this.scrollLeft,logical:shown()[closest]?.index});this.listeners.get('scroll')?.();}});
   Object.defineProperties(track,{clientWidth:{get:()=>width},scrollWidth:{get:()=>shown().length*cardWidth+Math.max(0,shown().length-1)*12}});
-  const root=Object.assign(node(),{querySelector:selector=>({'.sl-campaign-track':track,'.sl-campaign-pagination':pagination})[selector],contains:element=>[track,...buttons,...rendered].includes(element)});
+  const root=Object.assign(node(),{getBoundingClientRect:()=>({top:onScreen?100:1200,bottom:onScreen?400:1500}),querySelector:selector=>({'.sl-campaign-track':track,'.sl-campaign-pagination':pagination})[selector],contains:element=>[track,...buttons,...rendered].includes(element)});
   const media={matches:reduced,addEventListener(type,action){preference=action;}};
-  const document={hidden:false,getElementById:()=>root,addEventListener(type,action){documentEvents.set(type,action);}};
-  const window={matchMedia:()=>media,addEventListener(type,action){windowEvents.set(type,action);}};
+  const document={hidden:false,readyState,getElementById:()=>root,addEventListener(type,action){documentEvents.set(type,action);}};
+  const window={innerHeight:900,matchMedia:()=>media,addEventListener(type,action){windowEvents.set(type,action);}};
   class FakeDate extends Date{static now(){return clock;}}
   class IntersectionObserver{constructor(action){intersection=action;}observe(){}}
   if(observer)window.IntersectionObserver=IntersectionObserver;
-  vm.runInNewContext(readFileSync(new URL('../source/campaigns.js',import.meta.url),'utf8'),{document,window,IntersectionObserver,Date:FakeDate,requestAnimationFrame:action=>frames.push(action),setTimeout(action,delay){const id=++timerId;timers.set(id,{action,at:clock+delay});return id;},clearTimeout:id=>timers.delete(id)});
+  const source=readFileSync(new URL('../source/campaigns.js',import.meta.url),'utf8');
+  const context={document,window,IntersectionObserver,Date:FakeDate,requestAnimationFrame:action=>frames.push(action),setTimeout(action,delay){const id=++timerId;timers.set(id,{action,at:clock+delay});return id;},clearTimeout:id=>timers.delete(id)};
+  vm.runInNewContext(source,context);
   const flush=()=>{let limit=0;while(frames.length){assert.ok(++limit<100);frames.shift()();}};
   const active=()=>buttons.findIndex(button=>button.attributes['aria-pressed']==='true');
   const advance=ms=>{const end=clock+ms;let count=0;while(true){const next=[...timers.entries()].sort((a,b)=>a[1].at-b[1].at)[0];if(!next||next[1].at>end)break;assert.ok(++count<1000,'Timers must not form an immediate loop');clock=next[1].at;timers.delete(next[0]);next[1].action();flush();}clock=end;flush();};
   flush();
   return {track,cards,rendered,buttons,pagination,scrolls,timers,active,flush,advance,period:()=>CAMPAIGNS.length*(cardWidth+12),
+    domReady(){document.readyState='interactive';documentEvents.get('DOMContentLoaded')?.();flush();},
+    runAgain(){vm.runInNewContext(source,context);flush();},
     click(index){buttons[index].listeners.get('click')();flush();},
     swipe(left){track.scrollLeft=left;track.listeners.get('scroll')();flush();},
     key(key,target=track){let prevented=false;track.listeners.get('keydown')({key,target,preventDefault(){prevented=true;}});flush();return prevented;},
     rootEvent(type,event={}){root.listeners.get(type)(event);flush();},
     windowEvent(type,event={}){windowEvents.get(type)(event);flush();},
-    visible(on){intersection([{isIntersecting:on,intersectionRatio:on?0.8:0}]);flush();},
+    visible(on,ratio=.8){onScreen=on;intersection([{isIntersecting:on,intersectionRatio:on?ratio:0}]);flush();},
     hidden(on){document.hidden=on;documentEvents.get('visibilitychange')();flush();},
     reduced(on){media.matches=on;preference();flush();},
     resize(newWidth,newCardWidth=cardWidth){width=newWidth;cardWidth=newCardWidth;track.scrollLeft=Math.min(track.scrollLeft,Math.max(0,track.scrollWidth-width));windowEvents.get('resize')();flush();}
   };
 }
+
+test('A visible carousel starts without waiting for interaction or its first observer callback',()=>{
+  const h=harness({observer:true,initialVisible:true});
+  h.advance(1800);assert.equal(h.active(),1);
+  h.visible(true,.02);h.advance(1800);assert.equal(h.active(),2);
+});
+
+test('Early script loading waits for parsed markup and repeated initialization never duplicates the loop',()=>{
+  const h=harness({readyState:'loading'});
+  assert.equal(h.rendered.length,6);assert.equal(h.scrolls.length,0);
+  h.domReady();assert.equal(h.rendered.length,18);assert.equal(h.active(),0);
+  h.runAgain();assert.equal(h.rendered.length,18);
+  h.advance(1800);assert.equal(h.active(),1);
+  assert.equal(h.scrolls.filter(s=>s.behavior==='smooth').length,1);
+});
+
+test('Returning from browser history clears stale pointer pauses and resumes at the same perfume',()=>{
+  const h=harness({observer:true,initialVisible:true});
+  h.advance(1800);assert.equal(h.active(),1);
+  h.rootEvent('pointerenter',{pointerType:'mouse'});h.rootEvent('pointerdown');
+  h.windowEvent('pagehide');h.advance(10000);assert.equal(h.active(),1);
+  h.windowEvent('pageshow',{persisted:true});h.advance(1800);assert.equal(h.active(),2);
+});
 
 test('Six controls select the corresponding perfume in every run and a touch scroll updates the indicator',()=>{
   const h=harness();assert.equal(h.active(),0);
