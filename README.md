@@ -1,6 +1,6 @@
 # Sillocta · Checkout Orders em Preview
 
-Versão de teste da loja, com a apresentação v45 preservada e Checkout Transparente via `POST /v1/orders`. Inclui Pix, boleto, Card Payment Brick e consulta autenticada do estado do pedido. Publicação somente em branch de Preview; não unir à produção.
+Versão de teste da loja, com o visual anterior à troca tipográfica preservado (v39; Montserrat e Cormorant Garamond) e Checkout Transparente via `POST /v1/orders`. Inclui Pix, boleto, Card Payment Brick e consulta autenticada do estado do pedido. Publicação somente em branch de Preview; não unir à produção.
 
 ## Executar as verificações
 
