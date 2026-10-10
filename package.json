@@ -1,6 +1,6 @@
 {
   "name": "sillocta-vercel",
-  "version": "35.0.0",
+  "version": "46.0.0",
   "private": true,
   "type": "module",
   "scripts": {
