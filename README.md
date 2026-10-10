@@ -1,36 +1,27 @@
-# Sillocta · Maison de Decants
+# Sillocta · Checkout Orders em Preview
 
-Loja de decants com catálogo, coleções, favoritos, sacola, 26 páginas individuais de perfumes e pedidos pelo WhatsApp.
+Versão de teste da loja, com a apresentação v45 preservada e Checkout Transparente via `POST /v1/orders`. Inclui Pix, boleto, Card Payment Brick e consulta autenticada do estado do pedido. Publicação somente em branch de Preview; não unir à produção.
 
-## Publicação
+## Executar as verificações
 
-A versão 35 inclui as seis campanhas, bordas douradas uniformes e carrossel contínuo a cada 1,8 segundo. O movimento respeita navegação manual, teclado, redução de movimento e a visibilidade da página.
+`npm ci --ignore-scripts` e `npm run verify` (Node 22). A compilação gera a página inicial e 26 páginas de perfume. As funções privadas ficam em `api/checkout`, fora de `public`.
 
-O projeto preserva a integração do repositório `celsord8/Sillocta` com a Vercel. A branch `main` recebe produção; branches e pull requests podem gerar prévias pela integração existente.
+## Vercel
 
-- Framework: **Other**; raiz do projeto: este diretório.
-- Node.js: **22.x**, com versão declarada em `package.json` e `.nvmrc`.
-- Instalação: `npm ci --ignore-scripts`.
-- Publicação: `npm run verify` — gera o site e executa todos os testes antes de liberar a versão.
-- Saída: `public`; apenas o resultado do build fica público.
+As variáveis secretas `MERCADO_PAGO_ACCESS_TOKEN` e `MERCADO_PAGO_PUBLIC_KEY` devem existir somente em Preview. O Access Token nunca vai ao navegador. A Public Key é obtida pela configuração pública em tempo de execução, sem gravar seu valor no repositório. O checkout permanece desligado em Production e Development.
 
-As configurações de publicação ficam em `vercel.json`. Não há dependências de produção adicionais. `package-lock.json` fixa a instalação. O workflow de GitHub Actions verifica pushes e pull requests com permissões somente de leitura e ações fixadas por commit.
+Este primeiro teste usa exclusivamente a família TEST de credenciais fornecida pelo proprietário. A documentação atual de Orders informa credenciais de teste com prefixo APP_USR: caso a API rejeite as credenciais legadas, obter as chaves na seção Testes da aplicação correspondente e verificar a identidade do vendedor de teste antes de migrar a configuração. O prefixo APP_USR sozinho não distingue teste de produção.
 
-## Desenvolvimento
+## Como testar
 
-```sh
-npm ci --ignore-scripts
-npm run verify
-```
+Adicione um perfume à sacola. Informe dados fictícios de contato e endereço, aguarde o total calculado no servidor e selecione Pix, cartão ou boleto. O frete é simulado e gratuito, sem promessa de postagem. Não use cartões reais ou dados pessoais.
 
-Edite `source/`; `public/` é gerado e ignorado pelo Git. Os arquivos legados na raiz do repositório não fazem parte da saída da Vercel e foram preservados.
+Cartão oficial de teste Visa: 4235 6477 2802 5682, CVV 123, validade 11/30. Nome APRO e CPF 12345678909 simulam aprovação; OTHE simula recusa. O formulário usa o e-mail oficial de teste test@testuser.com. Pix e boleto usam test_user_br@testuser.com. Pix e boleto podem permanecer pendentes no ambiente de teste; gerar um código não comprova aprovação. A consulta valida diretamente o pedido no Mercado Pago.
 
-O build gera páginas com URLs limpas e canônicas, `robots.txt`, sitemap de produção e uma página de erro 404. Prévias recebem `noindex` e bloqueiam indexação em `robots.txt`. Configure `PUBLIC_SITE_URL` apenas ao usar um domínio definitivo; sem ele, o build usa o domínio de produção informado pela Vercel.
+Referências: [Cartões](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-orders/payment-integration/websites/cards), [testes](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-orders/integration-test/cards), [Pix](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-orders/payment-integration/websites/pix), [boleto](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-orders/payment-integration/websites/boleto).
 
-O HTML sempre revalida. Fotografias originais usam cache de um dia; variantes de imagens identificadas pelo conteúdo e CSS/JS da versão corrente usam cache duradouro. Os cabeçalhos restringem incorporação por outros sites, objetos e alteração da URL base, sem bloquear os scripts e serviços já usados pela loja.
+## Limites desta prévia
 
-## Checkout e contas
+Preços, cupom, presente e total são calculados com o catálogo do servidor. Cotações e recibos assinados pertencem à sessão HttpOnly e expiram. Reenvios mantêm a mesma chave de idempotência. Em uma falha sem resposta o navegador bloqueia outro pedido; repetir usa o mesmo corpo e chave. Ao recarregar após uma falha sem recibo, a conferência no painel do vendedor é necessária. Nenhum dado bruto do cartão passa pelo servidor da loja.
 
-Os pedidos atuais continuam pelo WhatsApp. Mercado Pago permanece desativado até existir servidor de pagamentos, banco persistente e credenciais homologadas. Nenhuma chave privada deve entrar no Git ou nos arquivos públicos.
-
-A configuração por código não altera plano, cobrança, domínio contratado, permissões da conta ou proteções de branch. Consulte [LEIA-ME.md](LEIA-ME.md) para os requisitos de operação e publicação.
+Esta prévia não prepara nem expede pedidos. O Mercado Pago guarda o pedido de teste; a loja não dispõe de banco persistente para itens, clientes e atendimento. O limitador em memória é apenas complementar e não é um controle distribuído. Antes de vendas reais serão necessários banco de pedidos, frete real, webhooks autenticados com reconciliação, limites distribuídos e revisão de credenciais de produção. Não ativar produção com este código.
