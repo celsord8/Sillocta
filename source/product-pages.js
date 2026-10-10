@@ -10,19 +10,6 @@
     return ` srcset="${escape(srcset)}" sizes="${escape(sizes)}"`;
   }
   const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const aromas=[
-    {value:'almiscarado',label:'Almiscarados',profile:'Almiscarado'},
-    {value:'amadeirado',label:'Amadeirados',profile:'Amadeirado'},
-    {value:'ambarado',label:'Ambarados',profile:'Ambarado'},
-    {value:'aromatico',label:'Aromáticos',profile:'Aromático'},
-    {value:'citrico',label:'Cítricos',profile:'Cítrico'},
-    {value:'couro',label:'Couro',profile:'Couro'},
-    {value:'especiado',label:'Especiados',profile:'Especiado'},
-    {value:'floral',label:'Florais',profile:'Floral'},
-    {value:'frutado',label:'Frutados',profile:'Frutado'},
-    {value:'gourmand',label:'Gourmands',profile:'Gourmand'}
-  ];
-  const designerBrands=new Set(['Burberry','Chanel','Chloé','Dior','Dolce&Gabbana','Givenchy','Jean Paul Gaultier','Lancôme','Paco Rabanne','Tom Ford','Yves Saint Laurent']);
   const heart='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
   function favoriteButton(p,extra=''){
     return `<button type="button" class="sl-favorite ${extra}" data-favorite-id="${p.id}" aria-pressed="false" aria-label="Salvar ${escape(p.name)} nos favoritos" onclick="return toggleFavorite(${p.id})">${heart}</button>`;
@@ -32,10 +19,9 @@
     const found=products.filter(p=>{
       const price=p.prices['5'],text=normalize([p.name,p.brand,p.profile,...p.notes].join(' '));
       return (!state.gender||p.gender===state.gender)&&text.includes(term)&&(!state.brand||p.brand===state.brand)
-        &&(!state.aroma||aromas.some(aroma=>aroma.value===state.aroma&&(p.profile||'').split(' · ').includes(aroma.profile)))
         &&(state.price==='under50'?price<5000:state.price==='50to100'?price>=5000&&price<10000:state.price==='100plus'?price>=10000:true)
         &&(!state.available||p.available)&&(!state.savedOnly||favorites.has(p.id))
-        &&(state.mode==='new'?p.badge==='Novo':state.mode==='niche'?[1,3,4].includes(p.id):state.mode==='designer'?designerBrands.has(p.brand):true);
+        &&(state.mode==='new'?p.badge==='Novo':state.mode==='niche'?[1,3,4].includes(p.id):state.mode==='designer'?![1,3,4].includes(p.id):true);
     });
     if(state.sort==='price-asc'||state.sort==='price-desc')found.sort((a,b)=>(state.sort==='price-desc'?-1:1)*(a.prices['5']-b.prices['5'])||a.id-b.id);
     return found;
@@ -81,5 +67,5 @@
       ${renderRelated(p,options)}
     </main>`;
   }
-  root.SilloctaProductPages={slug,path,render,description,filterProducts,relatedProducts,favoriteButton,aromas};
+  root.SilloctaProductPages={slug,path,render,description,filterProducts,relatedProducts,favoriteButton};
 })(globalThis);
