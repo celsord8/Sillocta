@@ -1,0 +1,45 @@
+/* Compact navigation with accessible, mutually exclusive submenus. */
+html body #mobile-menu-drawer{overflow:hidden}
+html body #mobile-menu-drawer .mobile-menu-links{
+  flex:1 1 auto;min-height:0;gap:6px;padding-top:18px;padding-bottom:24px;
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#5c5140 #0d0b0a;
+}
+html body #mobile-menu-drawer .sl-menu-group{flex:none}
+html body #mobile-menu-drawer .sl-menu-decants{padding-bottom:10px;margin-bottom:4px;border-bottom:1px solid #ffffff12}
+html body #mobile-menu-drawer .sl-menu-disclosure-toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:44px;
+  padding:8px 12px;border:0;border-radius:5px;background:transparent;cursor:pointer;
+  color:#e8dfd0;font:500 14px/1.5 'Manrope',system-ui,sans-serif;letter-spacing:.015em;text-align:left;
+  transition:color .2s,background-color .2s;
+}
+html body #mobile-menu-drawer .sl-menu-disclosure-toggle:hover{color:#ead7a6;background:#ffffff06}
+html body #mobile-menu-drawer .sl-menu-disclosure-toggle[aria-expanded=true]{color:#ead7a6}
+html body #mobile-menu-drawer .sl-menu-chevron{width:15px;height:15px;flex:none;color:#baa989;transition:transform .2s}
+html body #mobile-menu-drawer .sl-menu-disclosure-toggle[aria-expanded=true] .sl-menu-chevron{transform:rotate(180deg)}
+html body #mobile-menu-drawer .sl-menu-submenu{display:flex;flex-direction:column;gap:0;padding:4px 0}
+html body #mobile-menu-drawer .sl-menu-submenu[hidden]{display:none!important}
+html body #mobile-menu-drawer .sl-menu-submenu a{padding:8px 12px 8px 22px;min-height:44px;font-size:13px!important;line-height:1.5!important;color:#bbb1a2}
+html body #mobile-menu-drawer .sl-menu-submenu a.is-current{color:#ead7a6}
+html body #mobile-menu-drawer .sl-menu-utility{gap:6px}
+html body #mobile-menu-drawer .sl-menu-utility a{min-height:44px;font-size:14px!important}
+html body #mobile-menu-drawer .mobile-menu-brand{font-size:20px;letter-spacing:.09em}
+html body #mobile-menu-drawer .mobile-menu-sub{font-size:11px}
+html body #mobile-menu-drawer #menu-favorite-count{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:24px;height:24px;padding:0 5px;
+  box-sizing:border-box;border:1px solid #cbb47730;border-radius:50%;color:#d8c599;font:500 12px/1 'Manrope',sans-serif;
+}
+html body #mobile-menu-drawer .sl-menu-contact{
+  flex:none;margin-top:auto;padding:18px 0 calc(4px + env(safe-area-inset-bottom));border-top:1px solid #ffffff12;
+}
+html body #mobile-menu-drawer .sl-menu-contact a{
+  display:flex;align-items:center;gap:12px;min-height:48px;padding:8px 12px;box-sizing:border-box;
+  border:0;border-radius:5px;color:#e2d5bd;text-decoration:none;font:500 13px/1.5 'Manrope',sans-serif;
+  transition:color .2s,background-color .2s;
+}
+html body #mobile-menu-drawer .sl-menu-contact a:hover{color:#f0dfb9;background:#ffffff06}
+html body #mobile-menu-drawer .sl-menu-contact svg{width:18px;height:18px;flex:none;color:#cbb477}
+html body #mobile-menu-drawer .sl-menu-contact-copy{display:flex;flex-direction:column;gap:2px}
+html body #mobile-menu-drawer .sl-menu-contact small{font:400 11px/1.5 'Manrope',sans-serif;color:#9e9588}
+@media(prefers-reduced-motion:reduce){
+  html body #mobile-menu-drawer :is(.sl-menu-disclosure-toggle,.sl-menu-chevron,.sl-menu-contact a){transition:none!important}
+}

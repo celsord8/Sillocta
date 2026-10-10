@@ -4,7 +4,7 @@
 .sl-product-name-link:hover h3{text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:#cbb47780}
 .sl-product-image-link:focus-visible{outline:2px solid #cbb477;outline-offset:-4px;border-radius:8px}
 .sl-product-name-link:focus-visible{outline:1px solid #cbb477;outline-offset:5px;border-radius:2px}
-html body .sl-product-page{max-width:1160px;box-sizing:border-box;padding:132px 32px 78px;margin:0 auto;color:var(--sl-ivory,#efebe4);font-family:Montserrat,sans-serif}
+html body .sl-product-page{max-width:1160px;box-sizing:border-box;padding:132px 32px 78px;margin:0 auto;color:var(--sl-ivory,#efebe4);font-family:Manrope,sans-serif}
 .sl-product-breadcrumb{margin-bottom:28px}
 .sl-product-breadcrumb a{display:inline-flex;align-items:center;gap:11px;min-height:44px;color:#b3aa9c;font-size:11px;line-height:1.6;letter-spacing:.015em;text-decoration:none;transition:color .2s}
 .sl-product-breadcrumb a:hover{color:#e0c994}
@@ -22,7 +22,7 @@ html body .sl-product-info h1{font:300 clamp(38px,4vw,58px)/1.08 'Cormorant Gara
 .sl-product-type>span{margin:0 9px;color:#cbb477}
 .sl-product-intro{font-size:.875rem;line-height:1.9;color:#c5bdb1;margin:24px 0;text-wrap:pretty}
 .sl-product-notes{margin-bottom:28px}
-.sl-product-notes h2,.sl-product-label,.sl-product-volume legend{font:400 10px/1.7 Montserrat,sans-serif;letter-spacing:.04em;color:#aaa194}
+.sl-product-notes h2,.sl-product-label,.sl-product-volume legend{font:400 10px/1.7 Manrope,sans-serif;letter-spacing:.04em;color:#aaa194}
 .sl-product-notes h2{margin:0 0 10px}
 .sl-product-notes ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
 .sl-product-notes li{padding:7px 11px;border:1px solid #ffffff1f;font-size:11px;line-height:1.6;color:#d0c7b9;border-radius:3px}
@@ -31,13 +31,13 @@ html body .sl-product-info h1{font:300 clamp(38px,4vw,58px)/1.08 'Cormorant Gara
 .sl-product-label{display:block;margin-bottom:7px}
 .sl-product-prices{display:flex;align-items:baseline;flex-wrap:wrap;gap:12px}
 #product-price{font:400 31px/1.2 'Cormorant Garamond',serif;color:#e2d0a4;white-space:nowrap}
-#product-old-price{font:400 11px/1.6 Montserrat,sans-serif;color:#897f71;white-space:nowrap}
+#product-old-price{font:400 11px/1.6 Manrope,sans-serif;color:#897f71;white-space:nowrap}
 .sl-product-stock{font-size:10px;color:#b6bba9;line-height:1.7;text-align:right}
 .sl-product-stock.is-unavailable{color:#b3a38e;max-width:130px}
 html body .sl-product-volume{margin:0 0 22px;padding:0;border:0;min-width:0}
 .sl-product-volume legend{margin-bottom:10px}
 .sl-product-volume>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-html body .sl-product-page button{appearance:none;-webkit-appearance:none;touch-action:manipulation;font-family:Montserrat,sans-serif;cursor:pointer;box-shadow:none;background-image:none;-webkit-tap-highlight-color:transparent}
+html body .sl-product-page button{appearance:none;-webkit-appearance:none;touch-action:manipulation;font-family:Manrope,sans-serif;cursor:pointer;box-shadow:none;background-image:none;-webkit-tap-highlight-color:transparent}
 html body .sl-product-volume button{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;min-height:50px;padding:12px 30px;border:1px solid #ffffff35;border-radius:5px;background:transparent!important;color:#bfb5a5;font-size:12px;line-height:1.5;transition:color .2s,border-color .2s}
 html body .sl-product-volume button[aria-pressed=true]{border-color:#cbb477;color:#e1cda2}
 .sl-volume-check{position:absolute;right:10px;display:flex;align-items:center;opacity:0}
@@ -52,8 +52,8 @@ html body .sl-product-quantity button{display:flex;align-items:center;justify-co
 .sl-product-quantity svg{width:17px;height:17px}
 .sl-product-selection-total{margin:0 0 4px;text-align:right}
 .sl-product-selection-total>span{display:block;font-size:10px;color:#aaa194;margin-bottom:7px;line-height:1.7}
-.sl-product-selection-total strong{font:400 17px/1.6 Montserrat,sans-serif;color:#ded0b1;white-space:nowrap}
-html body .sl-product-primary,html body .sl-product-availability,html body .sl-product-bag{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;box-sizing:border-box;min-height:54px;padding:14px 18px;border:1px solid #cbb477;border-radius:6px;font:500 .8125rem/1.6 Montserrat,sans-serif;letter-spacing:.015em;transition:background-color .22s,border-color .22s,color .22s;box-shadow:none!important;background-image:none!important;white-space:normal}
+.sl-product-selection-total strong{font:400 17px/1.6 Manrope,sans-serif;color:#ded0b1;white-space:nowrap}
+html body .sl-product-primary,html body .sl-product-availability,html body .sl-product-bag{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;box-sizing:border-box;min-height:54px;padding:14px 18px;border:1px solid #cbb477;border-radius:6px;font:500 .8125rem/1.6 Manrope,sans-serif;letter-spacing:.015em;transition:background-color .22s,border-color .22s,color .22s;box-shadow:none!important;background-image:none!important;white-space:normal}
 .sl-product-page .sl-product-icon{display:block;flex:0 0 20px;width:20px;height:20px}
 html body .sl-product-primary{background:#cbb477!important;color:#18140c}
 html body .sl-product-primary:hover{background:#ddc791!important;border-color:#ddc791}
@@ -137,7 +137,7 @@ html body .sl-related-copy h3{font:400 26px/1.25 'Cormorant Garamond',serif;lett
 /* Quantity controls stay delicate at every viewport size. */
 html body .sl-product-quantity{display:inline-flex;align-items:center;justify-content:space-between;min-width:122px;min-height:46px;padding:0;gap:0;border:1px solid #cbb47738;border-radius:6px;background:transparent;box-shadow:none}
 html body .sl-product-quantity button{flex:0 0 44px;width:44px;min-width:44px;height:44px;min-height:44px;border:0;border-radius:5px;background:transparent!important;box-shadow:none;color:#cfc0a3;touch-action:manipulation;transition:color .18s ease,translate .18s ease}
-html body .sl-product-quantity output{min-width:32px;font:400 .8125rem/1.5 Montserrat,sans-serif;font-variant-numeric:tabular-nums;color:#e1d8cb}
+html body .sl-product-quantity output{min-width:32px;font:400 .8125rem/1.5 Manrope,sans-serif;font-variant-numeric:tabular-nums;color:#e1d8cb}
 html body .sl-product-quantity svg{width:15px;height:15px;stroke-width:1.35;pointer-events:none}
 html body .sl-product-quantity button:hover:not(:disabled){color:#ead7aa}
 html body .sl-product-quantity button:active:not(:disabled){translate:0 1px}
@@ -161,7 +161,7 @@ html body .sl-product-quantity button:focus-visible{outline:1px solid #dec894!im
 @media(prefers-reduced-motion:reduce){html body .sl-product-quantity button{transition:none;translate:0 0}}
 
 /* Match the compact catalog actions while leaving room for larger text. */
-html body .sl-product-page :is(.sl-product-primary,.sl-product-bag,.sl-product-availability){width:100%;max-width:21rem;min-height:44px;padding:10px 14px;border-radius:4px;font:400 .8125rem/1.6 Montserrat,sans-serif;letter-spacing:.015em;gap:9px;text-transform:none;white-space:normal;overflow-wrap:anywhere}
+html body .sl-product-page :is(.sl-product-primary,.sl-product-bag,.sl-product-availability){width:100%;max-width:21rem;min-height:44px;padding:10px 14px;border-radius:4px;font:400 .8125rem/1.6 Manrope,sans-serif;letter-spacing:.015em;gap:9px;text-transform:none;white-space:normal;overflow-wrap:anywhere}
 html body .sl-product-page .sl-product-primary{background:transparent!important;border-color:#cbb47770;color:#decca6}
 html body .sl-product-page .sl-product-primary:hover:not(:disabled){border-color:#dfc994;background:#cbb4770a!important;color:#f0dfb9}
 html body .sl-product-page .sl-product-primary:active:not(:disabled){border-color:#e5d1a4;background:#cbb47715!important}
@@ -171,3 +171,13 @@ html body .sl-product-page .sl-product-availability{border-color:#cbb47770}
 html body .sl-product-page .sl-product-icon{flex:0 0 17px;width:17px;height:17px;stroke-width:1.4}
 html body .sl-product-page .sl-product-volume button{min-height:58px;padding:8px 28px 8px 12px;border-radius:4px;font-size:.8125rem;font-weight:400}
 html body .sl-product-page .sl-product-volume .sl-volume-price{font-size:.8125rem;font-weight:400}
+
+/* Individual perfume pages use the same figure system as the bag. */
+html body .sl-product-page .sl-product-info h1{font-weight:400}
+html body .sl-product-page .sl-product-intro{font-weight:400;font-size:1rem;line-height:1.85}
+html body .sl-product-page :is(#product-price,#product-old-price,#product-total,.sl-product-quantity output,.sl-volume-price,.sl-related-price){font-family:'Manrope',system-ui,sans-serif!important;font-variant-numeric:lining-nums tabular-nums;letter-spacing:0}
+html body .sl-product-page #product-price{font:500 clamp(1.25rem,2vw,1.5rem)/1.4 'Manrope',system-ui,sans-serif}
+html body .sl-product-page #product-old-price{font-weight:400}
+html body .sl-product-page :is(#product-total,.sl-product-quantity output,.sl-product-volume button,.sl-product-primary,.sl-product-bag){font-weight:500}
+html body .sl-product-page .sl-volume-price{font-weight:400}
+@media(max-width:720px){html body .sl-product-page .sl-product-intro{font-size:.9375rem;line-height:1.85}}

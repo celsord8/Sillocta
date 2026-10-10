@@ -1,13 +1,16 @@
 /* Three identical runs keep the native, touch-driven carousel continuous. */
 (() => {
   'use strict';
+  function initializeCampaigns(){
   const root=document.getElementById('catalog-campaigns');
-  if(!root)return;
+  if(!root||root.getAttribute('data-campaign-ready')==='true')return;
   const track=root.querySelector('.sl-campaign-track');
-  const cards=[...track.querySelectorAll('.sl-campaign-card')];
   const pagination=root.querySelector('.sl-campaign-pagination');
+  if(!track||!pagination)return;
+  const cards=[...track.querySelectorAll('.sl-campaign-card')];
   const buttons=[...pagination.querySelectorAll('button')];
   if(!cards.length)return;
+  root.setAttribute('data-campaign-ready','true');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   const interval=1800;
   const indexes=new Map(cards.map((card,index)=>[card,index]));
@@ -29,7 +32,12 @@
   const copies=[...before,...after],all=[...before,...cards,...after];
   let pending=false,layoutPending=false,timer=0,settleTimer=0;
   let hovered=false,focused=false,pressed=false,manualUntil=0,looping=false,origin=0,period=0;
-  let inView=!('IntersectionObserver' in window);
+  const measureView=()=>{
+    const rect=root.getBoundingClientRect?.();
+    const height=window.innerHeight||document.documentElement?.clientHeight;
+    return rect&&height?rect.bottom>0&&rect.top<height:!('IntersectionObserver' in window);
+  };
+  let inView=measureView();
   const active=()=>Math.max(0,buttons.findIndex(button=>button.getAttribute('aria-pressed')==='true'));
   const offset=card=>track.scrollLeft+card.getBoundingClientRect().left-track.getBoundingClientRect().left;
   const visible=()=>all.filter(card=>!card.hidden);
@@ -114,9 +122,15 @@
   root.addEventListener('focusin',event=>{focused=!!event.target?.matches?.(':focus-visible');queueAutoplay();});
   root.addEventListener('focusout',event=>{focused=!!(root.contains(event.relatedTarget)&&event.relatedTarget?.matches?.(':focus-visible'));if(!focused)manual();else queueAutoplay();});
   root.addEventListener('keydown',()=>{focused=true;queueAutoplay();});
-  document.addEventListener('visibilitychange',queueAutoplay);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)inView=measureView();queueAutoplay();});
+  window.addEventListener('pagehide',()=>{stop();clearTimeout(settleTimer);settleTimer=0;});
+  window.addEventListener('pageshow',()=>{
+    pressed=false;hovered=false;manualUntil=0;
+    focused=!!(root.contains(document.activeElement)&&document.activeElement?.matches?.(':focus-visible'));
+    inView=measureView();resize();
+  });
   reduced.addEventListener?.('change',queueAutoplay);
-  if('IntersectionObserver' in window)new IntersectionObserver(entries=>{inView=entries[0]?.isIntersecting&&entries[0].intersectionRatio>=.35;queueAutoplay();},{threshold:[0,.35]}).observe(root);
+  if('IntersectionObserver' in window)new IntersectionObserver(entries=>{inView=!!entries[0]?.isIntersecting;queueAutoplay();},{threshold:0}).observe(root);
   track.addEventListener('keydown',event=>{
     if(event.target!==track||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
     event.preventDefault();manual();
@@ -127,4 +141,7 @@
   window.addEventListener('resize',resize,{passive:true});
   if('ResizeObserver' in window)new ResizeObserver(resize).observe(track);
   layout();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initializeCampaigns,{once:true});
+  else initializeCampaigns();
 })();
