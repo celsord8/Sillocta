@@ -28,7 +28,7 @@ test('Reload after an uncertain submission blocks a new card or Pix request',asy
   const h=harness({stored:{'sillocta-orders-test-uncertain':'1'}});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,0);h.context.selectCheckoutPayment('pix');assert.equal(h.nodes.get('checkout-finalize-btn').disabled,true);await h.context.submitOnlineOrder();assert.ok(h.nodes.get('checkout-error').textContent.includes('já foi enviado'));assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);
 });
 test('Selecting a card without a valid total shows an instruction instead of an empty form',async()=>{
-  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.paymentFlow.quote=null;h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,0);assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Informe o CEP.*Atualizar total/);
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.paymentFlow.quote=null;h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,0);assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Informe o CEP.*escolha a entrega/);
 });
 test('A pending test keeps its payment method and can be archived before starting a card test',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;
@@ -36,7 +36,7 @@ test('A pending test keeps its payment method and can be archived before startin
   h.context.fetch=async()=>Response.json(result);
   h.context.selectCheckoutPayment('pix');await h.context.submitOnlineOrder();
   h.context.selectCheckoutPayment('cartao');assert.equal(h.context._checkout.pagamento,'pix');assert.equal(h.mounts.length,0);assert.match(h.nodes.get('sillocta-payment-form').innerHTML,/pedido de Pix/);
-  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Iniciar outro teste/);
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Iniciar outro pedido/);
   h.nodes.get('sillocta-new-test').handlers.click();
   assert.equal(h.storage.get('sillocta-orders-test-receipt'),undefined);assert.equal(JSON.parse(h.storage.get('sillocta-orders-test-history'))[0].receipt,result.receipt);
   h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,1);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Consultar ORDTST-existing/);
@@ -79,7 +79,7 @@ test('Refreshing the same quote during card initialization does not restart the 
 test('Invalidating the quote removes the live card form until a new total is ready',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
   h.context.paymentFlow.quote=null;h.context.renderPaymentShipping();await tick();
-  assert.equal(h.unmounts.length,1);assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Informe o CEP.*Atualizar total/);
+  assert.equal(h.unmounts.length,1);assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Informe o CEP.*escolha a entrega/);
   h.context.paymentFlow.quote={quoteId:'updated',expiresAt:Date.now()+600000,totalCents:15990};h.context.renderPaymentShipping();await tick();
   assert.equal(h.mounts.length,2);assert.equal(h.mounts[1].options.initialization.amount,159.90);
 });
@@ -198,4 +198,28 @@ test('A stale SDK submit callback cannot charge after its card form is replaced'
   const stale=h.mounts[0].options.callbacks.onSubmit;h.context.selectCheckoutPayment('pix');h.context.selectCheckoutPayment('cartao');await tick();await tick();
   await stale({token:'stale-token',payment_method_id:'master',installments:1,payer:{identification:{type:'CPF',number:'12345678909'}}},{paymentTypeId:'credit_card'});
   assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);assert.equal(h.nodes.get('sillocta-card-submit').disabled,false);
+});
+test('A declined card shows no approval, does not poll or resubmit, and allows an explicit fresh form',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();let orders=0;
+  h.context.fetch=async()=>{orders++;return Response.json({state:'rejected',method:'cartao',receipt:'declined-receipt',orderId:'ORDTST-declined',totalCents:14040});};
+  await h.nodes.get('sillocta-card-submit').onclick();
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento não aprovado/);assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento aprovado/);assert.equal([...h.timers.values()].filter(t=>t.ms===10000).length,0);
+  await h.context.submitOnlineOrder();assert.equal(orders,1);h.nodes.get('sillocta-new-test').handlers.click();await tick();await tick();
+  assert.equal(h.mounts.length,2);assert.equal(h.nodes.get('sillocta-card-submit').disabled,false);assert.equal(JSON.parse(h.storage.get('sillocta-orders-test-history'))[0].receipt,'declined-receipt');assert.equal(orders,1);
+});
+test('The custom card button and an SDK callback racing during submission send only one order with the selected installments',async()=>{
+  let resolveToken,tokenizations=0;const h=harness({cardController:{unmount:async()=>{},getFormData:()=>{tokenizations++;return new Promise(resolve=>resolveToken=resolve);},getAdditionalData:()=>({paymentTypeId:'credit_card'})}});
+  await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();let finish,calls=0,payload;
+  h.context.fetch=(url,options)=>{calls++;payload=JSON.parse(options.body);return new Promise(resolve=>finish=()=>resolve(Response.json({state:'approved',method:'cartao',receipt:'race-receipt',orderId:'ORDTST-race',totalCents:14040})));};
+  const data={token:'button-token',payment_method_id:'master',installments:3,payer:{identification:{type:'CPF',number:'12345678909'}}},callback=h.mounts[0].options.callbacks.onSubmit;
+  const first=h.nodes.get('sillocta-card-submit').onclick();await callback(data,{paymentTypeId:'credit_card'});assert.equal(tokenizations,1);assert.equal(calls,0);
+  resolveToken(data);await tick();await callback(data,{paymentTypeId:'credit_card'});await h.context.submitOnlineOrder();assert.equal(calls,1);assert.equal(payload.card.installments,3);
+  finish();await first;await callback(data,{paymentTypeId:'credit_card'});assert.equal(calls,1);
+});
+test('An uncertain card response can only repeat the same payload without tokenizing again',async()=>{
+  let tokens=0;const h=harness({cardController:{unmount:async()=>{},getFormData:async()=>{tokens++;return {token:'retry-card-token',payment_method_id:'visa',installments:3,payer:{identification:{type:'CPF',number:'12345678909'}}};},getAdditionalData:()=>({paymentTypeId:'credit_card'})}});
+  await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();const payloads=[];
+  h.context.fetch=async(url,options)=>{payloads.push(options.body);if(payloads.length===1)throw Error('lost response');return Response.json({state:'approved',method:'cartao',receipt:'retried-card',orderId:'ORDTST-retried',totalCents:14040});};
+  await h.nodes.get('sillocta-card-submit').onclick();assert.equal(h.storage.get('sillocta-orders-test-uncertain'),'1');assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Repetir o mesmo envio/);assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento aprovado/);
+  await h.context.submitOnlineOrder();assert.equal(payloads.length,1);await h.nodes.get('sillocta-retry').handlers.click();assert.equal(payloads.length,2);assert.equal(payloads[1],payloads[0]);assert.equal(tokens,1);assert.equal(h.storage.get('sillocta-orders-test-uncertain'),undefined);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento aprovado/);
 });
