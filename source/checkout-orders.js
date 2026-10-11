@@ -1,6 +1,6 @@
 /* Sandbox-only Checkout Transparente. Card data stays inside Mercado Pago's SDK. */
 (function(){
-    const state={config:null,sdk:null,controller:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null};
+    const state={config:null,sdk:null,mp:null,controller:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null};
   const receiptKey='sillocta-orders-test-receipt',uncertainKey='sillocta-orders-test-uncertain',historyKey='sillocta-orders-test-history';
   const originalRender=renderCart,originalSelect=selectCheckoutPayment,originalClose=closeCart;
   window.paymentApi=async function(path,options={}){
@@ -43,17 +43,19 @@
     const amount=paymentFlow.quote.totalCents/100;
     container.innerHTML='<p class="sl-field-note" role="status">Carregando formulário seguro…</p>';
     try{
-      await loadSdk();await state.chain;if(generation!==state.generation||!container.isConnected)return;
-      container.innerHTML='';const mp=new MercadoPago(state.config.publicKey,{locale:'pt-BR'});
-      const controller=await cardTimeout(mp.bricks().create('cardPayment','sillocta-card-payment',{
+      await loadSdk();await cardTimeout(state.chain);if(generation!==state.generation||!container.isConnected)return;
+      container.innerHTML='';const mp=state.mp||(state.mp=new MercadoPago(state.config.publicKey,{locale:'pt-BR'}));
+      const creation=mp.bricks().create('cardPayment','sillocta-card-payment',{
         initialization:{amount,payer:{email:'test@testuser.com'}},
         customization:{visual:{style:{theme:'dark'}},paymentMethods:{maxInstallments:12}},
-        callbacks:{onReady:()=>{},onError:()=>error('Confira o formulário do cartão ou recarregue a página.'),onSubmit:async(formData,additionalData)=>{
+        callbacks:{onReady:()=>{},onError:detail=>{if(generation!==state.generation)return;const codes=['fields_setup_failed','get_payment_methods_failed','get_identification_types_failed','incorrect_initialization','missing_container_id','missing_amount_property','missing_locale_property','missing_required_callbacks','settings_empty'];const code=codes.includes(detail?.cause)?detail.cause:'unknown';console.warn('sillocta_card_initialization',code);error('Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');},onSubmit:async(formData,additionalData)=>{
           if(!validCustomer())throw Error('Confira os dados de contato e entrega.');
           return submitOnlineOrder({token:formData.token,id:formData.payment_method_id,type:additionalData?.paymentTypeId,installments:Number(formData.installments),identification:formData.payer?.identification});
         }}
-      }).then(async controller=>{if(generation!==state.generation||!container.isConnected){await controller.unmount();return null;}return controller;}));
-      if(!controller)return;
+      }).then(async controller=>{if(controller&&(generation!==state.generation||!container.isConnected)){await controller.unmount();return null;}return controller;});
+      state.chain=creation.then(()=>{}).catch(()=>{});
+      const controller=await cardTimeout(creation);
+      if(!controller){if(generation!==state.generation)return;throw Error('Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');}
       if(generation!==state.generation||!container.isConnected){await controller.unmount();return;}state.controller=controller;
     }catch(e){if(generation===state.generation){disposeCard();container.innerHTML='<p class="sl-field-note" role="status">'+escapeHtml(e.message||'Não foi possível carregar o formulário de cartão.')+'</p><button type="button" class="sl-cta-secondary" id="sillocta-card-retry">Tentar carregar cartão novamente</button>';byId('sillocta-card-retry')?.addEventListener('click',mountCard);error(e.message);}}
   }
