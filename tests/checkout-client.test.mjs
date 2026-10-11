@@ -124,6 +124,26 @@ test('No deadline is invented when the provider omits expiry; boleto shows its d
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.fetch=async()=>Response.json({state:'pending',method:'pix',receipt:'no-expiry',orderId:'ORDTST-no-expiry',totalCents:14040,qrCode:'PIX'});h.context.selectCheckoutPayment('pix');await h.context.submitOnlineOrder();assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/sillocta-countdown/);
   h.nodes.get('sillocta-new-test').handlers.click();h.context._checkout.cpf='12345678909';h.context.selectCheckoutPayment('boleto');h.context.fetch=async()=>Response.json({state:'pending',method:'boleto',receipt:'boleto-due',orderId:'ORDTST-boleto',totalCents:14040,digitableLine:'23793380296060054351030006333303799140000020000',ticketUrl:'https://www.mercadopago.com.br/payments/test',paymentExpiresAt:Date.parse('2026-10-14T23:59:59-03:00')});await h.context.submitOnlineOrder();const html=h.nodes.get('sillocta-payment-result').innerHTML;assert.match(html,/Seu boleto está pronto/);assert.match(html,/14 de out/);assert.match(html,/Abrir boleto/);assert.match(html,/Copiar linha digitável/);assert.doesNotMatch(html,/sillocta-countdown/);
 });
+test('Boleto waits for actual instructions and hydrates the same order without creating a second payment',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context._checkout.cpf='12345678909';h.context.selectCheckoutPayment('boleto');
+  const result={state:'pending',method:'boleto',receipt:'issuing-boleto',orderId:'ORDTST-issuing',totalCents:14040};let creates=0;
+  h.context.fetch=async url=>{if(url.endsWith('/order'))creates++;return Response.json(result);};await h.context.submitOnlineOrder();
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Boleto em emissão/);assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/Seu boleto está pronto|Copiar linha digitável|Abrir boleto/);
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Consultar emissão do boleto/);
+  const issued={...result,digitableLine:'23793380296060054351030006333303799140000020000',ticketUrl:'https://www.mercadopago.com.br/payments/test',paymentExpiresAt:Date.parse('2026-10-14T23:59:59-03:00')};
+  h.context.fetch=async()=>Response.json(issued);await h.nodes.get('sillocta-refresh').handlers.click();
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Seu boleto está pronto/);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Copiar linha digitável/);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Abrir boleto/);assert.equal(creates,1);
+  h.context.fetch=async()=>Response.json(result);await h.nodes.get('sillocta-refresh').handlers.click();
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/23793380296060054351030006333303799140000020000/);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/14 de out/);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Abrir boleto/);
+  h.nodes.get('sillocta-new-test').handlers.click();h.context.fetch=async()=>Response.json({...result,receipt:'another-boleto',orderId:'ORDTST-other'});await h.context.submitOnlineOrder();
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Boleto em emissão/);assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/23793380296060054351030006333303799140000020000|Abrir boleto/);
+});
+test('Boleto instructions disappear after confirmed expiry or rejection instead of remaining payable',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context._checkout.cpf='12345678909';h.context.selectCheckoutPayment('boleto');
+  const result={state:'pending',method:'boleto',receipt:'closed-boleto',orderId:'ORDTST-closed',totalCents:14040,digitableLine:'23793380296060054351030006333303799140000020000',ticketUrl:'https://www.mercadopago.com.br/payments/test'};
+  h.context.fetch=async()=>Response.json(result);await h.context.submitOnlineOrder();h.context.fetch=async()=>Response.json({...result,state:'expired',digitableLine:null,ticketUrl:null});await h.nodes.get('sillocta-refresh').handlers.click();
+  assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Prazo de pagamento encerrado/);assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/Copiar linha digitável|Abrir boleto/);
+});
 test('A created Pix immediately enters its own focused stage; polling preserves reading position and reset returns the form',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('pix');
   h.nodes.get('cart-drawer').scrollTop=1500;h.nodes.get('cart-items').scrollTop=1200;
