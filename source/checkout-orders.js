@@ -91,7 +91,7 @@
       const creation=mp.bricks().create('cardPayment','sillocta-card-payment',{
         initialization:{amount,payer:{email:'test@testuser.com'}},
         customization:{visual:{hidePaymentButton:true,style:{theme:'dark'}},paymentMethods:{maxInstallments:12,types:{included:['credit_card','debit_card']}}},
-        callbacks:{onReady:()=>{},onError:detail=>{if(generation!==state.generation)return;const codes=['fields_setup_failed','fields_setup_failed_after_3_tries','get_chunk_failed','get_payment_methods_failed','get_identification_types_failed','incorrect_initialization','missing_container_id','missing_amount_property','missing_locale_property','missing_required_callbacks','settings_empty','incomplete_fields','card_token_creation_failed','secure_fields_card_token_creation_failed'];const code=codes.includes(detail?.cause)?detail.cause:'unknown';console.warn('sillocta_card_initialization',code);if(detail?.type==='non_critical')error('Confira os campos indicados no formulário de cartão.');else cardFailure(container,generation,'Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');}}
+        callbacks:{onReady:()=>{},onSubmit:(formData,additionalData)=>submitCard({formData,additionalData}),onError:detail=>{if(generation!==state.generation)return;const codes=['fields_setup_failed','fields_setup_failed_after_3_tries','get_chunk_failed','get_payment_methods_failed','get_identification_types_failed','incorrect_initialization','missing_container_id','missing_amount_property','missing_locale_property','missing_required_callbacks','settings_empty','incomplete_fields','card_token_creation_failed','secure_fields_card_token_creation_failed'];const code=codes.includes(detail?.cause)?detail.cause:'unknown';console.warn('sillocta_card_initialization',code);if(detail?.type==='non_critical')error('Confira os campos indicados no formulário de cartão.');else cardFailure(container,generation,'Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');}}
       }).then(async controller=>{if(controller&&(generation!==state.generation||!container.isConnected)){await controller.unmount();return null;}return controller;});
       state.chain=creation.then(()=>{}).catch(()=>{});
       const controller=await cardTimeout(creation);
@@ -132,7 +132,7 @@
     const summary=byId('checkout-summary'),rows=summary?.querySelectorAll('.sl-summary-row');if(rows){rows[rows.length-2].querySelector('strong').textContent=chosen?(chosen.priceCents?brl(chosen.priceCents):'Grátis'):'A calcular';rows[rows.length-1].querySelector('span').textContent=total?'Total':'Total sem frete';byId('checkout-total').textContent=brl(total?total.totalCents:getTotals().total);summary.querySelector('.sl-shipping-note').textContent=chosen?chosen.name+' incluída no total.':'O valor da entrega será incluído após a consulta do CEP.';}
     if(window._checkout.pagamento==='cartao')mountCard();
   };
-  async function submitCard(){
+  async function submitCard(suppliedData){
     if(state.tokenizing||paymentFlow.submitting||state.result||state.attempt)return;
     if(!validCustomer())return;
     const quote=checkoutQuote();if(!quote){error('Atualize a entrega antes de pagar com cartão.');loadPaymentShipping();return;}
@@ -141,7 +141,7 @@
     state.tokenizing=true;error('');syncCardAction();
     try{
       const validationTimeout='A validação do cartão demorou. Confira os dados e tente novamente.';
-      const formData=await cardTimeout(controller.getFormData(),validationTimeout),additionalData=await cardTimeout(controller.getAdditionalData(),validationTimeout);
+      const formData=suppliedData?.formData??await cardTimeout(controller.getFormData(),validationTimeout),additionalData=suppliedData?.additionalData??await cardTimeout(controller.getAdditionalData(),validationTimeout);
       if(generation!==state.generation||controller!==state.controller||window._checkout.pagamento!=='cartao')return;
       const current=checkoutQuote();if(current?.quoteId!==quote.quoteId||current?.serviceId!==quote.serviceId||current?.totalCents!==quote.totalCents){error('O total mudou. Confira o valor e tente novamente.');return;}
       if(!formData?.token||!['credit_card','debit_card'].includes(additionalData?.paymentTypeId)){error('Confira os campos do cartão e tente novamente.');return;}
