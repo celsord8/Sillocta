@@ -54,3 +54,44 @@ html body #cart-drawer .sl-shipping-options{display:grid;gap:10px;margin-top:16p
 html body #cart-drawer .sl-shipping-choice{border-radius:6px;min-height:76px;padding:14px 12px}
 html body #cart-drawer .sl-shipping-choice.is-on{border-color:#cbb477;background:#cbb47709!important}
 html body #cart-drawer .sl-shipping-choice:disabled{cursor:default;opacity:.6}
+
+/* Sillocta checkout: the approved fonts, warm black surfaces and fine gold lines. */
+html body #cart-drawer.sl-orders-checkout{background:#0c0b0a!important;border-left:1px solid #cbb47730!important}
+html body #cart-drawer.sl-orders-checkout #cart-drawer-head{border-bottom:1px solid #cbb47726!important;background:#0c0b0a!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-intro{padding:8px 0 22px!important;border-bottom:1px solid #cbb47726;margin-bottom:22px!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-service{display:flex;align-items:center;gap:9px;color:#d9c69b!important;font-size:11px!important;letter-spacing:.065em!important;text-transform:uppercase}
+.sl-checkout-service>svg{flex:none;width:17px;height:17px}
+html body #cart-drawer .sl-checkout-preview{margin-left:auto;border:1px solid #cbb47730;border-radius:3px;padding:3px 7px;font-size:9px;letter-spacing:.04em;color:#b7ad9c}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-intro>p{margin:13px 0 0!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-block{background:#100f0d!important;border:1px solid #ffffff12!important;border-radius:6px!important;padding:20px!important;margin-bottom:16px!important;box-shadow:none!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-kicker{margin-bottom:18px!important;color:#e0cc9f!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-block[aria-labelledby="checkout-payment-title"]{border-color:#cbb47750!important}
+html body #cart-drawer.sl-orders-checkout .sl-input,
+html body #cart-drawer.sl-orders-checkout .sl-textarea{background:#0b0a09!important;border:1px solid #ffffff24!important;border-radius:4px!important;color:#eee6d8!important;transition:border-color .18s ease,background-color .18s ease}
+html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea):focus{border-color:#cbb477!important;background:#0e0c0a!important;outline:1px solid #cbb47740!important;outline-offset:1px!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea)::placeholder{color:#9e9485!important;opacity:1!important}
+html body #cart-drawer.sl-orders-checkout .sl-pay-grid{gap:10px!important}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn.is-on{background:#cbb4770d!important;border-color:#cbb477!important}
+html body #cart-drawer.sl-orders-checkout .sl-shipping-choice{border:1px solid #ffffff20!important;min-height:72px;gap:12px!important}
+html body #cart-drawer.sl-orders-checkout .sl-shipping-choice.is-on{border-color:#cbb477!important;background:#cbb4770c!important}
+html body #cart-drawer.sl-orders-checkout .sl-shipping-copy strong{font-weight:400!important;color:#ded4c4!important}
+html body #cart-drawer.sl-orders-checkout .sl-shipping-copy small{color:#b3a997!important;line-height:1.7}
+html body #cart-drawer.sl-orders-checkout .sl-order-summary{background:#15120e!important;border-color:#cbb47740!important}
+html body #cart-drawer.sl-orders-checkout .sl-summary-row.total{border-color:#cbb47735!important;padding-top:18px!important;margin-top:12px!important}
+html body #cart-drawer.sl-orders-checkout .sl-summary-row.total strong{color:#e1cc9d!important;font-variant-numeric:tabular-nums}
+html body #cart-drawer.sl-orders-checkout #sillocta-card-payment{overflow:hidden;border-radius:6px;background:#100f0d}
+html body #cart-drawer.sl-orders-checkout #sillocta-card-submit{width:100%;margin-top:16px!important}
+html body #cart-drawer .sl-checkout-security{margin-top:20px;padding-top:16px;border-top:1px solid #cbb47726;color:#bfb5a5}
+html body #cart-drawer .sl-checkout-security>summary{display:flex;align-items:center;gap:10px;min-height:44px;list-style:none;cursor:pointer;font:400 11px/1.7 Montserrat,sans-serif;letter-spacing:.005em}
+html body #cart-drawer .sl-checkout-security>summary::-webkit-details-marker{display:none}
+.sl-checkout-security>summary svg{color:#cbb477;flex:none}
+.sl-security-more{margin-left:auto;color:#cbb477;font-size:18px;font-weight:300;transition:transform .18s ease}
+.sl-checkout-security[open] .sl-security-more{transform:rotate(45deg)}
+html body #cart-drawer .sl-security-content{padding:0 0 0 30px}
+html body #cart-drawer .sl-security-content p{font:400 11px/1.8 Montserrat,sans-serif!important;color:#bfb5a5!important;margin:10px 0!important}
+html body #cart-drawer .sl-security-content strong{color:#dfd1b6!important;font-weight:500}
+html body #cart-drawer .sl-security-content .sl-security-preview{font-size:10px!important;color:#9e9485!important}
+html body #cart-drawer .sl-checkout-security>summary:focus-visible{outline:1px solid #cbb477;outline-offset:4px;border-radius:3px}
+@media(min-width:769px){html body #cart-drawer.sl-orders-checkout{width:540px!important;max-width:100vw!important}html body #cart-drawer.sl-orders-checkout #cart-items{padding-inline:28px!important}}
+@media(max-width:380px){html body #cart-drawer.sl-orders-checkout .sl-checkout-block{padding-inline:16px!important}html body #cart-drawer .sl-checkout-service{gap:7px!important;font-size:10px!important}html body #cart-drawer .sl-checkout-security>summary{font-size:10px}}
+@media(prefers-reduced-motion:reduce){html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea),.sl-security-more{transition:none!important}}
