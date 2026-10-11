@@ -7,7 +7,6 @@ html body #cart-drawer .sl-payment-result:not(:empty){padding:24px 20px;border:1
 html body #cart-drawer .sl-payment-result h3{font:400 27px/1.25 Georgia,serif;color:#e1c992;letter-spacing:0;margin:22px 0 18px}
 html body #cart-drawer .sl-payment-result p{font:400 12px/1.7 Montserrat,sans-serif;overflow-wrap:anywhere;color:#bcb5a7}
 .sl-result-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.sl-result-badge{font-size:9px;line-height:1.5;letter-spacing:.015em;color:#a59e8f}
 .sl-result-method{font-size:10px;line-height:1.5;color:#d5c291;padding:4px 9px;border:1px solid #c8af7240;border-radius:30px}
 .sl-result-amount{padding-bottom:18px;border-bottom:1px solid #c8af7226}
 .sl-result-amount>span{display:block;font-size:11px;color:#aaa292;margin-bottom:6px}
@@ -36,7 +35,7 @@ html body #cart-drawer .sl-payment-result .sl-result-details p{font-size:10px;ma
 .sl-result-footer{margin-top:16px}
 html body #cart-drawer .sl-payment-result .sl-result-footer .sl-cta-secondary{min-height:34px;background:transparent;border:0;color:#a69c89;text-decoration:underline;text-underline-offset:4px}
 html body #cart-drawer .sl-payment-result .sl-result-footer p{font-size:9px;text-align:center;margin:6px 0 0}
-@media(max-width:380px){html body #cart-drawer .sl-payment-result:not(:empty){padding:20px 16px}.sl-result-badge{font-size:8px}.sl-pix-qr{width:210px}}
+@media(max-width:380px){html body #cart-drawer .sl-payment-result:not(:empty){padding:20px 16px}.sl-pix-qr{width:210px}}
 /* The created payment is its own stage, without the long editable form above. */
 html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-wrap > *{display:none!important}
 html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-wrap > section[aria-labelledby="checkout-payment-title"]{display:block!important;border:0!important;padding:0!important;margin:0!important;background:transparent!important}
@@ -61,7 +60,6 @@ html body #cart-drawer.sl-orders-checkout #cart-drawer-head{border-bottom:1px so
 html body #cart-drawer.sl-orders-checkout .sl-checkout-intro{padding:8px 0 22px!important;border-bottom:1px solid #cbb47726;margin-bottom:22px!important}
 html body #cart-drawer.sl-orders-checkout .sl-checkout-service{display:flex;align-items:center;gap:9px;color:#d9c69b!important;font-size:11px!important;letter-spacing:.065em!important;text-transform:uppercase}
 .sl-checkout-service>svg{flex:none;width:17px;height:17px}
-html body #cart-drawer .sl-checkout-preview{margin-left:auto;border:1px solid #cbb47730;border-radius:3px;padding:3px 7px;font-size:9px;letter-spacing:.04em;color:#b7ad9c}
 html body #cart-drawer.sl-orders-checkout .sl-checkout-intro>p{margin:13px 0 0!important}
 html body #cart-drawer.sl-orders-checkout .sl-checkout-block{background:#100f0d!important;border:1px solid #ffffff12!important;border-radius:6px!important;padding:20px!important;margin-bottom:16px!important;box-shadow:none!important}
 html body #cart-drawer.sl-orders-checkout .sl-checkout-kicker{margin-bottom:18px!important;color:#e0cc9f!important}
@@ -90,7 +88,6 @@ html body #cart-drawer .sl-checkout-security>summary::-webkit-details-marker{dis
 html body #cart-drawer .sl-security-content{padding:0 0 0 30px}
 html body #cart-drawer .sl-security-content p{font:400 11px/1.8 Montserrat,sans-serif!important;color:#bfb5a5!important;margin:10px 0!important}
 html body #cart-drawer .sl-security-content strong{color:#dfd1b6!important;font-weight:500}
-html body #cart-drawer .sl-security-content .sl-security-preview{font-size:10px!important;color:#9e9485!important}
 html body #cart-drawer .sl-checkout-security>summary:focus-visible{outline:1px solid #cbb477;outline-offset:4px;border-radius:3px}
 @media(min-width:769px){html body #cart-drawer.sl-orders-checkout{width:540px!important;max-width:100vw!important}html body #cart-drawer.sl-orders-checkout #cart-items{padding-inline:28px!important}}
 @media(max-width:380px){html body #cart-drawer.sl-orders-checkout .sl-checkout-block{padding-inline:16px!important}html body #cart-drawer .sl-checkout-service{gap:7px!important;font-size:10px!important}html body #cart-drawer .sl-checkout-security>summary{font-size:10px}}
