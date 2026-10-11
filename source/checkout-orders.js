@@ -3,7 +3,46 @@
     const state={rendering:false,config:null,sdk:null,mp:null,controller:null,cardMount:null,tokenizing:false,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null,countdown:null,clockOffset:0,expiryChecked:null};
   const receiptKey='sillocta-orders-test-receipt',uncertainKey='sillocta-orders-test-uncertain',historyKey='sillocta-orders-test-history';
   const securityIcon='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="M12 3l7 3v6c0 4-4 7-7 9-3-2-7-5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M8.5 12l2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  function securityInfo(){return '<details class="sl-checkout-security"><summary>'+securityIcon+'<span>Pagamento processado pelo Mercado Pago</span><span class="sl-security-more" aria-hidden="true">+</span></summary><div class="sl-security-content">'+(location.protocol==='https:'?'<p><strong>Conexão HTTPS</strong> · Os dados são transmitidos por uma conexão criptografada.</p>':'')+'<p><strong>Dados do cartão</strong> · Número e código de segurança são enviados pelo formulário seguro do Mercado Pago. A Sillocta recebe um token para processar o pagamento.</p></div></details>';}
+  function securityInfo(){return '<details class="sl-checkout-security"><summary>'+securityIcon+'<span>Pagamento processado pelo Mercado Pago</span><span class="sl-security-more" aria-hidden="true">+</span></summary><div class="sl-security-content">'+(location.protocol==='https:'?'<p><strong>Conexão HTTPS</strong> · Os dados são transmitidos por uma conexão criptografada.</p>':'')+'<p><strong>Dados do cartão</strong> · Número e código de segurança são enviados pelo formulário seguro do Mercado Pago. A Sillocta recebe um token para processar o pagamento.</p><p><strong>Mercado Pago · PCI DSS</strong> · O processador de pagamentos é certificado neste padrão de segurança. <a href="https://www.mercadopago.com.br/developers/pt/docs/adobe-commerce/resources/security/pci" target="_blank" rel="noopener noreferrer">Consultar documentação do Mercado Pago</a>.</p></div></details>';}
+  const disclosures=new Map();
+  function optionalFields(container,key,title,hasValue){
+    const details=document.createElement('details'),summary=document.createElement('summary'),content=document.createElement('div');
+    details.className='sl-checkout-optional';details.id='sillocta-optional-'+key;
+    summary.innerHTML='<span>'+title+'</span><span class="sl-optional">Opcional</span><span class="sl-disclosure-mark" aria-hidden="true">+</span>';
+    const heading=container.querySelector('.sl-checkout-kicker');
+    if(heading){summary.id=heading.id;heading.remove();}
+    content.className='sl-optional-content';while(container.firstChild)content.appendChild(container.firstChild);
+    details.open=!!hasValue||disclosures.get(key)===true;
+    details.addEventListener('toggle',()=>{if(details.isConnected)disclosures.set(key,details.open);});
+    details.append(summary,content);container.appendChild(details);
+    return details;
+  }
+  function polishCheckoutStructure(payment,address){
+    const wrap=byId('cart-items').querySelector('.sl-checkout-wrap');if(!wrap||wrap.dataset.polished)return;
+    wrap.dataset.polished='true';
+    const field=key=>byId('checkout-'+key).closest('.sl-field');
+    const contact=byId('checkout-contact-title').closest('section'),contactGrid=contact.querySelector('.sl-grid');
+    contactGrid.classList.add('sl-contact-fields');['nome','email','fone'].forEach(key=>contactGrid.appendChild(field(key)));
+    const addressGrid=address.querySelector('.sl-grid');addressGrid.classList.add('sl-address-fields');
+    ['cep','logradouro','numero'].forEach(key=>addressGrid.appendChild(field(key)));
+    const complement=document.createElement('div');complement.className='sl-address-complement';complement.appendChild(field('complemento'));addressGrid.appendChild(complement);
+    optionalFields(complement,'complemento','Adicionar complemento',window._checkout.complemento);
+    addressGrid.appendChild(field('bairro'));
+    const city=document.createElement('div');city.className='sl-city-fields';city.append(field('cidade'),field('uf'));addressGrid.appendChild(city);
+    wrap.querySelectorAll('.sl-field input[required]').forEach(input=>{
+      const label=input.closest('.sl-field').querySelector('label'),marker=document.createElement('span');
+      marker.className='sl-required';marker.textContent='Obrigatório';label.appendChild(marker);
+    });
+    ['checkout-contact-title','checkout-address-title','checkout-payment-title'].forEach((id,index)=>{
+      const heading=byId(id),number=document.createElement('span');number.className='sl-checkout-step';number.textContent=String(index+1).padStart(2,'0');number.setAttribute('aria-hidden','true');heading.prepend(number);
+    });
+    const extras=byId('checkout-extras-title').closest('section'),notes=byId('checkout-observations-title').closest('section');
+    optionalFields(extras,'extras','Cupom e presente',window._couponPct||window._giftWrap);extras.classList.add('sl-optional-block');
+    optionalFields(notes,'observacoes','Observações do pedido',window._orderObs);notes.classList.add('sl-optional-block');
+    wrap.insertBefore(extras,payment);wrap.insertBefore(notes,payment);
+    payment.insertBefore(byId('checkout-summary'),byId('sillocta-payment-form'));
+    payment.insertBefore(wrap.querySelector('.sl-checkout-actions'),byId('sillocta-checkout-security'));
+  }
   const originalRender=renderCart,originalSelect=selectCheckoutPayment,originalClose=closeCart;
   window.paymentApi=async function(path,options={}){
     let response;try{response=await fetch('/api/checkout/'+path,{...options,credentials:'same-origin',headers:{'content-type':'application/json',...options.headers},signal:options.signal||AbortSignal.timeout(25000)});}catch{throw Object.assign(Error('A conexão demorou. Seus dados foram mantidos.'),{code:'provider_unavailable'});}
@@ -125,6 +164,7 @@
     if(!byId('checkout-shipping-options'))address.insertAdjacentHTML('afterend','<section id="checkout-shipping-options" class="sl-checkout-block" aria-label="Forma de entrega"></section>');
     byId('checkout-submit-note').textContent='Seus dados de pagamento são processados pelo Mercado Pago.';
     const email=byId('checkout-email');email.required=true;email.closest('.sl-field').querySelector('.sl-optional')?.remove();
+    polishCheckoutStructure(payment,address);
     syncPaymentShipping();renderPaymentShipping();renderMethod();
   };
   window.renderPaymentShipping=function(){
