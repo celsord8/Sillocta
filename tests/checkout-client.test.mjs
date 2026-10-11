@@ -152,6 +152,20 @@ test('Re-rendering a saved payment does not display a false method-change error'
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('pix');h.context.fetch=async()=>Response.json({state:'pending',method:'pix',receipt:'saved-pix',orderId:'ORDTST-saved',totalCents:14040});await h.context.submitOnlineOrder();h.context.renderCart();assert.equal(h.nodes.get('checkout-error').textContent,'');
   h.context.selectCheckoutPayment('boleto');assert.match(h.nodes.get('checkout-error').textContent,/pedido já foi criado/);
 });
+test('Real shipping displays the estimated-package notice and updates the secure card amount when choosing a carrier',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;
+  h.context.paymentFlow.quote={quoteId:'real-quote',expiresAt:Date.now()+600000,totalCents:14040,shippingSimulation:false,options:[{id:'me-1',name:'Correios · PAC',priceCents:2250,daysRange:[4,6]},{id:'me-2',name:'Correios · SEDEX',priceCents:3250,daysRange:[2,3]}]};
+  h.context.renderPaymentShipping();h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.at(-1).options.initialization.amount,162.90);
+  const html=h.nodes.get('checkout-shipping-options').innerHTML;assert.match(html,/Cotação do Melhor Envio com embalagem estimada/);assert.doesNotMatch(html,/Valores e prazos demonstrativos/);assert.match(html,/4 a 6 dias úteis/);
+  h.context.selectPaymentShipping('me-2');await tick();await tick();assert.equal(h.mounts.at(-1).options.initialization.amount,172.90);
+});
+test('Retrying an uncertain payment with an expired quote never silently recalculates or changes the amount',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('pix');
+  h.context.fetch=async(url,options)=>{h.requests.push({url,options});throw Error('lost response');};
+  await h.context.submitOnlineOrder();assert.ok(h.nodes.get('sillocta-retry'));const calls=h.requests.length;
+  const future=Date.now()+700000;h.context.Date=class extends Date {static now(){return future;}};
+  await h.nodes.get('sillocta-retry').handlers.click();assert.equal(h.requests.length,calls);assert.match(h.nodes.get('checkout-error').textContent,/cotação expirou.*Confira este pedido/);assert.equal(h.storage.get('sillocta-orders-test-uncertain'),'1');
+});
 test('Payment-stage hiding targets the actual checkout wrapper and keeps the payment section visible',()=>{
   const layout=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8'),css=readFileSync(new URL('../source/checkout-orders.css',import.meta.url),'utf8');
   const wrapper=layout.match(/<div class="(sl-checkout-wrap)">/)[1];assert.ok(css.includes('#cart-items .'+wrapper+' > *{display:none!important}'));assert.ok(css.includes('#cart-items .'+wrapper+' > section[aria-labelledby="checkout-payment-title"]{display:block!important'));assert.ok(css.includes('section[aria-labelledby="checkout-payment-title"] > *:not(#sillocta-payment-result)'));
