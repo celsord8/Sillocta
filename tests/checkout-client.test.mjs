@@ -185,3 +185,10 @@ test('Payment-stage hiding targets the actual checkout wrapper and keeps the pay
   const layout=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8'),css=readFileSync(new URL('../source/checkout-orders.css',import.meta.url),'utf8');
   const wrapper=layout.match(/<div class="(sl-checkout-wrap)">/)[1];assert.ok(css.includes('#cart-items .'+wrapper+' > *{display:none!important}'));assert.ok(css.includes('#cart-items .'+wrapper+' > section[aria-labelledby="checkout-payment-title"]{display:block!important'));assert.ok(css.includes('section[aria-labelledby="checkout-payment-title"] > *:not(#sillocta-payment-result)'));
 });
+
+test('The SDK submit callback uses tokenized data without tokenizing again and blocks duplicate submissions',async()=>{
+  const h=harness({cardController:{unmount:async()=>{},getFormData:async()=>{throw Error('must not tokenize again');},getAdditionalData:()=>{throw Error('must not request data again');}}});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
+  let finishOrder,calls=0,sent;h.context.fetch=(url,options)=>{calls++;sent=JSON.parse(options.body);return new Promise(resolve=>finishOrder=()=>resolve(Response.json({state:'approved',method:'cartao',receipt:'sdk-receipt',orderId:'ORDTST-sdk',totalCents:14040})));};
+  const submit=h.mounts[0].options.callbacks.onSubmit,card={token:'sdk-token',payment_method_id:'master',installments:3,payer:{identification:{type:'CPF',number:'12345678909'}}},additional={paymentTypeId:'credit_card'};
+  const first=submit(card,additional);await tick();await submit(card,additional);assert.equal(calls,1);assert.equal(sent.card.token,'sdk-token');assert.equal(sent.card.installments,3);finishOrder();await first;assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento aprovado/);
+});
