@@ -6,8 +6,8 @@ const code=readFileSync(new URL('../source/checkout-orders.js',import.meta.url),
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 function harness({pendingMount=false,stored={},cardController}={}){
   const nodes=new Map(),storage=new Map(Object.entries(stored)),mounts=[],unmounts=[],requests=[],timers=new Map();let timerId=0;
-  const node=id=>{const value={id,textContent:'',hidden:false,disabled:false,isConnected:true,handlers:{},addEventListener(k,f){this.handlers[k]=f;},remove(){this.isConnected=false;},focus(){},scrollIntoView(){},select(){},querySelector(){return node('child');}};Object.defineProperty(value,'innerHTML',{set(html){this.html=html;for(const match of html.matchAll(/id="([^"]+)"/g))node(match[1]);},get(){return this.html||'';}});nodes.set(id,value);return value;};
-  for(const id of ['sillocta-payment-form','sillocta-payment-result','checkout-finalize-btn','checkout-error','checkout-shipping-options'])node(id);
+  const node=id=>{const value={id,textContent:'',hidden:false,disabled:false,isConnected:true,focusCount:0,handlers:{},addEventListener(k,f){this.handlers[k]=f;},remove(){this.isConnected=false;},focus(){this.focusCount++;},scrollIntoView(){},setAttribute(k,v){this.attributes[k]=v;},attributes:{},classList:{values:new Set(),contains(k){return this.values.has(k);},toggle(k,on){on?this.values.add(k):this.values.delete(k);}},select(){},querySelector(){return node('child');}};Object.defineProperty(value,'innerHTML',{set(html){this.html=html;for(const match of html.matchAll(/id="([^"]+)"/g))node(match[1]);},get(){return this.html||'';}});nodes.set(id,value);return value;};
+  for(const id of ['sillocta-payment-form','sillocta-payment-result','checkout-finalize-btn','checkout-error','checkout-shipping-options','cart-drawer','cart-items'])node(id);
   let selected='cartao',resolveMount;
   const document={head:{appendChild(){}},querySelectorAll:()=>[],createElement:()=>node('script')};
   const paymentFlow={enabled:true,quote:{quoteId:'signed',expiresAt:Date.now()+600000,totalCents:14040}};
@@ -124,4 +124,27 @@ test('An elapsed Pix hides payment instructions and checks the provider without 
 test('No deadline is invented when the provider omits expiry; boleto shows its due date and actions',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.fetch=async()=>Response.json({state:'pending',method:'pix',receipt:'no-expiry',orderId:'ORDTST-no-expiry',totalCents:14040,qrCode:'PIX'});h.context.selectCheckoutPayment('pix');await h.context.submitOnlineOrder();assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/sillocta-countdown/);
   h.nodes.get('sillocta-new-test').handlers.click();h.context._checkout.cpf='12345678909';h.context.selectCheckoutPayment('boleto');h.context.fetch=async()=>Response.json({state:'pending',method:'boleto',receipt:'boleto-due',orderId:'ORDTST-boleto',totalCents:14040,digitableLine:'23793380296060054351030006333303799140000020000',ticketUrl:'https://www.mercadopago.com.br/payments/test',paymentExpiresAt:Date.parse('2026-10-14T23:59:59-03:00')});await h.context.submitOnlineOrder();const html=h.nodes.get('sillocta-payment-result').innerHTML;assert.match(html,/Seu boleto está pronto/);assert.match(html,/14 de out/);assert.match(html,/Abrir boleto/);assert.match(html,/Copiar linha digitável/);assert.doesNotMatch(html,/sillocta-countdown/);
+});
+test('A created Pix immediately enters its own focused stage; polling preserves reading position and reset returns the form',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('pix');
+  h.nodes.get('cart-drawer').scrollTop=1500;h.nodes.get('cart-items').scrollTop=1200;
+  h.context.fetch=async()=>Response.json({state:'pending',method:'pix',receipt:'stage-pix',orderId:'ORDTST-stage',totalCents:14040,qrImage:'aGVsbG8=',qrCode:'PIX'});
+  await h.context.submitOnlineOrder();const drawer=h.nodes.get('cart-drawer'),region=h.nodes.get('sillocta-payment-result');
+  assert.equal(drawer.classList.contains('sl-payment-stage'),true);assert.equal(drawer.scrollTop,0);assert.equal(h.nodes.get('cart-items').scrollTop,0);assert.equal(region.focusCount,1);assert.equal(region.attributes.tabindex,'-1');
+  assert.ok(region.innerHTML.indexOf('sillocta-copy-code')<region.innerHTML.indexOf('sillocta-payment-code'));assert.match(region.innerHTML,/sl-pix-code-details/);
+  drawer.scrollTop=220;await h.nodes.get('sillocta-refresh').handlers.click();assert.equal(drawer.scrollTop,220);assert.equal(region.focusCount,1);
+  h.nodes.get('sillocta-new-test').handlers.click();assert.equal(drawer.classList.contains('sl-payment-stage'),false);assert.equal(drawer.attributes['aria-label'],'Sua sacola');
+});
+test('Delivery selection changes the SDK amount and submitted service; pending orders cannot change delivery',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;
+  h.context.paymentFlow.quote={quoteId:'delivery-quote',expiresAt:Date.now()+600000,totalCents:14040,options:[{id:'sandbox',name:'Entrega padrão',priceCents:1990,daysRange:[5,8]},{id:'sandbox-express',name:'Entrega expressa',priceCents:2990,daysRange:[2,4]}]};
+  h.context.renderPaymentShipping();h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.at(-1).options.initialization.amount,160.30);
+  h.context.selectPaymentShipping('sandbox-express');await tick();await tick();assert.equal(h.mounts.at(-1).options.initialization.amount,170.30);assert.equal(h.context.paymentFlow.selected,'sandbox-express');
+  let payload;h.context.fetch=async(url,options)=>{payload=JSON.parse(options.body);return Response.json({state:'pending',method:'cartao',receipt:'delivery-receipt',orderId:'ORDTST-delivery',totalCents:17030});};
+  await h.nodes.get('sillocta-card-submit').onclick();assert.equal(payload.serviceId,'sandbox-express');assert.equal(payload.quoteId,'delivery-quote');
+  h.context.selectPaymentShipping('sandbox');assert.equal(h.context.paymentFlow.selected,'sandbox-express');assert.match(h.nodes.get('sillocta-result-feedback').textContent,/alterar a entrega/);
+});
+test('A status connection failure remains visible on the dedicated payment stage without creating another order',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('pix');h.context.fetch=async()=>Response.json({state:'pending',method:'pix',receipt:'failure-receipt',orderId:'ORDTST-failure',totalCents:14040});await h.context.submitOnlineOrder();
+  h.context.fetch=async()=>{throw Error('network');};await h.nodes.get('sillocta-refresh').handlers.click();assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/A conexão demorou/);assert.equal(h.nodes.get('cart-drawer').classList.contains('sl-payment-stage'),true);
 });
