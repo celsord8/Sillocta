@@ -10,7 +10,7 @@ Versão de teste da loja, com o visual anterior à troca tipográfica preservado
 
 As variáveis secretas `MERCADO_PAGO_ACCESS_TOKEN` e `MERCADO_PAGO_PUBLIC_KEY` devem existir somente em Preview. O Access Token nunca vai ao navegador. A Public Key é obtida pela configuração pública em tempo de execução, sem gravar seu valor no repositório. O checkout permanece desligado em Production e Development.
 
-Este primeiro teste usa exclusivamente a família TEST de credenciais fornecida pelo proprietário. A documentação atual de Orders informa credenciais de teste com prefixo APP_USR: caso a API rejeite as credenciais legadas, obter as chaves na seção Testes da aplicação correspondente e verificar a identidade do vendedor de teste antes de migrar a configuração. O prefixo APP_USR sozinho não distingue teste de produção.
+Use o par Public Key e Access Token da seção **Teste** da aplicação **Checkout Transparente / API Orders**, ambos com prefixo APP_USR. As chaves legadas TEST não ativam este checkout. O prefixo APP_USR sozinho não distingue teste de produção: antes de abrir a sessão ou criar/consultar um pagamento, o servidor consulta `GET https://api.mercadolibre.com/users/me` com o token privado e exige um usuário brasileiro (`country_id: BR`, `site_id: MLB`) com a tag `test_user`. Uma conta real, identidade incompleta ou falha nessa consulta bloqueia o pagamento. O vendedor de cada order deve corresponder à identidade verificada; a troca de credenciais invalida cotações e recibos antigos. Valores de credenciais e dados privados dessa consulta não são gravados no código, enviados ao navegador ou incluídos nos logs.
 
 ## Como testar
 
