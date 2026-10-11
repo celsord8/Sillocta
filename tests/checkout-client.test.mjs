@@ -62,6 +62,12 @@ test('Starting another test fails closed when the previous receipt cannot be sav
 test('An SDK initialization failure returning no controller shows a visible retry',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.MercadoPago=class {bricks(){return {create:async()=>undefined};}};h.context.selectCheckoutPayment('cartao');await tick();assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Não foi possível inicializar/);assert.ok(h.nodes.get('sillocta-card-retry'));
 });
-test('Repeated card selection waits for the previous initialization to finish before creating another Brick',async()=>{
-  const h=harness({pendingMount:true});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,1);h.finishMount();await tick();assert.equal(h.unmounts.length,1);assert.equal(h.mounts.length,2);h.finishMount();await tick();
+test('Selecting the active card method preserves its existing initialization and form',async()=>{
+  const h=harness({pendingMount:true});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,1);h.finishMount();await tick();assert.equal(h.unmounts.length,0);h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,1);h.context.selectCheckoutPayment('pix');await tick();assert.equal(h.unmounts.length,1);
+});
+test('Switching payment methods clears the previous error and keeps saved boleto data',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context._checkout.cpf='12345678909';h.context.selectCheckoutPayment('cartao');await tick();h.nodes.get('checkout-error').textContent='Card initialization failed';h.context.selectCheckoutPayment('pix');assert.equal(h.nodes.get('checkout-error').textContent,'');assert.match(h.nodes.get('checkout-finalize-btn').innerHTML,/Gerar Pix/);h.context.selectCheckoutPayment('boleto');assert.match(h.nodes.get('sillocta-payment-form').innerHTML,/12345678909/);assert.match(h.nodes.get('checkout-finalize-btn').innerHTML,/Gerar boleto/);h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.nodes.get('checkout-finalize-btn').hidden,true);
+});
+test('An invalid method cannot change the selected form or payment action',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('boleto');const form=h.nodes.get('sillocta-payment-form').innerHTML;h.context.selectCheckoutPayment('invalid');assert.equal(h.context._checkout.pagamento,'boleto');assert.equal(h.nodes.get('sillocta-payment-form').innerHTML,form);
 });
