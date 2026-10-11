@@ -68,8 +68,19 @@ html body #cart-drawer.sl-orders-checkout .sl-input,
 html body #cart-drawer.sl-orders-checkout .sl-textarea{background:#0b0a09!important;border:1px solid #ffffff24!important;border-radius:4px!important;color:#eee6d8!important;transition:border-color .18s ease,background-color .18s ease}
 html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea):focus{border-color:#cbb477!important;background:#0e0c0a!important;outline:1px solid #cbb47740!important;outline-offset:1px!important}
 html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea)::placeholder{color:#9e9485!important;opacity:1!important}
-html body #cart-drawer.sl-orders-checkout .sl-pay-grid{gap:10px!important}
-html body #cart-drawer.sl-orders-checkout .sl-pay-btn.is-on{background:#cbb4770d!important;border-color:#cbb477!important}
+html body #cart-drawer.sl-orders-checkout .sl-pay-grid{gap:10px!important;align-items:stretch}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn{min-height:118px!important;padding:20px 9px 14px!important;gap:10px!important;border-radius:6px!important;transition:border-color .18s ease,background-color .18s ease,color .18s ease!important}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn .sl-control-icon{width:22px;height:22px;flex:none;color:#bfb4a0}
+html body #cart-drawer.sl-orders-checkout .sl-payment-choice-copy{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+html body #cart-drawer.sl-orders-checkout .sl-payment-choice-name{font-weight:500;color:#e2d9ca;line-height:1.5}
+html body #cart-drawer.sl-orders-checkout .sl-payment-choice-copy small{display:block;font:400 11px/1.5 Montserrat,sans-serif;color:#b7ad9d;text-align:center;min-height:33px}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn .sl-option-check{top:8px;right:8px;width:18px;height:18px;border:1px solid #cbb47766;border-radius:50%;font-size:10px;opacity:1;color:transparent;transition:background-color .18s ease,color .18s ease}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn.is-on{background:#cbb4771a!important;border-color:#cbb477!important}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn.is-on .sl-option-check{background:#cbb477;border-color:#cbb477;color:#17130c}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn.is-on :is(.sl-control-icon,.sl-payment-choice-name){color:#e3cfa0}
+@media(hover:hover){html body #cart-drawer.sl-orders-checkout .sl-pay-btn:not(.is-on):hover{background:#cbb47708!important;border-color:#cbb47780!important}}
+@media(max-width:480px){html body #cart-drawer.sl-orders-checkout .sl-pay-grid{grid-template-columns:minmax(0,1fr)!important;gap:9px!important}html body #cart-drawer.sl-orders-checkout .sl-pay-btn{flex-direction:row!important;justify-content:flex-start!important;text-align:left;min-height:76px!important;padding:15px 45px 15px 16px!important;gap:14px!important}html body #cart-drawer.sl-orders-checkout .sl-payment-choice-copy{align-items:flex-start;gap:3px}html body #cart-drawer.sl-orders-checkout .sl-payment-choice-copy small{text-align:left;min-height:0}html body #cart-drawer.sl-orders-checkout .sl-pay-btn .sl-option-check{top:calc(50% - 9px);right:16px}}
+@media(prefers-reduced-motion:reduce){html body #cart-drawer.sl-orders-checkout :is(.sl-pay-btn,.sl-option-check){transition:none!important}}
 html body #cart-drawer.sl-orders-checkout .sl-shipping-choice{border:1px solid #ffffff20!important;min-height:72px;gap:12px!important}
 html body #cart-drawer.sl-orders-checkout .sl-shipping-choice.is-on{border-color:#cbb477!important;background:#cbb4770c!important}
 html body #cart-drawer.sl-orders-checkout .sl-shipping-copy strong{font-weight:400!important;color:#ded4c4!important}
