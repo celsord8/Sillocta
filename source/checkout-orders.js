@@ -115,7 +115,10 @@
     if(!paymentFlow.enabled||!cart.length)return;
     byId('cart-drawer')?.classList.add('sl-orders-checkout');
     const intro=byId('cart-items').querySelector('.sl-checkout-service');intro.innerHTML=securityIcon+'<span>Finalização do pedido</span>';
-    const payment=byId('checkout-payment-title').closest('section');payment.querySelector('.sl-field-note').textContent='Escolha como deseja pagar. O próximo passo aparece aqui automaticamente.';
+    const payment=byId('checkout-payment-title').closest('section');payment.querySelector('.sl-field-note').textContent='Selecione a forma de pagamento para continuar.';
+    const choices={pix:['qrcode','Pix','QR Code ou copia e cola'],cartao:['card','Cartão','Crédito e débito'],boleto:['barcode','Boleto','Código para pagamento']},grid=payment.querySelector('.sl-pay-grid');
+    grid.setAttribute('aria-label','Forma de pagamento');
+    grid.innerHTML=Object.entries(choices).map(([mode,[icon,label,description]])=>'<button type="button" onclick="selectCheckoutPayment(\''+mode+'\')" class="sl-pay-btn sl-pay-action '+(window._checkout.pagamento===mode?'is-on':'')+'" data-pay="'+mode+'" aria-label="'+label+'" aria-describedby="sillocta-pay-description-'+mode+'" aria-pressed="'+(window._checkout.pagamento===mode)+'"><span class="sl-option-check" aria-hidden="true">✓</span>'+checkoutControlIcon(icon)+'<span class="sl-payment-choice-copy"><span class="sl-payment-choice-name">'+label+'</span><small id="sillocta-pay-description-'+mode+'">'+description+'</small></span></button>').join('');
     if(!byId('sillocta-payment-form'))payment.insertAdjacentHTML('beforeend','<div id="sillocta-payment-form" class="sl-payment-form"></div><div id="sillocta-payment-result" class="sl-payment-result" aria-live="polite"></div>');
     if(!byId('sillocta-checkout-security'))payment.insertAdjacentHTML('beforeend','<div id="sillocta-checkout-security">'+securityInfo()+'</div>');
     const address=byId('checkout-address-title').closest('section');address.querySelector('.sl-field-note').textContent='Informe seu CEP, confira o endereço e escolha a forma de entrega abaixo.';
