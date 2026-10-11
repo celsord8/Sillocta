@@ -47,7 +47,6 @@
     if(!quoteId){container.innerHTML='<p class="sl-field-note" role="status">'+(paymentFlow.busy?'Calculando o total para abrir o formulário seguro…':'Informe o CEP e toque em “Atualizar total” para abrir o formulário de cartão.')+'</p>';return;}
     state.cardMount={container,quoteId};
     const amount=quote.totalCents/100;
-    error('');
     container.innerHTML='<p class="sl-field-note" role="status">Carregando formulário seguro…</p>';
     try{
       await loadSdk();await cardTimeout(state.chain);if(generation!==state.generation||!container.isConnected)return;
@@ -64,7 +63,7 @@
       const controller=await cardTimeout(creation);
       if(!controller){if(generation!==state.generation)return;throw Error('Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');}
       if(generation!==state.generation||!container.isConnected){await controller.unmount();return;}state.controller=controller;
-    }catch(e){if(generation===state.generation){disposeCard();container.innerHTML='<p class="sl-field-note" role="status">'+escapeHtml(e.message||'Não foi possível carregar o formulário de cartão.')+'</p><button type="button" class="sl-cta-secondary" id="sillocta-card-retry">Tentar carregar cartão novamente</button>';byId('sillocta-card-retry')?.addEventListener('click',mountCard);error(e.message);}}
+    }catch(e){if(generation===state.generation){disposeCard();container.innerHTML='<p class="sl-field-note" role="status">'+escapeHtml(e.message||'Não foi possível carregar o formulário de cartão.')+'</p><button type="button" class="sl-cta-secondary" id="sillocta-card-retry">Tentar carregar cartão novamente</button>';byId('sillocta-card-retry')?.addEventListener('click',()=>{error('');mountCard();});error(e.message);}}
   }
   function renderMethod(){
     if(!paymentFlow.enabled)return;const region=byId('sillocta-payment-form');if(!region)return;
