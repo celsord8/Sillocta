@@ -37,3 +37,20 @@ html body #cart-drawer .sl-payment-result .sl-result-details p{font-size:10px;ma
 html body #cart-drawer .sl-payment-result .sl-result-footer .sl-cta-secondary{min-height:34px;background:transparent;border:0;color:#a69c89;text-decoration:underline;text-underline-offset:4px}
 html body #cart-drawer .sl-payment-result .sl-result-footer p{font-size:9px;text-align:center;margin:6px 0 0}
 @media(max-width:380px){html body #cart-drawer .sl-payment-result:not(:empty){padding:20px 16px}.sl-result-badge{font-size:8px}.sl-pix-qr{width:210px}}
+/* The created payment is its own stage, without the long editable form above. */
+html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-flow > *{display:none!important}
+html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-flow > section[aria-labelledby="checkout-payment-title"]{display:block!important;border:0!important;padding:0!important;margin:0!important;background:transparent!important}
+html body #cart-drawer.sl-payment-stage section[aria-labelledby="checkout-payment-title"] > *:not(#sillocta-payment-result){display:none!important}
+html body #cart-drawer.sl-payment-stage .sl-payment-result:not(:empty){margin-top:0;outline:none}
+html body #cart-drawer.sl-payment-stage .sl-payment-result h3{margin:16px 0 12px}
+.sl-payment-stage .sl-result-amount{padding-bottom:12px}
+.sl-payment-stage .sl-qr-wrap{gap:8px;padding-bottom:12px}
+.sl-payment-stage .sl-pix-qr{width:190px}
+.sl-pix-code-details{margin:12px 0 0;font-size:10px;color:#b6ae9f}
+.sl-pix-code-details summary{cursor:pointer;text-align:center;padding:5px}
+.sl-pix-code-details[open] summary{margin-bottom:10px}
+html body #cart-drawer .sl-delivery-preview{font-size:10px;line-height:1.6;color:#9e9789;margin:12px 0}
+html body #cart-drawer .sl-shipping-options{display:grid;gap:10px;margin-top:16px}
+html body #cart-drawer .sl-shipping-choice{border-radius:6px;min-height:76px;padding:14px 12px}
+html body #cart-drawer .sl-shipping-choice.is-on{border-color:#cbb477;background:#cbb47709!important}
+html body #cart-drawer .sl-shipping-choice:disabled{cursor:default;opacity:.6}
