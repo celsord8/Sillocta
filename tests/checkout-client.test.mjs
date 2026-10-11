@@ -59,3 +59,9 @@ test('Starting another test fails closed when the previous receipt cannot be sav
   const h=harness();await tick();h.context.paymentFlow.enabled=true;const result={state:'pending',method:'pix',receipt:'signed-old-receipt',orderId:'ORDTST-existing',totalCents:14040};h.context.fetch=async()=>Response.json(result);h.context.selectCheckoutPayment('pix');await h.context.submitOnlineOrder();
   h.context.sessionStorage.setItem=()=>{throw Error('storage unavailable');};h.nodes.get('sillocta-new-test').handlers.click();assert.equal(h.storage.get('sillocta-orders-test-receipt'),result.receipt);assert.match(h.nodes.get('checkout-error').textContent,/Não foi possível guardar/);h.context.selectCheckoutPayment('cartao');assert.equal(h.context._checkout.pagamento,'pix');
 });
+test('An SDK initialization failure returning no controller shows a visible retry',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.MercadoPago=class {bricks(){return {create:async()=>undefined};}};h.context.selectCheckoutPayment('cartao');await tick();assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Não foi possível inicializar/);assert.ok(h.nodes.get('sillocta-card-retry'));
+});
+test('Repeated card selection waits for the previous initialization to finish before creating another Brick',async()=>{
+  const h=harness({pendingMount:true});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,1);h.finishMount();await tick();assert.equal(h.unmounts.length,1);assert.equal(h.mounts.length,2);h.finishMount();await tick();
+});
