@@ -186,22 +186,13 @@
     try{acceptResult(await paymentApi('status',{method:'POST',body:JSON.stringify({receipt})}));save(uncertainKey,null);error('');renderMethod();schedulePoll();}catch(e){error(e.message);}
   }
   function resetTest(){if(paymentFlow.submitting||state.attempt||stored(uncertainKey))return;if(!rememberTest(state.result))return;clearTimeout(state.poll);state.result=null;state.attempt=null;save(receiptKey,null);save(uncertainKey,null);error('');renderMethod();}
-  function renderPreviousTests(region){
-    const entries=previousTests().filter(r=>r.receipt!==state.result?.receipt);if(!entries.length)return;
-    region.innerHTML+='<p>Pedidos anteriores:</p>'+entries.map((r,i)=>'<button type="button" class="sl-cta-secondary" id="sillocta-previous-'+i+'">Consultar '+escapeHtml(r.orderId)+'</button>').join('');
-    entries.forEach((r,i)=>byId('sillocta-previous-'+i)?.addEventListener('click',async()=>{
-      if(paymentFlow.submitting||state.attempt||stored(uncertainKey)){error('Confirme o envio atual antes de consultar outro pedido.');return;}
-      const currentReceipt=state.result?.receipt;
-      try{const result=await paymentApi('status',{method:'POST',body:JSON.stringify({receipt:r.receipt})});if(paymentFlow.submitting||state.attempt||stored(uncertainKey)||state.result?.receipt!==currentReceipt)return;if(!rememberTest(state.result))return;acceptResult(result);save(receiptKey,result.receipt);error('');renderMethod();schedulePoll();}catch(e){error(e.message);}
-    }));
-  }
   function renderResult(){
     clearTimeout(state.countdown);
     const region=byId('sillocta-payment-result');if(!region)return;
     if(!state.result){
       paymentStage(false);
       region.innerHTML=paymentFlow.submitting?'<p role="status">Enviando pagamento…</p>':state.attempt?'<p>Não foi possível confirmar a resposta. Repita o mesmo envio para evitar um pedido duplicado.</p><button type="button" class="sl-cta-secondary" id="sillocta-retry">Repetir o mesmo envio</button>':stored(uncertainKey)?'<p>Há um envio sem resposta desta sessão. Confira o pedido no Mercado Pago antes de iniciar outro pedido.</p>'+(stored(receiptKey)?'<button type="button" class="sl-cta-secondary" id="sillocta-recover">Consultar pedido salvo</button>':''):'';
-      renderPreviousTests(region);byId('sillocta-retry')?.addEventListener('click',sendAttempt);byId('sillocta-recover')?.addEventListener('click',recoverStatus);if(stored(uncertainKey)&&!state.attempt&&!paymentFlow.submitting){const btn=byId('checkout-finalize-btn');if(btn)btn.disabled=true;disposeCard();}return;
+      byId('sillocta-retry')?.addEventListener('click',sendAttempt);byId('sillocta-recover')?.addEventListener('click',recoverStatus);if(stored(uncertainKey)&&!state.attempt&&!paymentFlow.submitting){const btn=byId('checkout-finalize-btn');if(btn)btn.disabled=true;disposeCard();}return;
     }
     const r=state.result,pix=r.method==='pix',boleto=r.method==='boleto',pending=r.state==='pending',elapsed=pending&&Number.isFinite(r.paymentExpiresAt)&&r.paymentExpiresAt<=Date.now()+state.clockOffset;
     const labels={approved:'Pagamento aprovado',pending:pix?'Pague com Pix':boleto?'Seu boleto está pronto':'Pagamento em análise',expired:'Prazo de pagamento encerrado',rejected:'Pagamento não aprovado',refunded:'Pagamento estornado'};
@@ -218,7 +209,6 @@
         (pix?'<ol class="sl-payment-steps"><li>Copie o código ou escaneie o QR Code.</li><li>Confira o valor no aplicativo do banco.</li><li>Volte aqui para acompanhar a confirmação.</li></ol>':boleto?'<p class="sl-result-caption">Após o pagamento, aguardamos a confirmação do banco. Gerar o boleto não confirma o pedido.</p>':'')+'</div>':'')+
       (pending?'<div class="sl-confirmation-status" role="status"><span class="sl-status-dot" aria-hidden="true"></span><span id="sillocta-confirmation-text">'+(elapsed?'O prazo terminou. Estamos conferindo a situação do pagamento.':boleto?'Aguardando confirmação do banco':'Aguardando confirmação do pagamento')+'</span></div><button type="button" class="sl-cta-secondary sl-result-check" id="sillocta-refresh">Já paguei · verificar</button>':'<p class="sl-result-caption">'+(r.state==='approved'?'Recebemos a confirmação do Mercado Pago.':r.state==='expired'?'Consulte o pedido antes de gerar outro pagamento.':'Confira a situação antes de iniciar outro pagamento.')+'</p>')+
       '<p id="sillocta-result-feedback" class="sl-error" role="alert">'+escapeHtml(byId('checkout-error')?.textContent||'')+'</p><details class="sl-result-details"><summary>Detalhes do pedido</summary><p>'+escapeHtml(r.orderId)+'</p>'+(r.shipping?'<p>'+escapeHtml(r.shipping.name)+' · '+(r.shipping.priceCents?brl(r.shipping.priceCents):'Grátis')+'</p>':'')+'</details><div class="sl-result-footer"><button type="button" class="sl-cta-secondary" id="sillocta-continue">Continuar navegando</button><button type="button" class="sl-cta-secondary" id="sillocta-new-test">Iniciar outro pedido</button>'+(pending?'<p>O pedido atual continuará disponível para consulta.</p>':'')+'</div>'+securityInfo();
-    renderPreviousTests(region);
     byId('sillocta-copy-code')?.addEventListener('click',async()=>{if(r.receipt!==state.result?.receipt)return;if(Number.isFinite(r.paymentExpiresAt)&&r.paymentExpiresAt<=Date.now()+state.clockOffset){error('O prazo deste código terminou. Consulte a situação do pagamento.');return;}try{await navigator.clipboard.writeText(code);if(r.receipt===state.result?.receipt&&byId('sillocta-copy-code'))byId('sillocta-copy-code').textContent='Código copiado ✓';}catch{byId('sillocta-payment-code')?.select();error('Selecione e copie o código.');}});
     byId('sillocta-refresh')?.addEventListener('click',async()=>{const button=byId('sillocta-refresh');button.disabled=true;button.textContent='Verificando…';await refreshStatus();});byId('sillocta-new-test')?.addEventListener('click',resetTest);
     byId('sillocta-continue')?.addEventListener('click',()=>closeCart());
