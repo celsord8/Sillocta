@@ -166,6 +166,21 @@ test('Retrying an uncertain payment with an expired quote never silently recalcu
   const future=Date.now()+700000;h.context.Date=class extends Date {static now(){return future;}};
   await h.nodes.get('sillocta-retry').handlers.click();assert.equal(h.requests.length,calls);assert.match(h.nodes.get('checkout-error').textContent,/cotação expirou.*Confira este pedido/);assert.equal(h.storage.get('sillocta-orders-test-uncertain'),'1');
 });
+test('A critical SDK error after mounting removes the controller, blocks payment and offers a fresh form',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
+  assert.equal(h.nodes.get('sillocta-card-submit').disabled,false);
+  h.mounts[0].options.callbacks.onError({type:'critical',cause:'fields_setup_failed',message:'private SDK details'});await tick();
+  assert.equal(h.nodes.get('sillocta-card-submit').disabled,true);assert.equal(h.unmounts.length,1);assert.ok(h.nodes.get('sillocta-card-retry'));assert.doesNotMatch(h.nodes.get('checkout-error').textContent,/private/);
+  await h.nodes.get('sillocta-card-submit').onclick();assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);
+  h.nodes.get('sillocta-card-retry').handlers.click();await tick();await tick();assert.equal(h.mounts.length,2);assert.equal(h.nodes.get('sillocta-card-submit').disabled,false);
+});
+test('An additional-card-data promise that never resolves times out, unlocks the action and never sends an order',async()=>{
+  const controller={unmount:async()=>{},getFormData:async()=>({token:'tokenized-fixture',payment_method_id:'master',installments:1,payer:{identification:{type:'CPF',number:'12345678909'}}}),getAdditionalData:()=>new Promise(()=>{})};
+  const h=harness({cardController:controller});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
+  const submission=h.nodes.get('sillocta-card-submit').onclick();await tick();assert.equal(h.nodes.get('sillocta-card-submit').disabled,true);
+  const timeout=[...h.timers.values()].find(t=>t.ms===20000);assert.ok(timeout);timeout.fn();await submission;
+  assert.match(h.nodes.get('sillocta-card-feedback').textContent,/validação do cartão demorou/);assert.equal(h.nodes.get('sillocta-card-submit').disabled,false);assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);
+});
 test('Payment-stage hiding targets the actual checkout wrapper and keeps the payment section visible',()=>{
   const layout=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8'),css=readFileSync(new URL('../source/checkout-orders.css',import.meta.url),'utf8');
   const wrapper=layout.match(/<div class="(sl-checkout-wrap)">/)[1];assert.ok(css.includes('#cart-items .'+wrapper+' > *{display:none!important}'));assert.ok(css.includes('#cart-items .'+wrapper+' > section[aria-labelledby="checkout-payment-title"]{display:block!important'));assert.ok(css.includes('section[aria-labelledby="checkout-payment-title"] > *:not(#sillocta-payment-result)'));
