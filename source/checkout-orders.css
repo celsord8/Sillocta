@@ -38,8 +38,8 @@ html body #cart-drawer .sl-payment-result .sl-result-footer .sl-cta-secondary{mi
 html body #cart-drawer .sl-payment-result .sl-result-footer p{font-size:9px;text-align:center;margin:6px 0 0}
 @media(max-width:380px){html body #cart-drawer .sl-payment-result:not(:empty){padding:20px 16px}.sl-result-badge{font-size:8px}.sl-pix-qr{width:210px}}
 /* The created payment is its own stage, without the long editable form above. */
-html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-flow > *{display:none!important}
-html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-flow > section[aria-labelledby="checkout-payment-title"]{display:block!important;border:0!important;padding:0!important;margin:0!important;background:transparent!important}
+html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-wrap > *{display:none!important}
+html body #cart-drawer.sl-payment-stage #cart-items .sl-checkout-wrap > section[aria-labelledby="checkout-payment-title"]{display:block!important;border:0!important;padding:0!important;margin:0!important;background:transparent!important}
 html body #cart-drawer.sl-payment-stage section[aria-labelledby="checkout-payment-title"] > *:not(#sillocta-payment-result){display:none!important}
 html body #cart-drawer.sl-payment-stage .sl-payment-result:not(:empty){margin-top:0;outline:none}
 html body #cart-drawer.sl-payment-stage .sl-payment-result h3{margin:16px 0 12px}
