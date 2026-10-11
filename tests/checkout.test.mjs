@@ -83,6 +83,39 @@ test('Boleto includes CPF and complete payer address; cards accept only tokenize
   const card={token:'tokenized-card',id:'visa',type:'credit_card',installments:1,identification:{number:'12345678909'},amount:1,card_number:'raw ignored'};
   const a=providerBody({method:'cartao',card},c,customer,'r');assert.equal(a.total_amount,'140.40');assert.equal(a.payer.email,'test@testuser.com');assert.ok(!JSON.stringify(a).includes('raw ignored'));assert.throws(()=>providerBody({method:'cartao',card:{...card,installments:0}},c,customer,'r'));
 });
+test('A three-installment card order keeps the signed delivery total and a declined provider result remains declined on consultation',async()=>{
+  const cookie=await session(),q=await quote(cookie),input={...cart,customer,quoteId:q.quoteId,serviceId:'sandbox-express',requestKey:key,method:'cartao',card:{token:'declined-token-fixture',id:'master',type:'credit_card',installments:3,identification:{number:'12345678909'}}};
+  let data,posts=0;
+  const fetcher=verifiedFetcher(async(url,options)=>{
+    if(options.method==='POST'){
+      posts++;const body=JSON.parse(options.body),payment=body.transactions.payments[0];
+      assert.equal(body.total_amount,'170.30');assert.equal(payment.amount,'170.30');assert.equal(payment.payment_method.installments,3);assert.equal(payment.payment_method.token,input.card.token);
+      data=orderData(body,'rejected');data.status_detail='failed';data.transactions.payments[0].status_detail='cc_rejected_other_reason';
+    }
+    return Response.json(data);
+  });
+  const created=await handle(request('order',input,cookie),env,{now,fetcher}),result=await created.json();
+  assert.equal(created.status,200);assert.equal(result.state,'rejected');assert.equal(result.method,'cartao');assert.equal(result.totalCents,17030);assert.ok(result.receipt);
+  const status=await handle(request('status',{receipt:result.receipt},cookie),env,{now,fetcher});assert.equal((await status.json()).state,'rejected');assert.equal(posts,1);
+});
+test('Retrying a card after a lost provider response preserves its body and idempotency key',async()=>{
+  const cookie=await session(),q=await quote(cookie),input={...cart,customer,quoteId:q.quoteId,serviceId:'sandbox',requestKey:key,method:'cartao',card:{token:'retry-token-fixture',id:'visa',type:'credit_card',installments:3,identification:{number:'12345678909'}}};
+  const posts=[];let saved;
+  const fetcher=verifiedFetcher(async(url,options)=>{
+    posts.push({body:options.body,key:options.headers['X-Idempotency-Key']});
+    if(posts.length===1){saved=orderData(JSON.parse(options.body),'approved');throw Error('Response lost after provider accepted the order');}
+    assert.deepEqual(posts[1],posts[0]);return Response.json(saved);
+  });
+  const first=await handle(request('order',input,cookie),env,{now,fetcher});assert.equal(first.status,503);assert.equal((await first.json()).code,'provider_unavailable');
+  const repeated=await handle(request('order',input,cookie),env,{now,fetcher}),result=await repeated.json();assert.equal(repeated.status,200);assert.equal(result.state,'approved');assert.equal(result.orderId,saved.id);
+});
+test('Invalid card installments cannot reach the provider',async()=>{
+  const cookie=await session(),q=await quote(cookie);
+  for(const installments of [0,13,1.5,'3']){
+    const input={...cart,customer,quoteId:q.quoteId,serviceId:'sandbox',requestKey:key,method:'cartao',card:{token:'invalid-installment-fixture',id:'master',type:'credit_card',installments,identification:{number:'12345678909'}}};
+    const response=await handle(request('order',input,cookie),env,{now,fetcher:()=>{throw Error('invalid installments must not contact the provider');}});assert.equal(response.status,400);
+  }
+});
 test('Provider authentication failure is actionable and contains neither provider error details nor secrets',async()=>{
   const cookie=await session(),q=await quote(cookie),r=await handle(request('order',{...cart,customer,quoteId:q.quoteId,serviceId:'sandbox',requestKey:key,method:'pix'},cookie),env,{now,fetcher:verifiedFetcher(async()=>Response.json({private_token:'DO_NOT_EXPOSE'},{status:403}))});const body=await r.text();assert.equal(r.status,503);assert.ok(body.includes('credentials_rejected'));assert.ok(!body.includes('DO_NOT_EXPOSE'));assert.ok(!body.includes(env.MERCADO_PAGO_ACCESS_TOKEN));
 });
