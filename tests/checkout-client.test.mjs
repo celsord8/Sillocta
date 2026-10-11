@@ -30,7 +30,7 @@ test('Reload after an uncertain submission blocks a new card or Pix request',asy
 test('Selecting a card without a valid total shows an instruction instead of an empty form',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.paymentFlow.quote=null;h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,0);assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Informe o CEP.*escolha a entrega/);
 });
-test('A pending test keeps its payment method and can be archived before starting a card test',async()=>{
+test('Starting a new order archives the pending receipt without displaying historical lookup buttons',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;
   const result={state:'pending',method:'pix',receipt:'signed-old-receipt',orderId:'ORDTST-existing',totalCents:14040,qrCode:'PIXTEST'};
   h.context.fetch=async()=>Response.json(result);
@@ -39,8 +39,7 @@ test('A pending test keeps its payment method and can be archived before startin
   assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Iniciar outro pedido/);
   h.nodes.get('sillocta-new-test').handlers.click();
   assert.equal(h.storage.get('sillocta-orders-test-receipt'),undefined);assert.equal(JSON.parse(h.storage.get('sillocta-orders-test-history'))[0].receipt,result.receipt);
-  h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,1);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Consultar ORDTST-existing/);
-  await h.nodes.get('sillocta-previous-0').handlers.click();await tick();assert.equal(h.context._checkout.pagamento,'pix');assert.equal(h.storage.get('sillocta-orders-test-receipt'),result.receipt);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Aguardando confirmação do pagamento/);
+  h.context.selectCheckoutPayment('cartao');await tick();assert.equal(h.mounts.length,1);assert.equal(h.nodes.get('sillocta-payment-result').innerHTML,'');assert.equal(h.nodes.has('sillocta-previous-0'),false);assert.equal(JSON.parse(h.storage.get('sillocta-orders-test-history'))[0].receipt,result.receipt);
 });
 test('A delayed status response cannot replace a new test with an archived pending order',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;
