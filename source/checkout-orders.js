@@ -1,6 +1,6 @@
 /* Sandbox-only Checkout Transparente. Card data stays inside Mercado Pago's SDK. */
 (function(){
-    const state={config:null,sdk:null,mp:null,controller:null,cardMount:null,tokenizing:false,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null,countdown:null,clockOffset:0,expiryChecked:null};
+    const state={rendering:false,config:null,sdk:null,mp:null,controller:null,cardMount:null,tokenizing:false,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null,countdown:null,clockOffset:0,expiryChecked:null};
   const receiptKey='sillocta-orders-test-receipt',uncertainKey='sillocta-orders-test-uncertain',historyKey='sillocta-orders-test-history';
   const originalRender=renderCart,originalSelect=selectCheckoutPayment,originalClose=closeCart;
   window.paymentApi=async function(path,options={}){
@@ -58,9 +58,9 @@
     if(old)state.chain=state.chain.then(()=>old.unmount()).catch(()=>{});
     syncCardAction();
   }
-  window.renderCart=function(){disposeCard();originalRender();};
+  window.renderCart=function(){disposeCard();state.rendering=true;try{originalRender();}finally{state.rendering=false;}};
   window.closeCart=function(){disposeCard();clearTimeout(state.countdown);return originalClose();};
-  window.selectCheckoutPayment=function(mode){if(state.tokenizing){error('Aguarde a validação do cartão.');return false;}if(paymentFlow.submitting||state.attempt&&!state.result){error('Consulte ou repita o pagamento enviado antes de trocar a forma de pagamento.');return false;}if(state.result){error('Este pedido já foi criado. Use “Iniciar outro teste” para escolher outra forma de pagamento.');return false;}if(!['pix','cartao','boleto'].includes(mode))return false;if(paymentFlow.enabled&&state.renderedRegion===byId('sillocta-payment-form')&&state.renderedMethod===mode)return false;error('');originalSelect(mode);if(paymentFlow.enabled)renderMethod();return false;};
+  window.selectCheckoutPayment=function(mode){if(state.tokenizing){error('Aguarde a validação do cartão.');return false;}if(paymentFlow.submitting||state.attempt&&!state.result){error('Consulte ou repita o pagamento enviado antes de trocar a forma de pagamento.');return false;}if(state.result){if(!state.rendering)error('Este pedido já foi criado. Use “Iniciar outro teste” para escolher outra forma de pagamento.');return false;}if(!['pix','cartao','boleto'].includes(mode))return false;if(paymentFlow.enabled&&state.renderedRegion===byId('sillocta-payment-form')&&state.renderedMethod===mode)return false;error('');originalSelect(mode);if(paymentFlow.enabled)renderMethod();return false;};
   function cardTimeout(promise){let timer;return Promise.race([promise,new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(Error('O formulário de cartão demorou a carregar. Tente novamente.')),20000);})]).finally(()=>clearTimeout(timer));}
   function loadSdk(){
     if(state.sdk)return state.sdk;
