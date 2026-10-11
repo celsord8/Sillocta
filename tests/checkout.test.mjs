@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {handle,canonicalCart,configuration,normalizeOrder,safeTicketUrl,providerBody} from '../lib/checkout.mjs';
+import {handle,canonicalCart,configuration,normalizeOrder,safeTicketUrl,providerBody,shippingPackages,shippingOptions} from '../lib/checkout.mjs';
 const env={VERCEL_ENV:'preview',MERCADO_PAGO_ACCESS_TOKEN:'APP_USR-fixture-not-a-credential',MERCADO_PAGO_PUBLIC_KEY:'APP_USR-public-fixture'};
 const identity={id:123456,country_id:'BR',site_id:'MLB',tags:['test_user'],email:'private-not-returned@testuser.com'};
 const verifiedFetcher=fetcher=>async(url,options)=>url==='https://api.mercadolibre.com/users/me'?Response.json(identity):fetcher(url,options);
@@ -109,3 +109,67 @@ test('The Preview standard free-shipping policy applies to products, while expre
 test('Deployed pages load the official tokenization controller and never ship private server files',()=>{
   const home=readFileSync(new URL('../public/index.html',import.meta.url),'utf8'),client=readFileSync(new URL('../public/checkout-orders.js',import.meta.url),'utf8');assert.ok(home.includes('/checkout-orders.js'));assert.ok(client.includes('https://sdk.mercadopago.com/js/v2'));assert.ok(client.includes("create('cardPayment'"));assert.ok(client.includes('controller.unmount()'));assert.ok(!client.includes('MERCADO_PAGO_ACCESS_TOKEN'));assert.ok(!home.includes('data-sillocta-review'));
 });
+
+// Melhor Envio quotation integration.
+{
+const origin='https://sillocta-test.vercel.app',now=1791664000000;
+const env={VERCEL_ENV:'preview',MERCADO_PAGO_ACCESS_TOKEN:'APP_USR-shipping-fixture',MERCADO_PAGO_PUBLIC_KEY:'APP_USR-public-fixture',MELHOR_ENVIO_TOKEN:'shipping-secret-fixture',SHIPPING_ORIGIN_CEP:'61760-046',MELHOR_ENVIO_CONTACT_EMAIL:'contact@example.com'};
+const cart={items:[{pid:1,volume:'5',quantity:1}],coupon:'BEMVINDO10',gift:true};
+const customer={nome:'Comprador de Teste',fone:'11999999999',email:'test@testuser.com',cep:'06233903',logradouro:'Rua de Teste',numero:'1',bairro:'Centro',cidade:'Osasco',uf:'SP'};
+const service=(id=1,price='25.00')=>({id,name:'PAC',company:{name:'Correios'},price,custom_price:'22.50',delivery_time:8,custom_delivery_time:6,custom_delivery_range:{min:4,max:6}});
+const req=(action,input,cookie)=>new Request(origin+'/api/checkout/'+action,{method:'POST',headers:{origin,cookie,'content-type':'application/json'},body:JSON.stringify(input)});
+const identity={id:123456,country_id:'BR',site_id:'MLB',tags:['test_user']};
+async function session(){const r=await handle(new Request(origin+'/api/checkout/config'),env,{now,fetcher:async()=>Response.json(identity)});return r.headers.get('set-cookie').split(';')[0];}
+
+test('Generic packaging includes box protection, grows with item count and splits large orders with exact insurance',()=>{
+  const pack=n=>shippingPackages(canonicalCart({...cart,items:[{pid:1,volume:'5',quantity:n}]}));
+  assert.deepEqual(pack(1),[{length:16,width:11,height:6,weight:0.13,insurance:130.5}]);
+  assert.equal(pack(6)[0].weight,0.28);assert.equal(pack(7)[0].weight,0.36);assert.equal(pack(18)[0].height,10);assert.equal(pack(19)[0].height,15);
+  const c=canonicalCart({...cart,items:[{pid:1,volume:'5',quantity:49}]});const boxes=shippingPackages(c);assert.equal(boxes.length,2);assert.equal(boxes[0].weight,1.69);assert.equal(boxes[1].weight,0.13);assert.equal(boxes.reduce((n,b)=>n+Math.round(b.insurance*100),0),c.subtotal-c.discount);
+  assert.throws(()=>shippingPackages({items:[{quantity:961}]}),/atendimento/);
+});
+test('Carrier options prefer account-specific prices and deadlines, filter invalid services and grant only the cheapest free shipping',()=>{
+  const c=canonicalCart(cart),cheap={...service(2),custom_price:'19.90'};
+  const options=shippingOptions([service(),cheap,{...service(3),error:'unavailable'},{...service(4),custom_price:'-1.00'},{...service(5),custom_delivery_range:{min:8,max:2}},{...service('invalid')}],c);
+  assert.deepEqual(options.map(o=>o.id),['me-2','me-1']);assert.equal(options[1].priceCents,2250);assert.deepEqual(options[1].daysRange,[4,6]);assert.equal(options[0].demo,false);
+  const free=shippingOptions([service(),cheap],canonicalCart({...cart,items:[{pid:1,volume:'5',quantity:3}]}));assert.equal(free[0].priceCents,0);assert.equal(free[0].carrierPriceCents,1990);assert.equal(free[1].priceCents,2250);
+  assert.throws(()=>shippingOptions([],c),/Não há entrega/);assert.throws(()=>shippingOptions({},c),/inválida/);
+});
+test('Live quote sends only canonical volumes, origin and destination; secrets stay on the server',async()=>{
+  const cookie=await session(),calls=[];
+  const r=await handle(req('quote',{...cart,cep:customer.cep,weight:0.001,price:1,origin:'00000000'},cookie),env,{now,fetcher:async(url,options)=>{calls.push({url,options});return Response.json([service()]);}});
+  assert.equal(r.status,200);const q=await r.json();assert.equal(q.shippingSimulation,false);assert.equal(q.packagingEstimated,true);assert.equal(q.shippingProvider,'melhor-envio');assert.equal(q.options[0].priceCents,2250);
+  assert.equal(calls.length,1);assert.equal(calls[0].url,'https://melhorenvio.com.br/api/v2/me/shipment/calculate');assert.equal(calls[0].options.headers['User-Agent'],'Sillocta (contact@example.com)');assert.equal(calls[0].options.headers.authorization,'Bearer '+env.MELHOR_ENVIO_TOKEN);
+  const body=JSON.parse(calls[0].options.body);assert.deepEqual(body.from,{postal_code:'61760046'});assert.deepEqual(body.to,{postal_code:customer.cep});assert.equal(body.volumes[0].weight,0.13);assert.equal(body.volumes[0].insurance,130.5);
+  const publicData=JSON.stringify(q);assert.ok(!publicData.includes(env.MELHOR_ENVIO_TOKEN));assert.ok(!publicData.includes(env.MELHOR_ENVIO_CONTACT_EMAIL));
+});
+test('Registered account contact is resolved privately when no integration email is configured',async()=>{
+  const cookie=await session(),calls=[],e={...env,MELHOR_ENVIO_CONTACT_EMAIL:'',MELHOR_ENVIO_TOKEN:'unique-bootstrap-fixture'};
+  const r=await handle(req('quote',{...cart,cep:customer.cep},cookie),e,{now,fetcher:async(url,options)=>{calls.push({url,options});return Response.json(url.endsWith('/me')?{email:'account@example.com'}:[service()]);}});
+  assert.equal(r.status,200);const q=await r.text();assert.equal(calls[0].url,'https://melhorenvio.com.br/api/v2/me');assert.equal(calls[0].options.method,'GET');assert.equal(calls[1].options.headers['User-Agent'],'Sillocta (account@example.com)');assert.ok(!q.includes('account@example.com'));
+});
+test('Provider errors never fall back to invented shipping prices or leak provider responses',async()=>{
+  const cookie=await session();
+  for(const [status,expected] of [[401,503],[403,503],[429,429],[500,503],[422,422]]){
+    const r=await handle(req('quote',{...cart,cep:customer.cep},cookie),env,{now,fetcher:async()=>Response.json({private:env.MELHOR_ENVIO_TOKEN},{status})});assert.equal(r.status,expected);const body=await r.json();assert.equal(body.options,undefined);assert.ok(!JSON.stringify(body).includes(env.MELHOR_ENVIO_TOKEN));
+  }
+  for(const fetcher of [async()=>{throw Error('private network detail');},async()=>new Response('not json'),async()=>Response.json([])]){
+    const r=await handle(req('quote',{...cart,cep:customer.cep},cookie),env,{now,fetcher});assert.notEqual(r.status,200);assert.equal((await r.json()).options,undefined);
+  }
+  const r=await handle(req('quote',{...cart,cep:customer.cep},cookie),{...env,SHIPPING_ORIGIN_CEP:''},{now,fetcher:()=>{throw Error('must not fetch');}});assert.equal(r.status,503);
+});
+test('Selected real delivery price is signed into the payment; injected prices, stale quotes and unknown services cannot change it',async()=>{
+  const cookie=await session(),r=await handle(req('quote',{...cart,cep:customer.cep},cookie),env,{now,fetcher:async()=>Response.json([service()])}),q=await r.json();
+  const input={...cart,customer,quoteId:q.quoteId,serviceId:'me-1',priceCents:1,total:1,method:'pix',requestKey:'8ce88571-e73b-4cc2-bd48-7f347b95565c'};let paid;
+  const fetcher=async(url,options)=>{
+    if(url==='https://api.mercadolibre.com/users/me')return Response.json(identity);
+    assert.equal(url,'https://api.mercadopago.com/v1/orders');paid=JSON.parse(options.body);
+    return Response.json({id:'ORD01J6TC8BYRR0T4ZKY0QR39WGYE',external_reference:paid.external_reference,total_amount:paid.total_amount,total_paid_amount:'0.00',user_id:'123456',country_code:'BRA',type:'online',status:'action_required',status_detail:'waiting_transfer',transactions:{payments:[{amount:paid.total_amount,status:'action_required',status_detail:'waiting_transfer',payment_method:{...paid.transactions.payments[0].payment_method,qr_code:'PIXTEST'}}]}});
+  };
+  const created=await handle(req('order',input,cookie),env,{now,fetcher});assert.equal(created.status,200);assert.equal(paid.total_amount,'162.90');const result=await created.json();assert.equal(result.totalCents,16290);assert.equal(result.shipping.priceCents,2250);assert.equal(result.shipping.demo,false);
+  for(const [patch,time,status] of [[{serviceId:'other'},now,409],[{},now+600001,401]]){
+    const denied=await handle(req('order',{...input,...patch},cookie),env,{now:time,fetcher:()=>{throw Error('must not charge');}});assert.equal(denied.status,status);
+  }
+});
+
+}
