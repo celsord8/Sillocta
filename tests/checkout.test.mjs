@@ -89,6 +89,13 @@ test('Provider authentication failure is actionable and contains neither provide
 test('Receipt links reject scripts, credentials and misleading Mercado Pago host suffixes',()=>{
   assert.equal(safeTicketUrl('https://www.mercadopago.com.br/test'),'https://www.mercadopago.com.br/test');for(const url of ['javascript:alert(1)','https://mercadopago.com.br.attacker.test/x','https://secret@mercadopago.com.br/x','http://mercadopago.com.br/x'])assert.equal(safeTicketUrl(url),null);
 });
+test('Payment expiry comes from Orders and survives a status response missing its date',async()=>{
+  const cookie=await session(),q=await quote(cookie),deadline='2026-10-11T12:30:00-03:00';let data;
+  const fetcher=verifiedFetcher(async(url,options)=>{if(options.method==='POST'){data=orderData(JSON.parse(options.body));data.transactions.payments[0].date_of_expiration=deadline;}return Response.json(data);});
+  const created=await handle(request('order',{...cart,customer,quoteId:q.quoteId,serviceId:'sandbox',requestKey:key,method:'pix'},cookie),env,{now,fetcher});const result=await created.json();assert.equal(result.paymentExpiresAt,Date.parse(deadline));assert.equal(result.serverTime,now);
+  delete data.transactions.payments[0].date_of_expiration;const status=await handle(request('status',{receipt:result.receipt},cookie),env,{now:now+5000,fetcher});assert.equal((await status.json()).paymentExpiresAt,result.paymentExpiresAt);
+  const expected={id:data.id,reference:data.external_reference,total:14040,seller:'123456',method:'pix'};assert.equal(normalizeOrder(data,expected).paymentExpiresAt,null);data.transactions.payments[0].date_of_expiration='not a date';assert.equal(normalizeOrder(data,expected).paymentExpiresAt,null);data.status='expired';assert.equal(normalizeOrder(data,expected).state,'expired');
+});
 test('Deployed pages load the official tokenization controller and never ship private server files',()=>{
   const home=readFileSync(new URL('../public/index.html',import.meta.url),'utf8'),client=readFileSync(new URL('../public/checkout-orders.js',import.meta.url),'utf8');assert.ok(home.includes('/checkout-orders.js'));assert.ok(client.includes('https://sdk.mercadopago.com/js/v2'));assert.ok(client.includes("create('cardPayment'"));assert.ok(client.includes('controller.unmount()'));assert.ok(!client.includes('MERCADO_PAGO_ACCESS_TOKEN'));assert.ok(!home.includes('data-sillocta-review'));
 });
