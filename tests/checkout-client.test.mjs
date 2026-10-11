@@ -6,8 +6,8 @@ const code=readFileSync(new URL('../source/checkout-orders.js',import.meta.url),
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 function harness({pendingMount=false,stored={}}={}){
   const nodes=new Map(),storage=new Map(Object.entries(stored)),mounts=[],unmounts=[],requests=[],timers=new Map();let timerId=0;
-  const node=id=>{const value={id,textContent:'',hidden:false,disabled:false,isConnected:true,handlers:{},addEventListener(k,f){this.handlers[k]=f;},focus(){},select(){},querySelector(){return node('child');}};Object.defineProperty(value,'innerHTML',{set(html){this.html=html;for(const match of html.matchAll(/id="([^"]+)"/g))node(match[1]);},get(){return this.html||'';}});nodes.set(id,value);return value;};
-  for(const id of ['sillocta-payment-form','sillocta-payment-result','checkout-finalize-btn','checkout-error'])node(id);
+  const node=id=>{const value={id,textContent:'',hidden:false,disabled:false,isConnected:true,handlers:{},addEventListener(k,f){this.handlers[k]=f;},remove(){this.isConnected=false;},focus(){},select(){},querySelector(){return node('child');}};Object.defineProperty(value,'innerHTML',{set(html){this.html=html;for(const match of html.matchAll(/id="([^"]+)"/g))node(match[1]);},get(){return this.html||'';}});nodes.set(id,value);return value;};
+  for(const id of ['sillocta-payment-form','sillocta-payment-result','checkout-finalize-btn','checkout-error','checkout-shipping-options'])node(id);
   let selected='cartao',resolveMount;
   const document={head:{appendChild(){}},querySelectorAll:()=>[],createElement:()=>node('script')};
   const paymentFlow={enabled:true,quote:{quoteId:'signed',expiresAt:Date.now()+600000,totalCents:14040}};
@@ -70,4 +70,29 @@ test('Switching payment methods clears the previous error and keeps saved boleto
 });
 test('An invalid method cannot change the selected form or payment action',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('boleto');const form=h.nodes.get('sillocta-payment-form').innerHTML;h.context.selectCheckoutPayment('invalid');assert.equal(h.context._checkout.pagamento,'boleto');assert.equal(h.nodes.get('sillocta-payment-form').innerHTML,form);
+});
+test('Refreshing the same quote during card initialization does not restart the secure form',async()=>{
+  const h=harness({pendingMount:true});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
+  h.context.renderPaymentShipping();h.context.renderPaymentShipping();h.finishMount();await tick();await tick();
+  assert.equal(h.mounts.length,1);assert.equal(h.unmounts.length,0);
+});
+test('Invalidating the quote removes the live card form until a new total is ready',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
+  h.context.paymentFlow.quote=null;h.context.renderPaymentShipping();await tick();
+  assert.equal(h.unmounts.length,1);assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Informe o CEP.*Atualizar total/);
+  h.context.paymentFlow.quote={quoteId:'updated',expiresAt:Date.now()+600000,totalCents:15990};h.context.renderPaymentShipping();await tick();
+  assert.equal(h.mounts.length,2);assert.equal(h.mounts[1].options.initialization.amount,159.90);
+});
+test('A changed total waits for the earlier card initialization to unmount before creating another form',async()=>{
+  const h=harness({pendingMount:true});await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
+  h.context.paymentFlow.quote={quoteId:'changed',expiresAt:Date.now()+600000,totalCents:20000};h.context.renderPaymentShipping();await tick();
+  assert.equal(h.mounts.length,1);h.finishMount();await tick();await tick();
+  assert.equal(h.unmounts.length,1);assert.equal(h.mounts.length,2);assert.equal(h.mounts[1].options.initialization.amount,200);h.finishMount();await tick();
+});
+test('A failed SDK script is removed and retry loads a fresh script without retaining the old error',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;const sdk=h.context.MercadoPago;delete h.context.MercadoPago;
+  h.context.selectCheckoutPayment('cartao');await tick();const failed=h.nodes.get('script');failed.onerror();await tick();
+  assert.equal(failed.isConnected,false);assert.match(h.nodes.get('sillocta-card-payment').innerHTML,/Não foi possível carregar/);
+  h.nodes.get('sillocta-card-retry').handlers.click();await tick();const fresh=h.nodes.get('script');assert.notEqual(fresh,failed);assert.equal(h.nodes.get('checkout-error').textContent,'');
+  h.context.MercadoPago=sdk;fresh.onload();await tick();await tick();assert.equal(h.mounts.length,1);
 });
