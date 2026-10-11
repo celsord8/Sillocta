@@ -61,13 +61,18 @@
   window.renderCart=function(){disposeCard();state.rendering=true;try{originalRender();}finally{state.rendering=false;}};
   window.closeCart=function(){disposeCard();clearTimeout(state.countdown);return originalClose();};
   window.selectCheckoutPayment=function(mode){if(state.tokenizing){error('Aguarde a validação do cartão.');return false;}if(paymentFlow.submitting||state.attempt&&!state.result){error('Consulte ou repita o pagamento enviado antes de trocar a forma de pagamento.');return false;}if(state.result){if(!state.rendering)error('Este pedido já foi criado. Use “Iniciar outro teste” para escolher outra forma de pagamento.');return false;}if(!['pix','cartao','boleto'].includes(mode))return false;if(paymentFlow.enabled&&state.renderedRegion===byId('sillocta-payment-form')&&state.renderedMethod===mode)return false;error('');originalSelect(mode);if(paymentFlow.enabled)renderMethod();return false;};
-  function cardTimeout(promise){let timer;return Promise.race([promise,new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(Error('O formulário de cartão demorou a carregar. Tente novamente.')),20000);})]).finally(()=>clearTimeout(timer));}
+  function cardTimeout(promise,message='O formulário de cartão demorou a carregar. Tente novamente.'){let timer;return Promise.race([promise,new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(Object.assign(Error(message),{code:'card_timeout'})),20000);})]).finally(()=>clearTimeout(timer));}
   function loadSdk(){
     if(state.sdk)return state.sdk;
     let script;
-    const pending=cardTimeout(new Promise((resolve,reject)=>{if(window.MercadoPago)return resolve();script=document.createElement('script');script.src='https://sdk.mercadopago.com/js/v2';script.onload=()=>window.MercadoPago?resolve():reject(Error('O formulário não carregou.'));script.onerror=()=>reject(Error('Não foi possível carregar o formulário de cartão.'));document.head.appendChild(script);}));
+    const pending=cardTimeout(new Promise((resolve,reject)=>{if(window.MercadoPago)return resolve();script=document.createElement('script');script.src='https://sdk.mercadopago.com/js/v2';script.onload=()=>window.MercadoPago?resolve():reject(Error('O formulário não carregou.'));script.onerror=()=>{console.warn('sillocta_card_initialization','sdk_load_failed');reject(Error('Não foi possível carregar o formulário de cartão.'));};document.head.appendChild(script);}));
     state.sdk=pending;
     pending.catch(()=>{if(state.sdk===pending)state.sdk=null;script?.remove();}).finally(()=>{if(script){script.onload=null;script.onerror=null;}});return pending;
+  }
+  function cardFailure(container,generation,message){
+    if(generation!==state.generation||!container.isConnected)return;
+    disposeCard();container.innerHTML='<p class="sl-field-note" role="status">'+escapeHtml(message)+'</p><button type="button" class="sl-cta-secondary" id="sillocta-card-retry">Tentar carregar cartão novamente</button>';
+    byId('sillocta-card-retry')?.addEventListener('click',()=>{error('');mountCard();});error(message);
   }
   async function mountCard(){
     const container=byId('sillocta-card-payment'),quote=checkoutQuote();
@@ -86,13 +91,13 @@
       const creation=mp.bricks().create('cardPayment','sillocta-card-payment',{
         initialization:{amount,payer:{email:'test@testuser.com'}},
         customization:{visual:{hidePaymentButton:true,style:{theme:'dark'}},paymentMethods:{maxInstallments:12,types:{included:['credit_card','debit_card']}}},
-        callbacks:{onReady:()=>{},onError:detail=>{if(generation!==state.generation)return;const codes=['fields_setup_failed','fields_setup_failed_after_3_tries','get_chunk_failed','get_payment_methods_failed','get_identification_types_failed','incorrect_initialization','missing_container_id','missing_amount_property','missing_locale_property','missing_required_callbacks','settings_empty','incomplete_fields','card_token_creation_failed','secure_fields_card_token_creation_failed'];const code=codes.includes(detail?.cause)?detail.cause:'unknown';console.warn('sillocta_card_initialization',code);error(detail?.type==='non_critical'?'Confira os campos indicados no formulário de cartão.':'Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');}}
+        callbacks:{onReady:()=>{},onError:detail=>{if(generation!==state.generation)return;const codes=['fields_setup_failed','fields_setup_failed_after_3_tries','get_chunk_failed','get_payment_methods_failed','get_identification_types_failed','incorrect_initialization','missing_container_id','missing_amount_property','missing_locale_property','missing_required_callbacks','settings_empty','incomplete_fields','card_token_creation_failed','secure_fields_card_token_creation_failed'];const code=codes.includes(detail?.cause)?detail.cause:'unknown';console.warn('sillocta_card_initialization',code);if(detail?.type==='non_critical')error('Confira os campos indicados no formulário de cartão.');else cardFailure(container,generation,'Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');}}
       }).then(async controller=>{if(controller&&(generation!==state.generation||!container.isConnected)){await controller.unmount();return null;}return controller;});
       state.chain=creation.then(()=>{}).catch(()=>{});
       const controller=await cardTimeout(creation);
       if(!controller){if(generation!==state.generation)return;throw Error('Não foi possível inicializar o formulário de cartão. Tente carregá-lo novamente.');}
       if(generation!==state.generation||!container.isConnected){await controller.unmount();return;}state.controller=controller;syncCardAction();
-    }catch(e){if(generation===state.generation){disposeCard();container.innerHTML='<p class="sl-field-note" role="status">'+escapeHtml(e.message||'Não foi possível carregar o formulário de cartão.')+'</p><button type="button" class="sl-cta-secondary" id="sillocta-card-retry">Tentar carregar cartão novamente</button>';byId('sillocta-card-retry')?.addEventListener('click',()=>{error('');mountCard();});error(e.message);}}
+    }catch(e){cardFailure(container,generation,e.message||'Não foi possível carregar o formulário de cartão.');}
   }
   function renderMethod(){
     if(!paymentFlow.enabled)return;const region=byId('sillocta-payment-form');if(!region)return;
@@ -135,12 +140,13 @@
     if(!controller){error('O formulário seguro do cartão ainda não está disponível. Tente carregá-lo novamente.');return;}
     state.tokenizing=true;error('');syncCardAction();
     try{
-      const formData=await cardTimeout(controller.getFormData()),additionalData=await controller.getAdditionalData();
+      const validationTimeout='A validação do cartão demorou. Confira os dados e tente novamente.';
+      const formData=await cardTimeout(controller.getFormData(),validationTimeout),additionalData=await cardTimeout(controller.getAdditionalData(),validationTimeout);
       if(generation!==state.generation||controller!==state.controller||window._checkout.pagamento!=='cartao')return;
       const current=checkoutQuote();if(current?.quoteId!==quote.quoteId||current?.serviceId!==quote.serviceId||current?.totalCents!==quote.totalCents){error('O total mudou. Confira o valor e tente novamente.');return;}
       if(!formData?.token||!['credit_card','debit_card'].includes(additionalData?.paymentTypeId)){error('Confira os campos do cartão e tente novamente.');return;}
       await submitOnlineOrder({token:formData.token,id:formData.payment_method_id,type:additionalData.paymentTypeId,installments:Number(formData.installments),identification:formData.payer?.identification});
-    }catch{if(generation===state.generation)error('Não foi possível validar o cartão. Confira número, validade, código de segurança e CPF.');}
+    }catch(e){if(generation===state.generation)error(e.code==='card_timeout'?'A validação do cartão demorou. Confira os dados e tente novamente.':'Não foi possível validar o cartão. Confira número, validade, código de segurança e CPF.');}
     finally{state.tokenizing=false;syncCardAction();}
   }
   window.submitOnlineOrder=async function(card){
