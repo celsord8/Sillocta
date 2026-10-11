@@ -192,3 +192,10 @@ test('The SDK submit callback uses tokenized data without tokenizing again and b
   const submit=h.mounts[0].options.callbacks.onSubmit,card={token:'sdk-token',payment_method_id:'master',installments:3,payer:{identification:{type:'CPF',number:'12345678909'}}},additional={paymentTypeId:'credit_card'};
   const first=submit(card,additional);await tick();await submit(card,additional);assert.equal(calls,1);assert.equal(sent.card.token,'sdk-token');assert.equal(sent.card.installments,3);finishOrder();await first;assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento aprovado/);
 });
+
+test('A stale SDK submit callback cannot charge after its card form is replaced',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context.selectCheckoutPayment('cartao');await tick();
+  const stale=h.mounts[0].options.callbacks.onSubmit;h.context.selectCheckoutPayment('pix');h.context.selectCheckoutPayment('cartao');await tick();await tick();
+  await stale({token:'stale-token',payment_method_id:'master',installments:1,payer:{identification:{type:'CPF',number:'12345678909'}}},{paymentTypeId:'credit_card'});
+  assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);assert.equal(h.nodes.get('sillocta-card-submit').disabled,false);
+});
