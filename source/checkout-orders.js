@@ -1,6 +1,6 @@
 /* Sandbox-only Checkout Transparente. Card data stays inside Mercado Pago's SDK. */
 (function(){
-    const state={config:null,sdk:null,mp:null,controller:null,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null};
+    const state={config:null,sdk:null,mp:null,controller:null,cardMount:null,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null};
   const receiptKey='sillocta-orders-test-receipt',uncertainKey='sillocta-orders-test-uncertain',historyKey='sillocta-orders-test-history';
   const originalRender=renderCart,originalSelect=selectCheckoutPayment,originalClose=closeCart;
   window.paymentApi=async function(path,options={}){
@@ -23,7 +23,7 @@
     if(first){error('Confira os campos indicados para continuar.');first.focus({preventScroll:true});first.scrollIntoView({block:'center',behavior:'smooth'});return false;}return true;
   }
   function disposeCard(){
-    state.generation++;const old=state.controller;state.controller=null;
+    state.generation++;const old=state.controller;state.controller=null;state.cardMount=null;
     if(old)state.chain=state.chain.then(()=>old.unmount()).catch(()=>{});
   }
   window.renderCart=function(){disposeCard();originalRender();};
@@ -32,15 +32,22 @@
   function cardTimeout(promise){let timer;return Promise.race([promise,new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(Error('O formulário de cartão demorou a carregar. Tente novamente.')),20000);})]).finally(()=>clearTimeout(timer));}
   function loadSdk(){
     if(state.sdk)return state.sdk;
-    state.sdk=cardTimeout(new Promise((resolve,reject)=>{if(window.MercadoPago)return resolve();const script=document.createElement('script');script.src='https://sdk.mercadopago.com/js/v2';script.onload=()=>window.MercadoPago?resolve():reject(Error('O formulário não carregou.'));script.onerror=()=>reject(Error('Não foi possível carregar o formulário de cartão.'));document.head.appendChild(script);}));
-    state.sdk.catch(()=>{state.sdk=null;});return state.sdk;
+    let script;
+    const pending=cardTimeout(new Promise((resolve,reject)=>{if(window.MercadoPago)return resolve();script=document.createElement('script');script.src='https://sdk.mercadopago.com/js/v2';script.onload=()=>window.MercadoPago?resolve():reject(Error('O formulário não carregou.'));script.onerror=()=>reject(Error('Não foi possível carregar o formulário de cartão.'));document.head.appendChild(script);}));
+    state.sdk=pending;
+    pending.catch(()=>{if(state.sdk===pending)state.sdk=null;script?.remove();}).finally(()=>{if(script){script.onload=null;script.onerror=null;}});return pending;
   }
   async function mountCard(){
-    disposeCard();const generation=state.generation,container=byId('sillocta-card-payment');
+    const container=byId('sillocta-card-payment'),quote=paymentFlow.quote;
     if(!container)return;
+    const quoteId=quote&&quote.expiresAt>Date.now()?quote.quoteId:null;
+    if(state.cardMount?.container===container&&state.cardMount.quoteId===quoteId)return;
+    disposeCard();const generation=state.generation;
     if(state.result||state.attempt||stored(uncertainKey)){container.innerHTML='<p class="sl-field-note" role="status">Consulte o pedido enviado antes de iniciar outro teste.</p>';return;}
-    if(!paymentFlow.quote||paymentFlow.quote.expiresAt<Date.now()){container.innerHTML='<p class="sl-field-note" role="status">'+(paymentFlow.busy?'Calculando o total para abrir o formulário seguro…':'Informe o CEP e toque em “Atualizar total” para abrir o formulário de cartão.')+'</p>';return;}
-    const amount=paymentFlow.quote.totalCents/100;
+    if(!quoteId){container.innerHTML='<p class="sl-field-note" role="status">'+(paymentFlow.busy?'Calculando o total para abrir o formulário seguro…':'Informe o CEP e toque em “Atualizar total” para abrir o formulário de cartão.')+'</p>';return;}
+    state.cardMount={container,quoteId};
+    const amount=quote.totalCents/100;
+    error('');
     container.innerHTML='<p class="sl-field-note" role="status">Carregando formulário seguro…</p>';
     try{
       await loadSdk();await cardTimeout(state.chain);if(generation!==state.generation||!container.isConnected)return;
@@ -84,7 +91,7 @@
     region.innerHTML='<h2 class="sl-checkout-kicker">Entrega de teste</h2><p class="sl-field-note" role="status">'+escapeHtml(paymentFlow.busy?'Calculando o total…':paymentFlow.error|| (ready?'Entrega simulada gratuita. Não haverá postagem de produtos.':'Informe o CEP para calcular o total de teste.'))+'</p><button type="button" class="sl-cta-secondary sl-recalculate" id="sillocta-requote">Atualizar total</button>';
     byId('sillocta-requote').onclick=()=>loadPaymentShipping();
     const summary=byId('checkout-summary'),rows=summary?.querySelectorAll('.sl-summary-row');if(rows){rows[rows.length-2].querySelector('strong').textContent='Simulada · R$ 0,00';rows[rows.length-1].querySelector('span').textContent='Total de teste';byId('checkout-total').textContent=brl(ready?quote.totalCents:getTotals().total);summary.querySelector('.sl-shipping-note').textContent='Total validado no servidor. Entrega simulada, sem postagem.';}
-    if(window._checkout.pagamento==='cartao'&&!state.controller)mountCard();
+    if(window._checkout.pagamento==='cartao')mountCard();
   };
   window.submitOnlineOrder=async function(card){
     if(paymentFlow.submitting||state.result)return;
