@@ -1,6 +1,6 @@
 /* Sandbox-only Checkout Transparente. Card data stays inside Mercado Pago's SDK. */
 (function(){
-    const state={config:null,sdk:null,mp:null,controller:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null};
+    const state={config:null,sdk:null,mp:null,controller:null,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null};
   const receiptKey='sillocta-orders-test-receipt',uncertainKey='sillocta-orders-test-uncertain',historyKey='sillocta-orders-test-history';
   const originalRender=renderCart,originalSelect=selectCheckoutPayment,originalClose=closeCart;
   window.paymentApi=async function(path,options={}){
@@ -28,7 +28,7 @@
   }
   window.renderCart=function(){disposeCard();originalRender();};
   window.closeCart=function(){disposeCard();return originalClose();};
-  window.selectCheckoutPayment=function(mode){if(paymentFlow.submitting||state.attempt&&!state.result){error('Consulte ou repita o pagamento enviado antes de trocar a forma de pagamento.');return false;}if(state.result){error('Este pedido já foi criado. Use “Iniciar outro teste” para escolher outra forma de pagamento.');return false;}originalSelect(mode);if(paymentFlow.enabled)renderMethod();return false;};
+  window.selectCheckoutPayment=function(mode){if(paymentFlow.submitting||state.attempt&&!state.result){error('Consulte ou repita o pagamento enviado antes de trocar a forma de pagamento.');return false;}if(state.result){error('Este pedido já foi criado. Use “Iniciar outro teste” para escolher outra forma de pagamento.');return false;}if(!['pix','cartao','boleto'].includes(mode))return false;if(paymentFlow.enabled&&state.renderedRegion===byId('sillocta-payment-form')&&state.renderedMethod===mode)return false;error('');originalSelect(mode);if(paymentFlow.enabled)renderMethod();return false;};
   function cardTimeout(promise){let timer;return Promise.race([promise,new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(Error('O formulário de cartão demorou a carregar. Tente novamente.')),20000);})]).finally(()=>clearTimeout(timer));}
   function loadSdk(){
     if(state.sdk)return state.sdk;
@@ -61,7 +61,7 @@
   }
   function renderMethod(){
     if(!paymentFlow.enabled)return;const region=byId('sillocta-payment-form');if(!region)return;
-    disposeCard();const mode=window._checkout.pagamento||'pix',button=byId('checkout-finalize-btn');
+    disposeCard();const mode=window._checkout.pagamento||'pix',button=byId('checkout-finalize-btn');state.renderedRegion=region;state.renderedMethod=mode;
     if(state.result){originalSelect(state.result.method);region.innerHTML='<p class="sl-field-note">Este pedido de '+({pix:'Pix',boleto:'boleto',cartao:'cartão'}[state.result.method]||'teste')+' já foi criado. Para testar outra forma de pagamento, toque em “Iniciar outro teste”. A consulta deste pedido será mantida.</p>';if(button)button.hidden=true;renderResult();return;}
     region.innerHTML=mode==='cartao'?'<div id="sillocta-card-payment"></div><p class="sl-field-note">Use apenas cartões de teste do Mercado Pago. Os dados do cartão são processados pelo formulário seguro.</p>':mode==='boleto'?'<div class="sl-field"><label class="sl-label" for="sillocta-cpf">CPF de teste</label><input id="sillocta-cpf" class="sl-input" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="123.456.789-09" value="'+escapeHtml(window._checkout.cpf||'')+'"><p class="sl-field-note">O boleto é gerado para simulação. Nenhuma entrega será realizada.</p></div>':'<p class="sl-field-note">Gere um QR Code e um código Pix copia e cola para testar o fluxo.</p>';
     byId('sillocta-cpf')?.addEventListener('input',e=>{window._checkout.cpf=e.target.value;});
