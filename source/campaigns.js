@@ -12,7 +12,7 @@
   if(!cards.length)return;
   root.setAttribute('data-campaign-ready','true');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const interval=1800;
+  const interval=4000;
   const indexes=new Map(cards.map((card,index)=>[card,index]));
   const duplicate=card=>{
     const clone=card.cloneNode(true);
