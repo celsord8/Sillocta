@@ -400,14 +400,24 @@ function showPaymentStatus(orderId){
     },
     trocas: {
       kicker: 'Trocas e devoluções',
-      title: 'Clareza primeiro. Solução depois.',
+      title: 'Trocas e devoluções, com clareza.',
       subtitle: 'Quando existe um ponto de atenção, a resposta precisa ser objetiva, humana e rápida.',
       body: [
-        {title:'Análise do caso', html:'<p>Recebemos a informação, entendemos o contexto e orientamos os próximos passos com clareza.</p>'},
+        {title:'Arrependimento da compra', html:'<p>Nas compras online, você pode solicitar a devolução em até 7 dias a partir do recebimento, conforme o art. 49 do Código de Defesa do Consumidor. Entre em contato para receber as orientações de devolução e restituição dos valores pagos.</p><p><a href="https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm#art49" target="_blank" rel="noopener noreferrer">Consultar o Código de Defesa do Consumidor</a></p>'},
         {title:'Tratativa', html:'<p>Se houver avaria, divergência ou qualquer problema no recebimento, o caminho é resolver com respeito e agilidade.</p>'},
-        {title:'Canal ideal', html:'<p>O WhatsApp é o jeito mais eficiente de encaminhar o caso com fotos, pedido e uma breve descrição do ocorrido.</p>'}
+        {title:'Como solicitar', html:'<p>Informe o número do pedido e descreva a solicitação pelo WhatsApp. Em caso de avaria ou produto divergente, fotos ajudam na análise. Aguarde as orientações de envio do atendimento.</p>'}
       ],
       actions:[{label:'Solicitar atendimento', kind:'primary', href:'https://wa.me/5585991857074'},{label:'Fechar', kind:'secondary', action:'close'}]
+    },
+    entrega: {
+      kicker:'Entrega',title:'Do checkout ao seu endereço.',subtitle:'Confira as condições antes de finalizar sua seleção.',
+      body:[{title:'Frete e prazo',html:'<p>Informe o CEP na sacola e selecione uma das opções disponíveis. O valor da entrega entra no total do pedido. Os prazos exibidos são estimativas da opção escolhida.</p>'},{title:'Pagamento e postagem',html:'<p>A aprovação do pagamento não significa que o pedido já foi enviado. Para informações sobre a preparação e a postagem, fale com o atendimento usando o número do pedido.</p>'},{title:'Acompanhamento',html:'<p>Após a postagem, solicite o código e o link de rastreamento ao atendimento. Confira o endereço antes de finalizar; se precisar corrigir algo, avise o atendimento o quanto antes.</p>'}],
+      actions:[{label:'Consultar entrega',kind:'primary',href:'https://wa.me/5585991857074'},{label:'Fechar',kind:'secondary',action:'close'}]
+    },
+    privacidade: {
+      kicker:'Privacidade',title:'Como seus dados são utilizados.',subtitle:'Informações sobre a navegação e o checkout da Sillocta.',
+      body:[{title:'Dados do pedido',html:'<p>Nome, contato, endereço e, quando solicitado, documento são utilizados para processar a compra, o pagamento, a entrega e o atendimento. Os dados necessários são enviados aos serviços de pagamento e logística envolvidos nessas etapas.</p>'},{title:'Pagamento',html:'<p>O formulário seguro do Mercado Pago processa os dados do cartão. A loja utiliza um token para solicitar o pagamento, sem receber o número completo do cartão ou seu código de segurança.</p>'},{title:'Neste navegador',html:'<p>A sacola e os favoritos usam armazenamento local para manter suas escolhas. Informações de acompanhamento do pagamento podem permanecer na sessão. Você pode remover esses dados pelas configurações do navegador; isso também remove as seleções salvas.</p>'},{title:'Contato sobre dados',html:'<p>Para solicitar informações, correção ou exclusão de dados, entre em contato pelo canal de atendimento. Alguns registros podem precisar ser conservados para cumprir obrigações legais ou concluir um pedido.</p>'}],
+      actions:[{label:'Falar sobre meus dados',kind:'primary',href:'https://wa.me/5585991857074?text=Ol%C3%A1%21%20Quero%20falar%20sobre%20meus%20dados%20pessoais.'},{label:'Fechar',kind:'secondary',action:'close'}]
     },
     rastreio: {
       kicker: 'Rastrear pedido',
@@ -486,6 +496,8 @@ function updateProductSelection(){
   const p=currentProduct(),page=byId('product-page');if(!p||!page)return;
   const volume=page.dataset.volume,quantity=Number(byId('product-quantity')?.textContent)||1;
   byId('product-price').textContent=brl(p.prices[volume]);byId('product-old-price').textContent=brl(p.oldPrices[volume]);
+  if(byId('product-volume-help'))byId('product-volume-help').textContent=volume==='5'?'5 ml · Para conhecer a fragrância e variar sua seleção.':'10 ml · O dobro de volume, para usar com mais frequência.';
+  if(byId('product-stock'))byId('product-stock').textContent=volume+' ml · '+(p.available?'Disponível':'Temporariamente esgotado');
   if(byId('product-total'))byId('product-total').textContent=brl(p.prices[volume]*quantity);
   for(const [id,disabled] of [['product-minus',quantity<=1],['product-plus',quantity>=99]])if(byId(id))byId(id).disabled=disabled;
 }
@@ -587,6 +599,15 @@ window.addEventListener('pageshow',resetWhatsAppButton);
 
 // A bounded, decorative enhancement. Collection and checkout controls keep
 // their existing behavior; touch devices use the CSS cycle without a cursor.
+// Extend the existing accessible information dialogs on every storefront page.
+for(const [key,label] of [['entrega','Entrega e prazos'],['privacidade','Privacidade']]){
+  const anchor=document.querySelector('#site-footer [data-footer-modal="como"]');
+  if(anchor&&!document.querySelector('#site-footer [data-footer-modal="'+key+'"]')){
+    const link=document.createElement('a');link.href='#footer-info-modal';link.dataset.footerModal=key;link.textContent=label;
+    link.addEventListener('click',event=>{event.preventDefault();openFooterInfo(key);});anchor.parentElement.appendChild(link);
+  }
+}
+
 function initializeHeroMotion(){
   const hero=document.getElementById('hero');
   const collections=document.getElementById('colecao-selector');
@@ -673,3 +694,4 @@ function initializeHeroMotion(){
   syncMotion();
 }
 initializeHeroMotion();
+
