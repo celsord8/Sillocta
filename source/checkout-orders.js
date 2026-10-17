@@ -1,6 +1,6 @@
-/* Sandbox-only Checkout Transparente. Card data stays inside Mercado Pago's SDK. */
+/* Checkout presentation is independent from payment availability. Card data stays inside Mercado Pago's SDK. */
 (function(){
-    const state={rendering:false,config:null,sdk:null,mp:null,controller:null,cardMount:null,tokenizing:false,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null,countdown:null,clockOffset:0,expiryChecked:null};
+    const state={availability:'loading',rendering:false,config:null,sdk:null,mp:null,controller:null,cardMount:null,tokenizing:false,renderedRegion:null,renderedMethod:null,generation:0,chain:Promise.resolve(),result:null,attempt:null,attemptQuoteExpires:0,poll:null,countdown:null,clockOffset:0,expiryChecked:null};
   const receiptKey='sillocta-orders-test-receipt',uncertainKey='sillocta-orders-test-uncertain',historyKey='sillocta-orders-test-history';
   const securityIcon='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="M12 3l7 3v6c0 4-4 7-7 9-3-2-7-5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M8.5 12l2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   function securityInfo(){return '<details class="sl-checkout-security"><summary>'+securityIcon+'<span>Pagamento processado pelo Mercado Pago</span><span class="sl-security-more" aria-hidden="true">+</span></summary><div class="sl-security-content">'+(location.protocol==='https:'?'<p><strong>Conexão HTTPS</strong> · Os dados são transmitidos por uma conexão criptografada.</p>':'')+'<p><strong>Dados do cartão</strong> · Número e código de segurança são enviados pelo formulário seguro do Mercado Pago. A Sillocta recebe um token para processar o pagamento.</p><p><strong>Mercado Pago · PCI DSS</strong> · O processador de pagamentos é certificado neste padrão de segurança. <a href="https://www.mercadopago.com.br/developers/pt/docs/adobe-commerce/resources/security/pci" target="_blank" rel="noopener noreferrer">Consultar documentação do Mercado Pago</a>.</p></div></details>';}
@@ -160,20 +160,35 @@
     if(mode==='cartao'){mountCard();syncCardAction();}renderResult();
   }
   window.updatePaymentCheckout=function(){
-    if(!paymentFlow.enabled||!cart.length)return;
+    if(!cart.length)return;
     byId('cart-drawer')?.classList.add('sl-orders-checkout');
     const intro=byId('cart-items').querySelector('.sl-checkout-service');intro.innerHTML=securityIcon+'<span>Finalização do pedido</span>';
     const payment=byId('checkout-payment-title').closest('section');payment.querySelector('.sl-field-note').textContent='Selecione a forma de pagamento para continuar.';
     const choices={pix:['qrcode','Pix','QR Code ou copia e cola'],cartao:['card','Cartão','Crédito e débito'],boleto:['barcode','Boleto','Código para pagamento']},grid=payment.querySelector('.sl-pay-grid');
     grid.setAttribute('aria-label','Forma de pagamento');
-    grid.innerHTML=Object.entries(choices).map(([mode,[icon,label,description]])=>'<button type="button" onclick="selectCheckoutPayment(\''+mode+'\')" class="sl-pay-btn sl-pay-action '+(window._checkout.pagamento===mode?'is-on':'')+'" data-pay="'+mode+'" aria-label="'+label+'" aria-describedby="sillocta-pay-description-'+mode+'" aria-pressed="'+(window._checkout.pagamento===mode)+'"><span class="sl-option-check" aria-hidden="true">✓</span>'+checkoutControlIcon(icon)+'<span class="sl-payment-choice-copy"><span class="sl-payment-choice-name">'+label+'</span><small id="sillocta-pay-description-'+mode+'">'+description+'</small></span></button>').join('');
+    grid.innerHTML=Object.entries(choices).map(([mode,[icon,label,description]])=>'<button type="button" onclick="selectCheckoutPayment(\''+mode+'\')" class="sl-pay-btn sl-pay-action '+(window._checkout.pagamento===mode?'is-on':'')+'" data-pay="'+mode+'" aria-label="'+label+'" aria-describedby="sillocta-pay-description-'+mode+'" aria-pressed="'+(window._checkout.pagamento===mode)+'"'+(!paymentFlow.enabled?' disabled':'')+'><span class="sl-option-check" aria-hidden="true">✓</span>'+checkoutControlIcon(icon)+'<span class="sl-payment-choice-copy"><span class="sl-payment-choice-name">'+label+'</span><small id="sillocta-pay-description-'+mode+'">'+description+'</small></span></button>').join('');
     if(!byId('sillocta-payment-form'))payment.insertAdjacentHTML('beforeend','<div id="sillocta-payment-form" class="sl-payment-form"></div><div id="sillocta-payment-result" class="sl-payment-result" aria-live="polite"></div>');
-    if(!byId('sillocta-checkout-security'))payment.insertAdjacentHTML('beforeend','<div id="sillocta-checkout-security">'+securityInfo()+'</div>');
+    if(!byId('sillocta-checkout-security'))payment.insertAdjacentHTML('beforeend','<div id="sillocta-checkout-security">'+(paymentFlow.enabled?securityInfo():'')+'</div>');
     const address=byId('checkout-address-title').closest('section');address.querySelector('.sl-field-note').textContent='Informe seu CEP, confira o endereço e escolha a forma de entrega abaixo.';
     if(!byId('checkout-shipping-options'))address.insertAdjacentHTML('afterend','<section id="checkout-shipping-options" class="sl-checkout-block" aria-label="Forma de entrega"></section>');
     byId('checkout-submit-note').textContent='Seus dados de pagamento são processados pelo Mercado Pago.';
     const email=byId('checkout-email');email.required=true;email.closest('.sl-field').querySelector('.sl-optional')?.remove();
     polishCheckoutStructure(payment,address);
+    if(!paymentFlow.enabled){
+      const loading=state.availability==='loading',button=byId('checkout-finalize-btn');
+      payment.querySelector('.sl-field-note').textContent=loading?'Verificando disponibilidade do pagamento…':'O pagamento online está indisponível no momento. O atendimento pode ajudar a concluir sua compra.';
+      byId('sillocta-payment-form').innerHTML='';
+      address.querySelector('.sl-field-note').textContent='Confira seu endereço. As condições de entrega serão confirmadas pelo atendimento.';
+      byId('sillocta-checkout-security').innerHTML='<details class="sl-checkout-security"><summary>'+securityIcon+'<span>Conexão criptografada por HTTPS</span><span class="sl-security-more" aria-hidden="true">+</span></summary><div class="sl-security-content"><p>Seus dados são transmitidos por uma conexão criptografada. Nenhum dado de cartão é solicitado enquanto o pagamento online estiver indisponível.</p></div></details>';
+      byId('checkout-shipping-options').innerHTML='<h2 class="sl-checkout-kicker">Forma de entrega</h2><p class="sl-field-note">Consulte as opções e os prazos com o atendimento.</p>';
+      button.disabled=loading;button.hidden=false;button.onclick=finalizeOrder;
+      button.innerHTML=checkoutControlIcon('whatsapp')+'<span>'+(loading?'Verificando pagamento…':'Continuar com atendimento')+'</span>';
+      byId('checkout-submit-note').textContent='Os dados da seleção serão enviados ao WhatsApp. Entrega e pagamento serão confirmados pelo atendimento.';
+      const rows=byId('checkout-summary').querySelectorAll('.sl-summary-row');
+      rows[rows.length-2].querySelector('strong').textContent='A confirmar';rows[rows.length-1].querySelector('span').textContent='Total sem frete';
+      byId('checkout-summary').querySelector('.sl-shipping-note').textContent='O frete será confirmado pelo atendimento antes de concluir a compra.';
+      return;
+    }
     syncPaymentShipping();renderPaymentShipping();renderMethod();
   };
   window.renderPaymentShipping=function(){
@@ -284,10 +299,11 @@
     if(!['http:','https:'].includes(location.protocol))return;
     try{
       state.config=await paymentApi('config');paymentFlow.enabled=state.config.enabled===true&&state.config.integration==='orders';
-      if(!paymentFlow.enabled)return;
+      state.availability=paymentFlow.enabled?'ready':'unavailable';
+      if(!paymentFlow.enabled){renderCart();return;}
       const receipt=stored(receiptKey);if(receipt){try{acceptResult(await paymentApi('status',{method:'POST',body:JSON.stringify({receipt})}));save(uncertainKey,null);schedulePoll();}catch(e){if(e.status===401){save(receiptKey,null);save(uncertainKey,null);}else save(uncertainKey,'1');}}
       renderCart();
-    }catch{} // WhatsApp remains available if this Preview has no sandbox configuration.
+    }catch{paymentFlow.enabled=false;state.availability='unavailable';renderCart();}
   })();
   window.addEventListener('pagehide',()=>{disposeCard();clearTimeout(state.poll);clearTimeout(state.countdown);});
 })();
