@@ -26,7 +26,7 @@ const shell=(home.slice(0,heroStart)+'<!-- SILLOCTA_PRODUCT_DETAIL -->'+home.sli
 
 rmSync(output,{recursive:true,force:true});
 mkdirSync(path.join(output,'perfume'),{recursive:true});
-for(const name of ['enhancements.css','enhancements.js','product-pages.css','product-pages.js','products.json','campaigns.css','campaigns.js','campaigns.json','navigation.js','media.json','checkout-orders.js','checkout-orders.css','assets'])cpSync(path.join(source,name),path.join(output,name),{recursive:true});
+for(const name of ['enhancements.css','enhancements.js','product-pages.css','product-pages.js','products.json','campaigns.css','campaigns.js','campaigns.json','navigation.js','discovery.js','media.json','checkout-orders.js','checkout-orders.css','assets'])cpSync(path.join(source,name),path.join(output,name),{recursive:true});
 writeFileSync(path.join(output,'index.html'),addMetadata(home,'/'));
 for(const product of products){
   const route=pages.path(product);
