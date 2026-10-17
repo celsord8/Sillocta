@@ -19,6 +19,7 @@ const motion=()=>!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function initializeMobileHero(){
   const hero=byId('hero'),copy=byId('hero-txt'),collections=byId('colecao-selector'),campaigns=byId('catalog-campaigns');
   if(!hero||!copy||!collections)return;
+  if(collections.getAttribute?.('data-hero-layout-ready')==='true')return;
   const home=document.createComment('Sillocta collection controls: desktop position');
   collections.before(home);
   const mobile=window.matchMedia('(max-width:720px)');
@@ -28,6 +29,7 @@ function initializeMobileHero(){
     if(campaigns)collections.after(campaigns);
   };
   placeCollections();
+  collections.setAttribute?.('data-hero-layout-ready','true');
   mobile.addEventListener?.('change',placeCollections);
 }
 initializeMobileHero();
