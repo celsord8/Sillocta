@@ -44,6 +44,8 @@ test('All pages retain one complete ordered stylesheet, a generated critical sub
  assert.equal((home.match(/id="sl-critical-styles"/g)||[]).length,1);
  assert.match(home,/<link id="sl-full-styles" rel="preload" as="style"/);
  assert.match(home,/<noscript><link rel="stylesheet"/);
+ assert.ok(home.includes('@layer sl-first-paint{html:not(.sl-styles-ready)'));
+ assert.ok(home.includes("requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')))"));
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
  assert.equal(read('public/storefront.css'),compactStyles(full));
