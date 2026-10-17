@@ -29,7 +29,10 @@ export function criticalStyles(css,{detail=false}={}){
      !/\[hidden\]|:focus-visible|\.sl-sr-only/.test(rule.selector))rule.remove();
  });
  tree.walkAtRules(at=>{if(at.nodes&&!at.nodes.length)at.remove();});
- const safety='[aria-hidden="true"]:is(#cart-drawer,#cart-overlay,#mobile-menu-drawer,#mobile-menu-overlay,#footer-info-overlay){visibility:hidden}';
+ // A first-paint-only important layer prevents hundreds of color/border
+ // transitions when the complete CSS arrives. Important layered declarations
+ // outrank legacy unlayered !important rules without specificity tricks.
+ const safety='[aria-hidden="true"]:is(#cart-drawer,#cart-overlay,#mobile-menu-drawer,#mobile-menu-overlay,#footer-info-overlay){visibility:hidden}@layer sl-first-paint{html:not(.sl-styles-ready) *,html:not(.sl-styles-ready) *::before,html:not(.sl-styles-ready) *::after{transition:none!important}}';
  return compactStyles(tree.toString()+safety);
 }
 
@@ -37,7 +40,7 @@ export function installCriticalStyles(html,css,options){
  const critical=criticalStyles(css,options);
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
- return html.replace(marker,(_,href)=>'<style id="sl-critical-styles">'+critical+'</style><link id="sl-full-styles" rel="preload" as="style" href="'+href+'" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="'+href+'"></noscript>');
+ return html.replace(marker,(_,href)=>'<style id="sl-critical-styles">'+critical+'</style><link id="sl-full-styles" rel="preload" as="style" href="'+href+'" onload="this.onload=null;this.rel=\'stylesheet\';requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add(\'sl-styles-ready\')))"><noscript><link rel="stylesheet" href="'+href+'"></noscript>');
 }
 
 // The campaign is part of the initial mobile viewport, but below the fold on
