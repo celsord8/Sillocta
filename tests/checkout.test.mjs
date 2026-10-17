@@ -13,14 +13,26 @@ const request=(action,input,cookie,other={})=>new Request(origin+'/api/checkout/
 async function session(){const response=await handle(new Request(origin+'/api/checkout/config'),env,{now,fetcher:verifiedFetcher(()=>{throw Error('config must not call Orders');})});return response.headers.get('set-cookie').split(';')[0];}
 async function quote(cookie,extra={}){const r=await handle(request('quote',{...cart,cep:customer.cep,...extra},cookie),env,{now});assert.equal(r.status,200);return r.json();}
 const orderData=(body,state='pending')=>({id:'ORD01J6TC8BYRR0T4ZKY0QR39WGYE',external_reference:body.external_reference,total_amount:body.total_amount,total_paid_amount:state==='approved'?body.total_amount:'0.00',user_id:'123456',country_code:'BRA',type:'online',status:state==='approved'?'processed':state==='rejected'?'failed':'action_required',status_detail:state==='approved'?'accredited':'waiting_transfer',transactions:{payments:[{amount:body.total_amount,status:state==='approved'?'processed':state==='rejected'?'failed':'action_required',status_detail:state==='approved'?'accredited':'waiting_transfer',payment_method:{...body.transactions.payments[0].payment_method,qr_code:'PIXTEST',qr_code_base64:'aGVsbG8=',ticket_url:'https://www.mercadopago.com.br/payments/test'}}]}});
-test('Only Preview with Orders key candidates and a verified Brazilian test seller can activate public checkout',async()=>{
+test('Hosted checkout requires Orders key candidates and a verified Brazilian test seller',async()=>{
   assert.equal(configuration(env).enabled,true);
-  for(const patch of [{VERCEL_ENV:'production'},{VERCEL_ENV:'development'},{MERCADO_PAGO_ACCESS_TOKEN:''},{MERCADO_PAGO_ACCESS_TOKEN:'TEST-legacy'},{MERCADO_PAGO_PUBLIC_KEY:'TEST-legacy'}]){
+  for(const patch of [{VERCEL_ENV:'development'},{MERCADO_PAGO_ACCESS_TOKEN:''},{MERCADO_PAGO_ACCESS_TOKEN:'TEST-legacy'},{MERCADO_PAGO_PUBLIC_KEY:'TEST-legacy'}]){
     assert.equal(configuration({...env,...patch}).enabled,false);
     const disabled=await handle(new Request(origin+'/api/checkout/config'),{...env,...patch},{now,fetcher:()=>{throw Error('disabled environments must not call provider');}});
     assert.equal((await disabled.json()).enabled,false);assert.equal(disabled.headers.get('set-cookie'),null);
   }
   const r=await handle(new Request(origin+'/api/checkout/config'),env,{now,fetcher:verifiedFetcher(()=>{throw Error('must not call Orders');})});const body=await r.text();assert.ok(!body.includes(env.MERCADO_PAGO_ACCESS_TOKEN));assert.ok(!body.includes(identity.email));assert.ok(body.includes(env.MERCADO_PAGO_PUBLIC_KEY));assert.ok(r.headers.get('set-cookie').includes('HttpOnly; Secure; SameSite=Strict'));
+});
+test('Production presentation accepts only a verified test seller and never creates an order for a live seller',async()=>{
+  const production={...env,VERCEL_ENV:'production'};
+  assert.equal(configuration(production).enabled,true);
+  const accepted=await handle(new Request(origin+'/api/checkout/config'),production,{now,fetcher:verifiedFetcher(()=>{throw Error('config must not create an order');})});
+  assert.equal((await accepted.json()).enabled,true);assert.ok(accepted.headers.get('set-cookie'));
+  let posts=0;
+  const live=async(url,options)=>{if(url==='https://api.mercadolibre.com/users/me')return Response.json({...identity,tags:['normal']});posts++;throw Error('a live order must not be submitted');};
+  const rejected=await handle(new Request(origin+'/api/checkout/config'),production,{now,fetcher:live});assert.equal((await rejected.json()).enabled,false);
+  const cookie=await session(),q=await quote(cookie);
+  const order=await handle(request('order',{...cart,customer,quoteId:q.quoteId,serviceId:'sandbox',requestKey:key,method:'pix'},cookie),production,{now,fetcher:live});
+  assert.equal(order.status,503);assert.equal((await order.json()).code,'sandbox_required');assert.equal(posts,0);
 });
 test('APP_USR alone never exposes the public key or starts a checkout session for a live, foreign or unverified seller',async()=>{
   for(const value of [{...identity,tags:['normal']},{...identity,tags:null},{...identity,country_id:'AR'},{...identity,site_id:'MLA'},{...identity,id:'invalid'}]){
