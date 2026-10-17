@@ -14,7 +14,9 @@ Use Node 22: `npm ci --ignore-scripts` e `npm run verify`. O build gera `public/
 - `source/enhancements.css`, `product-pages.css`, `campaigns.css` e `checkout-orders.css`: componentes e estados.
 - `source/navigation-layout.css`: regras finais de menu e coleções, preservando sua prioridade histórica.
 - `scripts/build.mjs`: compila esses seis módulos, nessa ordem, em um único `public/storefront.css`. `scripts/styles.mjs` elimina apenas declarações repetidas comprovadamente equivalentes, mantendo fallbacks, prioridades e condições de mídia. Não remover `!important` em massa; ainda há regras legadas a refatorar mediante comparação visual.
-- `source/media.json`: imagens responsivas e tamanhos; os originais permanecem preservados.
+- `scripts/loading.mjs`: gera o CSS crítico da primeira tela, incorporado no HTML, e carrega o CSS completo sem bloquear a renderização; a versão completa mantém a ordem original e há fallback `noscript`. Páginas de perfume incluem os estilos do detalhe no subconjunto crítico. O primeiro banner tem preload apenas no mobile, usando o mesmo `srcset` da imagem.
+- `source/icons.json`: somente sete desenhos vetoriais do Font Awesome Free 6.4.0, com autoria/licença preservadas, incorporados como máscaras SVG. Não há download da biblioteca ou das fontes de ícones externas.
+- `source/media.json`: imagens responsivas e tamanhos; os originais permanecem preservados. Aventus e Miss Dior também possuem candidatos de 960 px, WebP qualidade 94, para evitar o salto de 640 px ao arquivo original em telas Retina. Resoluções maiores continuam disponíveis; não ampliar uma imagem além do original.
 - As tags visíveis são editoriais: “Seleção Sillocta” em Aventus e Miss Dior; “Novidade” em Fame In Love, Teriaq e Irresistible. O estado interno `badge: Novo` também alimenta o filtro de novidades e não representa data de lançamento da fabricante. Não usar alegações de vendas sem dados.
 
 ## Vercel e ambientes
