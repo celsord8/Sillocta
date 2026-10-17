@@ -604,7 +604,15 @@ if('IntersectionObserver' in window&&motion()){revealObserver=new IntersectionOb
 reduced.addEventListener?.('change',()=>{if(reduced.matches){revealObserver?.disconnect();document.querySelectorAll('.sl-pending').forEach(n=>n.classList.remove('sl-pending'));}});
 let scrollFrame=0;window.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{scrollFrame=0;document.querySelector('header.glass').classList.toggle('sl-scrolled',window.scrollY>30);if(!motion())return;for(const id of ['parallax-hero','parallax-fem']){const el=byId(id);if(!el)continue;const rect=el.getBoundingClientRect();if(rect.bottom>0&&rect.top<window.innerHeight)el.style.setProperty('--sl-parallax',Math.max(-12,Math.min(12,(rect.top-window.innerHeight*.45)*.03))+'px');}});},{passive:true});
 document.addEventListener('visibilitychange',lockPage);
-function hidePreloader(){byId('preloader')?.classList.add('hide');setTimeout(()=>{if(byId('preloader'))byId('preloader').hidden=true;},450);}
+const firstScreenStartedAt=Date.now();
+function hidePreloader(){
+  // The non-blocking complete stylesheet can arrive after deferred scripts.
+  // Keep the existing opening screen until its two-frame layout has settled,
+  // with a bounded fallback so a failed stylesheet cannot lock the storefront.
+  if(byId('sl-full-styles')&&!document.documentElement.classList.contains('sl-styles-ready')&&Date.now()-firstScreenStartedAt<2500){setTimeout(hidePreloader,50);return;}
+  byId('preloader')?.classList.add('hide');
+  setTimeout(()=>{if(byId('preloader'))byId('preloader').hidden=true;},450);
+}
 requestAnimationFrame(()=>requestAnimationFrame(hidePreloader));setTimeout(hidePreloader,1800);
 try{const saved=JSON.parse(localStorage.getItem('sillocta-original-bag-v1')||'{}');if(Array.isArray(saved.paidOrders))paidOrders.push(...saved.paidOrders.filter(id=>typeof id==='string').slice(-30));for(const item of saved.items||[]){try{const valid=makeItem(item.pid,item.vol,item.qty);const old=cart.find(i=>i.id===valid.id);if(old)old.qty=Math.min(99,old.qty+valid.qty);else cart.push(valid);}catch{}}if(CUPONS[saved.coupon]){window._couponCode=saved.coupon;window._couponPct=CUPONS[saved.coupon];}window._giftWrap=saved.gift===true;}catch{}
 initializeCatalogTools();initializeCatalogFloatGuard();updateIndicators();syncMenuState();persistBag();renderCart();
