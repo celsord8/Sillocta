@@ -713,3 +713,11 @@ html body .perfume-grid>.card:hover{transform:none!important;translate:0 0!impor
   html body .perfume-grid .sl-card-purchase>.sl-price-row{flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important;min-height:44px;gap:2px!important}
   html body .perfume-grid .sl-card-purchase>.btn-buy{min-height:60px!important}
 }
+
+/* Volume options carry the catalog price; purchase controls stay unobstructed. */
+html body .perfume-grid .sl-card-purchase>.sl-price-row{display:none!important}
+html body .perfume-grid .card .sl-card-brand{color:#c8beac!important}
+html body .perfume-grid .card .sl-card-note{color:#d8d0c2!important;border-color:#cbb4773d!important}
+html body .perfume-grid .card .sl-volume-price{color:#cfc6b6!important}
+html body .perfume-grid .card .vbtn.on .sl-volume-price{color:#e6d1a2!important}
+html body.sl-catalog-actions-visible :is(#sl-bag-shortcut,#wa-float){visibility:hidden!important;opacity:0!important;pointer-events:none!important}
