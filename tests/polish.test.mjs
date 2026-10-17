@@ -1,11 +1,29 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
 import {consolidateStyles,compactStyles} from '../scripts/styles.mjs';
 import {iconStyles,criticalStyles,campaignPreload} from '../scripts/loading.mjs';
 import '../source/product-pages.js';
 import products from '../source/products.json' with {type:'json'};
 const read=name=>readFileSync(new URL('../'+name,import.meta.url),'utf8');
+
+test('Opening screen waits for settled styles and has a bounded failure fallback',()=>{
+ const source=read('source/enhancements.js');
+ const start=source.indexOf('const firstScreenStartedAt=Date.now();');
+ const end=source.indexOf('requestAnimationFrame(()=>requestAnimationFrame(hidePreloader));',start);
+ assert.ok(start>=0&&end>start);
+ let now=0,ready=false;const timers=[],classes=[];
+ const loader={classList:{add:value=>classes.push(value)},hidden:false};
+ const context={Date:{now:()=>now},byId:id=>id==='preloader'?loader:id==='sl-full-styles'?{}:null,
+  document:{documentElement:{classList:{contains:()=>ready}}},setTimeout:(fn,ms)=>timers.push({fn,ms})};
+ vm.createContext(context);vm.runInContext(source.slice(start,end),context);
+ context.hidePreloader();assert.deepEqual(classes,[]);assert.equal(timers[0].ms,50);
+ ready=true;timers.shift().fn();assert.deepEqual(classes,['hide']);assert.equal(timers[0].ms,450);
+ timers.shift().fn();assert.equal(loader.hidden,true);
+ classes.length=0;ready=false;loader.hidden=false;now=2501;
+ context.hidePreloader();assert.deepEqual(classes,['hide']);assert.equal(timers[0].ms,450);
+});
 
 test('CSS consolidation preserves priority, browser fallback values, media conditions and keyframes',()=>{
  const css='.a{color:red!important;color:blue}.a{display:block;display:grid;color:blue}@media(min-width:700px){.a{color:red}}@media(max-width:500px){.a{color:blue}}@keyframes x{0%{opacity:0}100%{opacity:0}}';
@@ -46,6 +64,7 @@ test('All pages retain one complete ordered stylesheet, a generated critical sub
  assert.match(home,/<noscript><link rel="stylesheet"/);
  assert.ok(home.includes('@layer sl-first-paint{html:not(.sl-styles-ready)'));
  assert.ok(home.includes("requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')))"));
+ assert.match(read('source/enhancements.js'),/byId\('sl-full-styles'\).*sl-styles-ready.*firstScreenStartedAt<2500/);
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
  assert.equal(read('public/storefront.css'),compactStyles(full));
