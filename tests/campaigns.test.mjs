@@ -52,8 +52,8 @@ function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialV
 
 test('A visible carousel starts without waiting for interaction or its first observer callback',()=>{
   const h=harness({observer:true,initialVisible:true});
-  h.advance(1800);assert.equal(h.active(),1);
-  h.visible(true,.02);h.advance(1800);assert.equal(h.active(),2);
+  h.advance(4000);assert.equal(h.active(),1);
+  h.visible(true,.02);h.advance(4000);assert.equal(h.active(),2);
 });
 
 test('Early script loading waits for parsed markup and repeated initialization never duplicates the loop',()=>{
@@ -61,16 +61,16 @@ test('Early script loading waits for parsed markup and repeated initialization n
   assert.equal(h.rendered.length,6);assert.equal(h.scrolls.length,0);
   h.domReady();assert.equal(h.rendered.length,18);assert.equal(h.active(),0);
   h.runAgain();assert.equal(h.rendered.length,18);
-  h.advance(1800);assert.equal(h.active(),1);
+  h.advance(4000);assert.equal(h.active(),1);
   assert.equal(h.scrolls.filter(s=>s.behavior==='smooth').length,1);
 });
 
 test('Returning from browser history clears stale pointer pauses and resumes at the same perfume',()=>{
   const h=harness({observer:true,initialVisible:true});
-  h.advance(1800);assert.equal(h.active(),1);
+  h.advance(4000);assert.equal(h.active(),1);
   h.rootEvent('pointerenter',{pointerType:'mouse'});h.rootEvent('pointerdown');
   h.windowEvent('pagehide');h.advance(10000);assert.equal(h.active(),1);
-  h.windowEvent('pageshow',{persisted:true});h.advance(1800);assert.equal(h.active(),2);
+  h.windowEvent('pageshow',{persisted:true});h.advance(4000);assert.equal(h.active(),2);
 });
 
 test('Six controls select the corresponding perfume in every run and a touch scroll updates the indicator',()=>{
@@ -83,10 +83,10 @@ test('Six controls select the corresponding perfume in every run and a touch scr
   assert.ok(h.track.scrollLeft<=h.track.scrollWidth-h.track.clientWidth);
 });
 
-test('Automatic advance uses 1.8 seconds and always travels one image forward across repeated seams',()=>{
-  const h=harness();h.advance(1799);assert.equal(h.active(),0);
+test('Automatic advance uses 4 seconds and always travels one image forward across repeated seams',()=>{
+  const h=harness();h.advance(3999);assert.equal(h.active(),0);
   h.advance(1);assert.equal(h.active(),1);
-  for(let i=2;i<=24;i++){h.advance(1800);assert.equal(h.active(),i%CAMPAIGNS.length);}
+  for(let i=2;i<=24;i++){h.advance(4000);assert.equal(h.active(),i%CAMPAIGNS.length);}
   const moves=h.scrolls.filter(s=>s.behavior==='smooth');
   assert.equal(moves.length,24);
   for(const move of moves){assert.equal(move.actual-move.previous,632);}
@@ -135,7 +135,7 @@ test('Resizing preserves the current perfume and resets to an equivalent middle-
 test('Pointer navigation resumes automatically while keyboard browsing keeps the images still',()=>{
   const h=harness();
   h.rootEvent('pointerenter',{pointerType:'mouse'});h.advance(24000);assert.equal(h.active(),0);
-  h.rootEvent('pointerleave',{pointerType:'mouse'});h.advance(1800);assert.equal(h.active(),1);
+  h.rootEvent('pointerleave',{pointerType:'mouse'});h.advance(4000);assert.equal(h.active(),1);
   h.rootEvent('pointerdown');h.rootEvent('focusin',{target:{matches:()=>false}});
   h.advance(24000);assert.equal(h.active(),1);
   h.windowEvent('pointercancel');h.advance(7000);assert.equal(h.active(),2);
@@ -147,12 +147,12 @@ test('Pointer navigation resumes automatically while keyboard browsing keeps the
 
 test('Automatic advance stops outside the view, in a hidden tab and with reduced motion',()=>{
   const h=harness({observer:true});h.advance(24000);assert.equal(h.active(),0);
-  h.visible(true);h.advance(1800);assert.equal(h.active(),1);
+  h.visible(true);h.advance(4000);assert.equal(h.active(),1);
   h.visible(false);h.advance(24000);assert.equal(h.active(),1);
   h.visible(true);h.hidden(true);h.advance(24000);assert.equal(h.active(),1);
-  h.hidden(false);h.advance(1800);assert.equal(h.active(),2);
+  h.hidden(false);h.advance(4000);assert.equal(h.active(),2);
   h.reduced(true);h.advance(24000);assert.equal(h.active(),2);
-  h.reduced(false);h.advance(1800);assert.equal(h.active(),3);
+  h.reduced(false);h.advance(4000);assert.equal(h.active(),3);
 });
 
 test('Mobile places campaigns directly after collection selectors and preserves the hero copy on resize',()=>{
