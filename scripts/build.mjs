@@ -2,6 +2,7 @@ import {readFileSync, writeFileSync, mkdirSync, cpSync, rmSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {consolidateStyles,compactStyles} from './styles.mjs';
+import {iconStyles,installCriticalStyles,campaignPreload} from './loading.mjs';
 import {deploymentMetadata,seoFiles,pageMetadata} from './site-metadata.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
@@ -17,28 +18,30 @@ const {origin,preview}=metadata;
 const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata({origin,preview},route,product)+'</head>');
 
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const home=readFileSync(path.join(source,'index.html'),'utf8');
+const originalHome=readFileSync(path.join(source,'index.html'),'utf8');
+const home=originalHome.replace('</head>',campaignPreload(originalHome)+'</head>');
 const heroStart=home.indexOf('<section id="hero">'),shopEnd=home.indexOf('</main>',heroStart);
 if(heroStart<0||shopEnd<heroStart)throw Error('Storefront layout missing');
 const shell=(home.slice(0,heroStart)+'<!-- SILLOCTA_PRODUCT_DETAIL -->'+home.slice(shopEnd+7))
   .replace('<body>','<body class="sl-detail-view">')
-  .replace(/<link id="sl-home-media-preload(?:-female)?"[^>]*>/g,'')
+  .replace(/<link id="sl-home-media-preload(?:-female|-campaign)?"[^>]*>/g,'')
   .replace(/href="#(shop|hero|sec-masculino|sec-feminino|catalog-search)"/g,'href="/#$1"');
 
 rmSync(output,{recursive:true,force:true});
 mkdirSync(path.join(output,'perfume'),{recursive:true});
 for(const name of ['enhancements.css','enhancements.js','product-pages.css','product-pages.js','products.json','campaigns.css','campaigns.js','campaigns.json','navigation.js','discovery.js','media.json','checkout-orders.js','checkout-orders.css','assets'])cpSync(path.join(source,name),path.join(output,name),{recursive:true});
 const styles=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'].map(name=>readFileSync(path.join(source,name),'utf8'));
-const bundled=consolidateStyles(styles.join('\n'));
+const icons=iconStyles(JSON.parse(readFileSync(path.join(source,'icons.json'),'utf8')));
+const bundled=consolidateStyles(icons+'\n'+styles.join('\n'));
 writeFileSync(path.join(output,'storefront.css'),compactStyles(bundled.css));
-writeFileSync(path.join(output,'index.html'),addMetadata(home,'/'));
+writeFileSync(path.join(output,'index.html'),installCriticalStyles(addMetadata(home,'/'),bundled.css));
 for(const product of products){
   const route=pages.path(product);
   let html=shell
     .replace(/<title>[^<]*<\/title>/,'<title>'+escape(product.name+' · '+product.brand+' | Sillocta')+'</title>')
     .replace(/<meta name="description" content="[^"]*">/,'<meta name="description" content="'+escape(pages.description(product))+'">')
     .replace('<!-- SILLOCTA_PRODUCT_DETAIL -->',pages.render(product,{products}));
-  html=addMetadata(html,route,product);
+  html=installCriticalStyles(addMetadata(html,route,product),bundled.css,{detail:true});
   writeFileSync(path.join(output,route.slice(1)+'.html'),html);
 }
 
