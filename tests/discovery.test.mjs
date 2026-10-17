@@ -151,3 +151,21 @@ test('Global volume synchronizes cards, price label and sorting; reset restores 
   h.run("selectCatalogVolume('invalid')");assert.equal(h.nodes.get('catalog-price-label').textContent,'Preço · 10 ml');
   h.run('resetCatalogVisibility()');assert.equal(h.nodes.get('catalog-price-label').textContent,'Preço · 5 ml');assert.equal(h.nodes.get('catalog-volume-5').attributes['aria-pressed'],'true');assert.equal(h.nodes.get('catalog-price').value,'');assert.equal(h.nodes.get('catalog-brand').value,'');assert.ok(h.cards.every(c=>c.dataset.volume==='5'&&!c.hidden));
 });
+
+
+test('Floating catalog shortcuts remain hidden until every nearby purchase block leaves, including filtered cards',()=>{
+  const code=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8');
+  const guard=code.slice(code.indexOf('function initializeCatalogFloatGuard(){'),code.indexOf('function updateCatalogFilters('));
+  const purchases=[{id:15},{id:17}],classes=new Set();let report,observed=[];
+  const document={querySelectorAll:()=>purchases,body:{classList:{add:key=>classes.add(key),toggle(key,on){if(on)classes.add(key);else classes.delete(key);}}}};
+  class Observer{constructor(callback){report=callback;}observe(target){observed.push(target);}}
+  const context=vm.createContext({document,window:{IntersectionObserver:Observer},IntersectionObserver:Observer});
+  vm.runInContext(guard+'initializeCatalogFloatGuard()',context);
+  assert.deepEqual(observed,purchases);assert.ok(classes.has('sl-catalog-actions-visible'));
+  report(purchases.map(target=>({target,isIntersecting:false})));assert.equal(classes.size,0);
+  report(purchases.map(target=>({target,isIntersecting:true})));assert.ok(classes.has('sl-catalog-actions-visible'));
+  report([{target:purchases[0],isIntersecting:false}]);assert.ok(classes.has('sl-catalog-actions-visible'));
+  report([{target:purchases[1],isIntersecting:false}]);assert.equal(classes.size,0);
+  const fallback=vm.createContext({document,window:{}});vm.runInContext(guard+'initializeCatalogFloatGuard()',fallback);assert.ok(classes.has('sl-catalog-actions-visible'));
+  classes.clear();document.querySelectorAll=()=>[];vm.runInContext(guard+'initializeCatalogFloatGuard()',fallback);assert.equal(classes.size,0);
+});
