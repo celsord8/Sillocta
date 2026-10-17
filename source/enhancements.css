@@ -697,3 +697,19 @@ html body #catalog-search .sl-catalog-volumes button[aria-pressed=true]{backgrou
 html body #catalog-search .sl-catalog-actions{margin-top:10px}
 html body #catalog-search .sl-catalog-reset{max-width:none;min-width:90px}
 @media(max-width:720px){html body #catalog-search .sl-catalog-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}html body #catalog-search .sl-catalog-field,html body #catalog-search .sl-catalog-field:last-child{grid-column:auto}html body #catalog-search .sl-catalog-volume-label{font-size:.6875rem;margin-bottom:4px}html body #catalog-search .sl-catalog-volumes button{min-height:38px}html body #catalog-search .sl-catalog-reset{font-size:.6875rem;min-width:84px}}
+
+/* A shared purchase rhythm keeps each row aligned without truncating perfume copy. */
+html body .perfume-grid{align-items:stretch!important}
+html body .perfume-grid>.card{display:flex!important;flex-direction:column!important;min-width:0}
+html body .perfume-grid>.card>.img-box{flex-shrink:0}
+html body .perfume-grid .sl-card-body{display:flex!important;flex-direction:column!important;flex:1 1 auto!important;min-width:0}
+html body .perfume-grid .sl-card-purchase{display:grid!important;grid-template-columns:minmax(0,1fr);gap:14px;align-items:center;margin-top:auto!important;min-width:0}
+html body .perfume-grid .sl-card-purchase>.sl-volume-options{margin:0!important}
+html body .perfume-grid .sl-card-purchase>.sl-price-row{min-height:30px;margin:0!important;align-content:center;justify-content:center!important;gap:4px 8px!important}
+html body .perfume-grid .sl-card-purchase>.sl-catalog-quantity{height:46px;min-height:46px;margin:0 auto!important}
+html body .perfume-grid .sl-card-purchase>.btn-buy{min-height:44px!important;margin:0 auto!important}
+html body .perfume-grid>.card:hover{transform:none!important;translate:0 0!important}
+@media(max-width:720px){
+  html body .perfume-grid .sl-card-purchase>.sl-price-row{flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important;min-height:44px;gap:2px!important}
+  html body .perfume-grid .sl-card-purchase>.btn-buy{min-height:60px!important}
+}
