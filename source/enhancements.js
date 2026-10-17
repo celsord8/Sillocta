@@ -117,7 +117,7 @@ function initializeCatalogFloatGuard(){
 function updateCatalogFilters(source=''){
   if(!byId('catalog-query'))return;
   catalogState.brand=byId('catalog-brand').value;catalogState.price=byId('catalog-price').value;catalogState.sort=byId('catalog-sort').value;catalogState.available=byId('catalog-available').checked;applyCatalogFilters();
-  if(['brand','price','sort','available'].includes(source))scrollToCatalogResults();
+  if(['brand','price','sort','available'].includes(source)&&!window.SilloctaDiscovery?.preserveFilterPosition)scrollToCatalogResults();
 }
 function toggleSavedCatalog(){catalogState.savedOnly=!catalogState.savedOnly;applyCatalogFilters();scrollToCatalogResults();return false;}
 function openFavorites(){
