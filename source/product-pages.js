@@ -15,15 +15,15 @@
     return `<button type="button" class="sl-favorite ${extra}" data-favorite-id="${p.id}" aria-pressed="false" aria-label="Salvar ${escape(p.name)} nos favoritos" onclick="return toggleFavorite(${p.id})">${heart}</button>`;
   }
   function filterProducts(products,state={}){
-    const term=normalize(state.query).trim(),favorites=new Set(state.favorites||[]);
+    const term=normalize(state.query).trim(),favorites=new Set(state.favorites||[]),volume=state.volume==='10'?'10':'5';
     const found=products.filter(p=>{
-      const price=p.prices['5'],text=normalize([p.name,p.brand,p.profile,...p.notes].join(' '));
+      const price=p.prices[volume],text=normalize([p.name,p.brand,p.profile,...p.notes].join(' '));
       return (!state.gender||p.gender===state.gender)&&text.includes(term)&&(!state.brand||p.brand===state.brand)
         &&(state.price==='under50'?price<5000:state.price==='50to100'?price>=5000&&price<10000:state.price==='100plus'?price>=10000:true)
         &&(!state.available||p.available)&&(!state.savedOnly||favorites.has(p.id))
         &&(state.mode==='new'?p.badge==='Novo':state.mode==='niche'?[1,3,4].includes(p.id):state.mode==='designer'?![1,3,4].includes(p.id):true);
     });
-    if(state.sort==='price-asc'||state.sort==='price-desc')found.sort((a,b)=>(state.sort==='price-desc'?-1:1)*(a.prices['5']-b.prices['5'])||a.id-b.id);
+    if(state.sort==='price-asc'||state.sort==='price-desc')found.sort((a,b)=>(state.sort==='price-desc'?-1:1)*(a.prices[volume]-b.prices[volume])||a.id-b.id);
     return found;
   }
   function relatedProducts(p,products){
