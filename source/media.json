@@ -5,12 +5,16 @@
     "originalSha256": "b2b1490eae7a972895a1350e6c2d98171ac0e6c21a48a4fef27afbe5c95b6be1",
     "sources": [
       {
-        "url": "assets/responsive/campaign-aventus-640-65feda13e297.webp",
+        "url": "assets/responsive/campaign-aventus-320-73276f01c5a7.webp",
+        "width": 320,
+        "bytes": 16158,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-aventus-640-c448714794dd.webp",
         "width": 640,
-        "height": 233,
-        "bytes": 78086,
-        "quality": 94,
-        "psnr": 41.82
+        "bytes": 64352,
+        "quality": 90
       },
       {
         "url": "assets/campaign-aventus.webp",
@@ -25,6 +29,18 @@
     "originalSha256": "c8f0c6b262a10e5363232022b955f2eabde27e3951ecc87d1403e7f2d21c3df7",
     "sources": [
       {
+        "url": "assets/responsive/campaign-miss-dior-320-dcb79faf2a50.webp",
+        "width": 320,
+        "bytes": 33252,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-miss-dior-640-bb73c03b1013.webp",
+        "width": 640,
+        "bytes": 115806,
+        "quality": 90
+      },
+      {
         "url": "assets/campaign-miss-dior.webp",
         "width": 1680,
         "bytes": 320378
@@ -36,6 +52,18 @@
     "height": 1280,
     "originalSha256": "175b1227e08aa171a78f8d9b517df6445993f99110ab453ccbde9cd8255fbef7",
     "sources": [
+      {
+        "url": "assets/responsive/campaign-tobacco-vanille-320-0e4e959d5ac9.webp",
+        "width": 320,
+        "bytes": 25844,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-tobacco-vanille-640-04a478ed0452.webp",
+        "width": 640,
+        "bytes": 76994,
+        "quality": 90
+      },
       {
         "url": "assets/campaign-tobacco-vanille.webp",
         "width": 1280,
@@ -49,6 +77,18 @@
     "originalSha256": "aa409d61fb54cfeba25e57130816dd39dd5415f5eaa4473288efe0c640900a1a",
     "sources": [
       {
+        "url": "assets/responsive/campaign-libre-320-0553eccf4668.webp",
+        "width": 320,
+        "bytes": 48846,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-libre-640-85d99946cf2a.webp",
+        "width": 640,
+        "bytes": 173468,
+        "quality": 90
+      },
+      {
         "url": "assets/campaign-libre.webp",
         "width": 1170,
         "bytes": 484782
@@ -61,12 +101,16 @@
     "originalSha256": "738d4b8c43f25298c7365beee29d9d7a384523038affb3211a167195ca72c692",
     "sources": [
       {
-        "url": "assets/responsive/campaign-naxos-640-dd59520c56a2.webp",
+        "url": "assets/responsive/campaign-naxos-320-5af718c05f81.webp",
+        "width": 320,
+        "bytes": 22738,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-naxos-640-e1cd09a5cf7d.webp",
         "width": 640,
-        "height": 640,
-        "bytes": 123826,
-        "quality": 98,
-        "psnr": 41.15
+        "bytes": 75578,
+        "quality": 90
       },
       {
         "url": "assets/campaign-naxos.webp",
@@ -81,12 +125,16 @@
     "originalSha256": "2b552925377ca5516907e04e5dbbbbcd4f4fd4a391a629e79fbdf51ed0059bdf",
     "sources": [
       {
-        "url": "assets/responsive/campaign-irresistible-640-035354eb29ba.webp",
+        "url": "assets/responsive/campaign-irresistible-320-b7f458fd13cc.webp",
+        "width": 320,
+        "bytes": 15908,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-irresistible-640-8c2ed6450a49.webp",
         "width": 640,
-        "height": 640,
-        "bytes": 69104,
-        "quality": 94,
-        "psnr": 43.63
+        "bytes": 45970,
+        "quality": 90
       },
       {
         "url": "assets/campaign-irresistible.webp",
@@ -101,12 +149,16 @@
     "originalSha256": "f47a42239e8f483884f707cb64a5dde8b712e6aa19cf6c733bab15ba6ebf9c21",
     "sources": [
       {
-        "url": "assets/responsive/img-masc-640-99297709fa7d.webp",
+        "url": "assets/responsive/img-masc-320-e6b7c1c70bcc.webp",
+        "width": 320,
+        "bytes": 25384,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/img-masc-640-3db59fd662d0.webp",
         "width": 640,
-        "height": 794,
-        "bytes": 93104,
-        "quality": 94,
-        "psnr": 44.46
+        "bytes": 70130,
+        "quality": 90
       },
       {
         "url": "assets/img-masc.jpg",
@@ -121,12 +173,16 @@
     "originalSha256": "96d3641a3921864ff85c9eee58348805fa8170780700a03bac82ccb44e564bc1",
     "sources": [
       {
-        "url": "assets/responsive/img-fem-640-e2c813cdf588.webp",
+        "url": "assets/responsive/img-fem-320-0671fa28b2e9.webp",
+        "width": 320,
+        "bytes": 25352,
+        "quality": 90
+      },
+      {
+        "url": "assets/responsive/img-fem-640-ee870e0d7b49.webp",
         "width": 640,
-        "height": 794,
-        "bytes": 92914,
-        "quality": 94,
-        "psnr": 43.98
+        "bytes": 72668,
+        "quality": 90
       },
       {
         "url": "assets/img-fem.jpg",

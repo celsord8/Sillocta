@@ -41,6 +41,7 @@
     }).join('')}</div></section>`;
   }
   const icon=name=>`<svg class="sl-product-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${{bag:'<path d="M5 7h14l1 14H4L5 7Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',whatsapp:'<path d="m3 21 1.65-3.8a9 9 0 1 1 3.4 2.9L3 21Z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/>',minus:'<path d="M6 12h12"/>',plus:'<path d="M6 12h12M12 6v12"/>',check:'<path d="m5 12 4 4L19 6"/>',down:'<path d="m7 10 5 5 5-5"/>'}[name]||''}</svg>`;
+  function badgeLabel(p){return !p.available?'Esgotado':{1:'Seleção Sillocta',6:'Seleção Sillocta',10:'Novidade',17:'Novidade',26:'Novidade'}[p.id]||'';}
   function description(product){return `${product.name} de ${product.brand}, em decants de 5 e 10 ml. ${product.description||product.notes.join(', ')+'.'}`;}
   function render(product,options={}){
     const p=product,e=escape,collection=p.gender==='m'?'masculina':'feminina';
@@ -49,7 +50,7 @@
     return `<main id="product-page" class="sl-product-page" data-product-id="${p.id}" data-volume="5" aria-labelledby="product-title">
       <nav class="sl-product-breadcrumb" aria-label="Navegação do perfume"><a href="${e(back)}" data-product-back="${p.gender}"><span>Voltar à coleção ${collection}</span></a></nav>
       <div class="sl-product-layout">
-        <figure class="sl-product-visual"><div class="sl-product-photo"><img src="${e(image)}"${imageAttributes(p,image,'(max-width: 720px) min(460px, calc(100vw - 44px)), (max-width: 1120px) calc((100vw - 100px) / 2), 540px')} alt="${e(p.brand+' '+p.name)}" width="${p.media?.width||870}" height="${p.media?.height||1080}" fetchpriority="high" decoding="async">${!p.available?'<span class="sl-product-badge">Esgotado</span>':p.badge==='Novo'?'<span class="sl-product-badge">Novo na coleção</span>':''}</div><figcaption>Frasco original como referência. Você recebe o decant no volume escolhido.</figcaption></figure>
+        <figure class="sl-product-visual"><div class="sl-product-photo"><img src="${e(image)}"${imageAttributes(p,image,'(max-width: 720px) min(460px, calc(100vw - 44px)), (max-width: 1120px) calc((100vw - 100px) / 2), 540px')} alt="${e(p.brand+' '+p.name)}" width="${p.media?.width||870}" height="${p.media?.height||1080}" fetchpriority="high" decoding="async">${badgeLabel(p)?'<span class="sl-product-badge">'+e(badgeLabel(p))+'</span>':''}</div><figcaption>Frasco original como referência. Você recebe o decant no volume escolhido.</figcaption></figure>
         <section class="sl-product-info" aria-label="Detalhes e seleção">
           <div class="sl-product-brand-row"><p class="sl-product-brand">${e(p.brand)}</p>${favoriteButton(p,'sl-favorite-detail')}</div><h1 id="product-title">${e(p.name)}</h1><p class="sl-product-type">${e(p.type)} <span aria-hidden="true">·</span> Decant</p>
           <p class="sl-product-type">${e(p.profile||"")}</p><p class="sl-product-intro">${e(p.description||'')}</p>
@@ -67,5 +68,5 @@
       ${renderRelated(p,options)}
     </main>`;
   }
-  root.SilloctaProductPages={slug,path,render,description,filterProducts,relatedProducts,favoriteButton};
+  root.SilloctaProductPages={slug,path,render,description,filterProducts,relatedProducts,favoriteButton,badgeLabel};
 })(globalThis);

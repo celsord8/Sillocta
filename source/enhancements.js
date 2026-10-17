@@ -444,7 +444,7 @@ function showPaymentStatus(orderId){
     },
     privacidade: {
       kicker:'Privacidade',title:'Como seus dados são utilizados.',subtitle:'Informações sobre a navegação e o checkout da Sillocta.',
-      body:[{title:'Dados do pedido',html:'<p>Nome, contato, endereço e, quando solicitado, documento são utilizados para processar a compra, o pagamento, a entrega e o atendimento. Os dados necessários são enviados aos serviços de pagamento e logística envolvidos nessas etapas.</p>'},{title:'Pagamento',html:'<p>O formulário seguro do Mercado Pago processa os dados do cartão. A loja utiliza um token para solicitar o pagamento, sem receber o número completo do cartão ou seu código de segurança.</p>'},{title:'Neste navegador',html:'<p>A sacola e os favoritos usam armazenamento local para manter suas escolhas. Informações de acompanhamento do pagamento podem permanecer na sessão. Você pode remover esses dados pelas configurações do navegador; isso também remove as seleções salvas.</p>'},{title:'Contato sobre dados',html:'<p>Para solicitar informações, correção ou exclusão de dados, entre em contato pelo canal de atendimento. Alguns registros podem precisar ser conservados para cumprir obrigações legais ou concluir um pedido.</p>'}],
+      body:[{title:'Métricas de navegação',html:'<p>Utilizamos métricas agregadas da Vercel para acompanhar visitas e desempenho. Os campos do checkout não são enviados para essas métricas, e parâmetros de busca e fragmentos são removidos dos endereços medidos. Preferências Do Not Track e Global Privacy Control são respeitadas.</p>'},{title:'Dados do pedido',html:'<p>Nome, contato, endereço e, quando solicitado, documento são utilizados para processar a compra, o pagamento, a entrega e o atendimento. Os dados necessários são enviados aos serviços de pagamento e logística envolvidos nessas etapas.</p>'},{title:'Pagamento',html:'<p>O formulário seguro do Mercado Pago processa os dados do cartão. A loja utiliza um token para solicitar o pagamento, sem receber o número completo do cartão ou seu código de segurança.</p>'},{title:'Neste navegador',html:'<p>A sacola e os favoritos usam armazenamento local para manter suas escolhas. Informações de acompanhamento do pagamento podem permanecer na sessão. Você pode remover esses dados pelas configurações do navegador; isso também remove as seleções salvas.</p>'},{title:'Contato sobre dados',html:'<p>Para solicitar informações, correção ou exclusão de dados, entre em contato pelo canal de atendimento. Alguns registros podem precisar ser conservados para cumprir obrigações legais ou concluir um pedido.</p>'}],
       actions:[{label:'Falar sobre meus dados',kind:'primary',href:'https://wa.me/5585991857074?text=Ol%C3%A1%21%20Quero%20falar%20sobre%20meus%20dados%20pessoais.'},{label:'Fechar',kind:'secondary',action:'close'}]
     },
     rastreio: {
@@ -723,3 +723,15 @@ function initializeHeroMotion(){
 }
 initializeHeroMotion();
 
+
+// First-party aggregate measurement only: never include checkout data or URL query strings.
+(function initializeMeasurement(){
+ if(typeof navigator==='undefined'||navigator.doNotTrack==='1'||navigator.globalPrivacyControl===true)return;
+ const cleanUrl=value=>{try{const url=new URL(value,location.origin);return url.origin+url.pathname;}catch{return location.origin+location.pathname;}};
+ window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+ window.va('beforeSend',event=>({...event,url:cleanUrl(event.url)}));
+ window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};
+ window.si('beforeSend',event=>({...event,url:cleanUrl(event.url)}));
+ const load=()=>{for(const [id,src] of [['sl-analytics','/_vercel/insights/script.js'],['sl-speed-insights','/_vercel/speed-insights/script.js']]){if(document.getElementById(id))continue;const script=document.createElement('script');script.id=id;script.defer=true;script.src=src;document.head.appendChild(script);}};
+ if('requestIdleCallback' in window)window.requestIdleCallback(load,{timeout:3500});else window.setTimeout(load,1800);
+})();

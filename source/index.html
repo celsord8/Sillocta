@@ -5,1518 +5,87 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta charset="utf-8">
-<title>Sillocta | Maison de Decants</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=Montserrat:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
+<title>Sillocta | Maison de Decants</title><!-- Approved fonts: family=Montserrat; Cormorant Garamond; self-hosted. --><link rel="preload" as="font" type="font/woff2" href="/assets/responsive/font-6f2f5c3b1abc3d0b.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="/assets/responsive/font-d80df8ff5aecd299.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="/assets/responsive/font-06b16db7a969135d.woff2" crossorigin><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<style>
-        *{box-sizing:border-box;margin:0;padding:0}
-        html{scroll-behavior:smooth}
-        body{background:#050404;color:#e5e5e5;font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-
-        /* GOLD */
-        .gold-grad{background:linear-gradient(135deg,#E6C97A 0%,#D4AF37 50%,#AA8C2C 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .gold-line{height:.5px;background:linear-gradient(to right,transparent,rgba(212,175,55,.3),transparent)}
-
-        /* NAV */
-        .glass{background:rgba(5,4,4,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:.5px solid rgba(212,175,55,.1)}
-
-        /* HERO */
-        #hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#050404}
-        .orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;will-change:transform}
-        #o1{top:0;left:10%;width:500px;height:500px;background:radial-gradient(circle,rgba(212,175,55,.15),transparent 70%)}
-        #o2{bottom:-20%;right:0;width:600px;height:600px;background:radial-gradient(circle,rgba(160,120,30,.13),transparent 70%)}
-        #o3{top:30%;left:50%;width:350px;height:350px;background:radial-gradient(circle,rgba(230,200,100,.08),transparent 70%)}
-        #stars{
-            position:absolute;inset:0;pointer-events:none;will-change:transform;
-            background-image:
-                radial-gradient(1px 1px at 10px 20px,rgba(212,175,55,.8),transparent),
-                radial-gradient(1px 1px at 50px 90px,rgba(255,255,255,.4),transparent),
-                radial-gradient(1.5px 1.5px at 95px 40px,rgba(212,175,55,.6),transparent),
-                radial-gradient(1px 1px at 140px 120px,rgba(255,255,255,.35),transparent),
-                radial-gradient(1px 1px at 180px 65px,rgba(212,175,55,.5),transparent),
-                radial-gradient(1.5px 1.5px at 60px 155px,rgba(255,255,255,.25),transparent),
-                radial-gradient(1px 1px at 200px 30px,rgba(212,175,55,.4),transparent);
-            background-repeat:repeat;background-size:240px 240px;opacity:.3}
-        #hero-txt{position:relative;z-index:10;text-align:center;will-change:transform,opacity}
-
-        /* CARDS */
-        .card{background:#0a0909;border:.5px solid rgba(212,175,55,.07);display:flex;flex-direction:column;overflow:hidden;
-              transition:transform .6s cubic-bezier(.1,.8,.2,1),border-color .5s,box-shadow .5s}
-        .card:hover{transform:translateY(-8px);border-color:rgba(212,175,55,.3);
-            box-shadow:0 30px 60px rgba(0,0,0,.95),0 0 40px rgba(212,175,55,.05)}
-        .img-box{width:100%;aspect-ratio:4/5;overflow:hidden;position:relative}
-        .img-box img{width:100%;height:100%;object-fit:cover;
-            transition:transform 2.8s cubic-bezier(.1,.8,.2,1),filter .6s}
-        .card:hover .img-box img{transform:scale(1.04);filter:brightness(1.05)}
-        .badge{position:absolute;top:16px;left:16px;z-index:10;font-size:7.5px;
-            text-transform:uppercase;letter-spacing:.22em;
-            border:.5px solid rgba(212,175,55,.5);background:rgba(0,0,0,.8);
-            color:rgba(230,201,122,.95);padding:5px 12px;backdrop-filter:blur(10px)}
-
-        /* BTNS */
-        .btn-buy{background:linear-gradient(135deg,#D4AF37,#AA8C2C);color:#000;
-            letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;
-            font-family:'Montserrat',sans-serif;font-weight:600;
-            transition:filter .3s,box-shadow .3s,transform .2s}
-        .btn-buy:hover{filter:brightness(1.15);box-shadow:0 0 28px rgba(212,175,55,.4);transform:scale(1.01)}
-        .btn-buy:active{transform:scale(.98)}
-        
-body.collection-view .perfume-grid .btn-buy{border-radius:8px!important;border:.5px solid rgba(255,255,255,.14)!important;margin:0!important;width:100%!important;padding:14px 18px!important;font-size:9px!important}
-body.collection-view .perfume-grid .btn-buy:hover{border-color:rgba(212,175,55,.28)!important}
-
-
-
-
-
-        
-        
-        
-
-        /* SCROLL REVEAL */
-        .fu{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.1,.8,.2,1),transform .9s cubic-bezier(.1,.8,.2,1)}
-        .fu.vis{opacity:1;transform:translateY(0)}
-
-        /* WA FLOAT */
-        .wa{position:fixed;bottom:26px;right:26px;z-index:999;width:52px;height:52px;
-            border-radius:50%;background:#128C7E;color:#ffffff;display:flex;
-            align-items:center;justify-content:center;font-size:22px;
-            box-shadow:0 4px 24px rgba(18,140,126,.45);
-            transition:transform .3s,box-shadow .3s;text-decoration:none}
-        .wa:hover{transform:scale(1.12);box-shadow:0 8px 32px rgba(18,140,126,.6)}
-
-        /* PRICE TRANSITION */
-        .price-cur,.price-old{transition:opacity .15s ease}
-    
-    @media(max-width:600px){
-      .perfume-grid{grid-template-columns:1fr!important;}
-    }
-
-    
-        /* ── CART DRAWER ─────────────────────────────── */
-        #cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;opacity:0;pointer-events:none;transition:opacity .35s}
-        #cart-overlay.open{opacity:1;pointer-events:all}
-        #cart-drawer{position:fixed;right:0;top:0;height:100dvh;width:min(400px,100%);background:#080707;border-left:.5px solid rgba(212,175,55,.14);z-index:1001;transform:translateX(100%);transition:transform .42s cubic-bezier(.1,.8,.2,1);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:auto}
-        #cart-drawer.open{transform:translateX(0)}
-        .cart-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:.5px solid rgba(255,255,255,.05)}
-        .cart-item:last-child{border-bottom:none}
-        #cart-items::-webkit-scrollbar{width:3px}
-        #cart-items::-webkit-scrollbar-track{background:transparent}
-        #cart-items::-webkit-scrollbar-thumb{background:rgba(212,175,55,.2);border-radius:2px}
-
-        
-    /* ── FLUXO + FUNDO ── */
-    body,main#shop { background:#050404 }
-    html { overflow:hidden }
-
-    /* ── SMOOTH SCROLL ── */
-    #smooth-wrapper { height:100vh;overflow-y:scroll;scroll-behavior:auto;position:relative }
-    #smooth-wrapper::-webkit-scrollbar { display:none }
-    #smooth-wrapper { -ms-overflow-style:none;scrollbar-width:none }
-
-    /* ── PRELOADER ── */
-    #preloader { position:fixed;inset:0;z-index:9999;background:#050404;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s ease-out,visibility .6s ease-out }
-    #preloader { transition:opacity .6s ease-out } #preloader.hide { opacity:0!important;visibility:hidden!important;pointer-events:none!important }
-    .pl-logo { font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,52px);font-weight:300;letter-spacing:.28em;color:#D4AF37;opacity:0;animation:plFadeIn 1s ease .2s forwards }
-    .pl-sub  { font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:.45em;text-transform:uppercase;color:rgba(212,175,55,.5);opacity:0;animation:plFadeIn .8s ease .7s forwards }
-    .pl-line { width:0;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);animation:plLine 1s ease .4s forwards }
-    @keyframes plFadeIn { to { opacity:1 } }
-    @keyframes plLine   { to { width:120px } }
-
-    /* ── NOISE GRAIN ── */
-    body::after { content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.03;
-        background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        background-size:180px 180px }
-
-    /* ── PARALLAX ── */
-    #parallax-hero,#parallax-fem { opacity:1!important;transform:none!important }
-    .px-layer,.pxf-layer { will-change:transform }
-    #px-title,#px-title { transition:transform .25s ease }
-
-    /* ── BORDERLESS CARDS ── */
-    .card { background:transparent!important;border:none!important;box-shadow:none!important;transition:transform .6s cubic-bezier(.1,.8,.2,1)!important }
-    .card:hover { transform:translateY(-10px)!important;border:none!important;box-shadow:none!important }
-    .img-box { overflow:visible!important }
-    .img-box img {
-        -webkit-mask-image:radial-gradient(ellipse 88% 92% at 50% 44%,black 48%,transparent 100%);
-        mask-image:radial-gradient(ellipse 88% 92% at 50% 44%,black 48%,transparent 100%);
-        transition:transform 2.8s cubic-bezier(.1,.8,.2,1),filter .6s!important
-    }
-    .card:hover .img-box img {
-        transform:scale(1.05)!important;filter:brightness(1.08)!important;
-        -webkit-mask-image:radial-gradient(ellipse 96% 98% at 50% 44%,black 55%,transparent 100%)!important;
-        mask-image:radial-gradient(ellipse 96% 98% at 50% 44%,black 55%,transparent 100%)!important
-    }
-    .perfume-grid { gap:48px 32px!important }
-    .badge { background:rgba(0,0,0,.55)!important;border-color:rgba(212,175,55,.3)!important;backdrop-filter:blur(12px)!important }
-
-    /* ── CART z-index acima de tudo ── */
-    #cart-overlay { z-index:10000!important }
-    #cart-drawer  { z-index:10001!important }
-
-    /* ── CUPOM ── */
-    #coupon-input::placeholder { color:rgba(255,255,255,.2) }
-
-    @media(max-width:600px){
-        #parallax-hero,#parallax-fem { height:300px!important }
-    }
-
-  
-/* ===== PARALLAX TÍTULO STANDBY + AWAKE + PASSED ===== */
-#px-title-wrap,
-#pxf-title-wrap{
-  position: absolute !important;
-  inset: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  pointer-events: none !important;
-  padding: 0 20px !important;
-  text-align: center !important;
-  z-index: 10 !important;
-  opacity: .42;
-  transform: translateY(0) scale(.97);
-  transition: opacity .6s cubic-bezier(.25,.46,.45,.94),
-              transform .7s cubic-bezier(.16,1,.3,1) !important;
-  will-change: opacity, transform;
-}
-
-/* Acordado: seção na viewport */
-#parallax-hero.px-awake  #px-title-wrap,
-#parallax-fem.px-awake   #pxf-title-wrap{
-  opacity: 1 !important;
-  transform: translateY(0) scale(1) !important;
-}
-
-/* Passou: seção saiu pelo topo */
-#parallax-hero.px-passed #px-title-wrap,
-#parallax-fem.px-passed  #pxf-title-wrap{
-  opacity: 0 !important;
-  transform: translateY(-14px) scale(.98) !important;
-}
-
-/* Títulos em si */
-#px-title,
-#pxf-title{
-  transition: text-shadow .6s ease !important;
-}
-#parallax-hero.px-awake  #px-title,
-#parallax-fem.px-awake   #pxf-title{
-  text-shadow: 0 10px 32px rgba(0,0,0,.65) !important;
-}
-
-
-/* ════════════════════════════════════════════════════════════════
-   PARALLAX MAESTRIA ABSOLUTA — fusão perfeita com home
-   ════════════════════════════════════════════════════════════════ */
-
-/* ── Container: mesma cor do site, fusão por máscara ────────── */
-
-
-/* ── Canvas: blend screen → brilha sem criar fundo ─────────── */
-#px-canvas,
-#pxf-canvas{
-  position: absolute !important;
-  inset: -6px !important;
-  width: calc(100% + 12px) !important;
-  height: calc(100% + 12px) !important;
-  mix-blend-mode: screen !important;
-  opacity: .52 !important;
-  z-index: 1 !important;
-}
-
-/* ── Orbes: blend screen → dourado puro sobre preto ─────────── */
-#parallax-hero .orb > div,
-#parallax-fem .orb > div{
-  mix-blend-mode: screen !important;
-}
-#parallax-hero .orb,
-#parallax-fem .orb{
-  z-index: 2 !important;
-}
-
-/* ── Decoração de fundo: linhas horizontais finas douradas ───── */
-
-
-/* ── Título: centralização matemática absoluta ───────────────── */
-#px-title-wrap,
-#pxf-title-wrap{
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  z-index: 10 !important;
-  /* Standby sutil, acorda no scroll */
-  opacity: .38;
-  transition: opacity .7s cubic-bezier(.25,.46,.45,.94),
-              transform .7s cubic-bezier(.16,1,.3,1) !important;
-}
-
-/* ── Linha dourada acima do título ───────────────────────────── */
-#px-title-wrap > div:first-child,
-#pxf-title-wrap > div:first-child{
-  width: clamp(44px, 11vw, 78px) !important;
-  height: 1.5px !important;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    #D4AF37 18%,
-    #D4AF37 82%,
-    transparent 100%
-  ) !important;
-  box-shadow: 0 0 10px rgba(212,175,55,.35) !important;
-  margin: 0 auto !important;
-}
-
-/* ── Título tipografia premium ───────────────────────────────── */
-#px-title,
-#pxf-title{
-  font-family: 'Cormorant Garamond', Cormorant, Georgia, serif !important;
-  font-size: clamp(22px, 5.2vw, 52px) !important;
-  font-weight: 300 !important;
-  letter-spacing: .062em !important;
-  line-height: 1.0 !important;
-  color: #fff !important;
-  text-align: center !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  background: linear-gradient(
-    135deg,
-    rgba(255,255,255,.96)  0%,
-    rgba(248,244,236,.94) 52%,
-    rgba(212,175,55,.10)  100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: none !important;
-  filter: drop-shadow(0 2px 18px rgba(0,0,0,.55));
-}
-
-/* ── Estados scroll ─────────────────────────────────────────── */
-/* Acorda: seção na viewport */
-#parallax-hero.px-awake  #px-title-wrap,
-#parallax-fem.px-awake   #pxf-title-wrap{
-  opacity: 1 !important;
-  transform: translate(-50%, -50%) scale(1) !important;
-}
-
-/* Passou: sai pelo topo */
-#parallax-hero.px-passed #px-title-wrap,
-#parallax-fem.px-passed  #pxf-title-wrap{
-  opacity: 0 !important;
-  transform: translate(-50%, -58%) scale(.97) !important;
-  transition-duration: .45s !important;
-}
-
-/* ════════════════════════════════════════════════════════════════ */
-
-/* ===== PARALLAX SEM CORTES / SEM CAMADA AMARELADA ===== */
-#parallax-hero,
-#parallax-fem{
-  background: transparent !important;
-  -webkit-mask-image: none !important;
-  mask-image: none !important;
-  -webkit-mask: none !important;
-  mask: none !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-#parallax-hero::before,
-#parallax-hero::after,
-#parallax-fem::before,
-#parallax-fem::after{
-  content: none !important;
-  display: none !important;
-  background: none !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-#px-canvas,
-#pxf-canvas{
-  opacity: .36 !important;
-  mix-blend-mode: screen !important;
-  background: transparent !important;
-}
-
-#parallax-hero .orb,
-#parallax-fem .orb,
-#parallax-hero .orb > div,
-#parallax-fem .orb > div{
-  background: transparent !important;
-  mix-blend-mode: screen !important;
-}
-
-/* o site em si fornece o preto, parallax só desenha elementos */
-#parallax-hero,
-#parallax-fem,
-#px-title-wrap,
-#pxf-title-wrap{
-  background-color: transparent !important;
-}
-
-
-
-#parallax-hero,
-#parallax-fem{
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-  display: block !important; /* manter estrutura */
-  position: relative !important;
-  height: clamp(92px, 13vh, 128px) !important; /* só altura */
-  overflow: visible !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Canvas partículas invisível */
-#px-canvas,
-#pxf-canvas{
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
-/* Orbes invisíveis */
-#parallax-hero .orb,
-#parallax-fem .orb,
-#parallax-hero .orb > div,
-#parallax-fem .orb > div{
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
-/* Título e linha permanecem (só o essencial) */
-#px-title-wrap,
-#pxf-title-wrap,
-#px-title,
-#pxf-title{
-  opacity: 1 !important;
-  visibility: visible !important;
-  z-index: 999 !important;
-}
-
-
-/* ===== PARALLAX LIMPO DEFINITIVO ===== */
-#parallax-hero,
-#parallax-fem{
-  background: transparent !important;
-  overflow: visible !important;
-}
-#parallax-hero *,
-#parallax-fem *{
-  background-color: transparent !important;
-}
-/* Preservar gradientes de linha e título */
-#px-title-wrap *,
-#pxf-title-wrap *,
-.px-layer[data-speed="0.3"] > div,
-.pxf-layer[data-speed="0.3"] > div{
-  background-color: unset !important;
-}
-
-
-
-
-/* Título wrap como palco dos orbes */
-#px-title-wrap,
-#pxf-title-wrap{
-  overflow: visible !important;
-  isolation: isolate;
-}
-
-/* Orbe central atmosférico atrás do título */
-#px-title-wrap::before,
-#pxf-title-wrap::before{
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  width: clamp(260px, 52vw, 480px);
-  height: clamp(52px, 10vh, 104px);
-  background: radial-gradient(ellipse at center,
-    rgba(212,175,55,.13) 0%,
-    rgba(212,175,55,.06) 38%,
-    transparent 72%
-  );
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  filter: blur(18px);
-  pointer-events: none;
-  z-index: -1;
-  animation: orbPulse 4.8s ease-in-out infinite;
-}
-
-/* Orbe lateral esquerdo */
-#px-title-wrap::after,
-#pxf-title-wrap::after{
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 12%;
-  translate: -50% -50%;
-  width: clamp(80px, 14vw, 160px);
-  height: clamp(80px, 14vw, 160px);
-  background: radial-gradient(circle,
-    rgba(212,175,55,.11) 0%,
-    transparent 68%
-  );
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  filter: blur(22px);
-  pointer-events: none;
-  z-index: -1;
-  animation: orbFloat 6.2s ease-in-out infinite;
-}
-
-/* Orbe lateral direito via título */
-#px-title,
-#pxf-title{
-  position: relative;
-}
-#px-title::before,
-#pxf-title::before{
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -14%;
-  translate: 50% -50%;
-  width: clamp(80px, 14vw, 160px);
-  height: clamp(80px, 14vw, 160px);
-  background: radial-gradient(circle,
-    rgba(212,175,55,.09) 0%,
-    transparent 68%
-  );
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  filter: blur(22px);
-  pointer-events: none;
-  z-index: -1;
-  animation: orbFloat 6.2s ease-in-out infinite reverse;
-}
-
-/* Partícula brilhante acima-esquerda */
-#px-title::after,
-#pxf-title::after{
-  content: "";
-  position: absolute;
-  top: -60%;
-  left: 22%;
-  width: clamp(48px, 8vw, 96px);
-  height: clamp(48px, 8vw, 96px);
-  background: radial-gradient(circle,
-    rgba(212,175,55,.12) 0%,
-    transparent 72%
-  );
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  filter: blur(12px);
-  pointer-events: none;
-  z-index: -1;
-  animation: orbFloat 5s ease-in-out infinite 1.4s;
-}
-
-/* Animações */
-@keyframes orbPulse{
-  0%,100%{ opacity:.72; transform:scale(1);   }
-  50%    { opacity:1;    transform:scale(1.06); }
-}
-@keyframes orbFloat{
-  0%,100%{ opacity:.68; transform:translateY(0)    scale(1);    }
-  33%    { opacity:.84; transform:translateY(-4px) scale(1.04); }
-  66%    { opacity:.72; transform:translateY(2px)  scale(.98);  }
-}
-
-/* Garantir container parallax limpo */
-#parallax-hero,
-#parallax-fem{
-  background: transparent !important;
-  overflow: visible !important;
-}
-
-
-/* ORBES SVG PUROS */
-#px-title-wrap svg,
-#pxf-title-wrap svg{
-  filter: drop-shadow(0 0 32px rgba(212,175,55,.12));
-}
-#parallax-hero,
-#parallax-fem{
-  background: #050404 !important; /* fundo site */
-}
-
-
-
-#px-title-wrap::before,
-#pxf-title-wrap::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: 
-    /* Nano halo central */
-    radial-gradient(ellipse 12% 8% at 50% 50%, rgba(212,175,55,0.14) 0%, transparent 68%),
-
-    /* Nano superior esquerdo */
-    radial-gradient(circle 4% at 32% 32%, rgba(212,175,55,0.16) 0%, transparent 70%),
-
-    /* Nano superior direito */
-    radial-gradient(circle 4% at 68% 32%, rgba(212,175,55,0.16) 0%, transparent 70%),
-
-    /* Nano inferior esquerdo */
-    radial-gradient(circle 3.5% at 28% 72%, rgba(212,175,55,0.13) 0%, transparent 72%),
-
-    /* Nano inferior direito */
-    radial-gradient(circle 3.5% at 72% 72%, rgba(212,175,55,0.13) 0%, transparent 72%),
-
-    /* Nano partícula topo */
-    radial-gradient(circle 2% at 50% 18%, rgba(212,175,55,0.18) 0%, transparent 74%);
-
-  filter: blur(6px) brightness(1.12);
-  mix-blend-mode: screen;
-  animation: nanoOrbit 5s ease-in-out infinite;
-  opacity: 0.88;
-}
-
-@keyframes nanoOrbit {
-  0%, 100% { opacity: 0.88; transform: scale(1); }
-  50% { opacity: 1.02; transform: scale(1.02); }
-}
-
-/* Garantir harmonia */
-#px-title-wrap,
-#pxf-title-wrap {
-  overflow: visible !important;
-  background: transparent !important;
-}
-#parallax-hero, #parallax-fem {
-  background: #050404 !important;
-}
-
-
-/* CHECKOUT LUXO - VIVO E BRANCO */
-#checkout-section *,
-.checkout input,
-.checkout select,
-.checkout label,
-.checkout button,
-.checkout .form-group small,
-.cart-summary small {
-  color: #ffffff !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,.9) !important;
-}
-.checkout input,
-.checkout select,
-.checkout textarea {
-  background: rgba(255,255,255,.06) !important;
-  border: 1px solid rgba(212,175,55,.28) !important;
-  backdrop-filter: blur(12px) !important;
-}
-.checkout input::placeholder {
-  color: rgba(255,255,255,.55) !important;
-}
-.checkout .total-price,
-.checkout small {
-  color: #f8f8ff !important;
-  font-weight: 500 !important;
-}
-
-</style>
-<style id="sillocta-luxury-master-patch">
-:root{
-  --lux-bg:#050404;
-  --lux-panel:linear-gradient(180deg, rgba(18,16,16,.92), rgba(8,7,7,.98));
-  --lux-glass:linear-gradient(180deg, rgba(10,9,9,.78), rgba(10,9,9,.56));
-  --lux-gold:#D4AF37;
-  --lux-gold-soft:rgba(212,175,55,.18);
-  --lux-gold-line:rgba(212,175,55,.14);
-  --lux-shadow:0 24px 80px rgba(0,0,0,.34);
-}
-body{background:var(--lux-bg)!important;color:#e5e5e5!important}
-.glass, header.glass{
-  background:var(--lux-glass)!important;
-  border-bottom:.5px solid var(--lux-gold-line)!important;
-  backdrop-filter:blur(14px)!important;
-  -webkit-backdrop-filter:blur(14px)!important;
-  box-shadow:0 10px 40px rgba(0,0,0,.14)!important;
-}
-.gold-line{height:.5px!important;background:linear-gradient(to right,transparent,rgba(212,175,55,.28),transparent)!important}
-.newsletter-section,.testimonial,.faq-item,.card,#cart-drawer{
-  box-shadow:var(--lux-shadow)!important;
-}
-.newsletter-section{
-  background:var(--lux-panel)!important;
-  border:.5px solid rgba(212,175,55,.12)!important;
-  position:relative;overflow:hidden;
-}
-.newsletter-section:before,.testimonial:before,.card:before,#cart-drawer:before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(135deg, rgba(212,175,55,.09), transparent 30%, transparent 72%, rgba(212,175,55,.04));
-}
-.testimonial,.faq-item{
-  background:linear-gradient(180deg, rgba(22,20,20,.74), rgba(10,9,9,.92))!important;
-  border:.5px solid rgba(212,175,55,.09)!important;
-}
-.card{
-  background:linear-gradient(180deg, rgba(16,14,14,.40), rgba(7,6,6,.06))!important;
-  border:none!important;
-}
-.card:hover,.testimonial:hover,.faq-item:hover,.newsletter-section:hover{
-  box-shadow:0 28px 90px rgba(0,0,0,.42), 0 0 0 1px rgba(212,175,55,.05) inset!important;
-}
-input[type="email"],input[type="text"],textarea{
-  background:rgba(7,6,6,.76)!important;
-  border:1px solid rgba(212,175,55,.18)!important;
-  color:#e5e5e5!important;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.015)!important;
-}
-input[type="email"]::placeholder,input[type="text"]::placeholder,textarea::placeholder{
-  color:rgba(229,229,229,.28)!important;
-}
-button,.btn-buy{
-  box-shadow:0 14px 34px rgba(212,175,55,.10);
-}
-button:hover,.btn-buy:hover{
-  box-shadow:0 18px 42px rgba(212,175,55,.18);
-}
-#cart-drawer{
-  background:linear-gradient(180deg, rgba(9,8,8,.98), rgba(5,4,4,1))!important;
-  border-left:.5px solid rgba(212,175,55,.16)!important;
-}
-#cart-overlay{background:rgba(0,0,0,.72)!important}
-#cart-items>div{
-  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012))!important;
-}
-h1,h2,h3,h4,.gold-grad{
-  text-rendering:optimizeLegibility;
-  -webkit-font-smoothing:antialiased;
-}
-#hero:after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(circle at 50% 18%, rgba(212,175,55,.08), transparent 34%), linear-gradient(to bottom, transparent 68%, rgba(0,0,0,.18));
-}
-</style>
-<style id="sillocta-master-luxe-triple">
-:root{
-  --sl-gold:#D4AF37;
-  --sl-gold-2:rgba(212,175,55,.22);
-  --sl-gold-3:rgba(212,175,55,.10);
-  --sl-panel:linear-gradient(180deg, rgba(16,14,14,.88), rgba(7,6,6,.98));
-  --sl-glass:linear-gradient(180deg, rgba(10,9,9,.82), rgba(10,9,9,.58));
-  --sl-shadow:0 28px 90px rgba(0,0,0,.38);
-}
-
-/* 1) HERO + HEADER */
-header.glass,.glass{
-  background:var(--sl-glass)!important;
-  border-bottom:.5px solid rgba(212,175,55,.16)!important;
-  box-shadow:0 12px 40px rgba(0,0,0,.18)!important;
-  backdrop-filter:blur(18px)!important;
-  -webkit-backdrop-filter:blur(18px)!important;
-}
-body.sl-header-scrolled header.glass,
-body.sl-header-scrolled .glass{
-  background:linear-gradient(180deg, rgba(8,7,7,.92), rgba(8,7,7,.76))!important;
-  border-bottom-color:rgba(212,175,55,.22)!important;
-}
-#hero{
-  background:
-    radial-gradient(circle at 50% 18%, rgba(212,175,55,.10), transparent 28%),
-    radial-gradient(circle at 80% 30%, rgba(180,130,30,.08), transparent 24%),
-    linear-gradient(180deg, rgba(5,4,4,1) 0%, rgba(7,6,6,1) 100%)!important;
-}
-#hero:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:linear-gradient(to bottom, rgba(0,0,0,.04), rgba(0,0,0,.28));
-}
-#hero h1{
-  letter-spacing:.05em!important;
-  text-shadow:0 10px 30px rgba(0,0,0,.26);
-}
-#hero p{
-  color:rgba(229,229,229,.78)!important;
-}
-#hero button,
-#hero a[role="button"]{
-  box-shadow:0 18px 42px rgba(212,175,55,.12);
-}
-#hero button:hover,
-#hero a[role="button"]:hover{
-  transform:translateY(-2px);
-  box-shadow:0 22px 50px rgba(212,175,55,.18);
-}
-.gold-grad{
-  text-shadow:0 2px 16px rgba(212,175,55,.12);
-}
-
-/* 2) NEWSLETTER + CARRINHO */
-.newsletter-section{
-  max-width:920px;
-  margin:0 auto;
-  padding:42px 44px!important;
-  background:var(--sl-panel)!important;
-  border:.5px solid rgba(212,175,55,.14)!important;
-  box-shadow:var(--sl-shadow)!important;
-  position:relative;
-  overflow:hidden;
-}
-.newsletter-section:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:linear-gradient(135deg, rgba(212,175,55,.08), transparent 32%, transparent 70%, rgba(212,175,55,.03));
-}
-.newsletter-section h3{
-  font-size:clamp(20px, 2.2vw, 30px)!important;
-  letter-spacing:.06em!important;
-}
-.newsletter-section p{
-  font-size:11px!important;
-  letter-spacing:.18em!important;
-  color:rgba(229,229,229,.58)!important;
-}
-.newsletter-section form,
-.newsletter-section > div:last-child{
-  max-width:560px!important;
-  margin:0 auto!important;
-}
-.newsletter-section input[type="email"]{
-  height:46px!important;
-  padding:0 15px!important;
-  font-size:12px!important;
-}
-.newsletter-section button{
-  height:46px!important;
-  padding:0 24px!important;
-  font-size:11px!important;
-  letter-spacing:.16em!important;
-  white-space:nowrap!important;
-}
-#cart-drawer{
-  background:linear-gradient(180deg, rgba(10,9,9,.99), rgba(5,4,4,1))!important;
-  border-left:.5px solid rgba(212,175,55,.18)!important;
-  box-shadow:-24px 0 80px rgba(0,0,0,.42)!important;
-}
-#cart-drawer button{
-  transition:transform .25s ease, filter .25s ease, background .25s ease, color .25s ease;
-}
-#cart-drawer button:hover{
-  transform:translateY(-1px);
-}
-#cart-items > div{
-  border:.5px solid rgba(212,175,55,.10)!important;
-  box-shadow:0 10px 28px rgba(0,0,0,.16);
-}
-
-/* 3) CARDS + FOOTER */
-.card{
-  background:linear-gradient(180deg, rgba(18,16,16,.42), rgba(7,6,6,.08))!important;
-  border-radius:2px;
-  overflow:hidden;
-}
-.card:hover{
-  transform:translateY(-8px)!important;
-  box-shadow:0 26px 70px rgba(0,0,0,.34)!important;
-}
-.card img{
-  transition:transform .8s cubic-bezier(.1,.8,.2,1), filter .45s ease;
-}
-.card:hover img{
-  transform:scale(1.04);
-  filter:saturate(1.04) contrast(1.03);
-}
-.card h3{
-  letter-spacing:.03em!important;
-}
-.card p{
-  line-height:1.65!important;
-}
-footer{
-  background:linear-gradient(180deg, rgba(7,6,6,.72), rgba(5,4,4,1))!important;
-  position:relative;
-}
-footer:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:linear-gradient(180deg, rgba(212,175,55,.03), transparent 18%);
-}
-footer a{
-  transition:color .25s ease, transform .25s ease, opacity .25s ease;
-}
-footer a:hover{
-  transform:translateX(2px);
-}
-
-/* Mobile balance */
-@media (max-width: 768px){
-  .newsletter-section{
-    padding:32px 22px!important;
-  }
-  .newsletter-section h3{
-    font-size:18px!important;
-  }
-  .newsletter-section p{
-    font-size:10px!important;
-    letter-spacing:.12em!important;
-  }
-  .newsletter-section form,
-  .newsletter-section > div:last-child{
-    display:flex!important;
-    gap:8px!important;
-    align-items:center!important;
-  }
-  .newsletter-section input[type="email"]{
-    min-width:0!important;
-    flex:1 1 auto!important;
-  }
-  .newsletter-section button{
-    flex:0 0 auto!important;
-    padding:0 16px!important;
-  }
-  .card:hover{
-    transform:none!important;
-  }
-}
-</style>
-<style id="header-clean-glass">
-header.glass {
-  background: rgba(5,4,4,.92) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  border-bottom: .5px solid rgba(212,175,55,.1) !important;
-  position: relative !important;
-}
-</style>
-
-<style id="topbar-header-unify">
-/* TOPBAR + HEADER UNIFICAÇÃO GLASS */
-div[style*="position:fixed;top:0"] {  /* Topbar 10% OFF */
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  background: rgba(5,4,4,.88) !important;
-  border-bottom: 1px solid rgba(212,175,55,.15) !important;
-}
-header.glass {
-  backdrop-filter: blur(28px) !important;
-  -webkit-backdrop-filter: blur(28px) !important;
-  background: rgba(5,4,4,.94) !important;
-  border-bottom: 1px solid rgba(212,175,55,.12) !important;
-}
-</style>
-
-<style id="gap-fix">
-header.glass { top: 22px !important; }
-</style>
-
-<style id="copy-gap-minimal">
-#hero {
-  padding-top: 110px !important;  /* 320px → 110px */
-  height: 90vh !important;       /* Menos altura vazia */
-}
-#hero-txt {
-  margin-top: -60px !important;  /* Título mais alto */
-}
-</style>
-
-<style id="copy-logo-tight">
-#hero {
-  padding-top: 60px !important;  /* Mais colado */
-}
-#hero span[style*="font-size:9.5px"] {
-  margin-top: -40px !important;
-}
-</style>
-
-<style id="copy-super-tight">
-#hero {
-  padding-top: 42px !important;  /* 60px → 42px */
-}
-#hero span[style*="font-size:9.5px"] {
-  margin-top: -52px !important;  /* -40px → -52px */
-}
-</style>
-
-<style id="button-selectors-tight">
-#hero button[onclick*="scrollIntoView"] {
-  margin-bottom: -6px !important;
-}
-#colecao-selector {
-  margin-top: -6px !important;
-}
-</style>
-
-<style id="double-tight">
-/* COPY ↔ LOGO */
-#hero {
-  padding-top: 32px !important;
-}
-#hero span[style*="font-size:9.5px"] {
-  margin-top: -64px !important;
-}
-
-/* BOTÃO ↔ SELETORES */
-#hero button[onclick*="scrollIntoView"] {
-  margin-bottom: -12px !important;
-}
-#colecao-selector {
-  margin-top: -12px !important;
-}
-</style>
-
-
-<style id="ultra-ample">
-#hero {
-  height: auto !important;
-  padding-top: 200px !important;  /* +40px extra */
-  padding-bottom: 70px !important;
-}
-#hero > div:last-child[style*="height"] {
-  height: 120px !important;
-}
-</style>
-
-
-
-
-
-<style>
-header.glass {
-  background: rgba(5,4,4,0.92) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  border-bottom: 0.5px solid rgba(212,175,55,0.1) !important;
-}
-</style>
-
-<style id="anim-copy-small">
-/* ORBS menores e centrados na copy */
-#o1 { width: 280px !important; height: 280px !important; top: 20% !important; left: 15% !important; }
-#o2 { width: 320px !important; height: 320px !important; bottom: 10% !important; right: 5% !important; }
-#o3 { width: 200px !important; height: 200px !important; top: 40% !important; left: 45% !important; }
-
-/* Stars contidas na área da copy */
-
-</style>
-
-
-<style id="premium-experience">
-/* SCROLL LUXUOSO PREMIUM */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-}
-#smooth-wrapper {
-  scroll-behavior: smooth;
-  overflow-y: scroll;
-}
-
-/* Scrollbar dourada elegante */
-#smooth-wrapper::-webkit-scrollbar { width: 3px; }
-#smooth-wrapper::-webkit-scrollbar-track { background: transparent; }
-#smooth-wrapper::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, rgba(212,175,55,0.8), rgba(212,175,55,0.2));
-  border-radius: 2px;
-}
-
-/* Garante todos elementos visíveis */
-.fu { opacity: 1 !important; transform: none !important; visibility: visible !important; }
-</style>
-
-
-<style id="hero-orbs">
-#o1{position:absolute;top:15%;left:10%;width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,.15),transparent 70%);border-radius:50%;filter:blur(100px);pointer-events:none;will-change:transform;}
-#o2{position:absolute;bottom:-10%;right:0;width:320px;height:320px;background:radial-gradient(circle,rgba(160,120,30,.13),transparent 70%);border-radius:50%;filter:blur(100px);pointer-events:none;will-change:transform;}
-#o3{position:absolute;top:35%;left:48%;width:200px;height:200px;background:radial-gradient(circle,rgba(230,200,100,.08),transparent 70%);border-radius:50%;filter:blur(100px);pointer-events:none;will-change:transform;}
-</style>
-
-
-<style id="mobile-premium">
-/* MOBILE SCROLL LUXURY */
-#smooth-wrapper {
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior: none !important;
-  touch-action: pan-y pinch-zoom !important;
-}
-
-/* Botões seletores touch-friendly */
-#sel-masc-btn, #sel-fem-btn {
-  min-height: 52px !important;
-  padding: 12px !important;
-}
-
-/* Checkout drawer mobile sem bounce */
-#cart-drawer {
-  max-height: 85vh !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior: contain !important;
-}
-
-/* Status bar iOS full bleed */
-@supports (-webkit-touch-callout: none) {
-  body { padding-top: env(safe-area-inset-top) !important; }
-  #hero { padding-top: calc(200px + env(safe-area-inset-top)) !important; }
-}
-</style>
-
-
-<style id="sl-complete-final">
-/* HEADER GLASS */
-header.glass{background:linear-gradient(180deg,rgba(6,4,4,.55) 0%,rgba(4,3,3,.42) 100%)!important;backdrop-filter:blur(32px) saturate(190%) brightness(1.02)!important;-webkit-backdrop-filter:blur(32px) saturate(190%) brightness(1.02)!important;border-bottom:.5px solid rgba(212,175,55,.20)!important;box-shadow:0 1px 0 rgba(212,175,55,.06) inset,0 12px 40px rgba(0,0,0,.32)!important}
-
-/* COLLECTION TITLE CENTERED */
-body.collection-view #shop{padding-top:102px!important}
-body.collection-view #parallax-hero,body.collection-view #parallax-fem{height:120px!important;min-height:120px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:transparent!important;overflow:visible!important}
-body.collection-view .px-title-wrap,body.collection-view .pxf-title-wrap{position:absolute!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:8px!important;opacity:1!important;visibility:visible!important;z-index:5!important}
-body.collection-view .px-title,body.collection-view .pxf-title{opacity:1!important;visibility:visible!important}
-
-/* PARALLAX HERO */
-#hero{overflow:hidden}#o1,#o2,#o3,#stars{will-change:transform;transform:translateZ(0)}#hero-txt{will-change:transform,opacity;z-index:10}
-
-/* CHECKOUT SCROLL COMPLETO */
-.cart-drawer{height:100vh!important;max-height:100vh!important;top:0!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important}
-.cart-items{max-height:none!important;height:auto!important;padding:24px 0!important;margin-bottom:auto!important}
-.cart-drawer > *:first-child{margin-top:0!important;padding-top:24px!important}
-.cart-drawer-header{position:sticky!important;top:0!important;z-index:10!important;background:rgba(5,4,4,.98)!important;backdrop-filter:blur(24px)!important;border-bottom:1px solid rgba(212,175,55,.20)!important;padding:24px 20px 20px!important}
-.checkout-actions{position:sticky!important;bottom:0!important;z-index:10!important;background:rgba(5,4,4,.98)!important;backdrop-filter:blur(24px)!important;border-top:1px solid rgba(212,175,55,.20)!important;padding:24px 20px!important;margin-top:auto!important}
-.cart-drawer::-webkit-scrollbar{width:5px!important}.cart-drawer::-webkit-scrollbar-track{background:rgba(212,175,55,.06)!important;border-radius:3px!important}.cart-drawer::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(212,175,55,.9),rgba(212,175,55,.6))!important;border-radius:3px!important}
-
-/* CHECKOUT PREMIUM */
-@media(max-width:480px){.cart-drawer{width:100vw!important;right:0!important;border-left:none!important;padding:0!important}}
-.cart-overlay{background:rgba(0,0,0,.82)!important}
-.cart-drawer{background:linear-gradient(180deg,rgba(8,7,7,.98) 0%,rgba(5,4,4,1) 100%)!important;backdrop-filter:blur(24px) saturate(160%)!important;border-left:.5px solid rgba(212,175,55,.24)!important;box-shadow:-24px 0 80px rgba(0,0,0,.48)!important}
-.checkout input,.checkout select,.checkout textarea{background:rgba(255,255,255,.12)!important;border:1px solid rgba(212,175,55,.32)!important;color:#f8f8ff!important;backdrop-filter:blur(16px)!important}
-.checkout input::placeholder{color:rgba(248,248,255,.48)!important}
-.checkout button,.btn-buy{background:linear-gradient(135deg,#D4AF37,#AA8C2C)!important;border:1px solid rgba(212,175,55,.40)!important;box-shadow:0 12px 32px rgba(212,175,55,.24),inset 0 1px 0 rgba(255,255,255,.2)!important;backdrop-filter:blur(12px)!important;transition:all .3s cubic-bezier(.25,1,.5,1)!important}
-.checkout button:hover,.btn-buy:hover{box-shadow:0 16px 40px rgba(212,175,55,.36),inset 0 1px 0 rgba(255,255,255,.3)!important;transform:translateY(-1px)!important}
-.checkout .total-price{color:#f8f8ff!important;font-weight:700!important;font-size:1.1em!important;text-shadow:0 2px 8px rgba(0,0,0,.6)!important}
-.cart-item{border-bottom:1px solid rgba(212,175,55,.12)!important;padding:18px 0!important;transition:background .3s ease!important}
-.cart-item:hover{background:rgba(212,175,55,.04)!important}
-.coupon-input{background:rgba(255,255,255,.10)!important;border-radius:12px!important;backdrop-filter:blur(16px)!important;border:1px solid rgba(212,175,55,.28)!important}
-</style>
-<style id="sl-checkout-responsive-perfect">
-/* CHECKOUT RESPONSIVO — TODAS TELAS PERFEITAS */
-
-/* DESKTOP LARGO > 1200px */
-@media (min-width: 1200px) {
-  .cart-drawer {
-    width: 480px !important;
-    max-width: 480px !important;
-    box-shadow: -32px 0 96px rgba(0,0,0,0.55) !important;
-  }
-}
-
-/* TABLET 768-1200px */
-@media (min-width: 768px) and (max-width: 1199px) {
-  .cart-drawer {
-    width: min(420px, 85vw) !important;
-  }
-}
-
-/* MOBILE GRANDE 481-767px */
-@media (min-width: 481px) and (max-width: 767px) {
-  .cart-drawer {
-    width: 90vw !important;
-    max-width: 420px !important;
-  }
-}
-
-/* MOBILE PEQUENO ≤480px */
-@media (max-width: 480px) {
-  .cart-drawer {
-    width: 100vw !important;
-    right: 0 !important;
-    border-left: none !important;
-    padding: 0 !important;
-  }
-  .cart-drawer > div {
-    padding: 20px !important;
-  }
-  .cart-drawer-header {
-    padding: 20px !important;
-  }
-  .checkout-actions {
-    padding: 20px !important;
-  }
-}
-
-/* GARANTIR SCROLL FUNCIONA EM TODAS TELAS */
-.cart-drawer {
-  height: 100vh !important;
-  max-height: 100vh !important;
-  top: 0 !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior-y: contain !important;
-}
-
-.cart-items {
-  max-height: none !important;
-  height: auto !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* HEADER STICKY TOP */
-.cart-drawer > *:first-child {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 20 !important;
-  background: rgba(5,4,4,0.98) !important;
-  backdrop-filter: blur(28px) !important;
-  border-bottom: 1px solid rgba(212,175,55,0.22) !important;
-}
-
-/* FOOTER STICKY BOTTOM */
-.checkout-actions {
-  position: sticky !important;
-  bottom: 0 !important;
-  z-index: 20 !important;
-  background: rgba(5,4,4,0.98) !important;
-  backdrop-filter: blur(28px) !important;
-  border-top: 1px solid rgba(212,175,55,0.22) !important;
-  margin-top: auto !important;
-}
-
-/* SCROLLBAR RESPONSIVA */
-.cart-drawer::-webkit-scrollbar {
-  width: clamp(3px, 0.4vw, 5px) !important;
-}
-.cart-drawer::-webkit-scrollbar-track {
-  background: rgba(212,175,55,0.06) !important;
-}
-.cart-drawer::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(212,175,55,0.9), rgba(212,175,55,0.6)) !important;
-}
-
-/* CONTEÚDO CENTRALIZADO */
-.cart-drawer > div:not(.cart-drawer-header):not(.checkout-actions) {
-  padding: clamp(16px, 3vw, 24px) !important;
-  flex: 1 !important;
-  overflow-y: auto !important;
-}
-</style>
-
-<style id="checkout-redesign-from-scratch">
-#cart-drawer{height:100dvh!important;max-height:100dvh!important;display:flex!important;flex-direction:column!important;background:linear-gradient(180deg,rgba(8,7,7,.985),rgba(5,4,4,.995))!important}
-#cart-drawer > div:first-child{flex:0 0 auto!important;background:linear-gradient(180deg,rgba(10,9,9,.98),rgba(8,7,7,.92))!important}
-#cart-items{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;padding:6px 22px 28px!important}
-#cart-footer{display:none!important}
-.sl-checkout-wrap{display:flex;flex-direction:column;gap:14px;padding-bottom:calc(24px + env(safe-area-inset-bottom));overflow:visible}
-.sl-checkout-block{background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.018));border:.5px solid rgba(212,175,55,.12);border-radius:14px;padding:14px 14px 13px;box-shadow:0 18px 45px rgba(0,0,0,.22);overflow:visible}
-.sl-checkout-kicker{font-size:7.5px;text-transform:uppercase;letter-spacing:.22em;color:#ffffff;font-family:'Montserrat',sans-serif;margin:0 0 10px}
-.sl-checkout-item{display:flex;gap:12px;padding:12px 0;border-bottom:.5px solid rgba(212,175,55,.08)}
-.sl-checkout-item:last-child{border-bottom:none;padding-bottom:0}
-.sl-checkout-item:first-child{padding-top:0}
-.sl-checkout-brand{font-size:7px;text-transform:uppercase;letter-spacing:.24em;color:#ffffff;font-family:'Montserrat',sans-serif;margin:0 0 4px}
-.sl-checkout-name{font-size:15px;line-height:1.2;color:rgba(255,255,255,.9);font-family:'Cormorant Garamond',serif;margin:0 0 3px}
-.sl-checkout-meta{font-size:8px;color:rgba(212,175,55,.58);font-family:'Montserrat',sans-serif;margin:0 0 10px}
-.sl-qty{display:flex;align-items:center;border:.5px solid rgba(212,175,55,.22);border-radius:10px;overflow:hidden;width:max-content}
-.sl-qty button{width:30px;height:30px;background:none;border:none;color:rgba(212,175,55,.72);font-size:14px;cursor:pointer}
-.sl-qty span{min-width:30px;text-align:center;font-size:11px;color:rgba(255,255,255,.75);font-family:'Montserrat',sans-serif}
-.sl-remove{background:none;border:none;color:#ffffff;cursor:pointer;font-size:11px;padding:4px 2px;align-self:flex-start}
-.sl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sl-grid.full{grid-template-columns:1fr}
-.sl-field{display:flex;flex-direction:column;gap:7px}
-.sl-label{font-size:7px;text-transform:uppercase;letter-spacing:.22em;color:#ffffff;font-family:'Montserrat',sans-serif}
-.sl-input,.sl-textarea{width:100%;background:rgba(255,255,255,.04);border:.5px solid rgba(212,175,55,.18);border-radius:10px;color:rgba(255,255,255,.78);font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.05em;padding:12px 12px;outline:none;box-sizing:border-box;caret-color:#D4AF37}
-.sl-textarea{resize:none;line-height:1.5;min-height:92px}
-.sl-input::placeholder,.sl-textarea::placeholder{color:#ffffff}
-.sl-inline{display:flex;gap:8px;align-items:center}
-.sl-coupon-btn{padding:0 16px;height:42px;background:transparent;border:.5px solid rgba(212,175,55,.36);color:rgba(212,175,55,.82);border-radius:10px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
-.sl-pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.sl-pay-btn{min-height:76px;border:.5px solid rgba(255,255,255,.11);background:rgba(255,255,255,.04);color:#ffffff;border-radius:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:.14em;text-transform:uppercase;transition:border-color .2s,background .2s,color .2s,transform .2s}
-.sl-pay-btn i{font-size:16px}
-.sl-pay-btn.is-on{border:1px solid rgba(212,175,55,.68);background:rgba(212,175,55,.10);color:#D4AF37;box-shadow:0 0 0 1px rgba(212,175,55,.06),0 16px 32px rgba(0,0,0,.18)}
-.sl-pay-btn[data-pay="pix"].is-on{color:#e5c76f}
-.sl-pay-btn[data-pay="cartao"]{ }
-.sl-pay-btn[data-pay="boleto"]{ }
-.sl-badges{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
-.sl-badge{font-size:7.5px;font-family:'Montserrat',sans-serif;padding:4px 9px;letter-spacing:.08em;border-radius:999px;border:1px solid rgba(212,175,55,.18);background:rgba(255,255,255,.04)}
-.sl-badge.pix{color:rgba(52,211,153,.92);border-color:rgba(52,211,153,.26);background:rgba(52,211,153,.07)}
-.sl-badge.card{color:rgba(139,183,255,.95);border-color:rgba(139,183,255,.30);background:rgba(139,183,255,.07);box-shadow:0 0 0 1px rgba(139,183,255,.12) inset}.sl-badge-card-contour{border-color:rgba(139,183,255,.30)!important;box-shadow:0 0 0 1px rgba(139,183,255,.18) inset!important}
-.sl-badge.ticket{color:rgba(251,191,100,.95);border-color:rgba(251,191,100,.24);background:rgba(251,191,100,.08)}
-.sl-summary{display:flex;flex-direction:column;gap:10px}
-.sl-summary-row{display:flex;justify-content:space-between;gap:14px;font-family:'Montserrat',sans-serif;font-size:10px;color:#ffffff;letter-spacing:.08em}
-.sl-summary-row strong{font-weight:500;color:rgba(255,255,255,.86)}
-.sl-summary-row.total{padding-top:10px;margin-top:4px;border-top:.5px solid rgba(212,175,55,.10);font-size:12px;color:rgba(255,255,255,.74)}
-.sl-summary-row.total strong{font-size:16px;color:#D4AF37;letter-spacing:.03em}
-.sl-cta{width:100%;height:58px;border:none;border-radius:0;background:linear-gradient(135deg,#e6c96f,#d4af37 52%,#b89123);color:#111;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 24px 40px rgba(0,0,0,.24)}
-.sl-cta-secondary{width:100%;height:48px;background:transparent;border:.5px solid rgba(212,175,55,.18);color:#ffffff;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase}
-.sl-note{text-align:center;font-size:7.5px;color:#ffffff;font-family:'Montserrat',sans-serif;letter-spacing:.08em}
-.sl-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px}
-.sl-progress{height:2px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden}
-.sl-progress > div{height:100%;width:100%;background:linear-gradient(to right,rgba(212,175,55,.5),#D4AF37)}
-@media (max-width:430px){
-  #cart-drawer{width:100%!important;max-width:none!important}
-  .sl-grid{grid-template-columns:1fr 1fr}
-  .sl-pay-grid{gap:7px}
-  .sl-pay-btn{min-height:72px;font-size:7.5px}
-}
-@media (max-width:360px){
-  .sl-grid{grid-template-columns:1fr}
-  .sl-inline{flex-direction:column;align-items:stretch}
-  .sl-coupon-btn{width:100%}
-}
-</style>
-
-
-<style id="home-header-safe-keep">
-header.glass, div[style*="position:fixed;top:0"] { opacity: 1 !important; visibility: visible !important; }
-header.glass { transform: none !important; }
-</style>
-
-<style id="mobile-input-antizoom">
-input, textarea, select {
-  font-size: 16px !important;
-}
-#cart-drawer input, #cart-drawer textarea, #cart-drawer select {
-  font-size: 16px !important;
-  transform: translateZ(0);
-}
-</style>
-
-<style id="payment-selection-style">
-.sl-pay-btn.is-on{
-  border:1px solid rgba(212,175,55,.68)!important;
-  background:rgba(212,175,55,.10)!important;
-  color:#D4AF37!important;
-  box-shadow:0 0 0 1px rgba(212,175,55,.06),0 16px 32px rgba(0,0,0,.18)!important;
-}
-</style>
-
-
-<style id="checkout-input-safety-style">
-#cart-drawer input,
-#cart-drawer textarea,
-#cart-drawer select,
-#cart-drawer [contenteditable="true"]{
-  pointer-events:auto!important;
-  user-select:text!important;
-  -webkit-user-select:text!important;
-  -webkit-touch-callout:default;
-  touch-action:manipulation;
-}
-</style>
-
-
-<style id="checkout-typing-fortress-style">
-#cart-drawer.is-editing #cart-overlay,
-body.checkout-editing #cart-overlay{
-  pointer-events:none!important;
-}
-#cart-drawer input,
-#cart-drawer textarea,
-#cart-drawer select,
-#cart-drawer [contenteditable="true"],
-#cart-drawer .sl-input,
-#cart-drawer .sl-textarea{
-  pointer-events:auto!important;
-  user-select:text!important;
-  -webkit-user-select:text!important;
-  -webkit-touch-callout:default;
-  touch-action:manipulation!important;
-}
-</style>
-
-
-
-<style id="footer-info-modal-style">
-#footer-info-overlay{position:fixed;inset:0;background:rgba(4,4,4,.70);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:1200;display:none;align-items:center;justify-content:center;padding:18px}
-#footer-info-overlay.open{display:flex}
-#footer-info-modal{width:min(760px,100%);max-height:min(84vh,860px);overflow:auto;background:linear-gradient(180deg,rgba(14,12,12,.985),rgba(7,6,6,.995));border:.5px solid rgba(212,175,55,.16);box-shadow:0 30px 90px rgba(0,0,0,.45);padding:26px 22px 22px;position:relative}
-#footer-info-close{position:absolute;top:12px;right:12px;width:42px;height:42px;border:none;background:transparent;color:#ffffff;font-size:16px;cursor:pointer}
-#footer-info-kicker{font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:.26em;text-transform:uppercase;color:rgba(212,175,55,.72);margin-bottom:12px}
-#footer-info-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);line-height:1.04;color:#ffffff;margin:0 0 10px}
-#footer-info-subtitle{font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.9;letter-spacing:.08em;color:rgba(255,255,255,.56);margin:0 0 20px;max-width:620px}
-#footer-info-body{display:grid;gap:12px}
-.footer-info-card{border:.5px solid rgba(212,175,55,.12);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));padding:16px}
-.footer-info-card h4{margin:0 0 10px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#D4AF37}
-.footer-info-card p,.footer-info-card li{font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.88;letter-spacing:.03em;color:#ffffff}
-.footer-info-card ul{margin:0;padding-left:18px}
-#footer-info-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.footer-info-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;text-decoration:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase}
-.footer-info-btn.primary{background:linear-gradient(135deg,#e6c96f,#d4af37 52%,#b89123);color:#111}
-.footer-info-btn.secondary{background:transparent;border:.5px solid rgba(212,175,55,.18);color:#ffffff}
-body.footer-info-open{overflow:hidden!important}
-@media (max-width:640px){#footer-info-modal{padding:22px 16px 18px} #footer-info-actions{flex-direction:column} .footer-info-btn{width:100%}}
-</style>
-
-
-<style id="checkout-yellow-removal-only">
-#cart-drawer .sl-checkout-block,
-#cart-drawer .sl-checkout-wrap,
-#cart-drawer .sl-grid,
-#cart-drawer .sl-field,
-#cart-drawer .sl-summary,
-#cart-drawer .sl-summary-row,
-#cart-drawer .sl-pay-grid,
-#cart-drawer .sl-pay-btn,
-#cart-drawer .sl-cta,
-#cart-drawer .sl-cta-secondary,
-#cart-drawer .sl-badge,
-#cart-drawer .sl-inline,
-#cart-drawer .sl-input,
-#cart-drawer .sl-textarea,
-#cart-drawer .sl-coupon-btn {
-  background-image: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-#cart-drawer .sl-checkout-block,
-#cart-drawer .sl-pay-btn,
-#cart-drawer .sl-cta,
-#cart-drawer .sl-cta-secondary,
-#cart-drawer .sl-coupon-btn {
-  background-color: rgba(8,7,7,1) !important;
-}
-#cart-drawer .sl-checkout-block {
-  border-color: rgba(255,255,255,.08) !important;
-}
-#cart-drawer .sl-pay-btn.is-on {
-  background-color: rgba(8,7,7,1) !important;
-  border-color: rgba(212,175,55,.68) !important;
-}
-</style>
-
-
-<style id="checkout-remove-glow-final">
-#cart-drawer .sl-checkout-block::before,
-#cart-drawer .sl-checkout-block::after,
-#cart-drawer .sl-pay-grid::before,
-#cart-drawer .sl-pay-grid::after,
-#cart-drawer .sl-inline::before,
-#cart-drawer .sl-inline::after,
-#cart-drawer .sl-checkout-wrap::before,
-#cart-drawer .sl-checkout-wrap::after {
-  content: none !important;
-  display: none !important;
-  background: none !important;
-  box-shadow: none !important;
-}
-#cart-drawer .sl-checkout-block,
-#cart-drawer .sl-pay-grid,
-#cart-drawer .sl-inline {
-  overflow: visible !important;
-}
-</style>
-
-
-<style id="checkout-whatsapp-cta-boost">
-#cart-drawer .sl-cta {
-  border-radius: 14px !important;
-  background: linear-gradient(135deg, #e6c96f, #d4af37 52%, #b89123) !important;
-  color: #111 !important;
-  box-shadow: 0 18px 34px rgba(212,175,55,.22), 0 0 0 1px rgba(255,255,255,.08) inset !important;
-  border: 1px solid rgba(212,175,55,.40) !important;
-  text-shadow: none !important;
-  opacity: 1 !important;
-}
-#cart-drawer .sl-cta:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 22px 40px rgba(212,175,55,.28), 0 0 0 1px rgba(255,255,255,.12) inset !important;
-}
-#cart-drawer .sl-cta span,
-#cart-drawer .sl-cta i {
-  color: #111 !important;
-}
-</style>
-
-
-<style id="checkout-final-yellow-stripper">
-#cart-drawer .sl-checkout-block,
-#cart-drawer .sl-checkout-wrap,
-#cart-drawer .sl-grid,
-#cart-drawer .sl-field,
-#cart-drawer .sl-summary,
-#cart-drawer .sl-summary-row,
-#cart-drawer .sl-pay-grid,
-#cart-drawer .sl-pay-btn,
-#cart-drawer .sl-cta,
-#cart-drawer .sl-cta-secondary,
-#cart-drawer .sl-badge,
-#cart-drawer .sl-inline,
-#cart-drawer .sl-input,
-#cart-drawer .sl-textarea,
-#cart-drawer .sl-coupon-btn,
-#cart-drawer .sl-progress,
-#cart-drawer .sl-topline,
-#cart-drawer .sl-pay-notes {
-  background-image: none !important;
-  background-color: rgba(8,7,7,1) !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-#cart-drawer .sl-pay-btn.is-on {
-  background-color: rgba(8,7,7,1) !important;
-  border-color: rgba(212,175,55,.68) !important;
-}
-#cart-drawer .sl-cta {
-  background-color: transparent !important;
-  background-image: linear-gradient(135deg, #e6c96f, #d4af37 52%, #b89123) !important;
-}
-</style>
-
-
-<style id="checkout-right-side-glow-kill">
-#cart-drawer {
-  background: linear-gradient(180deg, rgba(8,7,7,1), rgba(5,4,4,1)) !important;
-}
-#cart-drawer::before,
-#cart-drawer::after,
-#cart-drawer .sl-checkout-wrap::before,
-#cart-drawer .sl-checkout-wrap::after,
-#cart-drawer .sl-checkout-block::before,
-#cart-drawer .sl-checkout-block::after,
-#cart-drawer .sl-pay-grid::before,
-#cart-drawer .sl-pay-grid::after,
-#cart-drawer .sl-topline::before,
-#cart-drawer .sl-topline::after,
-#cart-drawer .sl-pay-notes::before,
-#cart-drawer .sl-pay-notes::after {
-  content: none !important;
-  display: none !important;
-  background: none !important;
-  box-shadow: none !important;
-}
-#cart-drawer .sl-checkout-wrap,
-#cart-drawer .sl-checkout-block,
-#cart-drawer .sl-pay-grid,
-#cart-drawer .sl-pay-notes,
-#cart-drawer .sl-topline {
-  overflow: visible !important;
-  background-color: rgba(8,7,7,1) !important;
-}
-#cart-drawer .sl-checkout-block,
-#cart-drawer .sl-pay-grid,
-#cart-drawer .sl-pay-notes,
-#cart-drawer .sl-topline {
-  background-image: none !important;
-  box-shadow: none !important;
-}
-</style>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='12'%20fill='%23050404'/%3E%3Ctext%20x='32'%20y='47'%20text-anchor='middle'%20font-family='Georgia'%20font-size='48'%20fill='%23d4af37'%3ES%3C/text%3E%3C/svg%3E"><meta name="description" content="Sillocta Maison de Decants. Explore as coleções masculina e feminina, selecione decants de 5 e 10 ml e confirme seu pedido pelo WhatsApp."><link rel="stylesheet" href="/enhancements.css?v=experience-v51"><link rel="stylesheet" href="/product-pages.css?v=catalog-v47"><link rel="stylesheet" href="/campaigns.css?v=catalog-v47"><script defer src="/product-pages.js?v=catalog-v47"></script><script defer src="/enhancements.js?v=experience-v51"></script><script defer src="/campaigns.js?v=catalog-v47"></script><script defer src="/discovery.js?v=experience-v51"></script><script defer src="/navigation.js?v=catalog-v47"></script><link id="sl-home-media-preload" rel="preload" as="image" href="/assets/campaign-aventus.webp" imagesrcset="/assets/responsive/campaign-aventus-640-65feda13e297.webp 640w, /assets/campaign-aventus.webp 1920w" imagesizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px" fetchpriority="high"><link rel="stylesheet" href="/checkout-orders.css?v=orders-v46"><script defer src="/checkout-orders.js?v=orders-v46"></script></head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='12'%20fill='%23050404'/%3E%3Ctext%20x='32'%20y='47'%20text-anchor='middle'%20font-family='Georgia'%20font-size='48'%20fill='%23d4af37'%3ES%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="/storefront.css?v=polish-v52"><meta name="description" content="Explore perfumes originais em decants de 5 e 10 ml. Descubra notas, compare fragrâncias e encontre sua seleção na Sillocta Maison de Decants."><script defer src="/product-pages.js?v=polish-v52"></script><script defer src="/enhancements.js?v=polish-v52"></script><script defer src="/campaigns.js?v=polish-v52"></script><script defer src="/discovery.js?v=polish-v52"></script><script defer src="/navigation.js?v=polish-v52"></script><link id="sl-home-media-preload" rel="preload" as="image" href="/assets/img-masc.jpg" imagesrcset="/assets/responsive/img-masc-320-e6b7c1c70bcc.webp 320w, /assets/responsive/img-masc-640-3db59fd662d0.webp 640w, /assets/img-masc.jpg 870w" imagesizes="(max-width: 720px) calc((100vw - 52px) / 2), (max-width: 1120px) calc((100vw - 100px) / 2), 540px" fetchpriority="high"><link id="sl-home-media-preload-female" rel="preload" as="image" href="/assets/img-fem.jpg" imagesrcset="/assets/responsive/img-fem-320-0671fa28b2e9.webp 320w, /assets/responsive/img-fem-640-ee870e0d7b49.webp 640w, /assets/img-fem.jpg 870w" imagesizes="(max-width: 720px) calc((100vw - 52px) / 2), (max-width: 1120px) calc((100vw - 100px) / 2), 540px" fetchpriority="high"><script defer src="/checkout-orders.js?v=orders-v46"></script></head>
 <body>
 <div id="preloader"><div class="pl-logo">SILLOCTA</div><div class="pl-line"></div><div class="pl-sub">Maison de Decants</div></div>
 <!-- TOPBAR -->
@@ -1529,7 +98,7 @@ body.footer-info-open{overflow:hidden!important}
 <div class="sl-header-start">
 <button id="menu-trigger" type="button" aria-label="Abrir menu" aria-controls="mobile-menu-drawer" aria-expanded="false" onclick="openMobileMenu()"><i class="fas fa-bars" aria-hidden="true"></i></button>
 <nav class="desktop-nav" style="display:none;overflow:visible;">
-<a href="#shop" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:10px;text-transform:uppercase;letter-spacing:.18em;margin-right:28px;transition:color .3s;overflow:visible;" onclick="filterCatalog('new');return false;">Lançamentos</a>
+<a href="#shop" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:10px;text-transform:uppercase;letter-spacing:.18em;margin-right:28px;transition:color .3s;overflow:visible;" onclick="filterCatalog('new');return false;">Novidades</a>
 <a href="#shop" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:10px;text-transform:uppercase;letter-spacing:.18em;margin-right:28px;overflow:visible;" onclick="filterCatalog('niche');return false;">Nicho</a>
 <a href="#shop" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:10px;text-transform:uppercase;letter-spacing:.18em;margin-right:28px;overflow:visible;" onclick="filterCatalog('designer');return false;">Designer</a>
 <a href="#shop" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:10px;text-transform:uppercase;letter-spacing:.18em;overflow:visible;" onclick="askForKits();return false;">Kits</a>
@@ -1576,8 +145,8 @@ body.footer-info-open{overflow:hidden!important}
 
 
 
-<div id="colecao-selector" style="text-align:center;padding:0;background:#050404;position:relative;z-index:5;margin-top:-6px;;overflow:visible;"><div style="display:flex;align-items:flex-end;justify-content:center;max-width:960px;margin:0 auto;overflow:visible;"><div id="sel-masc-btn" onclick="activateCollectionArtwork('m');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Selecionar coleção masculina" aria-describedby="sl-collection-hint" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-masc" src="/assets/img-masc.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.95;transition:opacity .7s;display:block;transform:scale(1.03);overflow:visible;" alt="Coleção masculina Sillocta" decoding="async" width="870" height="1080" srcset="/assets/responsive/img-masc-640-99297709fa7d.webp 640w, /assets/img-masc.jpg 870w" sizes="(max-width: 720px) calc((100vw - 36px) / 2), 320px"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-masc-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:#D4AF37;display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-mars" style="font-size:10px;overflow:visible;"></i>Masculino</p><div id="sel-masc-bar" style="width:28px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:1;transition:opacity .5s;overflow:visible;"></div></div></div><div id="sel-fem-btn" onclick="activateCollectionArtwork('f');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Selecionar coleção feminina" aria-describedby="sl-collection-hint" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-fem" src="/assets/img-fem.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.38;transition:opacity .7s;display:block;transform:scale(1);overflow:visible;" alt="Coleção feminina Sillocta" decoding="async" width="870" height="1080" srcset="/assets/responsive/img-fem-640-e2c813cdf588.webp 640w, /assets/img-fem.jpg 870w" sizes="(max-width: 720px) calc((100vw - 36px) / 2), 320px"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-fem-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.32);display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-venus" style="font-size:10px;overflow:visible;"></i>Feminino</p><div id="sel-fem-bar" style="width:0px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:0;transition:opacity .5s;overflow:visible;"></div></div></div></div><p id="sl-collection-hint" role="status" aria-live="polite" aria-atomic="true">Selecione uma coleção</p></div>
-<section id="catalog-campaigns" aria-label="Fragrâncias em destaque"><div class="sl-campaign-track" tabindex="0" aria-label="Imagens de fragrâncias; deslize para explorar"><a id="campaign-card-1" class="sl-campaign-card" href="/perfume/creed-aventus" aria-label="Conhecer Creed Aventus" style="--campaign-focus:55% 50%"><img src="/assets/campaign-aventus.webp" loading="eager" decoding="async" draggable="false" alt="Frasco de Creed Aventus na areia, em imagem oficial da Creed." fetchpriority="high" width="1920" height="700" srcset="/assets/responsive/campaign-aventus-640-65feda13e297.webp 640w, /assets/campaign-aventus.webp 1920w" sizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Creed</span><strong>Aventus</strong></span></a><a id="campaign-card-6" class="sl-campaign-card" href="/perfume/dior-miss-dior" aria-label="Conhecer Dior Miss Dior" style="--campaign-focus:50% 45%"><img src="/assets/campaign-miss-dior.webp" loading="lazy" decoding="async" draggable="false" alt="Natalie Portman entre flores, na campanha oficial de Miss Dior Eau de Parfum." width="1680" height="938" srcset="/assets/campaign-miss-dior.webp 1680w" sizes="auto, (max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Dior</span><strong>Miss Dior</strong></span></a><a id="campaign-card-2" class="sl-campaign-card" href="/perfume/tom-ford-tobacco-vanille" aria-label="Conhecer Tom Ford Tobacco Vanille" style="--campaign-focus:50% 60%"><img src="/assets/campaign-tobacco-vanille.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Tom Ford Tobacco Vanille Eau de Parfum com folhas de tabaco e baunilha." width="1280" height="1280" srcset="/assets/campaign-tobacco-vanille.webp 1280w" sizes="auto, (max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Tom Ford</span><strong>Tobacco Vanille</strong></span></a><a id="campaign-card-12" class="sl-campaign-card" href="/perfume/yves-saint-laurent-libre" aria-label="Conhecer Yves Saint Laurent Libre" style="--campaign-focus:50% 57%"><img src="/assets/campaign-libre.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Libre Eau de Parfum entre flores e o monograma dourado da Yves Saint Laurent." width="1170" height="1170" srcset="/assets/campaign-libre.webp 1170w" sizes="auto, (max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Yves Saint Laurent</span><strong>Libre</strong></span></a><a id="campaign-card-3" class="sl-campaign-card" href="/perfume/xerjoff-naxos" aria-label="Conhecer Xerjoff Naxos" style="--campaign-focus:50% 65%"><img src="/assets/campaign-naxos.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Xerjoff Naxos 1861 com fitas verdes sobre um mapa da Sicília." width="1280" height="1280" srcset="/assets/responsive/campaign-naxos-640-dd59520c56a2.webp 640w, /assets/campaign-naxos.webp 1280w" sizes="auto, (max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Xerjoff</span><strong>Naxos</strong></span></a><a id="campaign-card-26" class="sl-campaign-card" href="/perfume/givenchy-irresistible" aria-label="Conhecer Givenchy Irresistible" style="--campaign-focus:50% 55%"><img src="/assets/campaign-irresistible.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Givenchy Irresistible Eau de Parfum entre rosas, pera e madeira clara." width="1280" height="1280" srcset="/assets/responsive/campaign-irresistible-640-035354eb29ba.webp 640w, /assets/campaign-irresistible.webp 1280w" sizes="auto, (max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Givenchy</span><strong>Irresistible</strong></span></a></div><div class="sl-campaign-pagination" aria-label="Escolher imagem"><button type="button" aria-label="Ver imagem de Aventus" aria-controls="campaign-card-1" aria-pressed="true"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Miss Dior" aria-controls="campaign-card-6" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Tobacco Vanille" aria-controls="campaign-card-2" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Libre" aria-controls="campaign-card-12" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Naxos" aria-controls="campaign-card-3" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Irresistible" aria-controls="campaign-card-26" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button></div></section>
+<div id="colecao-selector" style="text-align:center;padding:0;background:#050404;position:relative;z-index:5;margin-top:-6px;;overflow:visible;"><div style="display:flex;align-items:flex-end;justify-content:center;max-width:960px;margin:0 auto;overflow:visible;"><div id="sel-masc-btn" onclick="activateCollectionArtwork('m');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Selecionar coleção masculina" aria-describedby="sl-collection-hint" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-masc" src="/assets/img-masc.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.95;transition:opacity .7s;display:block;transform:scale(1.03);overflow:visible;" alt="Coleção masculina Sillocta" decoding="async" width="870" height="1080" srcset="/assets/responsive/img-masc-320-e6b7c1c70bcc.webp 320w, /assets/responsive/img-masc-640-3db59fd662d0.webp 640w, /assets/img-masc.jpg 870w" sizes="(max-width: 720px) calc((100vw - 52px) / 2), (max-width: 1120px) calc((100vw - 100px) / 2), 540px"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-masc-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:#D4AF37;display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-mars" style="font-size:10px;overflow:visible;"></i>Masculino</p><div id="sel-masc-bar" style="width:28px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:1;transition:opacity .5s;overflow:visible;"></div></div></div><div id="sel-fem-btn" onclick="activateCollectionArtwork('f');return false;" style="flex:1;cursor:pointer;background:#050404;;overflow:visible;" role="button" tabindex="0" aria-label="Selecionar coleção feminina" aria-describedby="sl-collection-hint" aria-pressed="false"><div style="position:relative;width:100%;aspect-ratio:1/1;background:#050404;overflow:hidden;overflow:visible;"><img id="img-fem" src="/assets/img-fem.jpg" style="width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.38;transition:opacity .7s;display:block;transform:scale(1);overflow:visible;" alt="Coleção feminina Sillocta" decoding="async" width="870" height="1080" srcset="/assets/responsive/img-fem-320-0671fa28b2e9.webp 320w, /assets/responsive/img-fem-640-ee870e0d7b49.webp 640w, /assets/img-fem.jpg 870w" sizes="(max-width: 720px) calc((100vw - 52px) / 2), (max-width: 1120px) calc((100vw - 100px) / 2), 540px"></div><div style="padding:6px 0 12px;background:#050404;overflow:visible;"><p id="sel-fem-label" style="font-family:Montserrat,sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.32);display:flex;align-items:center;justify-content:center;gap:10px;overflow:visible;"><i class="fas fa-venus" style="font-size:10px;overflow:visible;"></i>Feminino</p><div id="sel-fem-bar" style="width:0px;height:.5px;background:linear-gradient(to right,transparent,#D4AF37,transparent);margin:10px auto 0;opacity:0;transition:opacity .5s;overflow:visible;"></div></div></div></div><p id="sl-collection-hint" role="status" aria-live="polite" aria-atomic="true">Selecione uma coleção</p></div>
+<section id="catalog-campaigns" aria-label="Fragrâncias em destaque"><div class="sl-campaign-track" tabindex="0" aria-label="Imagens de fragrâncias; deslize para explorar"><a id="campaign-card-1" class="sl-campaign-card" href="/perfume/creed-aventus" aria-label="Conhecer Creed Aventus" style="--campaign-focus:55% 50%"><img src="/assets/campaign-aventus.webp" loading="eager" decoding="async" draggable="false" alt="Frasco de Creed Aventus na areia, em imagem oficial da Creed." fetchpriority="high" width="1920" height="700" srcset="/assets/responsive/campaign-aventus-320-73276f01c5a7.webp 320w, /assets/responsive/campaign-aventus-640-c448714794dd.webp 640w, /assets/campaign-aventus.webp 1920w" sizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Creed</span><strong>Aventus</strong></span></a><a id="campaign-card-6" class="sl-campaign-card" href="/perfume/dior-miss-dior" aria-label="Conhecer Dior Miss Dior" style="--campaign-focus:50% 45%"><img src="/assets/campaign-miss-dior.webp" loading="lazy" decoding="async" draggable="false" alt="Natalie Portman entre flores, na campanha oficial de Miss Dior Eau de Parfum." width="1680" height="938" srcset="/assets/responsive/campaign-miss-dior-320-dcb79faf2a50.webp 320w, /assets/responsive/campaign-miss-dior-640-bb73c03b1013.webp 640w, /assets/campaign-miss-dior.webp 1680w" sizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Dior</span><strong>Miss Dior</strong></span></a><a id="campaign-card-2" class="sl-campaign-card" href="/perfume/tom-ford-tobacco-vanille" aria-label="Conhecer Tom Ford Tobacco Vanille" style="--campaign-focus:50% 60%"><img src="/assets/campaign-tobacco-vanille.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Tom Ford Tobacco Vanille Eau de Parfum com folhas de tabaco e baunilha." width="1280" height="1280" srcset="/assets/responsive/campaign-tobacco-vanille-320-0e4e959d5ac9.webp 320w, /assets/responsive/campaign-tobacco-vanille-640-04a478ed0452.webp 640w, /assets/campaign-tobacco-vanille.webp 1280w" sizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Tom Ford</span><strong>Tobacco Vanille</strong></span></a><a id="campaign-card-12" class="sl-campaign-card" href="/perfume/yves-saint-laurent-libre" aria-label="Conhecer Yves Saint Laurent Libre" style="--campaign-focus:50% 57%"><img src="/assets/campaign-libre.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Libre Eau de Parfum entre flores e o monograma dourado da Yves Saint Laurent." width="1170" height="1170" srcset="/assets/responsive/campaign-libre-320-0553eccf4668.webp 320w, /assets/responsive/campaign-libre-640-85d99946cf2a.webp 640w, /assets/campaign-libre.webp 1170w" sizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Yves Saint Laurent</span><strong>Libre</strong></span></a><a id="campaign-card-3" class="sl-campaign-card" href="/perfume/xerjoff-naxos" aria-label="Conhecer Xerjoff Naxos" style="--campaign-focus:50% 65%"><img src="/assets/campaign-naxos.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Xerjoff Naxos 1861 com fitas verdes sobre um mapa da Sicília." width="1280" height="1280" srcset="/assets/responsive/campaign-naxos-320-5af718c05f81.webp 320w, /assets/responsive/campaign-naxos-640-e1cd09a5cf7d.webp 640w, /assets/campaign-naxos.webp 1280w" sizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Xerjoff</span><strong>Naxos</strong></span></a><a id="campaign-card-26" class="sl-campaign-card" href="/perfume/givenchy-irresistible" aria-label="Conhecer Givenchy Irresistible" style="--campaign-focus:50% 55%"><img src="/assets/campaign-irresistible.webp" loading="lazy" decoding="async" draggable="false" alt="Frasco de Givenchy Irresistible Eau de Parfum entre rosas, pera e madeira clara." width="1280" height="1280" srcset="/assets/responsive/campaign-irresistible-320-b7f458fd13cc.webp 320w, /assets/responsive/campaign-irresistible-640-8c2ed6450a49.webp 640w, /assets/campaign-irresistible.webp 1280w" sizes="(max-width: 360px) calc((100vw - 28px) * .84), (max-width: 720px) calc((100vw - 36px) * .84), (max-width: 1060px) calc((100vw - 48px) * .62), 620px"><span class="sl-campaign-caption"><span class="sl-campaign-brand">Givenchy</span><strong>Irresistible</strong></span></a></div><div class="sl-campaign-pagination" aria-label="Escolher imagem"><button type="button" aria-label="Ver imagem de Aventus" aria-controls="campaign-card-1" aria-pressed="true"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Miss Dior" aria-controls="campaign-card-6" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Tobacco Vanille" aria-controls="campaign-card-2" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Libre" aria-controls="campaign-card-12" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Naxos" aria-controls="campaign-card-3" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button><button type="button" aria-label="Ver imagem de Irresistible" aria-controls="campaign-card-26" aria-pressed="false"><span class="sl-campaign-dot" aria-hidden="true"></span></button></div></section>
 <section id="fragrance-guide" class="sl-guide-invitation" aria-labelledby="fragrance-guide-title">
   <div><p class="sl-guide-eyebrow">Curadoria olfativa</p><h2 id="fragrance-guide-title">Encontre sua fragrância</h2><p>Suas preferências, traduzidas em uma seleção de fragrâncias.</p></div>
   <button type="button" data-open-guide>Descobrir minha seleção <svg class="sl-guide-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
@@ -1679,8 +248,8 @@ body.footer-info-open{overflow:hidden!important}
 <div class="perfume-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;overflow:visible;">
 <!-- TOM FORD -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="1" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="1" aria-pressed="false" aria-label="Salvar Aventus nos favoritos" onclick="return toggleFavorite(1)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/creed-aventus" aria-label="Ver Creed Aventus">
-<span class="badge">Top Vendas</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="1" aria-pressed="false" aria-label="Salvar Aventus nos favoritos" onclick="return toggleFavorite(1)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/creed-aventus" aria-label="Ver Creed Aventus"><span class="badge">Seleção Sillocta</span>
+
 <img alt="Creed Aventus" src="/assets/perfume-1.jpg" loading="lazy" decoding="async" width="800" height="1000" srcset="/assets/responsive/perfume-1-320-5822c047f93a.webp 320w, /assets/responsive/perfume-1-640-29daa81d3613.webp 640w, /assets/perfume-1.jpg 800w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -1739,7 +308,7 @@ body.footer-info-open{overflow:hidden!important}
 <!-- BACCARAT -->
 <div class="card fu" style="transition-delay:220ms;overflow:visible;" data-product-id="3" data-volume="5">
 <div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="3" aria-pressed="false" aria-label="Salvar Naxos nos favoritos" onclick="return toggleFavorite(3)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/xerjoff-naxos" aria-label="Ver Xerjoff Naxos">
-<span class="badge">Tendência</span>
+
 <img alt="Xerjoff Naxos" src="/assets/perfume-3.jpg" loading="lazy" decoding="async" width="800" height="1000" srcset="/assets/responsive/perfume-3-320-8f8eee62ac2c.webp 320w, /assets/responsive/perfume-3-640-c95124d8651d.webp 640w, /assets/perfume-3.jpg 800w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -1883,7 +452,7 @@ body.footer-info-open{overflow:hidden!important}
 <div class="perfume-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;;overflow:visible;">
 <!-- Burberry Her EDP -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="5" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="5" aria-pressed="false" aria-label="Salvar Her nos favoritos" onclick="return toggleFavorite(5)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/burberry-her" aria-label="Ver Burberry Her"><span class="badge">Best Seller</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="5" aria-pressed="false" aria-label="Salvar Her nos favoritos" onclick="return toggleFavorite(5)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/burberry-her" aria-label="Ver Burberry Her">
 <img alt="Burberry Her" loading="lazy" src="/assets/perfume-5.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-5-320-6929a526870b.webp 320w, /assets/responsive/perfume-5-640-73fa204e6b39.webp 640w, /assets/perfume-5.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -1912,7 +481,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 <!-- Miss Dior EDP -->
 <div class="card fu" style="transition-delay:140ms;overflow:visible;" data-product-id="6" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="6" aria-pressed="false" aria-label="Salvar Miss Dior nos favoritos" onclick="return toggleFavorite(6)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/dior-miss-dior" aria-label="Ver Dior Miss Dior"><span class="badge" style="background:rgba(0,0,0,.8);color:rgba(230,201,122,.95);;overflow:visible;">Tendência</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="6" aria-pressed="false" aria-label="Salvar Miss Dior nos favoritos" onclick="return toggleFavorite(6)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/dior-miss-dior" aria-label="Ver Dior Miss Dior"><span class="badge">Seleção Sillocta</span>
 <img alt="Dior Miss Dior" loading="lazy" src="/assets/perfume-6.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-6-320-56682efe8e1e.webp 320w, /assets/responsive/perfume-6-640-b77f22e307c8.webp 640w, /assets/perfume-6.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -1941,7 +510,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 <!-- Scandal Intense EDP -->
 <div class="card fu" style="transition-delay:220ms;overflow:visible;" data-product-id="7" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="7" aria-pressed="false" aria-label="Salvar Scandal Intense nos favoritos" onclick="return toggleFavorite(7)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/jean-paul-gaultier-scandal-intense" aria-label="Ver Jean Paul Gaultier Scandal Intense"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="7" aria-pressed="false" aria-label="Salvar Scandal Intense nos favoritos" onclick="return toggleFavorite(7)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/jean-paul-gaultier-scandal-intense" aria-label="Ver Jean Paul Gaultier Scandal Intense">
 <img alt="Jean Paul Gaultier Scandal Intense" loading="lazy" src="/assets/perfume-7.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-7-320-34f108448989.webp 320w, /assets/responsive/perfume-7-640-53a8af589580.webp 640w, /assets/perfume-7.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -1970,7 +539,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 <!-- Club de Nuit Woman EDP -->
 <div class="card fu" style="transition-delay:300ms;overflow:visible;" data-product-id="8" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="8" aria-pressed="false" aria-label="Salvar Club de Nuit Woman nos favoritos" onclick="return toggleFavorite(8)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/armaf-club-de-nuit-woman" aria-label="Ver Armaf Club de Nuit Woman"><span class="badge">Custo Benefício</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="8" aria-pressed="false" aria-label="Salvar Club de Nuit Woman nos favoritos" onclick="return toggleFavorite(8)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/armaf-club-de-nuit-woman" aria-label="Ver Armaf Club de Nuit Woman">
 <img alt="Armaf Club de Nuit Woman" loading="lazy" src="/assets/perfume-8.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-8-320-c96a4dcaab02.webp 320w, /assets/responsive/perfume-8-640-69be733e9b28.webp 640w, /assets/perfume-8.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -1998,7 +567,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 </div>
 <div class="card fu" style="transition-delay:360ms;overflow:visible;" data-product-id="9" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="9" aria-pressed="false" aria-label="Salvar Fame nos favoritos" onclick="return toggleFavorite(9)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/paco-rabanne-fame" aria-label="Ver Paco Rabanne Fame"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="9" aria-pressed="false" aria-label="Salvar Fame nos favoritos" onclick="return toggleFavorite(9)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/paco-rabanne-fame" aria-label="Ver Paco Rabanne Fame">
 <img alt="Paco Rabanne Fame" loading="lazy" src="/assets/perfume-9.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-9-320-07639e417695.webp 320w, /assets/responsive/perfume-9-640-a0c37918d251.webp 640w, /assets/perfume-9.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -2025,7 +594,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 </div>
 </div><div class="card fu" style="transition-delay:420ms;overflow:visible;" data-product-id="10" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="10" aria-pressed="false" aria-label="Salvar Fame In Love nos favoritos" onclick="return toggleFavorite(10)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/paco-rabanne-fame-in-love" aria-label="Ver Paco Rabanne Fame In Love"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="10" aria-pressed="false" aria-label="Salvar Fame In Love nos favoritos" onclick="return toggleFavorite(10)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/paco-rabanne-fame-in-love" aria-label="Ver Paco Rabanne Fame In Love"><span class="badge">Novidade</span>
 <img alt="Paco Rabanne Fame In Love" loading="lazy" src="/assets/perfume-10.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-10-320-ad78941492b6.webp 320w, /assets/responsive/perfume-10-640-32e2c76ddff2.webp 640w, /assets/perfume-10.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -2052,7 +621,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 </div>
 </div><div class="card fu" style="transition-delay:480ms;overflow:visible;" data-product-id="11" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="11" aria-pressed="false" aria-label="Salvar Libre L'Absolu Platine nos favoritos" onclick="return toggleFavorite(11)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/yves-saint-laurent-libre-l-absolu-platine" aria-label="Ver Yves Saint Laurent Libre L&#x27;Absolu Platine"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="11" aria-pressed="false" aria-label="Salvar Libre L'Absolu Platine nos favoritos" onclick="return toggleFavorite(11)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/yves-saint-laurent-libre-l-absolu-platine" aria-label="Ver Yves Saint Laurent Libre L&#x27;Absolu Platine">
 <img alt="Yves Saint Laurent Libre L'Absolu Platine" loading="lazy" src="/assets/perfume-11.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-11-320-b071dd1544df.webp 320w, /assets/responsive/perfume-11-640-bb796127b136.webp 640w, /assets/perfume-11.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -2079,7 +648,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 </div>
 </div><div class="card fu" style="transition-delay:540ms;overflow:visible;" data-product-id="12" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="12" aria-pressed="false" aria-label="Salvar Libre nos favoritos" onclick="return toggleFavorite(12)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/yves-saint-laurent-libre" aria-label="Ver Yves Saint Laurent Libre"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="12" aria-pressed="false" aria-label="Salvar Libre nos favoritos" onclick="return toggleFavorite(12)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/yves-saint-laurent-libre" aria-label="Ver Yves Saint Laurent Libre">
 <img alt="Yves Saint Laurent Libre" loading="lazy" src="/assets/perfume-12.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-12-320-1a401890cf61.webp 320w, /assets/responsive/perfume-12-640-60841f2132d8.webp 640w, /assets/perfume-12.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -2108,8 +677,8 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 <!-- COCO MADEMOISELLE -->
 <div class="card fu" style="transition-delay:480ms;overflow:visible;" data-product-id="13" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="13" aria-pressed="false" aria-label="Salvar Coco Mademoiselle nos favoritos" onclick="return toggleFavorite(13)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/chanel-coco-mademoiselle" aria-label="Ver Chanel Coco Mademoiselle">
-<span class="badge">Esgotado</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="13" aria-pressed="false" aria-label="Salvar Coco Mademoiselle nos favoritos" onclick="return toggleFavorite(13)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/chanel-coco-mademoiselle" aria-label="Ver Chanel Coco Mademoiselle"><span class="badge">Esgotado</span>
+
 <img alt="Chanel Coco Mademoiselle" src="/assets/perfume-13.jpg" loading="lazy" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-13-320-e421430344fa.webp 320w, /assets/responsive/perfume-13-640-74b83bf5f598.webp 640w, /assets/perfume-13.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -2208,8 +777,8 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 <!-- LA VIE EST BELLE -->
 <div class="card fu" style="transition-delay:540ms;overflow:visible;" data-product-id="16" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="16" aria-pressed="false" aria-label="Salvar La Vie Est Belle nos favoritos" onclick="return toggleFavorite(16)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/lancome-la-vie-est-belle" aria-label="Ver Lancôme La Vie Est Belle">
-<span class="badge">Esgotado</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="16" aria-pressed="false" aria-label="Salvar La Vie Est Belle nos favoritos" onclick="return toggleFavorite(16)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/lancome-la-vie-est-belle" aria-label="Ver Lancôme La Vie Est Belle"><span class="badge">Esgotado</span>
+
 <img alt="Lancôme La Vie Est Belle" src="/assets/perfume-16.jpg" loading="lazy" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-16-320-ad94d48d0c5f.webp 320w, /assets/perfume-16.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -2241,8 +810,8 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 </div>
 <div class="card fu" style="transition-delay:600ms;overflow:visible;" data-product-id="17" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="17" aria-pressed="false" aria-label="Salvar Teriaq nos favoritos" onclick="return toggleFavorite(17)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/lattafa-teriaq" aria-label="Ver Lattafa Teriaq">
-<span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="17" aria-pressed="false" aria-label="Salvar Teriaq nos favoritos" onclick="return toggleFavorite(17)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/lattafa-teriaq" aria-label="Ver Lattafa Teriaq"><span class="badge">Novidade</span>
+
 <img alt="Lattafa Teriaq" loading="lazy" src="/assets/perfume-17.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-17-320-fc31d18e52d0.webp 320w, /assets/perfume-17.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -2373,7 +942,7 @@ body.footer-info-open{overflow:hidden!important}
 
 <!-- FOREVER & EVER DIOR -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="21" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="21" aria-pressed="false" aria-label="Salvar Forever and Ever nos favoritos" onclick="return toggleFavorite(21)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/dior-forever-and-ever" aria-label="Ver Dior Forever and Ever"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="21" aria-pressed="false" aria-label="Salvar Forever and Ever nos favoritos" onclick="return toggleFavorite(21)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/dior-forever-and-ever" aria-label="Ver Dior Forever and Ever">
 <img alt="Dior Forever and Ever" loading="lazy" src="/assets/perfume-21.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-21-320-7c2872f35e53.webp 320w, /assets/perfume-21.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -2404,7 +973,7 @@ body.footer-info-open{overflow:hidden!important}
 
 <!-- DEVOTION DOLCE & GABBANA -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="22" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="22" aria-pressed="false" aria-label="Salvar Devotion nos favoritos" onclick="return toggleFavorite(22)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/dolce-gabbana-devotion" aria-label="Ver Dolce&amp;Gabbana Devotion"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="22" aria-pressed="false" aria-label="Salvar Devotion nos favoritos" onclick="return toggleFavorite(22)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/dolce-gabbana-devotion" aria-label="Ver Dolce&amp;Gabbana Devotion">
 <img alt="Dolce&amp;Gabbana Devotion" loading="lazy" src="/assets/perfume-22.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-22-320-5da5b1657861.webp 320w, /assets/perfume-22.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;;overflow:visible;">
@@ -2433,7 +1002,7 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 <!-- REYNA -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="23" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="23" aria-pressed="false" aria-label="Salvar Reyna nos favoritos" onclick="return toggleFavorite(23)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/maison-alhambra-reyna" aria-label="Ver Maison Alhambra Reyna"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="23" aria-pressed="false" aria-label="Salvar Reyna nos favoritos" onclick="return toggleFavorite(23)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/maison-alhambra-reyna" aria-label="Ver Maison Alhambra Reyna">
 <img alt="Maison Alhambra Reyna" loading="lazy" src="/assets/perfume-23.jpg" decoding="async" width="1024" height="1024" srcset="/assets/responsive/perfume-23-320-d4a06c4e8f63.webp 320w, /assets/perfume-23.jpg 1024w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -2463,7 +1032,7 @@ body.footer-info-open{overflow:hidden!important}
 
 <!-- LÉONIE -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="24" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="24" aria-pressed="false" aria-label="Salvar Léonie nos favoritos" onclick="return toggleFavorite(24)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/maison-alhambra-leonie" aria-label="Ver Maison Alhambra Léonie"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="24" aria-pressed="false" aria-label="Salvar Léonie nos favoritos" onclick="return toggleFavorite(24)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/maison-alhambra-leonie" aria-label="Ver Maison Alhambra Léonie">
 <img alt="Maison Alhambra Léonie" loading="lazy" src="/assets/perfume-24.jpg" decoding="async" width="1024" height="1024" srcset="/assets/responsive/perfume-24-320-17743c3abdd1.webp 320w, /assets/perfume-24.jpg 1024w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -2493,7 +1062,7 @@ body.footer-info-open{overflow:hidden!important}
 
 <!-- DANGEROUS WOMAN -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="25" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="25" aria-pressed="false" aria-label="Salvar Dangerous Woman nos favoritos" onclick="return toggleFavorite(25)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/new-brand-dangerous-woman" aria-label="Ver New Brand Dangerous Woman"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="25" aria-pressed="false" aria-label="Salvar Dangerous Woman nos favoritos" onclick="return toggleFavorite(25)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/new-brand-dangerous-woman" aria-label="Ver New Brand Dangerous Woman">
 <img alt="New Brand Dangerous Woman" loading="lazy" src="/assets/perfume-25.jpg" decoding="async" width="870" height="1080" srcset="/assets/responsive/perfume-25-320-c0828e16b37b.webp 320w, /assets/perfume-25.jpg 870w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -2523,7 +1092,7 @@ body.footer-info-open{overflow:hidden!important}
 
 <!-- IRRESISTIBLE -->
 <div class="card fu" style="transition-delay:60ms;overflow:visible;" data-product-id="26" data-volume="5">
-<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="26" aria-pressed="false" aria-label="Salvar Irresistible nos favoritos" onclick="return toggleFavorite(26)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/givenchy-irresistible" aria-label="Ver Givenchy Irresistible"><span class="badge">Novo</span>
+<div class="img-box"><button type="button" class="sl-favorite sl-favorite-card" data-favorite-id="26" aria-pressed="false" aria-label="Salvar Irresistible nos favoritos" onclick="return toggleFavorite(26)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><a class="sl-product-image-link" href="/perfume/givenchy-irresistible" aria-label="Ver Givenchy Irresistible"><span class="badge">Novidade</span>
 <img alt="Givenchy Irresistible" loading="lazy" src="/assets/perfume-26.jpg" decoding="async" width="1024" height="1024" srcset="/assets/responsive/perfume-26-320-690979be86c1.webp 320w, /assets/perfume-26.jpg 1024w" sizes="auto, (max-width: 720px) calc((100vw - 48px) / 2), (max-width: 1060px) calc((100vw - 80px) / 2), 484px">
 </a></div>
 <div class="sl-card-body" style="padding:22px 20px;display:flex;flex-direction:column;flex-grow:1;overflow:visible;">
@@ -2600,86 +1169,8 @@ body.footer-info-open{overflow:hidden!important}
 </div>
 
 </div>
-<style id="sillocta-clean-functional-patch">
-#mobile-menu-overlay{
-  position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68));
-  backdrop-filter:blur(10px) saturate(115%);-webkit-backdrop-filter:blur(10px) saturate(115%);
-  z-index:10010;opacity:0;pointer-events:none;transition:opacity .55s cubic-bezier(.16,1,.3,1);
-}
-#mobile-menu-overlay.open{opacity:1;pointer-events:auto}
-#mobile-menu-drawer{
-  position:fixed;top:12px;left:12px;height:calc(100vh - 24px);width:min(360px,88vw);
-  background:linear-gradient(180deg, rgba(15,13,13,.78), rgba(8,7,7,.56));
-  backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);
-  border:.5px solid rgba(212,175,55,.16);border-radius:18px;
-  box-shadow:22px 0 80px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.02);
-  z-index:10011;padding:26px 22px;display:flex;flex-direction:column;
-  transform:translate3d(-108%,0,0) scale(.985);opacity:.92;
-  transition:transform .72s cubic-bezier(.16,1,.3,1), opacity .62s cubic-bezier(.16,1,.3,1), box-shadow .4s ease;
-}
-#mobile-menu-drawer:before{
-  content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;
-  background:linear-gradient(135deg, rgba(212,175,55,.08), transparent 26%, transparent 68%, rgba(212,175,55,.03));
-}
-#mobile-menu-drawer.open{transform:translate3d(0,0,0) scale(1);opacity:1;box-shadow:28px 0 100px rgba(0,0,0,.42), inset 0 0 0 1px rgba(212,175,55,.05)}
-#mobile-menu-drawer .mobile-menu-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:18px;border-bottom:.5px solid rgba(212,175,55,.10);position:relative;z-index:1}
-#mobile-menu-drawer .mobile-menu-head button{background:none;border:none;color:rgba(255,255,255,.54);font-size:18px;cursor:pointer;transition:color .25s ease, transform .25s ease}
-#mobile-menu-drawer .mobile-menu-head button:hover{color:#D4AF37;transform:rotate(90deg)}
-.mobile-menu-brand{display:block;font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:.16em;line-height:1}
-.mobile-menu-sub{margin:6px 0 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:10px;letter-spacing:.12em;color:rgba(212,175,55,.52)}
-.mobile-menu-links{display:flex;flex-direction:column;gap:6px;padding:20px 0 0;position:relative;z-index:1}
-.mobile-menu-links a{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:.5px solid rgba(212,175,55,.08);text-decoration:none;font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(229,229,229,.68);opacity:0;transform:translateX(-16px);transition:color .25s ease, transform .55s cubic-bezier(.16,1,.3,1), opacity .55s cubic-bezier(.16,1,.3,1)}
-.mobile-menu-links a:after{content:'›';font-size:16px;color:rgba(212,175,55,.62)}
-.mobile-menu-links a:hover{color:#D4AF37;transform:translateX(3px)}
-#mobile-menu-drawer.open .mobile-menu-links a{opacity:1;transform:translateX(0)}
-#mobile-menu-drawer.open .mobile-menu-links a:nth-child(1){transition-delay:.06s}
-#mobile-menu-drawer.open .mobile-menu-links a:nth-child(2){transition-delay:.10s}
-#mobile-menu-drawer.open .mobile-menu-links a:nth-child(3){transition-delay:.14s}
-#mobile-menu-drawer.open .mobile-menu-links a:nth-child(4){transition-delay:.18s}
-#mobile-menu-drawer.open .mobile-menu-links a:nth-child(5){transition-delay:.22s}
-#mobile-menu-drawer.open .mobile-menu-links a:nth-child(6){transition-delay:.26s}
-#mobile-menu-drawer.open .mobile-menu-links a:nth-child(7){transition-delay:.30s}
-.mobile-menu-foot{margin-top:auto;padding-top:18px;border-top:.5px solid rgba(212,175,55,.10);position:relative;z-index:1}
-.mobile-menu-foot p{margin:0;font-family:Montserrat,sans-serif;font-size:9px;line-height:1.8;letter-spacing:.08em;color:rgba(229,229,229,.36)}
-body.mobile-menu-open{overflow:hidden}
-@media (max-width: 768px){
-  #parallax-hero,#parallax-fem{height:22vh!important;min-height:130px!important;max-height:180px!important}
-  #mobile-menu-drawer{top:10px;left:10px;height:calc(100vh - 20px);border-radius:16px}
-  #mobile-menu-drawer:before{border-radius:16px}
-}
-</style>
-<style id="sillocta-onefile-collections-patch">
-body.collection-view.collection-m #sec-feminino,
-body.collection-view.collection-f #sec-masculino{display:none!important}
-body.collection-view #shop{max-width:1240px!important;margin:0 auto!important;padding-top:124px!important}
-body.collection-view .perfume-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:22px 18px!important;max-width:1080px;margin:0 auto!important}
-body.collection-view .perfume-grid .card{max-width:340px;width:100%;margin:0 auto!important}
-body.collection-view .perfume-grid .card .img-box img{max-height:320px;object-fit:cover}
-.collection-topnote{display:none!important;padding:0 20px 28px;text-align:center}
-body.collection-view .collection-topnote{display:none!important}
-.collection-topnote h1{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4.4vw,54px);font-weight:300;letter-spacing:.06em;color:#ffffff;margin:0}
-body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-fem{height:26vh!important;min-height:150px!important;max-height:220px!important;margin-left:auto!important;margin-right:auto!important}
-.collection-topnote p{margin:14px auto 0;max-width:760px;font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:.18em;line-height:1.9;text-transform:uppercase;color:rgba(229,229,229,.42)}
-#sel-masc-btn,#sel-fem-btn{transition:transform .35s ease, filter .35s ease}
-#sel-masc-btn:hover,#sel-fem-btn:hover{transform:translateY(-4px);filter:brightness(1.04)}
-.sl-selector-armed{animation:silloctaSelectorArmed .48s cubic-bezier(.16,1,.3,1)}
-@keyframes silloctaSelectorArmed{0%{transform:translateY(0) scale(1)}45%{transform:translateY(-6px) scale(1.01)}100%{transform:translateY(0) scale(1)}}
-.wa{width:58px!important;height:58px!important;border-radius:50%!important;background:linear-gradient(180deg, rgba(10,9,9,.92), rgba(5,4,4,1))!important;border:.5px solid rgba(212,175,55,.34)!important;box-shadow:0 12px 34px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.03)!important}
-.wa svg{width:27px;height:27px;display:block}
-.wa:hover{transform:translateY(-3px) scale(1.03)!important;box-shadow:0 18px 44px rgba(0,0,0,.4), 0 0 0 1px rgba(212,175,55,.08) inset!important}
-#continue-shopping-btn{width:100%;margin-top:10px;padding:14px 16px;border-radius:2px;cursor:pointer;background:transparent;border:.5px solid rgba(212,175,55,.24);color:rgba(229,229,229,.72);font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;transition:transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease}
-#continue-shopping-btn:hover{transform:translateY(-1px);background:rgba(212,175,55,.08);color:#D4AF37;border-color:rgba(212,175,55,.42)}
-@media (max-width:768px){
-  body.collection-view #shop{padding-top:110px!important}
-  .collection-topnote{padding:0 20px 20px}
-  body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-fem{width:min(94vw,720px)}
-  body.collection-view .perfume-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px 12px!important}
-  body.collection-view .perfume-grid .card{max-width:none}
-  body.collection-view .perfume-grid .card .img-box img{max-height:220px}
-body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-fem{height:24vh!important;min-height:140px!important}
-  .wa{width:54px!important;height:54px!important}
-}
-</style>
+
+
 </div></div><div id="cart-overlay" aria-hidden="true"></div>
 <div id="cart-drawer" style="scroll-padding-top:0;" role="dialog" aria-modal="true" aria-label="Sua sacola" aria-hidden="true" inert="">
 
@@ -2695,7 +1186,7 @@ body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-f
 <div id="cart-footer" style=""></div>
 </div>
 <div id="mobile-menu-overlay" aria-hidden="true" onclick="closeMobileMenu()"></div>
-<aside aria-hidden="true" id="mobile-menu-drawer" inert role="dialog" aria-modal="true" aria-label="Menu Sillocta">
+<div aria-hidden="true" id="mobile-menu-drawer" inert role="dialog" aria-modal="true" aria-label="Menu Sillocta">
 <div class="mobile-menu-head">
 <div><span class="mobile-menu-brand">SILLOCTA</span><p class="mobile-menu-sub">Maison de Decants</p></div>
 <button type="button" aria-label="Fechar menu" onclick="closeMobileMenu()"><svg class="sl-close-icon" viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true" focusable="false"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg></button>
@@ -2721,7 +1212,7 @@ body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-f
 <a href="https://wa.me/5585991857074" onclick="closeMobileMenu()" rel="noopener noreferrer" target="_blank">WhatsApp</a>
 </div>
 </nav>
-</aside>
+</div>
 <div id="footer-info-overlay" aria-hidden="true" inert="">
   <div id="footer-info-modal" role="dialog" aria-modal="true" aria-labelledby="footer-info-title">
     <button id="footer-info-close" type="button" aria-label="Fechar informações"><svg class="sl-close-icon" viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true" focusable="false"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg></button>

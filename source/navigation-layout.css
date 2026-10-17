@@ -1,0 +1,80 @@
+/* Final navigation and collection layout, after component styles. */
+
+#mobile-menu-overlay{
+  position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.68));
+  backdrop-filter:blur(10px) saturate(115%);-webkit-backdrop-filter:blur(10px) saturate(115%);
+  z-index:10010;opacity:0;pointer-events:none;transition:opacity .55s cubic-bezier(.16,1,.3,1);
+}
+#mobile-menu-overlay.open{opacity:1;pointer-events:auto}
+#mobile-menu-drawer{
+  position:fixed;top:12px;left:12px;height:calc(100vh - 24px);width:min(360px,88vw);
+  background:linear-gradient(180deg, rgba(15,13,13,.78), rgba(8,7,7,.56));
+  backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);
+  border:.5px solid rgba(212,175,55,.16);border-radius:18px;
+  box-shadow:22px 0 80px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.02);
+  z-index:10011;padding:26px 22px;display:flex;flex-direction:column;
+  transform:translate3d(-108%,0,0) scale(.985);opacity:.92;
+  transition:transform .72s cubic-bezier(.16,1,.3,1), opacity .62s cubic-bezier(.16,1,.3,1), box-shadow .4s ease;
+}
+#mobile-menu-drawer:before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;
+  background:linear-gradient(135deg, rgba(212,175,55,.08), transparent 26%, transparent 68%, rgba(212,175,55,.03));
+}
+#mobile-menu-drawer.open{transform:translate3d(0,0,0) scale(1);opacity:1;box-shadow:28px 0 100px rgba(0,0,0,.42), inset 0 0 0 1px rgba(212,175,55,.05)}
+#mobile-menu-drawer .mobile-menu-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:18px;border-bottom:.5px solid rgba(212,175,55,.10);position:relative;z-index:1}
+#mobile-menu-drawer .mobile-menu-head button{background:none;border:none;color:rgba(255,255,255,.54);font-size:18px;cursor:pointer;transition:color .25s ease, transform .25s ease}
+#mobile-menu-drawer .mobile-menu-head button:hover{color:#D4AF37;transform:rotate(90deg)}
+.mobile-menu-brand{display:block;font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:.16em;line-height:1}
+.mobile-menu-sub{margin:6px 0 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:10px;letter-spacing:.12em;color:rgba(212,175,55,.52)}
+.mobile-menu-links{display:flex;flex-direction:column;gap:6px;padding:20px 0 0;position:relative;z-index:1}
+.mobile-menu-links a{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:.5px solid rgba(212,175,55,.08);text-decoration:none;font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(229,229,229,.68);opacity:0;transform:translateX(-16px);transition:color .25s ease, transform .55s cubic-bezier(.16,1,.3,1), opacity .55s cubic-bezier(.16,1,.3,1)}
+.mobile-menu-links a:after{content:'›';font-size:16px;color:rgba(212,175,55,.62)}
+.mobile-menu-links a:hover{color:#D4AF37;transform:translateX(3px)}
+#mobile-menu-drawer.open .mobile-menu-links a{opacity:1;transform:translateX(0)}
+#mobile-menu-drawer.open .mobile-menu-links a:nth-child(1){transition-delay:.06s}
+#mobile-menu-drawer.open .mobile-menu-links a:nth-child(2){transition-delay:.10s}
+#mobile-menu-drawer.open .mobile-menu-links a:nth-child(3){transition-delay:.14s}
+#mobile-menu-drawer.open .mobile-menu-links a:nth-child(4){transition-delay:.18s}
+#mobile-menu-drawer.open .mobile-menu-links a:nth-child(5){transition-delay:.22s}
+#mobile-menu-drawer.open .mobile-menu-links a:nth-child(6){transition-delay:.26s}
+#mobile-menu-drawer.open .mobile-menu-links a:nth-child(7){transition-delay:.30s}
+.mobile-menu-foot{margin-top:auto;padding-top:18px;border-top:.5px solid rgba(212,175,55,.10);position:relative;z-index:1}
+.mobile-menu-foot p{margin:0;font-family:Montserrat,sans-serif;font-size:9px;line-height:1.8;letter-spacing:.08em;color:rgba(229,229,229,.36)}
+body.mobile-menu-open{overflow:hidden}
+@media (max-width: 768px){
+  #parallax-hero,#parallax-fem{height:22vh!important;min-height:130px!important;max-height:180px!important}
+  #mobile-menu-drawer{top:10px;left:10px;height:calc(100vh - 20px);border-radius:16px}
+  #mobile-menu-drawer:before{border-radius:16px}
+}
+
+
+body.collection-view.collection-m #sec-feminino,
+body.collection-view.collection-f #sec-masculino{display:none!important}
+body.collection-view #shop{max-width:1240px!important;margin:0 auto!important;padding-top:124px!important}
+body.collection-view .perfume-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:22px 18px!important;max-width:1080px;margin:0 auto!important}
+body.collection-view .perfume-grid .card{max-width:340px;width:100%;margin:0 auto!important}
+body.collection-view .perfume-grid .card .img-box img{max-height:320px;object-fit:cover}
+.collection-topnote{display:none!important;padding:0 20px 28px;text-align:center}
+body.collection-view .collection-topnote{display:none!important}
+.collection-topnote h1{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4.4vw,54px);font-weight:300;letter-spacing:.06em;color:#ffffff;margin:0}
+body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-fem{height:26vh!important;min-height:150px!important;max-height:220px!important;margin-left:auto!important;margin-right:auto!important}
+.collection-topnote p{margin:14px auto 0;max-width:760px;font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:.18em;line-height:1.9;text-transform:uppercase;color:rgba(229,229,229,.42)}
+#sel-masc-btn,#sel-fem-btn{transition:transform .35s ease, filter .35s ease}
+#sel-masc-btn:hover,#sel-fem-btn:hover{transform:translateY(-4px);filter:brightness(1.04)}
+.sl-selector-armed{animation:silloctaSelectorArmed .48s cubic-bezier(.16,1,.3,1)}
+@keyframes silloctaSelectorArmed{0%{transform:translateY(0) scale(1)}45%{transform:translateY(-6px) scale(1.01)}100%{transform:translateY(0) scale(1)}}
+.wa{width:58px!important;height:58px!important;border-radius:50%!important;background:linear-gradient(180deg, rgba(10,9,9,.92), rgba(5,4,4,1))!important;border:.5px solid rgba(212,175,55,.34)!important;box-shadow:0 12px 34px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.03)!important}
+.wa svg{width:27px;height:27px;display:block}
+.wa:hover{transform:translateY(-3px) scale(1.03)!important;box-shadow:0 18px 44px rgba(0,0,0,.4), 0 0 0 1px rgba(212,175,55,.08) inset!important}
+#continue-shopping-btn{width:100%;margin-top:10px;padding:14px 16px;border-radius:2px;cursor:pointer;background:transparent;border:.5px solid rgba(212,175,55,.24);color:rgba(229,229,229,.72);font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;transition:transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease}
+#continue-shopping-btn:hover{transform:translateY(-1px);background:rgba(212,175,55,.08);color:#D4AF37;border-color:rgba(212,175,55,.42)}
+@media (max-width:768px){
+  body.collection-view #shop{padding-top:110px!important}
+  .collection-topnote{padding:0 20px 20px}
+  body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-fem{width:min(94vw,720px)}
+  body.collection-view .perfume-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px 12px!important}
+  body.collection-view .perfume-grid .card{max-width:none}
+  body.collection-view .perfume-grid .card .img-box img{max-height:220px}
+body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-fem{height:24vh!important;min-height:140px!important}
+  .wa{width:54px!important;height:54px!important}
+}
