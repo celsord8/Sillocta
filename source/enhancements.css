@@ -794,3 +794,77 @@ html body .sl-product-share{display:inline-flex;align-items:center;justify-conte
 }
 @media(max-width:360px){.sl-guide-result{grid-template-columns:80px minmax(0,1fr)}.sl-guide-header h2{font-size:25px}.sl-guide-navigation{align-items:stretch}.sl-guide-navigation button{flex:1}}
 @media(prefers-reduced-motion:reduce){html body .sl-guide-option{transition:none!important}html body :is(.sl-bag-flight,.sl-flight-destination){display:none!important}}
+
+/* Olfactory curation: restrained editorial framing and one consistent vector icon. */
+html body .sl-guide-invitation{padding:32px 0;margin-top:20px;margin-bottom:32px;gap:32px}
+.sl-guide-eyebrow{display:flex;align-items:center;gap:10px;font-size:.625rem;font-weight:500;letter-spacing:.18em;line-height:1.8;color:#cbb477;margin-bottom:10px}
+.sl-guide-eyebrow::before{content:"";display:block;width:22px;height:1px;flex-shrink:0;background:currentColor;opacity:.65}
+.sl-guide-invitation h2{font-size:clamp(29px,3vw,38px);line-height:1.12;margin-bottom:10px}
+.sl-guide-invitation>div>p:last-child{color:#c8bfae;font-size:.8125rem;line-height:1.75;max-width:460px}
+html body .sl-guide-invitation>button{min-height:50px;padding:13px 20px;border-color:#cbb47765;border-radius:2px;gap:24px;color:#e3d0a7;transition:background-color .18s,border-color .18s}
+.sl-guide-arrow{display:block;flex:none;width:18px;height:18px;stroke-linecap:round;stroke-linejoin:round}
+html body .sl-guide-dialog{padding:32px;border-radius:4px;border-color:#cbb47750;background:#0c0b09;box-shadow:0 28px 100px #000b}
+.sl-guide-header{align-items:center;padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid #cbb47726}
+.sl-guide-header h2{font-size:clamp(29px,3.8vw,38px);line-height:1.15;color:#eee4d2}
+html body .sl-guide-close{width:44px;height:44px;background:transparent;border-color:transparent;color:#c7b99e}
+html body .sl-guide-close:hover{border-color:#cbb47745;background:#cbb47708;color:#ecdbb8}
+.sl-guide-progress{margin-bottom:22px;font-size:.6875rem;letter-spacing:.03em;color:#c2b69f}
+.sl-guide-progress progress{height:2px;border-radius:0}
+#sl-guide-question{line-height:1.2;margin-bottom:22px}
+.sl-guide-option{border-radius:3px;min-height:76px;padding:16px 18px;border-color:#cbb47730;background:#ffffff02}
+.sl-guide-option:hover{border-color:#cbb47770;background:#cbb47706}
+.sl-guide-option:has(input:checked){border-color:#ccb781;background:#cbb4770b}
+.sl-guide-option strong{color:#eee4d3;line-height:1.55}
+.sl-guide-option>span>span{color:#c3b8a5;line-height:1.65}
+.sl-guide-navigation{padding-top:22px;margin-top:24px;border-top:1px solid #cbb47726}
+html body .sl-guide-navigation button{border-radius:2px;min-height:46px;border-color:#cbb47750}
+html body .sl-guide-navigation button:hover:not(:disabled){border-color:#e0c88e;background:#cbb47709}
+html body .sl-guide-navigation .sl-guide-next:hover:not(:disabled){background:#ddc68e;color:#18140c}
+.sl-guide-result-heading>p:last-child{color:#c3b8a5;margin-bottom:24px;line-height:1.75}
+.sl-guide-results{gap:18px;align-items:stretch}
+.sl-guide-result{border-color:#cbb47735;border-radius:3px;background:#ffffff02}
+.sl-guide-result-image{aspect-ratio:4/3;border-bottom:1px solid #cbb47720}
+.sl-guide-result-image>.sl-favorite{top:8px;right:8px;border:1px solid #cbb47730!important;backdrop-filter:blur(8px)}
+.sl-guide-result-copy{padding:20px 16px 16px}
+.sl-guide-result-brand{font-size:.5625rem;letter-spacing:.12em;line-height:1.7;margin-bottom:9px;color:#c9bea9;min-height:1.7em}
+.sl-guide-result h4{font-size:27px;line-height:1.12;margin-bottom:9px}
+.sl-guide-result-profile{font-size:.6875rem;line-height:1.7;min-height:3.4em;margin-bottom:14px;color:#c4b7a0}
+.sl-guide-result ul{list-style:none;padding:14px 0 0;margin-bottom:18px;border-top:1px solid #cbb47720;color:#d2c8b8;font-size:.71875rem;line-height:1.8}
+.sl-guide-result li{position:relative;padding-left:12px}
+.sl-guide-result li::before{content:"";position:absolute;left:0;top:.85em;width:4px;height:1px;background:#cbb477a6}
+.sl-guide-result li+li{margin-top:8px}
+.sl-guide-result-price{font-size:.8125rem;letter-spacing:.01em;padding-top:2px;margin-bottom:15px;color:#e5cfa0}
+.sl-guide-product-link{border-color:#cbb47750;border-radius:2px;min-height:46px;padding:11px 12px;gap:12px;color:#e4d0a7}
+.sl-guide-product-link:hover{background:#cbb47708;border-color:#cbb477a3}
+.sl-guide-product-link .sl-guide-arrow{width:16px;height:16px}
+.sl-guide-explanation{font-size:.6875rem;line-height:1.9;color:#b9ad99;margin-top:22px;max-width:760px}
+html body :is(.sl-guide-invitation>button,.sl-guide-close,.sl-guide-navigation button,.sl-guide-product-link,.sl-guide-result a):focus-visible{outline:2px solid #dfc58d;outline-offset:4px}
+@media(max-width:720px){
+ html body .sl-guide-invitation{padding:25px 0;margin:16px 0 28px}
+ .sl-guide-eyebrow{font-size:.625rem;letter-spacing:.15em;gap:9px;margin-bottom:9px}
+ .sl-guide-eyebrow::before{width:18px}
+ .sl-guide-invitation h2{font-size:31px;margin-bottom:10px}
+ .sl-guide-invitation>div>p:last-child{font-size:.75rem;line-height:1.85;max-width:34em}
+ html body .sl-guide-invitation>button{margin-top:21px;min-height:48px;padding:12px 15px;justify-content:space-between}
+ html body .sl-guide-dialog{padding:24px 18px 20px;border-radius:4px}
+ .sl-guide-header{padding-bottom:20px;margin-bottom:20px;gap:12px}
+ .sl-guide-header h2{font-size:29px}
+ .sl-guide-header .sl-guide-eyebrow{font-size:.5625rem;letter-spacing:.14em}
+ .sl-guide-header .sl-guide-eyebrow::before{width:14px}
+ .sl-guide-close{align-self:flex-start}
+ .sl-guide-option{min-height:78px;padding:14px}
+ .sl-guide-option strong{font-size:.8125rem}.sl-guide-option>span>span{font-size:.71875rem}
+ .sl-guide-results{gap:16px}
+ .sl-guide-result{display:flex;overflow:hidden}
+ .sl-guide-result-image{aspect-ratio:16/10;min-height:0;border-radius:0}
+ .sl-guide-result-image img{object-position:center 45%}
+ .sl-guide-result-copy{padding:19px 17px 17px}
+ .sl-guide-result h4{font-size:29px}.sl-guide-result-profile{min-height:0;margin-bottom:14px}
+ .sl-guide-result ul{font-size:.75rem;padding-left:0}
+ .sl-guide-result-brand{font-size:.625rem}
+ .sl-guide-product-link{font-size:.75rem}
+ .sl-guide-explanation{font-size:.6875rem}
+ .sl-guide-navigation{gap:12px;padding-top:20px;margin-top:22px}
+}
+@media(max-width:360px){html body .sl-guide-dialog{padding:20px 14px}.sl-guide-header h2{font-size:26px}.sl-guide-header .sl-guide-eyebrow{font-size:.5rem}.sl-guide-header{gap:8px}}
+@media(prefers-reduced-motion:reduce){html body .sl-guide-invitation>button{transition:none!important}}
