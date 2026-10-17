@@ -38,3 +38,16 @@ test('Published HTML, robots and sitemap agree with the deployment audience',()=
   assert.ok(home.includes('href="'+metadata.origin+'/"'));
  }
 });
+
+test('Product metadata describes decant variants, actual prices, availability and share cards without fabricated ratings',async()=>{
+ const {pageMetadata}=await import('../scripts/site-metadata.mjs');
+ for(const p of PRODUCTS){
+  const html=pageMetadata({origin:'https://sillocta.vercel.app',preview:true},'/perfume/example',p);
+  assert.match(html,/noindex, nofollow/);assert.match(html,/property="og:image"/);
+  const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
+  const group=data['@graph'].find(n=>n['@type']==='ProductGroup');
+  assert.deepEqual(group.hasVariant.map(v=>v.size),['5 ml','10 ml']);
+  for(const v of group.hasVariant){const volume=v.size.split(' ')[0];assert.equal(v.offers.price,(p.prices[volume]/100).toFixed(2));assert.equal(v.offers.priceCurrency,'BRL');assert.equal(v.offers.availability.endsWith('/InStock'),p.available);}
+  assert.ok(!html.includes('aggregateRating'));assert.ok(!html.includes('reviewRating'));
+ }
+});
