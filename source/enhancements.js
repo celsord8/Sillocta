@@ -102,6 +102,18 @@ function applyCatalogFilters(){
   const message=byId('catalog-empty-copy');if(message)message.textContent=catalogState.savedOnly&&!favoriteIds.size?'Você ainda não salvou perfumes. Toque no coração para criar sua seleção.':'Nenhum perfume corresponde à sua seleção. Experimente ajustar os filtros.';
   syncCatalogControls();
 }
+function initializeCatalogFloatGuard(){
+  const purchases=[...document.querySelectorAll('.perfume-grid .sl-card-purchase')];
+  if(!purchases.length)return;
+  const visible=new Set(),sync=()=>document.body.classList.toggle('sl-catalog-actions-visible',visible.size>0);
+  document.body.classList.add('sl-catalog-actions-visible');
+  if(!('IntersectionObserver' in window))return;
+  const observer=new IntersectionObserver(entries=>{
+    for(const {target,isIntersecting} of entries){if(isIntersecting)visible.add(target);else visible.delete(target);}
+    sync();
+  },{rootMargin:'96px 0px',threshold:0});
+  purchases.forEach(purchase=>observer.observe(purchase));
+}
 function updateCatalogFilters(source=''){
   if(!byId('catalog-query'))return;
   catalogState.brand=byId('catalog-brand').value;catalogState.price=byId('catalog-price').value;catalogState.sort=byId('catalog-sort').value;catalogState.available=byId('catalog-available').checked;applyCatalogFilters();
@@ -595,7 +607,7 @@ document.addEventListener('visibilitychange',lockPage);
 function hidePreloader(){byId('preloader')?.classList.add('hide');setTimeout(()=>{if(byId('preloader'))byId('preloader').hidden=true;},450);}
 requestAnimationFrame(()=>requestAnimationFrame(hidePreloader));setTimeout(hidePreloader,1800);
 try{const saved=JSON.parse(localStorage.getItem('sillocta-original-bag-v1')||'{}');if(Array.isArray(saved.paidOrders))paidOrders.push(...saved.paidOrders.filter(id=>typeof id==='string').slice(-30));for(const item of saved.items||[]){try{const valid=makeItem(item.pid,item.vol,item.qty);const old=cart.find(i=>i.id===valid.id);if(old)old.qty=Math.min(99,old.qty+valid.qty);else cart.push(valid);}catch{}}if(CUPONS[saved.coupon]){window._couponCode=saved.coupon;window._couponPct=CUPONS[saved.coupon];}window._giftWrap=saved.gift===true;}catch{}
-initializeCatalogTools();updateIndicators();syncMenuState();persistBag();renderCart();
+initializeCatalogTools();initializeCatalogFloatGuard();updateIndicators();syncMenuState();persistBag();renderCart();
 initializeProductPages();
 if(document.modelContext?.registerTool){for(const tool of [{name:'read_sillocta_collection',description:'Read available Sillocta perfumes and prices in BRL cents.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>({products:PRODUCTS})},{name:'stage_sillocta_bag',description:'Add a perfume to the visible bag without sending an order.',inputSchema:{type:'object',properties:{id:{type:'integer'},volume:{type:'string',enum:['5','10']},quantity:{type:'integer',minimum:1,maximum:99}},required:['id','volume','quantity'],additionalProperties:false},annotations:{readOnlyHint:false},execute:input=>{const totals=addItem(input.id,input.volume,input.quantity);openCart();return {items:cart.map(i=>({id:i.pid,volume:i.vol,quantity:i.qty})),totals};}}])try{Promise.resolve(document.modelContext.registerTool(tool)).catch(()=>{});}catch{}}
 // Keep scroll and focus consistent for every existing information-modal exit.
