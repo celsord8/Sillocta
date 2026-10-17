@@ -17,6 +17,12 @@
         "quality": 90
       },
       {
+        "url": "assets/responsive/campaign-aventus-960-4319e20f3639.webp",
+        "width": 960,
+        "bytes": 173502,
+        "quality": 94
+      },
+      {
         "url": "assets/campaign-aventus.webp",
         "width": 1920,
         "bytes": 454762
@@ -39,6 +45,12 @@
         "width": 640,
         "bytes": 115806,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-miss-dior-960-30941c8e0678.webp",
+        "width": 960,
+        "bytes": 263946,
+        "quality": 94
       },
       {
         "url": "assets/campaign-miss-dior.webp",
