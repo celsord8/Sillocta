@@ -40,9 +40,16 @@ function catalogHarness(saved='[]',storageBlocked=false){
   const storage=new Map([['sillocta-favorites-v1',saved]]),nodes=new Map();
   const classes=new Set(),classList={contains:key=>classes.has(key),add:key=>classes.add(key),remove:key=>classes.delete(key),toggle(key,on){if(on)classes.add(key);else classes.delete(key);}};
   const node=(id,extra={})=>{const n={id,value:'',textContent:'',attributes:{},dataset:{},style:{},hidden:false,classList,setAttribute(k,v){this.attributes[k]=v;},focus(){document.activeElement=this;},...extra};nodes.set(id,n);return n;};
-  for(const id of ['catalog-query','catalog-brand','catalog-price','catalog-sort','catalog-available','catalog-saved','catalog-favorite-count','menu-favorite-count','catalog-status','catalog-empty','catalog-empty-copy','sl-toast'])node(id);
+  for(const id of ['catalog-volume-label','catalog-price-label','catalog-query','catalog-brand','catalog-price','catalog-sort','catalog-available','catalog-saved','catalog-favorite-count','menu-favorite-count','catalog-status','catalog-empty','catalog-empty-copy','sl-toast'])node(id);
   nodes.get('sl-toast').contains=()=>false;
-  const cards=PRODUCTS.map(p=>node('card-'+p.id,{dataset:{productId:String(p.id)}}));
+  const volumes=['5','10'].map(volume=>node('catalog-volume-'+volume,{dataset:{catalogVolume:volume}}));
+  const cards=PRODUCTS.map(p=>{
+    const card=node('card-'+p.id,{dataset:{productId:String(p.id)}}),current=node('current-'+p.id),old=node('old-'+p.id);
+    const choices=['5','10'].map(volume=>node('choice-'+p.id+'-'+volume,{dataset:{ml:volume}}));
+    card.querySelectorAll=selector=>selector==='.vbtn'?choices:[];
+    card.querySelector=selector=>selector==='.price-cur'?current:selector==='.price-old'?old:null;
+    return card;
+  });
   const grids=['m','f'].map(g=>({children:cards.filter(c=>PRODUCTS.find(p=>p.id===Number(c.dataset.productId)).gender===g),querySelectorAll(){return this.children;},appendChild(c){this.children=this.children.filter(n=>n!==c);this.children.push(c);}}));
   for(const [i,id] of ['sec-masculino','sec-feminino'].entries())node(id,{querySelectorAll:()=>grids[i].children});
   for(const card of cards)card.closest=selector=>selector==='#sec-masculino'&&grids[0].children.includes(card)?nodes.get('sec-masculino'):null;
@@ -52,7 +59,7 @@ function catalogHarness(saved='[]',storageBlocked=false){
     target.getBoundingClientRect=()=>({top:position-scrollTop});
   }
   const buttons=PRODUCTS.flatMap(p=>[node('heart-home-'+p.id,{dataset:{favoriteId:String(p.id)}}),node('heart-detail-'+p.id,{dataset:{favoriteId:String(p.id)}})]);
-  const document={getElementById:id=>id==='sillocta-products'?{textContent:JSON.stringify(PRODUCTS)}:nodes.get(id)||null,querySelectorAll:sel=>sel==='[data-favorite-id]'?buttons:sel==='.perfume-grid .card'?cards:sel==='.perfume-grid'?grids:[],querySelector:sel=>sel==='header.glass'?{getBoundingClientRect:()=>({bottom:64})}:sel==='.perfume-grid .card:not([hidden])'?grids.flatMap(g=>g.children).find(c=>!c.hidden)||null:null,body:{classList},activeElement:null};
+  const document={getElementById:id=>id==='sillocta-products'?{textContent:JSON.stringify(PRODUCTS)}:nodes.get(id)||null,querySelectorAll:sel=>sel==='[data-catalog-volume]'?volumes:sel==='[data-favorite-id]'?buttons:sel==='.perfume-grid .card'?cards:sel==='.perfume-grid'?grids:[],querySelector:sel=>sel==='header.glass'?{getBoundingClientRect:()=>({bottom:64})}:sel==='.perfume-grid .card:not([hidden])'?grids.flatMap(g=>g.children).find(c=>!c.hidden)||null:null,body:{classList},activeElement:null};
   const localStorage={getItem:k=>{if(storageBlocked)throw Error('Blocked');return storage.get(k)||null;},setItem:(k,v)=>{if(storageBlocked)throw Error('Blocked');storage.set(k,v);}};
   const window={matchMedia:()=>({matches:true}),get scrollY(){return scrollTop;},scrollTo(options){scrollTop=options.top;scrollCalls.push(options);}};
   const context=vm.createContext({currentProduct:()=>null,document,window,requestAnimationFrame:callback=>frames.push(callback),localStorage,Intl,URL,console,setTimeout:()=>1,clearTimeout(){}});
@@ -116,4 +123,31 @@ test('Home selectors trigger navigation after filtering, and saved-only empty re
   h.run('resetCatalogVisibility()');h.nodes.get('catalog-price').value='under50';h.run("updateCatalogFilters('price')");h.flushFrames();
   assert.ok(h.cards.filter(c=>!c.hidden).every(c=>PRODUCTS.find(p=>p.id===Number(c.dataset.productId)).prices['5']<5000));
   assert.equal(h.scrollCalls.at(-1).top,916);
+});
+
+
+test('Price filtering and sorting use the requested volume, including prices crossing a range boundary',()=>{
+  for(const volume of ['5','10']){
+    for(const price of ['under50','50to100','100plus']){
+      const expected=PRODUCTS.filter(p=>price==='under50'?p.prices[volume]<5000:price==='50to100'?p.prices[volume]>=5000&&p.prices[volume]<10000:p.prices[volume]>=10000);
+      assert.deepEqual(pages.filterProducts(PRODUCTS,{volume,price}).map(p=>p.id),expected.map(p=>p.id));
+    }
+    for(const sort of ['price-asc','price-desc']){
+      const result=pages.filterProducts(PRODUCTS,{volume,sort});
+      for(let i=1;i<result.length;i++)assert.ok(sort==='price-asc'?result[i-1].prices[volume]<=result[i].prices[volume]:result[i-1].prices[volume]>=result[i].prices[volume]);
+    }
+  }
+  assert.notDeepEqual(pages.filterProducts(PRODUCTS,{volume:'5',price:'under50'}).map(p=>p.id),pages.filterProducts(PRODUCTS,{volume:'10',price:'under50'}).map(p=>p.id));
+});
+
+test('Global volume synchronizes cards, price label and sorting; reset restores 5 ml and clears combined filters',()=>{
+  const h=catalogHarness();h.run('initializeCatalogTools()');h.nodes.get('catalog-sort').value='price-asc';h.run('updateCatalogFilters()');
+  h.run("selectCatalogVolume('10')");
+  assert.equal(h.nodes.get('catalog-volume-10').attributes['aria-pressed'],'true');assert.equal(h.nodes.get('catalog-price-label').textContent,'Preço · 10 ml');
+  for(const card of h.cards){const p=PRODUCTS.find(p=>p.id===Number(card.dataset.productId));assert.equal(card.dataset.volume,'10');assert.equal(card.querySelector('.price-cur').textContent,new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(p.prices['10']/100));assert.equal(card.querySelectorAll('.vbtn')[1].attributes['aria-pressed'],'true');}
+  for(const grid of h.grids){const prices=grid.children.map(c=>PRODUCTS.find(p=>p.id===Number(c.dataset.productId)).prices['10']);assert.deepEqual(prices,[...prices].sort((a,b)=>a-b));}
+  h.nodes.get('catalog-price').value='under50';h.nodes.get('catalog-brand').value='Maison Alhambra';h.run('updateCatalogFilters()');
+  assert.deepEqual(h.cards.filter(c=>!c.hidden).map(c=>Number(c.dataset.productId)),PRODUCTS.filter(p=>p.brand==='Maison Alhambra'&&p.prices['10']<5000).map(p=>p.id));
+  h.run("selectCatalogVolume('invalid')");assert.equal(h.nodes.get('catalog-price-label').textContent,'Preço · 10 ml');
+  h.run('resetCatalogVisibility()');assert.equal(h.nodes.get('catalog-price-label').textContent,'Preço · 5 ml');assert.equal(h.nodes.get('catalog-volume-5').attributes['aria-pressed'],'true');assert.equal(h.nodes.get('catalog-price').value,'');assert.equal(h.nodes.get('catalog-brand').value,'');assert.ok(h.cards.every(c=>c.dataset.volume==='5'&&!c.hidden));
 });
