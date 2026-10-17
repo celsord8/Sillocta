@@ -15,8 +15,11 @@ export function iconStyles(icons){
 
 const firstScreen=/#(?:hero(?:-txt)?|colecao-selector|sel-(?:masc|fem)[\w-]*|img-(?:masc|fem)|sl-collection-hint|o[123]|stars|shop|smooth-(?:wrapper|content)|preloader|catalog-campaigns|cc|menu-trigger|header-bag-button|sl-header-brand)\b|\.(?:glass|sl-header[\w-]*|sl-campaign[\w-]*|sl-hero[\w-]*|sl-artwork-plane|gold-grad|fu|vis|pl-[\w-]+|fas|fab|fa-[\w-]+)\b/;
 const globalRule=/^(?:\*|:root|html|body)(?:[.:][\w()-]+)*(?:\s*,\s*(?:\*|:root|html|body)(?:[.:][\w()-]+)*)?$/;
+const deferredPanel=/#(?:cart-(?:drawer|overlay|footer|items)|mobile-menu[\w-]*|footer-info[\w-]*)\b|\.(?:sl-guide-(?:dialog|overlay|header|close|progress|option|navigation|result[\w-]*|next|back)|sl-checkout[\w-]*|sl-payment[\w-]*|sl-pay[\w-]*)\b/;
 
-// Inline only a generated first-screen subset. Keep the complete stylesheet
+// Inline the visible storefront layout, including the next section: a short
+// viewport can expose the guide/catalog before deferred CSS arrives. Defer only
+// hidden panels, never layout-affecting catalog rules. Keep the complete stylesheet
 // unchanged and in its original order, so deferred arrival cannot reorder the
 // established cascade. Detail pages also get their entire above-fold module.
 export function criticalStyles(css,{detail=false}={}){
@@ -24,9 +27,9 @@ export function criticalStyles(css,{detail=false}={}){
  tree.walkRules(rule=>{
   let parent=rule.parent;
   while(parent){if(parent.type==='atrule'&&/keyframes$/i.test(parent.name))return;parent=parent.parent;}
-  if(!firstScreen.test(rule.selector)&&!globalRule.test(rule.selector)&&
-     !(detail&&/\.sl-product[\w-]*\b|\.sl-detail-view\b/.test(rule.selector))&&
-     !/\[hidden\]|:focus-visible|\.sl-sr-only/.test(rule.selector))rule.remove();
+  const shared=firstScreen.test(rule.selector)||globalRule.test(rule.selector)||/\[hidden\]|:focus-visible|\.sl-sr-only/.test(rule.selector);
+  const productOnly=/\.sl-product[\w-]*\b/.test(rule.selector)&&!/\.perfume-grid\b|\.card\b/.test(rule.selector);
+  if(!shared&&(deferredPanel.test(rule.selector)||(!detail&&productOnly)))rule.remove();
  });
  tree.walkAtRules(at=>{if(at.nodes&&!at.nodes.length)at.remove();});
  // A first-paint-only important layer prevents hundreds of color/border
@@ -50,4 +53,18 @@ export function campaignPreload(html){
  if(!image)return '';
  const value=name=>image.match(new RegExp('(?:^|\\s)'+name+'="([^"]+)"'))?.[1];
  return '<link id="sl-home-media-preload-campaign" rel="preload" as="image" media="(max-width:720px)" href="'+value('src')+'" imagesrcset="'+value('srcset')+'" imagesizes="'+value('sizes')+'" fetchpriority="high">';
+}
+
+// Place the existing mobile artwork/carousel as soon as their markup is parsed,
+// before the next visible section and before downloading the main behavior.
+// Reuse the source function verbatim; its readiness marker prevents a second
+// anchor/listener when enhancements.js runs or when the viewport changes.
+export function installHeroBootstrap(html,behavior){
+ const start=behavior.indexOf('function initializeMobileHero(){');
+ const end=behavior.indexOf('\ninitializeMobileHero();',start);
+ if(start<0||end<start)throw Error('Missing mobile layout initializer');
+ const marker='<section id="fragrance-guide"';
+ if(!html.includes(marker))throw Error('Missing layout bootstrap position');
+ const script='<script id="sl-layout-bootstrap">(()=>{const byId=id=>document.getElementById(id);'+behavior.slice(start,end)+';initializeMobileHero();})();</script>';
+ return html.replace(marker,script+marker);
 }

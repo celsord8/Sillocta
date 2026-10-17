@@ -2,7 +2,7 @@ import {readFileSync, writeFileSync, mkdirSync, cpSync, rmSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {consolidateStyles,compactStyles} from './styles.mjs';
-import {iconStyles,installCriticalStyles,campaignPreload} from './loading.mjs';
+import {iconStyles,installCriticalStyles,campaignPreload,installHeroBootstrap} from './loading.mjs';
 import {deploymentMetadata,seoFiles,pageMetadata} from './site-metadata.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
@@ -19,12 +19,13 @@ const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata({ori
 
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const originalHome=readFileSync(path.join(source,'index.html'),'utf8');
-const home=originalHome.replace('</head>',campaignPreload(originalHome)+'</head>');
+const home=installHeroBootstrap(originalHome.replace('</head>',campaignPreload(originalHome)+'</head>'),readFileSync(path.join(source,'enhancements.js'),'utf8'));
 const heroStart=home.indexOf('<section id="hero">'),shopEnd=home.indexOf('</main>',heroStart);
 if(heroStart<0||shopEnd<heroStart)throw Error('Storefront layout missing');
 const shell=(home.slice(0,heroStart)+'<!-- SILLOCTA_PRODUCT_DETAIL -->'+home.slice(shopEnd+7))
   .replace('<body>','<body class="sl-detail-view">')
   .replace(/<link id="sl-home-media-preload(?:-female|-campaign)?"[^>]*>/g,'')
+  .replace(/<script id="sl-layout-bootstrap">[\s\S]*?<\/script>/,'')
   .replace(/href="#(shop|hero|sec-masculino|sec-feminino|catalog-search)"/g,'href="/#$1"');
 
 rmSync(output,{recursive:true,force:true});
