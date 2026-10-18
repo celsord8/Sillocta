@@ -734,6 +734,21 @@ html body .sl-guide-invitation>button{display:inline-flex;align-items:center;jus
 .sl-guide-invitation>button:hover{border-color:#e1c891;background:#cbb4770a}
 html body.sl-guide-open{overflow:hidden!important}
 html body.sl-guide-open :is(#sl-bag-shortcut,#wa-float,#sl-toast){visibility:hidden!important;pointer-events:none!important}
+
+/* Two visible sizes form one quiet control; prices stay available at a glance. */
+html body .perfume-grid .card .sl-volume-options{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important;padding:4px!important;border:1px solid #cbb47730!important;border-radius:5px!important;background:#ffffff02!important;align-items:stretch!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn{height:auto!important;min-height:58px!important;padding:9px 4px!important;border:1px solid transparent!important;border-radius:3px!important;background:transparent!important;box-shadow:none!important;color:#c6bdae!important;font:400 13px/1.5 Montserrat,sans-serif!important;letter-spacing:0!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn.on{border:1px solid #cbb47790!important;background:#cbb47712!important;color:#e6d2a7!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn:hover{border-color:#cbb47765!important;background:#cbb47709!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn.on:hover{background:#cbb4771a!important;border-color:#cbb477!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn:focus-visible{outline:2px solid #ead6aa!important;outline-offset:2px!important}
+html body .perfume-grid .card .sl-volume-copy{gap:3px!important;line-height:1.45!important}
+html body .perfume-grid .card .sl-volume-copy>span:first-child{font-size:13px!important;font-weight:500!important;white-space:nowrap}
+html body .perfume-grid .card .sl-volume-price{font-size:12px!important;font-weight:400!important;line-height:1.5!important;color:#bfb6a7!important}
+html body .perfume-grid .card .vbtn.on .sl-volume-price{color:#eee2ca!important}
+html body .perfume-grid .card .sl-volume-check{display:none!important}
+@media(max-width:720px){html body .perfume-grid .card .sl-volume-options{gap:3px!important;padding:3px!important}html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:58px!important;padding:8px 2px!important}html body .perfume-grid .card .sl-volume-price{font-size:11px!important}}
+@media(max-width:360px){html body .perfume-grid .card .sl-volume-options{grid-template-columns:minmax(0,1fr)!important}html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:44px!important;padding:8px 10px!important}html body .perfume-grid .card .sl-volume-copy{width:100%;flex-direction:row;justify-content:space-between;gap:8px!important}html body .perfume-grid .card .sl-volume-price{font-size:11px!important}}
 html body .sl-guide-dialog{box-sizing:border-box;width:min(960px,calc(100vw - 40px));max-width:960px;max-height:calc(100dvh - 48px);margin:auto;padding:30px;border:1px solid #cbb47750;border-radius:8px;background:#0b0908;color:#e6dfd3;overflow:auto;overscroll-behavior:contain;box-shadow:0 20px 90px #0009;scrollbar-color:#7f7050 #0b0908}
 .sl-guide-dialog::backdrop{background:#000c;backdrop-filter:blur(6px)}
 .sl-guide-header{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
