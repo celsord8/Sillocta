@@ -1,3 +1,12 @@
+/* Keep an opaque full-height backing behind the visual viewport on iOS.
+   The drawer may shrink for the keyboard; the storefront must never show
+   through the remaining area or during Safari toolbar/overscroll changes. */
+@media(max-width:768px){
+ html body #cart-overlay.open{background:#080707!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;top:0!important;bottom:auto!important;height:100vh;height:100lvh;min-height:100dvh;overscroll-behavior:none}
+ html body #cart-drawer{border-radius:0!important}
+ html body #cart-drawer-head{padding-top:calc(22px + env(safe-area-inset-top))!important}
+ html body #cart-items{padding-bottom:calc(40px + env(safe-area-inset-bottom))!important}
+}
 .sl-payment-form{margin-top:20px}
 .sl-payment-form #sillocta-card-payment{min-height:80px}
 .sl-payment-form .sl-field-note{font-size:13px;line-height:1.65}

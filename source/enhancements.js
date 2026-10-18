@@ -162,7 +162,22 @@ function dismissToast(){const node=byId('sl-toast');clearTimeout(toastTimer);nod
 function scheduleToastDismiss(){clearTimeout(toastTimer);toastTimer=setTimeout(()=>{if(!byId('sl-toast').contains?.(document.activeElement))dismissToast();},5500);}
 function toast(message,cartAction=false){const node=byId('sl-toast');node.innerHTML=`<span class="sl-toast-copy">${escapeHtml(message)}</span>${cartAction?'<button type="button" class="sl-toast-action" onclick="openCart();return false;">Ver sacola</button>':''}`;node.inert=false;node.classList.add('visible');scheduleToastDismiss();}
 function persistBag(){try{localStorage.setItem('sillocta-original-bag-v1',JSON.stringify({items:cart.map(i=>({pid:i.pid,vol:i.vol,qty:i.qty})),coupon:window._couponCode,gift:window._giftWrap,paidOrders:paidOrders.slice(-30)}));}catch{}const counter=byId('cc'),count=cart.reduce((n,i)=>n+i.qty,0);if(Number(counter.textContent)!==count){counter.classList.remove('sl-bag-updated');requestAnimationFrame(()=>counter.classList.add('sl-bag-updated'));}counter.textContent=count;byId('header-bag-button')?.setAttribute('aria-label',`Abrir sacola com ${count} ${count===1?'item':'itens'}`);const menuCount=byId('menu-bag-count');if(menuCount){menuCount.textContent=count;byId('menu-bag-link').setAttribute('aria-label',`Minha sacola, ${count} ${count===1?'item':'itens'}`);}const shortcut=byId('sl-bag-shortcut');if(shortcut){shortcut.hidden=count===0;shortcut.setAttribute('aria-label',`Abrir sacola com ${count} ${count===1?'item':'itens'}`);byId('sl-bag-count').textContent=count;}document.body?.classList.toggle('sl-has-bag',count>0);}
-function lockPage(){const open=byId('cart-drawer').classList.contains('open')||byId('mobile-menu-drawer').classList.contains('open')||byId('footer-info-overlay').classList.contains('open');document.body.classList.toggle('sl-modal-open',open);document.documentElement?.classList.toggle('sl-modal-open',open);document.body.style.overflow=open?'hidden':'';document.body.classList.toggle('sl-paused',document.hidden);}
+let checkoutPageLock=null;
+function lockPage(){
+  const checkoutOpen=byId('cart-drawer').classList.contains('open');
+  const open=checkoutOpen||byId('mobile-menu-drawer').classList.contains('open')||byId('footer-info-overlay').classList.contains('open');
+  // iOS can move the document behind an overflow:hidden modal during bounce or
+  // keyboard changes. Freeze the mobile page and restore its exact scroll on exit.
+  if(checkoutOpen&&!checkoutPageLock&&window.matchMedia('(max-width:768px)').matches){
+    checkoutPageLock={x:window.scrollX,y:window.scrollY,position:document.body.style.position,top:document.body.style.top,width:document.body.style.width};
+    document.body.style.position='fixed';document.body.style.top=-checkoutPageLock.y+'px';document.body.style.width='100%';
+  }else if(!checkoutOpen&&checkoutPageLock){
+    const saved=checkoutPageLock;checkoutPageLock=null;
+    document.body.style.position=saved.position;document.body.style.top=saved.top;document.body.style.width=saved.width;
+    window.scrollTo({left:saved.x,top:saved.y,behavior:'instant'});
+  }
+  document.body.classList.toggle('sl-modal-open',open);document.documentElement?.classList.toggle('sl-modal-open',open);document.body.style.overflow=open?'hidden':'';document.body.classList.toggle('sl-paused',document.hidden);
+}
 function setPanel(id,open){const panel=byId(id),wasOpen=panel.classList.contains('open');panel.classList.toggle('open',open);panel.setAttribute('aria-hidden',String(!open));panel.inert=!open;lockPage();if(open){lastFocused=document.activeElement;requestAnimationFrame(()=>panel.querySelector('button,input,a,[tabindex="0"]')?.focus({preventScroll:true}));}else if(wasOpen&&lastFocused?.isConnected)lastFocused.focus({preventScroll:true});}
 function openCart(){const origin=document.activeElement,fromToast=!!origin?.closest?.('#sl-toast'),fromMenu=!!origin?.closest?.('#mobile-menu-drawer');dismissToast();closeMobileMenu();closeFooterInfo();renderCart();setPanel('cart-drawer',true);lastFocused=fromToast?byId('sl-bag-shortcut'):fromMenu?byId('header-bag-button'):origin;syncCheckoutViewport();byId('cart-drawer').scrollTop=0;byId('cart-overlay').classList.add('open');byId('cart-overlay').setAttribute('aria-hidden','false');byId('wa-float').style.opacity='0';byId('wa-float').style.pointerEvents='none';}
 function closeCart(){setPanel('cart-drawer',false);byId('cart-overlay').classList.remove('open');byId('cart-overlay').setAttribute('aria-hidden','true');byId('wa-float').style.opacity='';byId('wa-float').style.pointerEvents='';return false;}
@@ -637,7 +652,7 @@ byId('footer-info-overlay').addEventListener('click',e=>{if(e.target===byId('foo
 window.footerInfoGoShop=function(){closeFooterInfo();return scrollToSectionLux('shop');};
 window.footerInfoGoHome=function(){closeFooterInfo();return headerBrandHomeLux();};
 
-function syncCheckoutViewport(){const view=window.visualViewport;if(!view||!byId('cart-drawer').classList.contains('open'))return;byId('cart-drawer').style.setProperty('--sl-checkout-height',Math.round(view.height)+'px');byId('cart-drawer').style.setProperty('--sl-checkout-top',Math.round(view.offsetTop)+'px');}
+function syncCheckoutViewport(){const view=window.visualViewport;if(!view||!byId('cart-drawer').classList.contains('open'))return;const top=Math.floor(view.offsetTop);byId('cart-drawer').style.setProperty('--sl-checkout-height',Math.ceil(view.height+view.offsetTop-top)+'px');byId('cart-drawer').style.setProperty('--sl-checkout-top',top+'px');}
 window.visualViewport?.addEventListener('resize',syncCheckoutViewport,{passive:true});
 window.visualViewport?.addEventListener('scroll',syncCheckoutViewport,{passive:true});
 window.addEventListener('resize',syncCheckoutViewport,{passive:true});
