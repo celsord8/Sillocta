@@ -52,6 +52,10 @@ export function installCriticalStyles(html,css,options){
  const critical=criticalStyles(css,options);
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
+ // The home already contains its final mobile layout. Apply one complete
+ // cascade before painting instead of parsing inline CSS and restyling the
+ // entire catalog a second time when the full sheet arrives.
+ if(!options?.detail)return html.replace(marker,(_,href)=>'<link id="sl-full-styles" rel="stylesheet" href="'+href+'">');
  return html.replace(marker,(_,href)=>'<style id="sl-critical-styles">'+critical+'</style><link id="sl-full-styles" rel="preload" as="style" href="'+href+'" onload="this.onload=null;this.rel=\'stylesheet\';requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add(\'sl-styles-ready\')))"><noscript><link rel="stylesheet" href="'+href+'"></noscript>');
 }
 
