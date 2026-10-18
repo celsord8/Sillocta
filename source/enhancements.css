@@ -719,7 +719,12 @@ html body .perfume-grid .card .sl-card-brand{color:#c8beac!important}
 html body .perfume-grid .card .sl-card-note{color:#d8d0c2!important;border-color:#cbb4773d!important}
 html body .perfume-grid .card .sl-volume-price{color:#cfc6b6!important}
 html body .perfume-grid .card .vbtn.on .sl-volume-price{color:#e6d1a2!important}
-html body.sl-catalog-actions-visible :is(#sl-bag-shortcut,#wa-float){visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+html body.sl-catalog-actions-visible #wa-float{visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+/* Keep the bag reachable throughout catalog browsing, including purchase rows. */
+html body:not(.sl-modal-open):not(.sl-guide-open) #sl-bag-shortcut:not([hidden]){visibility:visible!important;opacity:1!important;pointer-events:auto!important}
+html body #footer-info-body a:not(.footer-info-btn){color:#d8c599!important;text-decoration:none!important;border-bottom:1px solid #cbb47766;padding-bottom:2px;overflow-wrap:anywhere;transition:color .18s,border-color .18s}
+html body #footer-info-body a:not(.footer-info-btn):hover{color:#eee0c3!important;border-bottom-color:#cbb477}
+html body #footer-info-body a:not(.footer-info-btn):focus-visible{outline:2px solid #cbb477;outline-offset:4px}
 
 /* Discovery adds one quiet invitation and uses the storefront's established typefaces. */
 html body .sl-guide-invitation{max-width:1040px;margin:14px auto 28px;padding:26px 0;display:flex;align-items:center;justify-content:space-between;gap:28px;border-top:1px solid #cbb47729;border-bottom:1px solid #cbb47729;scroll-margin-top:110px}
