@@ -855,8 +855,8 @@ html body :is(.sl-guide-invitation>button,.sl-guide-close,.sl-guide-navigation b
  .sl-guide-option strong{font-size:.8125rem}.sl-guide-option>span>span{font-size:.71875rem}
  .sl-guide-results{gap:16px}
  .sl-guide-result{display:flex;overflow:hidden}
- .sl-guide-result-image{aspect-ratio:16/10;min-height:0;border-radius:0}
- .sl-guide-result-image img{object-position:center 45%}
+ .sl-guide-result-image{aspect-ratio:4/5;min-height:0;border-radius:0;background:#090807}
+ .sl-guide-result-image img{object-fit:contain;object-position:center}
  .sl-guide-result-copy{padding:19px 17px 17px}
  .sl-guide-result h4{font-size:29px}.sl-guide-result-profile{min-height:0;margin-bottom:14px}
  .sl-guide-result ul{font-size:.75rem;padding-left:0}
