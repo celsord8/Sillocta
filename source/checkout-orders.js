@@ -68,6 +68,29 @@
   }
   function validateField(input){input.setCustomValidity('');const message=fieldMessage(input);input.setCustomValidity(message);const valid=input.checkValidity();setCheckoutFieldError(input,valid?'':message||'Confira este campo.');return valid;}
   function deliveryTime(option){return option?.daysRange?option.daysRange[0]+' a '+option.daysRange[1]+' dias úteis após a postagem':'Prazo a confirmar';}
+  let revealTarget=null,revealFrame=null;
+  function alignCheckoutField(){
+    const input=revealTarget,drawer=byId('cart-drawer');
+    if(!input?.isConnected||!drawer?.classList.contains('open')||document.activeElement!==input)return;
+    const field=input.closest('.sl-field')||input,fieldRect=field.getBoundingClientRect(),inputRect=input.getBoundingClientRect(),drawerRect=drawer.getBoundingClientRect(),view=window.visualViewport;
+    const top=Math.max(drawerRect.top,view?.offsetTop||0)+20,bottom=Math.min(drawerRect.bottom,view?(view.offsetTop||0)+view.height:drawerRect.bottom)-24;
+    // Align the label, input and its error together. Never center against the
+    // pre-keyboard page or scroll the storefront behind this drawer.
+    const available=bottom-top,anchor=fieldRect.height<=available?fieldRect.top:inputRect.top;
+    drawer.scrollTo({top:Math.max(0,drawer.scrollTop+anchor-top),behavior:'instant'});
+  }
+  function queueFieldReveal(){
+    if(typeof requestAnimationFrame!=='function')return;
+    if(revealFrame!==null)cancelAnimationFrame(revealFrame);
+    revealFrame=requestAnimationFrame(()=>{revealFrame=requestAnimationFrame(()=>{revealFrame=null;alignCheckoutField();});});
+  }
+  function revealCheckoutField(input){
+    if(!input)return;revealTarget=input;
+    byId('cart-drawer')?.classList.toggle('sl-editing',true);
+    input.focus({preventScroll:true});
+    if(typeof requestAnimationFrame==='function')queueFieldReveal();else input.scrollIntoView({block:'start',behavior:'auto'});
+  }
+  window.visualViewport?.addEventListener('resize',()=>{if(revealTarget===document.activeElement)queueFieldReveal();},{passive:true});
   let stickyObserver;
   function syncCompactSummary(){
     const bar=byId('sillocta-compact-summary');if(!bar)return;
@@ -92,9 +115,9 @@
       const bar=document.createElement('div');bar.id='sillocta-compact-summary';bar.className='sl-compact-summary';bar.hidden=true;
       bar.innerHTML='<div><span id="sillocta-compact-label">Total sem frete</span><strong id="sillocta-compact-total"></strong></div><button type="button" id="sillocta-compact-action">Continuar</button>';
       byId('cart-drawer').appendChild(bar);
-      byId('sillocta-compact-action').addEventListener('click',()=>{if(!validCustomer())return;const target=byId(window._checkout.pagamento==='cartao'?'sillocta-card-submit':'checkout-finalize-btn');const region=byId('checkout-payment-title');(target&&!target.disabled?target:region)?.scrollIntoView({block:'center',behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});target?.focus({preventScroll:true});});
+      byId('sillocta-compact-action').addEventListener('click',()=>{if(!validCustomer())return;if(!checkoutQuote()){error('Consulte as opções de entrega para continuar.');revealCheckoutField(byId('checkout-cep'));loadPaymentShipping();return;}const target=byId(window._checkout.pagamento==='cartao'?'sillocta-card-submit':'checkout-finalize-btn');if(target&&!target.disabled){target.scrollIntoView({block:'center',behavior:'auto'});target.focus({preventScroll:true});}else{const region=byId('sillocta-card-payment')||byId('checkout-payment-title');region.scrollIntoView({block:'start',behavior:'auto'});}});
     }
-    const drawer=byId('cart-drawer');if(!drawer.dataset.convenience){drawer.dataset.convenience='true';const update=()=>{const active=document.activeElement;drawer.classList.toggle('sl-editing',!!active?.closest?.('#cart-drawer')&&active.matches('input,textarea,select,iframe,[contenteditable="true"]'));};drawer.addEventListener('focusin',update);drawer.addEventListener('focusout',()=>setTimeout(update,0));}
+    const drawer=byId('cart-drawer');if(!drawer.dataset.convenience){drawer.dataset.convenience='true';const update=()=>{const active=document.activeElement,editing=!!active?.closest?.('#cart-drawer')&&active.matches('input,textarea,select,iframe,[contenteditable="true"]');drawer.classList.toggle('sl-editing',editing);if(!editing)revealTarget=null;else if(active.matches('input,textarea,select')){revealTarget=active;queueFieldReveal();}};drawer.addEventListener('focusin',update);drawer.addEventListener('focusout',()=>setTimeout(update,0));}
     syncCompactSummary();
   }
   function captureDetails(){return {customer:cleanCustomer(window._checkout),items:cart.map(i=>({name:String(i.nome||'').slice(0,150),brand:String(i.marca||'').slice(0,100),volume:String(i.vol||''),quantity:i.qty})),shipping:paymentFlow.quote?.options?.find(o=>o.id===paymentFlow.selected)||null};}
@@ -155,7 +178,7 @@
       if(window._checkout[input.name]!==input.value.trim())window.syncCheckoutField(input.name,input.value.trim());
       if(!validateField(input)&&!first)first=input;
     }
-    if(first){error('Confira os campos indicados para continuar.');first.focus({preventScroll:true});first.scrollIntoView({block:'center',behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return false;}saveDraft();return true;
+    if(first){error('Confira os campos indicados para continuar.');revealCheckoutField(first);return false;}saveDraft();return true;
   }
   function disposeCard(){
     state.generation++;const old=state.controller;state.controller=null;state.cardMount=null;
@@ -163,7 +186,7 @@
     syncCardAction();
   }
   window.renderCart=function(){disposeCard();state.rendering=true;try{originalRender();syncCompactSummary();}finally{state.rendering=false;}};
-  window.closeCart=function(){saveDraft();disposeCard();stickyObserver?.disconnect();clearTimeout(state.countdown);return originalClose();};
+  window.closeCart=function(){saveDraft();revealTarget=null;disposeCard();stickyObserver?.disconnect();clearTimeout(state.countdown);return originalClose();};
   window.selectCheckoutPayment=function(mode){if(state.tokenizing){error('Aguarde a validação do cartão.');return false;}if(paymentFlow.submitting||state.attempt&&!state.result){error('Consulte ou repita o pagamento enviado antes de trocar a forma de pagamento.');return false;}if(state.result){if(!state.rendering)error('Este pedido já foi criado. Use “Iniciar outro pedido” para escolher outra forma de pagamento.');return false;}if(!['pix','cartao','boleto'].includes(mode))return false;if(paymentFlow.enabled&&state.renderedRegion===byId('sillocta-payment-form')&&state.renderedMethod===mode)return false;error('');originalSelect(mode);if(paymentFlow.enabled)renderMethod();return false;};
   function cardTimeout(promise,message='O formulário de cartão demorou a carregar. Tente novamente.'){let timer;return Promise.race([promise,new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(Object.assign(Error(message),{code:'card_timeout'})),20000);})]).finally(()=>clearTimeout(timer));}
   function loadSdk(){
@@ -282,7 +305,7 @@
     const quote=checkoutQuote();
     if(!quote){error('Atualize a entrega antes de continuar.');loadPaymentShipping();return;}
     const method=window._checkout.pagamento||'pix';if(method==='cartao'&&!card)return submitCard();
-    if(method==='boleto'&&!/^\d{11}$/.test(String(window._checkout.cpf||'').replace(/\D/g,''))){error('Informe um CPF com 11 números.');const input=byId('sillocta-cpf');if(input){setCheckoutFieldError(input,'Informe um CPF com 11 números.');input.focus();}return;}
+    if(method==='boleto'&&!/^\d{11}$/.test(String(window._checkout.cpf||'').replace(/\D/g,''))){error('Informe um CPF com 11 números.');const input=byId('sillocta-cpf');if(input){setCheckoutFieldError(input,'Informe um CPF com 11 números.');revealCheckoutField(input);}return;}
     state.attempt={...paymentCartData(),customer:{...window._checkout},quoteId:quote.quoteId,serviceId:quote.serviceId,requestKey:crypto.randomUUID(),method,...(card?{card}:{}),cpf:window._checkout.cpf};
     state.attemptDetails=captureDetails();
     state.attemptQuoteExpires=quote.expiresAt;
