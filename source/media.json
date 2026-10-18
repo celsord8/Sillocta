@@ -11,10 +11,26 @@
         "quality": 90
       },
       {
+        "url": "assets/responsive/campaign-aventus-480-142e9613c9cc.webp",
+        "width": 480,
+        "height": 175,
+        "bytes": 43954,
+        "quality": 94,
+        "psnr": 41.61
+      },
+      {
         "url": "assets/responsive/campaign-aventus-640-c448714794dd.webp",
         "width": 640,
         "bytes": 64352,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-aventus-800-64ec4b56c80f.webp",
+        "width": 800,
+        "height": 292,
+        "bytes": 121630,
+        "quality": 94,
+        "psnr": 42.0
       },
       {
         "url": "assets/responsive/campaign-aventus-960-4319e20f3639.webp",
@@ -41,10 +57,26 @@
         "quality": 90
       },
       {
+        "url": "assets/responsive/campaign-miss-dior-480-abc5f9ed425c.webp",
+        "width": 480,
+        "height": 268,
+        "bytes": 80122,
+        "quality": 94,
+        "psnr": 35.18
+      },
+      {
         "url": "assets/responsive/campaign-miss-dior-640-bb73c03b1013.webp",
         "width": 640,
         "bytes": 115806,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-miss-dior-800-2f973ca49c2c.webp",
+        "width": 800,
+        "height": 447,
+        "bytes": 196030,
+        "quality": 94,
+        "psnr": 38.6
       },
       {
         "url": "assets/responsive/campaign-miss-dior-960-30941c8e0678.webp",
@@ -71,10 +103,26 @@
         "quality": 90
       },
       {
+        "url": "assets/responsive/campaign-tobacco-vanille-480-b76152fe81da.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 64090,
+        "quality": 94,
+        "psnr": 38.5
+      },
+      {
         "url": "assets/responsive/campaign-tobacco-vanille-640-04a478ed0452.webp",
         "width": 640,
         "bytes": 76994,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-tobacco-vanille-800-864d72c653bf.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 142848,
+        "quality": 94,
+        "psnr": 41.89
       },
       {
         "url": "assets/campaign-tobacco-vanille.webp",
@@ -95,10 +143,26 @@
         "quality": 90
       },
       {
+        "url": "assets/responsive/campaign-libre-480-5f0f959c8d86.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 120500,
+        "quality": 94,
+        "psnr": 35.02
+      },
+      {
         "url": "assets/responsive/campaign-libre-640-85d99946cf2a.webp",
         "width": 640,
         "bytes": 173468,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-libre-800-15e1ef8078f0.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 317168,
+        "quality": 94,
+        "psnr": 37.04
       },
       {
         "url": "assets/campaign-libre.webp",
@@ -119,10 +183,26 @@
         "quality": 90
       },
       {
+        "url": "assets/responsive/campaign-naxos-480-4a3ea1d4ddbd.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 58276,
+        "quality": 94,
+        "psnr": 38.8
+      },
+      {
         "url": "assets/responsive/campaign-naxos-640-e1cd09a5cf7d.webp",
         "width": 640,
         "bytes": 75578,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-naxos-800-556d34c204ec.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 142938,
+        "quality": 94,
+        "psnr": 41.55
       },
       {
         "url": "assets/campaign-naxos.webp",
@@ -143,10 +223,26 @@
         "quality": 90
       },
       {
+        "url": "assets/responsive/campaign-irresistible-480-dbb9d8f879f5.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 41300,
+        "quality": 94,
+        "psnr": 42.73
+      },
+      {
         "url": "assets/responsive/campaign-irresistible-640-8c2ed6450a49.webp",
         "width": 640,
         "bytes": 45970,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/campaign-irresistible-800-9dc4646d9291.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 96850,
+        "quality": 94,
+        "psnr": 43.94
       },
       {
         "url": "assets/campaign-irresistible.webp",
@@ -165,6 +261,14 @@
         "width": 320,
         "bytes": 25384,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/img-masc-480-c5b1f9ce8a64.webp",
+        "width": 480,
+        "height": 596,
+        "bytes": 60346,
+        "quality": 94,
+        "psnr": 43.06
       },
       {
         "url": "assets/responsive/img-masc-640-3db59fd662d0.webp",
@@ -189,6 +293,14 @@
         "width": 320,
         "bytes": 25352,
         "quality": 90
+      },
+      {
+        "url": "assets/responsive/img-fem-480-4e465031b040.webp",
+        "width": 480,
+        "height": 596,
+        "bytes": 60426,
+        "quality": 94,
+        "psnr": 42.55
       },
       {
         "url": "assets/responsive/img-fem-640-ee870e0d7b49.webp",
@@ -581,6 +693,14 @@
         "psnr": 42.9
       },
       {
+        "url": "assets/responsive/perfume-14-640-0066456cd54a.webp",
+        "width": 640,
+        "height": 858,
+        "bytes": 70400,
+        "quality": 94,
+        "psnr": 45.26
+      },
+      {
         "url": "assets/perfume-14.jpg",
         "width": 806,
         "bytes": 154695
@@ -599,6 +719,14 @@
         "bytes": 26418,
         "quality": 94,
         "psnr": 42.45
+      },
+      {
+        "url": "assets/responsive/perfume-15-640-005bab6374ed.webp",
+        "width": 640,
+        "height": 794,
+        "bytes": 75166,
+        "quality": 94,
+        "psnr": 44.39
       },
       {
         "url": "assets/perfume-15.jpg",
@@ -621,6 +749,14 @@
         "psnr": 42.34
       },
       {
+        "url": "assets/responsive/perfume-16-640-090b64bad289.webp",
+        "width": 640,
+        "height": 794,
+        "bytes": 78732,
+        "quality": 94,
+        "psnr": 44.45
+      },
+      {
         "url": "assets/perfume-16.jpg",
         "width": 870,
         "bytes": 201206
@@ -639,6 +775,14 @@
         "bytes": 39726,
         "quality": 94,
         "psnr": 41.19
+      },
+      {
+        "url": "assets/responsive/perfume-17-640-e8cbb0c0ee49.webp",
+        "width": 640,
+        "height": 794,
+        "bytes": 113062,
+        "quality": 94,
+        "psnr": 43.67
       },
       {
         "url": "assets/perfume-17.jpg",
@@ -689,6 +833,14 @@
         "psnr": 41.76
       },
       {
+        "url": "assets/responsive/perfume-19-640-8df838eea4af.webp",
+        "width": 640,
+        "height": 794,
+        "bytes": 80812,
+        "quality": 94,
+        "psnr": 43.92
+      },
+      {
         "url": "assets/perfume-19.jpg",
         "width": 870,
         "bytes": 175708
@@ -707,6 +859,14 @@
         "bytes": 22290,
         "quality": 94,
         "psnr": 42.33
+      },
+      {
+        "url": "assets/responsive/perfume-20-640-fd921007c3c3.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 62462,
+        "quality": 94,
+        "psnr": 44.18
       },
       {
         "url": "assets/perfume-20.jpg",
@@ -729,6 +889,14 @@
         "psnr": 41.93
       },
       {
+        "url": "assets/responsive/perfume-21-640-42a429a78cc1.webp",
+        "width": 640,
+        "height": 794,
+        "bytes": 98106,
+        "quality": 94,
+        "psnr": 43.74
+      },
+      {
         "url": "assets/perfume-21.jpg",
         "width": 870,
         "bytes": 250175
@@ -747,6 +915,14 @@
         "bytes": 26984,
         "quality": 94,
         "psnr": 42.01
+      },
+      {
+        "url": "assets/responsive/perfume-22-640-48267e144244.webp",
+        "width": 640,
+        "height": 794,
+        "bytes": 83792,
+        "quality": 94,
+        "psnr": 44.17
       },
       {
         "url": "assets/perfume-22.jpg",
@@ -769,6 +945,14 @@
         "psnr": 41.81
       },
       {
+        "url": "assets/responsive/perfume-23-640-63e21ee4a7f2.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 61358,
+        "quality": 94,
+        "psnr": 44.25
+      },
+      {
         "url": "assets/perfume-23.jpg",
         "width": 1024,
         "bytes": 141305
@@ -787,6 +971,14 @@
         "bytes": 20804,
         "quality": 94,
         "psnr": 42.2
+      },
+      {
+        "url": "assets/responsive/perfume-24-640-cf8a4f2b14e9.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 61148,
+        "quality": 94,
+        "psnr": 44.66
       },
       {
         "url": "assets/perfume-24.jpg",
@@ -809,6 +1001,14 @@
         "psnr": 41.19
       },
       {
+        "url": "assets/responsive/perfume-25-640-4c272914b9af.webp",
+        "width": 640,
+        "height": 794,
+        "bytes": 72378,
+        "quality": 94,
+        "psnr": 44.2
+      },
+      {
         "url": "assets/perfume-25.jpg",
         "width": 870,
         "bytes": 185925
@@ -827,6 +1027,14 @@
         "bytes": 23368,
         "quality": 94,
         "psnr": 41.09
+      },
+      {
+        "url": "assets/responsive/perfume-26-640-4d51b809f752.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 67348,
+        "quality": 94,
+        "psnr": 43.91
       },
       {
         "url": "assets/perfume-26.jpg",

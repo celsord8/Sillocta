@@ -141,7 +141,7 @@
       result={...result};
       for(const key of ['digitableLine','ticketUrl','qrCode','qrImage','paymentExpiresAt'])if(result[key]==null&&previous[key]!=null)result[key]=previous[key];
     }
-    state.result=result;if(Number.isFinite(result.serverTime))state.clockOffset=result.serverTime-Date.now();
+    state.result=result;window.SilloctaMetrics?.paymentResult(result);if(Number.isFinite(result.serverTime))state.clockOffset=result.serverTime-Date.now();
   }
   function checkoutQuote(){
     const quote=paymentFlow.quote;if(!quote||quote.expiresAt<=Date.now())return null;

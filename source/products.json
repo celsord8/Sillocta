@@ -782,6 +782,14 @@
           "psnr": 42.9
         },
         {
+          "url": "assets/responsive/perfume-14-640-0066456cd54a.webp",
+          "width": 640,
+          "height": 858,
+          "bytes": 70400,
+          "quality": 94,
+          "psnr": 45.26
+        },
+        {
           "url": "assets/perfume-14.jpg",
           "width": 806,
           "bytes": 154695
@@ -829,6 +837,14 @@
           "bytes": 26418,
           "quality": 94,
           "psnr": 42.45
+        },
+        {
+          "url": "assets/responsive/perfume-15-640-005bab6374ed.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 75166,
+          "quality": 94,
+          "psnr": 44.39
         },
         {
           "url": "assets/perfume-15.jpg",
@@ -880,6 +896,14 @@
           "psnr": 42.34
         },
         {
+          "url": "assets/responsive/perfume-16-640-090b64bad289.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 78732,
+          "quality": 94,
+          "psnr": 44.45
+        },
+        {
           "url": "assets/perfume-16.jpg",
           "width": 870,
           "bytes": 201206
@@ -927,6 +951,14 @@
           "bytes": 39726,
           "quality": 94,
           "psnr": 41.19
+        },
+        {
+          "url": "assets/responsive/perfume-17-640-e8cbb0c0ee49.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 113062,
+          "quality": 94,
+          "psnr": 43.67
         },
         {
           "url": "assets/perfume-17.jpg",
@@ -1035,6 +1067,14 @@
           "psnr": 41.76
         },
         {
+          "url": "assets/responsive/perfume-19-640-8df838eea4af.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 80812,
+          "quality": 94,
+          "psnr": 43.92
+        },
+        {
           "url": "assets/perfume-19.jpg",
           "width": 870,
           "bytes": 175708
@@ -1082,6 +1122,14 @@
           "bytes": 22290,
           "quality": 94,
           "psnr": 42.33
+        },
+        {
+          "url": "assets/responsive/perfume-20-640-fd921007c3c3.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 62462,
+          "quality": 94,
+          "psnr": 44.18
         },
         {
           "url": "assets/perfume-20.jpg",
@@ -1133,6 +1181,14 @@
           "psnr": 41.93
         },
         {
+          "url": "assets/responsive/perfume-21-640-42a429a78cc1.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 98106,
+          "quality": 94,
+          "psnr": 43.74
+        },
+        {
           "url": "assets/perfume-21.jpg",
           "width": 870,
           "bytes": 250175
@@ -1180,6 +1236,14 @@
           "bytes": 26984,
           "quality": 94,
           "psnr": 42.01
+        },
+        {
+          "url": "assets/responsive/perfume-22-640-48267e144244.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 83792,
+          "quality": 94,
+          "psnr": 44.17
         },
         {
           "url": "assets/perfume-22.jpg",
@@ -1231,6 +1295,14 @@
           "psnr": 41.81
         },
         {
+          "url": "assets/responsive/perfume-23-640-63e21ee4a7f2.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 61358,
+          "quality": 94,
+          "psnr": 44.25
+        },
+        {
           "url": "assets/perfume-23.jpg",
           "width": 1024,
           "bytes": 141305
@@ -1278,6 +1350,14 @@
           "bytes": 20804,
           "quality": 94,
           "psnr": 42.2
+        },
+        {
+          "url": "assets/responsive/perfume-24-640-cf8a4f2b14e9.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 61148,
+          "quality": 94,
+          "psnr": 44.66
         },
         {
           "url": "assets/perfume-24.jpg",
@@ -1329,6 +1409,14 @@
           "psnr": 41.19
         },
         {
+          "url": "assets/responsive/perfume-25-640-4c272914b9af.webp",
+          "width": 640,
+          "height": 794,
+          "bytes": 72378,
+          "quality": 94,
+          "psnr": 44.2
+        },
+        {
           "url": "assets/perfume-25.jpg",
           "width": 870,
           "bytes": 185925
@@ -1376,6 +1464,14 @@
           "bytes": 23368,
           "quality": 94,
           "psnr": 41.09
+        },
+        {
+          "url": "assets/responsive/perfume-26-640-4d51b809f752.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 67348,
+          "quality": 94,
+          "psnr": 43.91
         },
         {
           "url": "assets/perfume-26.jpg",

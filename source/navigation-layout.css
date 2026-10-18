@@ -78,3 +78,28 @@ body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-f
 body:not(.collection-view) #parallax-hero,body:not(.collection-view) #parallax-fem{height:24vh!important;min-height:140px!important}
   .wa{width:54px!important;height:54px!important}
 }
+
+/* Primary actions have an unmistakable gold surface; secondary controls stay quiet. */
+html body #hero-txt>button,
+html body .perfume-grid .card .btn-buy,
+html body .sl-product-page .sl-product-primary{
+  background:#cbb477!important;background-image:none!important;
+  color:#17130c!important;border:1px solid #dfc994!important;
+  font-weight:500!important;box-shadow:none!important;filter:none!important;
+  transition:background-color .18s ease,border-color .18s ease,color .18s ease!important;
+}
+html body #hero-txt>button:hover,
+html body .perfume-grid .card .btn-buy:hover,
+html body .sl-product-page .sl-product-primary:hover:not(:disabled){
+  background:#dfc994!important;color:#17130c!important;border-color:#ebd8af!important;
+}
+html body #hero-txt>button:focus-visible,
+html body .perfume-grid .card .btn-buy:focus-visible,
+html body .sl-product-page .sl-product-primary:focus-visible{
+  outline:2px solid #f3e0b5!important;outline-offset:4px!important;
+}
+html body .sl-product-page .sl-product-bag{color:#dfc994}
+@media(prefers-reduced-motion:reduce){
+  html body #hero-txt>button,html body .perfume-grid .card .btn-buy,
+  html body .sl-product-page .sl-product-primary{transition:none!important}
+}
