@@ -2,6 +2,10 @@
    The drawer may shrink for the keyboard; the storefront must never show
    through the remaining area or during Safari toolbar/overscroll changes. */
 @media(max-width:768px){
+ html.sl-checkout-open,html body.sl-checkout-open{background:#080707!important}
+ /* Safari may sample page pixels behind translucent browser chrome, outside
+    the visual viewport. Remove the storefront from that backing entirely. */
+ html body.sl-checkout-open>:not(#cart-drawer):not(#cart-overlay):not(script):not(style){visibility:hidden!important;opacity:0!important}
  html body #cart-overlay.open{background:#080707!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;top:0!important;bottom:auto!important;height:100vh;height:100lvh;min-height:100dvh;overscroll-behavior:none}
  html body #cart-drawer{border-radius:0!important}
  html body #cart-drawer-head{padding-top:calc(22px + env(safe-area-inset-top))!important}
