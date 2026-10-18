@@ -7,11 +7,15 @@ export function deploymentMetadata(env={}){
     if(url.protocol!=='https:'||url.username||url.password||url.pathname!=='/'||url.search||url.hash)throw Error('PUBLIC_SITE_URL must be a bare HTTPS origin');
     origin=url.origin;
   }
-  return {origin,preview:env.VERCEL_ENV==='preview'};
+  const preview=env.VERCEL_ENV==='preview';
+  // The owner uses this stable review branch for public SEO audits. Other
+  // preview branches keep their existing search exclusion by default.
+  const indexable=!preview||env.VERCEL_GIT_COMMIT_REF==='preview/mercado-pago-orders';
+  return {origin,preview,indexable};
 }
 const xmlEscape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
-export function seoFiles({origin,preview},routes){
-  if(preview)return {robots:'User-agent: *\nDisallow: /\n',sitemap:null};
+export function seoFiles({origin,preview,indexable=!preview},routes){
+  if(!indexable)return {robots:'User-agent: *\nDisallow: /\n',sitemap:null};
   return {
     robots:'User-agent: *\nAllow: /\nDisallow: /api/\n'+(origin?'Sitemap: '+origin+'/sitemap.xml\n':''),
     sitemap:origin?'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+['/',...routes].map(route=>'  <url><loc>'+xmlEscape(origin+route)+'</loc></url>').join('\n')+'\n</urlset>\n':null
@@ -19,10 +23,10 @@ export function seoFiles({origin,preview},routes){
 }
 
 const jsonLD=value=>JSON.stringify(value).replace(/</g,'\\u003c');
-export function pageMetadata({origin,preview},route,product){
+export function pageMetadata({origin,preview,indexable=!preview},route,product){
  const title=product?`${product.name} · ${product.brand} | Sillocta`:'Sillocta | Maison de Decants';
  const description=product?`${product.name} de ${product.brand}, em decants de 5 e 10 ml. ${product.description}`:'Explore perfumes originais em decants de 5 e 10 ml. Descubra notas, compare fragrâncias e encontre sua seleção na Sillocta Maison de Decants.';
- let html=(origin?`<link rel="canonical" href="${xmlEscape(origin+route)}">`:'')+(preview?'<meta name="robots" content="noindex, nofollow">':'');
+ let html=(origin?`<link rel="canonical" href="${xmlEscape(origin+route)}">`:'')+(indexable?'<meta name="robots" content="index, follow">':'<meta name="robots" content="noindex, nofollow">');
  const image=product?'/'+product.image:'/assets/campaign-aventus.webp';
  for(const [key,value] of Object.entries({'og:type':product?'product':'website','og:locale':'pt_BR','og:site_name':'Sillocta','og:title':title,'og:description':description,...(origin?{'og:url':origin+route,'og:image':origin+image}:{}),'og:image:alt':product?`${product.brand} ${product.name} — frasco original de referência`:'Sillocta Maison de Decants','twitter:card':'summary_large_image','twitter:title':title,'twitter:description':description,...(origin?{'twitter:image':origin+image}:{})}))html+=`<meta ${key.startsWith('og:')?'property':'name'}="${key}" content="${xmlEscape(value)}">`;
  if(!origin)return html;

@@ -15,7 +15,7 @@ if(new Set(routes).size!==products.length)throw Error('Duplicate perfume URL');
 
 const metadata=deploymentMetadata(process.env);
 const {origin,preview}=metadata;
-const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata({origin,preview},route,product)+'</head>');
+const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata(metadata,route,product)+'</head>');
 
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const originalHome=readFileSync(path.join(source,'index.html'),'utf8');
