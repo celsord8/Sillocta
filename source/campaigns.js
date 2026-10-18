@@ -26,12 +26,15 @@
     indexes.set(clone,indexes.get(card));
     return clone;
   };
-  const before=cards.map(duplicate),after=cards.map(duplicate);
-  for(const clone of before)track.insertBefore(clone,cards[0]);
-  for(const clone of after)track.appendChild(clone);
-  const copies=[...before,...after],all=[...before,...cards,...after];
+  // Append both extra runs. The original first image stays at scrollLeft=0
+  // while it paints; recenter only when browsing needs the backward runway.
+  const after=cards.map(duplicate),tail=cards.map(duplicate);
+  for(const clone of [...after,...tail])track.appendChild(clone);
+  const copies=[...after,...tail],all=[...cards,...after,...tail];
   let pending=false,layoutPending=false,timer=0,preloadTimer=0,settleTimer=0;
-  let hovered=false,focused=false,pressed=false,manualUntil=0,looping=false,origin=0,period=0;
+  let hovered=false,focused=false,pressed=false,manualUntil=0,looping=false,centered=false,origin=0,period=0;
+  const positions=new Map();
+  let shown=[];
   const measureView=()=>{
     const rect=root.getBoundingClientRect?.();
     const height=window.innerHeight||document.documentElement?.clientHeight;
@@ -39,8 +42,8 @@
   };
   let inView=measureView();
   const active=()=>Math.max(0,buttons.findIndex(button=>button.getAttribute('aria-pressed')==='true'));
-  const offset=card=>track.scrollLeft+card.getBoundingClientRect().left-track.getBoundingClientRect().left;
-  const visible=()=>all.filter(card=>!card.hidden);
+  const offset=card=>positions.get(card)??0;
+  const visible=()=>shown;
   const nearest=()=>{
     const shown=visible();
     return shown.reduce((best,card)=>Math.abs(offset(card)-track.scrollLeft)<Math.abs(offset(best)-track.scrollLeft)?card:best,shown[0]);
@@ -66,7 +69,13 @@
     if(!card)return;
     track.scrollTo({left:offset(card),behavior:reduced.matches?'instant':'smooth'});
   };
+  const center=()=>{
+    if(!looping||centered)return;
+    centered=true;origin=period;
+    jump(track.scrollLeft+period);
+  };
   const step=direction=>{
+    if(direction<0)center();
     const shown=visible(),current=shown.indexOf(nearest());
     move(shown[Math.max(0,Math.min(shown.length-1,current+direction))]);
   };
@@ -92,7 +101,7 @@
       step(1);queueAutoplay();
     },delay);
   };
-  const manual=()=>{manualUntil=Date.now()+7000;queueAutoplay();};
+  const manual=()=>{center();manualUntil=Date.now()+7000;queueAutoplay();};
   const update=()=>{
     pending=false;
     const current=indexes.get(nearest())??0;
@@ -109,9 +118,16 @@
     const current=active(),first=cards[0].getBoundingClientRect(),last=cards.at(-1).getBoundingClientRect();
     looping=cards.length>1&&last.right-first.left>track.clientWidth+1;
     copies.forEach(card=>{card.hidden=!looping;});
-    origin=offset(cards[0]);
-    period=looping?offset(after[0])-origin:0;
-    jump(looping?offset(cards[current]):0);
+    // Read geometry once per layout, before writing scroll/active styles.
+    const left=track.getBoundingClientRect().left,scroll=track.scrollLeft;
+    shown=all.filter(card=>!card.hidden);
+    positions.clear();
+    shown.forEach(card=>positions.set(card,scroll+card.getBoundingClientRect().left-left));
+    period=looping?offset(after[0])-offset(cards[0]):0;
+    if(!looping)centered=false;
+    origin=centered?period:0;
+    const target=looping?offset(cards[current])+origin:0;
+    if(Math.abs(target-track.scrollLeft)>.5)jump(target);
     update();queueAutoplay();
   };
   const resize=()=>{if(!layoutPending){layoutPending=true;requestAnimationFrame(layout);}};

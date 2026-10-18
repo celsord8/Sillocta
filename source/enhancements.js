@@ -14,19 +14,20 @@ const byId=id=>document.getElementById(id);
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const brl=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v/100);
 const motion=()=>!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-// Move the existing controls, preserving their state, keyboard access and URLs.
-// The marker restores their original desktop position when the screen widens.
+// Mobile artwork is already in its final position in the delivered HTML.
+// Only desktop needs to restore the original position before the catalog.
 function initializeMobileHero(){
   const hero=byId('hero'),copy=byId('hero-txt'),collections=byId('colecao-selector'),campaigns=byId('catalog-campaigns');
   if(!hero||!copy||!collections)return;
   if(collections.getAttribute?.('data-hero-layout-ready')==='true')return;
-  const home=document.createComment('Sillocta collection controls: desktop position');
-  collections.before(home);
+  const home=byId('sl-collection-desktop');
+  if(!home)return;
   const mobile=window.matchMedia('(max-width:720px)');
   const placeCollections=()=>{
-    if(mobile.matches)hero.insertBefore(collections,copy);
-    else home.after(collections);
-    if(campaigns)collections.after(campaigns);
+    if(mobile.matches){
+      if(collections.parentNode!==hero)hero.insertBefore(collections,copy);
+    }else if(collections.parentNode!==home.parentNode)home.after(collections);
+    if(campaigns&&collections.nextElementSibling!==campaigns)collections.after(campaigns);
   };
   placeCollections();
   collections.setAttribute?.('data-hero-layout-ready','true');
