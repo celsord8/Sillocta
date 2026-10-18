@@ -35,7 +35,7 @@ export function criticalStyles(css,{detail=false}={}){
  // A first-paint-only important layer prevents hundreds of color/border
  // transitions when the complete CSS arrives. Important layered declarations
  // outrank legacy unlayered !important rules without specificity tricks.
- const safety='[aria-hidden="true"]:is(#cart-drawer,#cart-overlay,#mobile-menu-drawer,#mobile-menu-overlay,#footer-info-overlay){visibility:hidden}@layer sl-first-paint{html:not(.sl-styles-ready) *,html:not(.sl-styles-ready) *::before,html:not(.sl-styles-ready) *::after{transition:none!important}}';
+ const safety='[aria-hidden="true"]:is(#cart-drawer,#cart-overlay,#mobile-menu-drawer,#mobile-menu-overlay,#footer-info-overlay){visibility:hidden}@layer sl-first-paint{html:not(.sl-styles-ready) *,html:not(.sl-styles-ready) *::before,html:not(.sl-styles-ready) *::after,html:not(.sl-layout-ready) body:not(.sl-detail-view) *,html:not(.sl-layout-ready) body:not(.sl-detail-view) *::before,html:not(.sl-layout-ready) body:not(.sl-detail-view) *::after{transition:none!important}}';
  return compactStyles(tree.toString()+safety);
 }
 
@@ -61,6 +61,10 @@ export function campaignPreload(html){
 // anchor/listener when enhancements.js runs or when the viewport changes.
 export function revealFirstScreen(){
  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  // A fast full-CSS response can arrive before the inline mobile/carousel
+  // initializer. Keep its initial transforms instant until both layout frames
+  // have painted, rather than replaying a transition on the largest image.
+  document.documentElement?.classList.add('sl-layout-ready');
   const opening=document.getElementById('preloader');
   if(!opening)return;
   opening.classList.add('hide');
