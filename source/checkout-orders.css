@@ -165,3 +165,50 @@ html body #cart-drawer.sl-orders-checkout .sl-payment-result :is(.sl-result-capt
 html body #cart-drawer.sl-orders-checkout .sl-summary-row{font-size:12px!important;line-height:1.8!important}
 @media(max-width:768px){html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea){font-size:16px!important;min-height:48px!important}html body #cart-drawer.sl-orders-checkout #cart-items{padding-inline:22px!important}html body #cart-drawer.sl-orders-checkout .sl-checkout-block{padding-bottom:24px!important;margin-bottom:22px!important}}
 @media(max-width:380px){html body #cart-drawer.sl-orders-checkout #cart-items{padding-inline:18px!important}html body #cart-drawer.sl-orders-checkout .sl-city-fields{grid-template-columns:minmax(0,1fr) 76px;gap:12px}}
+
+/* Maison finish: a continuous reading surface, with gold reserved for decisions. */
+html body #cart-drawer.sl-orders-checkout{--sl-checkout-line:#cbb47724;--sl-checkout-copy:#c9bfae;background:#0c0b0a!important}
+html body #cart-drawer.sl-orders-checkout #cart-drawer-head{padding-inline:28px!important;padding-top:calc(24px + env(safe-area-inset-top))!important;padding-bottom:20px!important;border-bottom:1px solid #ffffff0e!important}
+html body #cart-drawer.sl-orders-checkout #cart-drawer-head>p{font-size:30px!important;line-height:1.15!important;color:#eee5d6!important;letter-spacing:.01em}
+html body #cart-drawer.sl-orders-checkout #cart-items{padding-top:24px!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-wrap{gap:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;padding:0!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-intro{border:0!important;background:transparent!important;box-shadow:none!important;padding:0 0 26px!important;margin:0!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-service{color:#c8b68f!important;font-size:10px!important;letter-spacing:.12em!important;line-height:1.7!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-intro>p{color:var(--sl-checkout-copy)!important;margin-top:10px!important;font-size:13px!important;line-height:1.85!important;max-width:34em}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-block{border:0!important;padding:26px 0!important;margin:0!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-block[aria-labelledby="checkout-items-title"]{padding:0 0 24px!important;border-bottom:1px solid var(--sl-checkout-line)!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-kicker{display:flex;align-items:center;gap:10px;margin-bottom:20px!important;color:#e2d7c4!important;font-size:15px!important;line-height:1.5!important;letter-spacing:.015em!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-step{flex:none;width:22px;height:auto;border:0;border-radius:0;margin:0;color:#cbb477;font-size:10px;letter-spacing:.08em}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-item{padding:16px 0!important;border:0!important;gap:16px!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-item+.sl-checkout-item{border-top:1px solid #ffffff0c!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-thumb{border:1px solid #ffffff12!important;border-radius:4px!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-brand{color:#b9af9f!important;letter-spacing:.1em!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-name{color:#eee4d3!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-field-note,.sl-note,.sl-shipping-note,.sl-checkout-meta){color:var(--sl-checkout-copy)!important;line-height:1.85!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-contact-fields,.sl-address-fields){gap:20px!important}
+html body #cart-drawer.sl-orders-checkout .sl-label{color:#e2d8c8!important;margin-bottom:8px!important;letter-spacing:.01em!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea){min-height:50px!important;padding:13px 14px!important;border:1px solid #ffffff26!important;border-radius:4px!important;background:#ffffff03!important;box-shadow:none!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea):focus{border-color:#cbb477!important;background:#ffffff05!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea)::placeholder{color:#aca292!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-qty,.sl-coupon-btn,.sl-pay-btn,.sl-shipping-choice,.sl-checkout-primary){border-radius:4px!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-optional>summary{min-height:52px;color:#d1c5b1}
+html body #cart-drawer.sl-orders-checkout .sl-optional-block{padding:0!important}
+html body #cart-drawer.sl-orders-checkout .sl-address-complement{border:0}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn{min-height:108px!important;border-color:#ffffff24!important}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn.is-on{border-color:#cbb477!important;background:#cbb4770b!important}
+html body #cart-drawer.sl-orders-checkout .sl-payment-choice-copy small{color:#c3b8a5}
+html body #cart-drawer.sl-orders-checkout .sl-order-summary{border:0!important;border-top:1px solid var(--sl-checkout-line)!important;border-bottom:1px solid var(--sl-checkout-line)!important;background:transparent!important;padding:24px 0!important;margin:24px 0 0!important}
+html body #cart-drawer.sl-orders-checkout .sl-summary-row{color:#c9bfae!important;line-height:1.9!important}
+html body #cart-drawer.sl-orders-checkout .sl-summary-row.total{border:0!important;margin-top:14px!important;padding-top:8px!important;color:#eee4d3!important}
+html body #cart-drawer.sl-orders-checkout .sl-summary-row.total strong{font-size:24px!important;color:#dec899!important;font-weight:400!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-actions{margin-top:24px!important;gap:12px!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-primary{min-height:52px!important;background:#cbb477!important;border-color:#cbb477!important;font-weight:500!important;letter-spacing:.025em!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-security{border:0!important;margin-top:18px;padding-top:0;color:var(--sl-checkout-copy)}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-security>summary{font-size:12px;line-height:1.8}
+@media(max-width:768px){
+ html body #cart-drawer.sl-orders-checkout #cart-drawer-head{padding-inline:22px!important}
+ html body #cart-drawer.sl-orders-checkout #cart-drawer-head>p{font-size:28px!important}
+ html body #cart-drawer.sl-orders-checkout .sl-checkout-block{padding-block:24px!important}
+}
+@media(max-width:480px){html body #cart-drawer.sl-orders-checkout .sl-pay-btn{min-height:76px!important}}
+@media(max-width:380px){html body #cart-drawer.sl-orders-checkout #cart-drawer-head{padding-inline:18px!important}html body #cart-drawer.sl-orders-checkout .sl-checkout-item{gap:12px!important}}
