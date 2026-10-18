@@ -14,21 +14,27 @@ test('Mobile checkout freezes the background once and restores the original page
  vm.runInContext(source.slice(source.indexOf('let checkoutPageLock=null;'),source.indexOf('function setPanel(')),context);
  panels.get('cart-drawer').classList.toggle('open',true);context.lockPage();
  assert.equal(body.style.position,'fixed');assert.equal(body.style.top,'-724px');
+ assert.equal(body.classList.contains('sl-checkout-open'),true);
  context.window.scrollY=0;context.lockPage();
  panels.get('cart-drawer').classList.toggle('open',false);context.lockPage();
  assert.equal(body.style.position,'');assert.equal(body.style.top,'');assert.equal(body.style.width,'');
  assert.equal(scrolls.length,1);assert.equal(scrolls[0].top,724);
  assert.equal(body.style.overflow,'');
+ assert.equal(body.classList.contains('sl-checkout-open'),false);
 });
 
 test('Checkout covers fractional visual viewport edges and resizes for the keyboard',()=>{
  const properties=new Map(),drawer={classList:classes(),style:{setProperty:(key,value)=>properties.set(key,value)}};
- const context={byId:()=>drawer,window:{visualViewport:{height:642.35,offsetTop:12.8}}};
+ const context={byId:()=>drawer,document:{activeElement:{matches:()=>false}},window:{innerHeight:800,visualViewport:{height:642.35,offsetTop:12.8}}};
  vm.createContext(context);
  vm.runInContext(source.slice(source.indexOf('function syncCheckoutViewport(){'),source.indexOf("window.visualViewport?.addEventListener('resize'")),context);
  context.syncCheckoutViewport();assert.equal(properties.size,0);
  drawer.classList.toggle('open',true);context.syncCheckoutViewport();
+ assert.equal(properties.get('--sl-checkout-top'),'0px');assert.equal(properties.get('--sl-checkout-height'),'100dvh');
+ context.document.activeElement.matches=()=>true;context.syncCheckoutViewport();
  assert.equal(properties.get('--sl-checkout-top'),'12px');assert.equal(properties.get('--sl-checkout-height'),'644px');
  context.window.visualViewport={height:310.2,offsetTop:114.3};context.syncCheckoutViewport();
  assert.equal(properties.get('--sl-checkout-top'),'114px');assert.equal(properties.get('--sl-checkout-height'),'311px');
+ context.document.activeElement.matches=()=>false;context.syncCheckoutViewport();
+ assert.equal(properties.get('--sl-checkout-top'),'0px');assert.equal(properties.get('--sl-checkout-height'),'100dvh');
 });
