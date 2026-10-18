@@ -14,6 +14,11 @@ test('The fully styled first screen reveals after two layout frames without wait
  vm.runInContext('('+revealFirstScreen.toString()+')()',context);
  assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,['hide']);assert.equal(opening.hidden,false);assert.equal(timers[0].ms,450);timers[0].fn();assert.equal(opening.hidden,true);
  const html=read('public/index.html');assert.ok(html.includes(revealFirstScreen.toString()));assert.ok(html.indexOf('id="sl-critical-styles"')<html.indexOf('id="sl-layout-bootstrap"'));
+ const bootstrap=html.match(/<script id="sl-layout-bootstrap">([\s\S]*?)<\/script>/)[1];
+ const campaign=read('source/campaigns.js');
+ const initializer=campaign.slice(campaign.indexOf('function initializeCampaigns(){'),campaign.indexOf("\n  if(document.readyState==="));
+ assert.ok(bootstrap.includes(initializer));
+ assert.ok(bootstrap.indexOf(';initializeCampaigns();')<bootstrap.indexOf('('+revealFirstScreen.toString()+')()'));
 });
 
 test('Opening screen waits for settled styles and has a bounded failure fallback',()=>{
