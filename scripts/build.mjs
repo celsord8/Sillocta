@@ -4,6 +4,7 @@ import path from 'node:path';
 import {consolidateStyles,compactStyles} from './styles.mjs';
 import {iconStyles,installCriticalStyles,campaignPreload,installHeroBootstrap} from './loading.mjs';
 import {deploymentMetadata,seoFiles,pageMetadata} from './site-metadata.mjs';
+import {measurementMetadata} from './measurement.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const source=path.join(root,'source'),output=path.join(root,'public');
@@ -15,7 +16,7 @@ if(new Set(routes).size!==products.length)throw Error('Duplicate perfume URL');
 
 const metadata=deploymentMetadata(process.env);
 const {origin,preview}=metadata;
-const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata(metadata,route,product)+'</head>');
+const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata(metadata,route,product)+measurementMetadata(process.env)+'</head>');
 
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const originalHome=readFileSync(path.join(source,'index.html'),'utf8');
@@ -30,7 +31,7 @@ const shell=(home.slice(0,heroStart)+'<!-- SILLOCTA_PRODUCT_DETAIL -->'+home.sli
 
 rmSync(output,{recursive:true,force:true});
 mkdirSync(path.join(output,'perfume'),{recursive:true});
-for(const name of ['enhancements.css','enhancements.js','product-pages.css','product-pages.js','products.json','campaigns.css','campaigns.js','campaigns.json','navigation.js','discovery.js','media.json','checkout-orders.js','checkout-orders.css','assets'])cpSync(path.join(source,name),path.join(output,name),{recursive:true});
+for(const name of ['measurement.js','enhancements.css','enhancements.js','product-pages.css','product-pages.js','products.json','campaigns.css','campaigns.js','campaigns.json','navigation.js','discovery.js','media.json','checkout-orders.js','checkout-orders.css','assets'])cpSync(path.join(source,name),path.join(output,name),{recursive:true});
 const styles=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'].map(name=>readFileSync(path.join(source,name),'utf8'));
 const icons=iconStyles(JSON.parse(readFileSync(path.join(source,'icons.json'),'utf8')));
 const bundled=consolidateStyles(icons+'\n'+styles.join('\n'));
