@@ -269,7 +269,7 @@ function applyCoupon(){const code=(byId('coupon-input').value||'').trim().toUppe
 function toggleGift(){window._giftWrap=!window._giftWrap;persistBag();renderCart();return false;}
 function setCheckoutFieldError(input,message){input.setAttribute('aria-invalid',String(!!message));input.closest('.sl-field').classList.toggle('is-invalid',!!message);const note=byId('field-error-'+input.name);if(note){note.textContent=message;note.hidden=!message;}}
 function renderCart(){
-  const drawer=byId('cart-drawer'),scroll=drawer.scrollTop,focusId=document.activeElement?.id,focusKey=document.activeElement?.dataset?.focusKey,hadCartFocus=!!document.activeElement?.closest?.('#cart-drawer');
+  const drawer=byId('cart-drawer'),open=drawer.classList.contains('open'),scroll=open?drawer.scrollTop:0,focusId=document.activeElement?.id,focusKey=document.activeElement?.dataset?.focusKey,hadCartFocus=!!document.activeElement?.closest?.('#cart-drawer');
   const totals=getTotals(),changed=lastRenderedTotal!==null&&lastRenderedTotal!==totals.total;lastRenderedTotal=totals.total;
   window._couponDiscount=totals.discount/100;_renderCartLayout();persistBag();
   document.querySelectorAll('#cart-items input[oninput*="syncCheckoutField"]').forEach(input=>{
@@ -285,7 +285,7 @@ function renderCart(){
   }
   const restore=focusId?byId(focusId):focusKey&&/^[a-z\d-]+$/i.test(focusKey)?document.querySelector(`[data-focus-key="${focusKey}"]`):null;
   const restored=restore&&!restore.disabled?restore:restore?.closest?.('.sl-qty')?.querySelector?.('button:not([disabled])')||(hadCartFocus?drawer.querySelector('button:not([disabled]),a,input'):null);
-  restored?.focus({preventScroll:true});drawer.scrollTop=scroll;
+  restored?.focus({preventScroll:true});if(open)drawer.scrollTop=scroll;
   if(changed&&drawer.classList.contains('open'))byId('checkout-announcement').textContent=`${totals.freeShipping?'Total':'Total sem frete'}: ${brl(totals.total)}`;
 }
 function updateCepUI(message=cepMessage,busy=cepBusy){cepMessage=message;cepBusy=busy;const note=byId('cep-status'),input=byId('checkout-cep');if(note)note.textContent=message;if(input)input.setAttribute('aria-busy',String(busy));}
@@ -620,10 +620,13 @@ byId('sl-toast').addEventListener('focusout',scheduleToastDismiss);
 byId('sl-toast').addEventListener('mouseenter',()=>clearTimeout(toastTimer));
 byId('sl-toast').addEventListener('mouseleave',scheduleToastDismiss);
 if('IntersectionObserver' in window&&motion()){
-  revealObserver=new IntersectionObserver(entries=>entries.forEach(({target,isIntersecting})=>{if(isIntersecting){target.classList.remove('sl-pending');target.classList.add('sl-in');revealObserver.unobserve(target);}}),{threshold:.08,rootMargin:'0px 0px 70px 0px'});
-  // Read every position before changing any styles: one layout, not one per card.
-  const initialCards=[...document.querySelectorAll('.card')].map(card=>({card,below:card.getBoundingClientRect().top>window.innerHeight}));
-  initialCards.forEach(({card,below},i)=>{card.style.transitionDelay=(i%2)*65+'ms';if(below){card.classList.add('sl-pending');revealObserver.observe(card);}});
+  revealObserver=new IntersectionObserver(entries=>entries.forEach(({target,isIntersecting,boundingClientRect})=>{
+    if(isIntersecting){target.classList.remove('sl-pending');target.classList.add('sl-in');revealObserver.unobserve(target);}
+    else if(boundingClientRect.top>window.innerHeight)target.classList.add('sl-pending');
+  }),{threshold:.08,rootMargin:'0px 0px 70px 0px'});
+  // The observer supplies geometry after layout; opening the page never needs
+  // a synchronous position query for every offscreen product card.
+  document.querySelectorAll('.card').forEach((card,i)=>{card.style.transitionDelay=(i%2)*65+'ms';revealObserver.observe(card);});
 }
 reduced.addEventListener?.('change',()=>{if(reduced.matches){revealObserver?.disconnect();document.querySelectorAll('.sl-pending').forEach(n=>n.classList.remove('sl-pending'));}});
 let scrollFrame=0;window.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{

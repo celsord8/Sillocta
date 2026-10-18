@@ -115,15 +115,17 @@
   };
   const layout=()=>{
     layoutPending=false;
-    const current=active(),first=cards[0].getBoundingClientRect(),last=cards.at(-1).getBoundingClientRect();
+    const current=active(),rects=cards.map(card=>card.getBoundingClientRect());
+    const first=rects[0],last=rects.at(-1),left=track.getBoundingClientRect().left,scroll=track.scrollLeft;
     looping=cards.length>1&&last.right-first.left>track.clientWidth+1;
-    copies.forEach(card=>{card.hidden=!looping;});
-    // Read geometry once per layout, before writing scroll/active styles.
-    const left=track.getBoundingClientRect().left,scroll=track.scrollLeft;
-    shown=all.filter(card=>!card.hidden);
+    const gap=rects.length>1?rects[1].left-first.right:0;
+    period=looping?last.right-first.left+gap:0;
+    // Every run shares the originals' widths and gap. Cache all positions from
+    // those reads, then change visibility/scroll without another layout query.
+    copies.forEach(card=>{if(card.hidden===looping)card.hidden=!looping;});
+    shown=looping?all:cards;
     positions.clear();
-    shown.forEach(card=>positions.set(card,scroll+card.getBoundingClientRect().left-left));
-    period=looping?offset(after[0])-offset(cards[0]):0;
+    shown.forEach((card,index)=>positions.set(card,scroll+rects[index%cards.length].left-left+Math.floor(index/cards.length)*period));
     if(!looping)centered=false;
     origin=centered?period:0;
     const target=looping?offset(cards[current])+origin:0;
