@@ -59,12 +59,24 @@ export function campaignPreload(html){
 // before the next visible section and before downloading the main behavior.
 // Reuse the source function verbatim; its readiness marker prevents a second
 // anchor/listener when enhancements.js runs or when the viewport changes.
+export function revealFirstScreen(){
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  const opening=document.getElementById('preloader');
+  if(!opening)return;
+  opening.classList.add('hide');
+  setTimeout(()=>{opening.hidden=true;},450);
+ }));
+}
+
 export function installHeroBootstrap(html,behavior){
  const start=behavior.indexOf('function initializeMobileHero(){');
  const end=behavior.indexOf('\ninitializeMobileHero();',start);
  if(start<0||end<start)throw Error('Missing mobile layout initializer');
  const marker='<section id="fragrance-guide"';
  if(!html.includes(marker))throw Error('Missing layout bootstrap position');
- const script='<script id="sl-layout-bootstrap">(()=>{const byId=id=>document.getElementById(id);'+behavior.slice(start,end)+';initializeMobileHero();})();</script>';
+ // Above-fold layout is already fully styled by the inline critical sheet.
+ // Reveal it after the layout initializer settles, instead of waiting for all
+ // deferred behavior and the separate closed-panel stylesheet to download.
+ const script='<script id="sl-layout-bootstrap">(()=>{const byId=id=>document.getElementById(id);'+behavior.slice(start,end)+';initializeMobileHero();})();('+revealFirstScreen.toString()+')();</script>';
  return html.replace(marker,script+marker);
 }
