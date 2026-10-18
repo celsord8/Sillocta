@@ -278,3 +278,12 @@ test('An uncertain card response can only repeat the same payload without tokeni
   await h.nodes.get('sillocta-card-submit').onclick();assert.equal(h.storage.get('sillocta-orders-test-uncertain'),'1');assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Repetir o mesmo envio/);assert.doesNotMatch(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento aprovado/);
   await h.context.submitOnlineOrder();assert.equal(payloads.length,1);await h.nodes.get('sillocta-retry').handlers.click();assert.equal(payloads.length,2);assert.equal(payloads[1],payloads[0]);assert.equal(tokens,1);assert.equal(h.storage.get('sillocta-orders-test-uncertain'),undefined);assert.match(h.nodes.get('sillocta-payment-result').innerHTML,/Pagamento aprovado/);
 });
+
+test('Funnel approval is notified only when the validated checkout API response is accepted',async()=>{
+ const h=harness();await tick();h.context.paymentFlow.enabled=true;const seen=[];
+ h.context.SilloctaMetrics={paymentResult:result=>seen.push({...result})};
+ const result={state:'pending',sandbox:true,method:'pix',receipt:'signed-funnel-receipt',orderId:'ORDTST-funnel',totalCents:14040};
+ h.context.fetch=async()=>Response.json(result);h.context.selectCheckoutPayment('pix');await h.context.submitOnlineOrder();
+ assert.equal(seen.length,1);assert.equal(seen[0].state,'pending');
+ result.state='approved';await h.nodes.get('sillocta-refresh').handlers.click();assert.equal(seen.at(-1).state,'approved');assert.equal(seen.at(-1).sandbox,true);
+});
