@@ -13,7 +13,7 @@ test('The fully styled first screen reveals after two layout frames without wait
  const context=vm.createContext({document:{getElementById:id=>id==='preloader'?opening:null},requestAnimationFrame:fn=>frames.push(fn),setTimeout:(fn,ms)=>timers.push({fn,ms})});
  vm.runInContext('('+revealFirstScreen.toString()+')()',context);
  assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,['hide']);assert.equal(opening.hidden,false);assert.equal(timers[0].ms,450);timers[0].fn();assert.equal(opening.hidden,true);
- const html=read('public/index.html');assert.ok(html.includes(revealFirstScreen.toString()));assert.ok(html.indexOf('id="sl-critical-styles"')<html.indexOf('id="sl-layout-bootstrap"'));
+ const html=read('public/index.html');assert.ok(html.includes(revealFirstScreen.toString()));assert.ok(html.indexOf('id="sl-full-styles"')<html.indexOf('id="sl-layout-bootstrap"'));
  const bootstrap=html.match(/<script id="sl-layout-bootstrap">([\s\S]*?)<\/script>/)[1];
  assert.ok(!bootstrap.includes('initializeCampaigns'));
  assert.ok(!bootstrap.includes('cloneNode'));
@@ -76,16 +76,17 @@ test('Critical loading preserves media conditions, vector shapes, full-style fal
 
 test('All pages retain one complete ordered stylesheet, a generated critical subset and consistent editorial labels',()=>{
  const home=read('public/index.html'),sources=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'];
- assert.equal((home.match(/id="sl-critical-styles"/g)||[]).length,1);
- assert.match(home,/<link id="sl-full-styles" rel="preload" as="style"/);
- assert.match(home,/<noscript><link rel="stylesheet"/);
- assert.ok(home.includes('@layer sl-first-paint{html:not(.sl-styles-ready)'));
- assert.ok(home.includes("requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')))"));
+ const detail=read('public/perfume/dior-miss-dior.html');
+ assert.equal((home.match(/id="sl-critical-styles"/g)||[]).length,0);
+ assert.match(home,/<link id="sl-full-styles" rel="stylesheet"/);
+ assert.match(detail,/<noscript><link rel="stylesheet"/);
+ assert.ok(detail.includes('@layer sl-first-paint{html:not(.sl-styles-ready)'));
+ assert.ok(detail.includes("requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')))"));
  assert.match(read('source/enhancements.js'),/byId\('sl-full-styles'\).*sl-styles-ready.*firstScreenStartedAt<2500/);
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
  assert.equal(read('public/storefront.css'),compactStyles(full));
- assert.ok(home.includes(criticalStyles(full)));
+ assert.ok(detail.includes(criticalStyles(full,{detail:true})));
  assert.ok(criticalStyles(full).length<95000);
  for(const selector of ['.sl-guide-invitation','.sl-catalog-filter-grid','.perfume-grid'])assert.ok(criticalStyles(full).includes(selector));
  assert.ok(!home.includes('cdnjs.cloudflare.com'));
