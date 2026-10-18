@@ -35,7 +35,7 @@ function initializeMobileHero(){
 }
 initializeMobileHero();
 const catalogState={volume:'5',mode:'all',brand:'',price:'',available:false,savedOnly:false,sort:'curated'};
-let catalogLastSort='';
+let catalogLastSort='curated:5';
 const favoriteIds=new Set();
 try{const saved=JSON.parse(localStorage.getItem('sillocta-favorites-v1')||'[]');if(Array.isArray(saved))saved.forEach(id=>{if(PRODUCTS.some(p=>p.id===id))favoriteIds.add(id);});}catch{}
 function syncFavoriteButtons(){
@@ -79,7 +79,7 @@ function selectCatalogVolume(volume){
 function syncCatalogVolumes(){
   document.querySelectorAll('.perfume-grid .card').forEach(card=>{
     const product=PRODUCTS.find(p=>p.id===Number(card.dataset.productId));if(!product)return;
-    const volume=catalogState.volume;card.dataset.volume=volume;
+    const volume=catalogState.volume;if(card.dataset.volume===volume)return;card.dataset.volume=volume;
     card.querySelectorAll('.vbtn').forEach(button=>{const selected=button.dataset.ml===volume;button.classList.toggle('on',selected);button.setAttribute('aria-pressed',String(selected));});
     const current=card.querySelector('.price-cur'),old=card.querySelector('.price-old');
     if(current)current.textContent=brl(product.prices[volume]);if(old)old.textContent=brl(product.oldPrices[volume]);
@@ -639,6 +639,7 @@ let scrollFrame=0;window.addEventListener('scroll',()=>{if(scrollFrame)return;sc
 document.addEventListener('visibilitychange',lockPage);
 const firstScreenStartedAt=Date.now();
 function hidePreloader(){
+  if(byId('preloader')?.hidden)return;
   // The non-blocking complete stylesheet can arrive after deferred scripts.
   // Keep the existing opening screen until its two-frame layout has settled,
   // with a bounded fallback so a failed stylesheet cannot lock the storefront.
