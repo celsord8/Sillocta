@@ -17,6 +17,16 @@ test('Validation identifies every missing field and focuses the first, without s
   const errors=[];h.context.setCheckoutFieldError=(input,message)=>errors.push([input.name,message]);await h.context.submitOnlineOrder();
   assert.deepEqual(errors,[['nome','Informe seu nome completo.'],['email','Informe seu e-mail.']]);assert.equal(fields[0].focusCount,1);assert.equal(fields[0].scrolled,true);assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);
 });
+test('The first invalid field stays below its label and above the keyboard after viewport resizing',async()=>{
+  let resize;const viewport={height:800,offsetTop:0,addEventListener(event,handler){if(event==='resize')resize=handler;}};
+  const input={name:'nome',value:'',required:true,isConnected:true,setCustomValidity(message){this.message=message;},checkValidity(){return !this.message;},focus(){h.context.document.activeElement=this;},closest(){return field;},getBoundingClientRect(){return {top:625-drawer.scrollTop,bottom:675-drawer.scrollTop,height:50};}};
+  const field={getBoundingClientRect(){return {top:600-drawer.scrollTop,bottom:720-drawer.scrollTop,height:120};}};
+  const h=harness({fields:[input],viewport});const drawer=h.nodes.get('cart-drawer');drawer.scrollTop=0;drawer.classList.toggle('open',true);drawer.getBoundingClientRect=()=>({top:0,bottom:viewport.height});drawer.scrollTo=({top})=>{drawer.scrollTop=top;};
+  h.context.syncCheckoutField=(key,value)=>h.context._checkout[key]=value;await tick();h.context.paymentFlow.enabled=true;
+  const settle=()=>{for(let i=0;i<3;i++){const frames=[...h.timers].filter(([,timer])=>timer.ms==='frame');for(const [id,timer]of frames){h.timers.delete(id);timer.fn();}}};
+  await h.context.submitOnlineOrder();settle();assert.equal(drawer.scrollTop,580);assert.equal(field.getBoundingClientRect().top,20);assert.equal(drawer.classList.contains('sl-editing'),true);
+  viewport.height=320;drawer.scrollTop=900;resize();settle();assert.equal(field.getBoundingClientRect().top,20);assert.ok(input.getBoundingClientRect().bottom<viewport.height-24);assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);
+});
 test('Order details keep the submitted address across a lost response and never retain card secrets',async()=>{
   const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context._checkout={pagamento:'pix',nome:'Original recipient',logradouro:'Rua original',numero:'10',cpf:'12345678909'};
   let calls=0;h.context.fetch=async()=>{if(++calls===1)throw Error('lost response');return Response.json({state:'pending',method:'pix',receipt:'detail-receipt',orderId:'order-detail',totalCents:14040});};
@@ -24,7 +34,7 @@ test('Order details keep the submitted address across a lost response and never 
   const saved=JSON.parse(h.storage.get('sillocta-checkout-details-v1'));assert.equal(saved.detail.customer.nome,'Original recipient');assert.equal(saved.detail.customer.cpf,undefined);assert.equal(saved.detail.card,undefined);
   const html=h.nodes.get('sillocta-payment-result').innerHTML;assert.match(html,/Original recipient/);assert.doesNotMatch(html,/Different recipient/);assert.match(html,/Número do pedido/);assert.match(html,/Próximo passo/);
 });
-function harness({pendingMount=false,stored={},cardController,Clock=Date,fields=[]}={}){
+function harness({pendingMount=false,stored={},cardController,Clock=Date,fields=[],viewport}={}){
   const nodes=new Map(),storage=new Map(Object.entries(stored)),mounts=[],unmounts=[],requests=[],timers=new Map();let timerId=0;
   const node=id=>{const value={id,textContent:'',hidden:false,disabled:false,isConnected:true,focusCount:0,handlers:{},addEventListener(k,f){this.handlers[k]=f;},remove(){this.isConnected=false;},focus(){this.focusCount++;},scrollIntoView(){},setAttribute(k,v){this.attributes[k]=v;},attributes:{},classList:{values:new Set(),contains(k){return this.values.has(k);},toggle(k,on){on?this.values.add(k):this.values.delete(k);}},select(){},querySelector(){return node('child');}};Object.defineProperty(value,'innerHTML',{set(html){this.html=html;for(const match of html.matchAll(/id="([^"]+)"/g))node(match[1]);},get(){return this.html||'';}});nodes.set(id,value);return value;};
   for(const id of ['sillocta-payment-form','sillocta-payment-result','checkout-finalize-btn','checkout-error','checkout-shipping-options','cart-drawer','cart-items'])node(id);
@@ -33,6 +43,7 @@ function harness({pendingMount=false,stored={},cardController,Clock=Date,fields=
   const paymentFlow={enabled:true,quote:{quoteId:'signed',expiresAt:Clock.now()+600000,totalCents:14040}};
   const context=vm.createContext({Date:Clock,document,location:{protocol:'https:'},paymentFlow,cart:[],AbortSignal,crypto:{randomUUID:()=> '8ce88571-e73b-4cc2-bd48-7f347b95565c'},setTimeout:(fn,ms)=>{timers.set(++timerId,{fn,ms});return timerId;},clearTimeout:id=>timers.delete(id),byId:id=>nodes.get(id),renderCart(){context.selectCheckoutPayment(context._checkout.pagamento);},closeCart(){},selectCheckoutPayment(mode){selected=mode;context._checkout.pagamento=mode;},brl:n=>'R$ '+(n/100).toFixed(2),escapeHtml:value=>String(value),getTotals:()=>({total:1}),setCheckoutFieldError(){},paymentCartData:()=>({items:[{pid:1,volume:'5',quantity:1}],gift:true,coupon:'BEMVINDO10'}),syncPaymentShipping(){},loadPaymentShipping(){},sessionStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},fetch:async(url,options)=>{requests.push({url,options});return Response.json({enabled:false});},Response,console});
   context.window=context;context.addEventListener=()=>{};context._checkout={pagamento:selected,cep:'06233903'};
+  if(viewport){context.visualViewport=viewport;context.requestAnimationFrame=fn=>{timers.set(++timerId,{fn,ms:'frame'});return timerId;};context.cancelAnimationFrame=id=>timers.delete(id);}
   context.MercadoPago=class {bricks(){return {create:async(type,id,options)=>{mounts.push({type,id,options});if(pendingMount)await new Promise(r=>resolveMount=r);return cardController||{unmount:async()=>unmounts.push(id),getFormData:async()=>({token:'tokenized-fixture',payment_method_id:'master',installments:1,payer:{identification:{type:'CPF',number:'12345678909'}}}),getAdditionalData:()=>({paymentTypeId:'credit_card'})};}};}};
   vm.runInContext(code,context);
   return {context,nodes,storage,mounts,unmounts,requests,timers,finishMount:()=>resolveMount?.()};
