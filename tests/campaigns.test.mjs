@@ -75,7 +75,8 @@ test('Returning from browser history clears stale pointer pauses and resumes at 
 
 test('Six controls select the corresponding perfume in every run and a touch scroll updates the indicator',()=>{
   const h=harness();assert.equal(h.active(),0);
-  assert.equal(h.track.scrollLeft,h.period());
+  assert.equal(h.track.scrollLeft,0);
+  assert.equal(h.scrolls.length,0,'The first image must not be scrolled or replaced during initialization');
   for(let i=0;i<CAMPAIGNS.length;i++){h.click(i);assert.equal(h.active(),i);}
   h.swipe(h.period()+70);assert.equal(h.active(),0);
   h.swipe(h.period()+500);assert.equal(h.active(),1);
@@ -90,7 +91,7 @@ test('Automatic advance uses 4 seconds and always travels one image forward acro
   const moves=h.scrolls.filter(s=>s.behavior==='smooth');
   assert.equal(moves.length,24);
   for(const move of moves){assert.equal(move.actual-move.previous,632);}
-  assert.ok(h.scrolls.filter(s=>s.behavior==='instant').length>=4);
+  h.advance(160);assert.ok(h.scrolls.filter(s=>s.behavior==='instant').length>=4);
   h.click(2);h.advance(6999);assert.equal(h.active(),2);
   h.advance(1);assert.equal(h.active(),3);
 });
@@ -159,9 +160,11 @@ test('Mobile places campaigns directly after collection selectors and preserves 
   const element=id=>({id,parent:null,children:[],insertBefore(child,before){detach(child);const index=this.children.indexOf(before);this.children.splice(index<0?this.children.length:index,0,child);child.parent=this;},before(child){this.parent.insertBefore(child,this);},after(child){const parent=this.parent;detach(child);parent.children.splice(parent.children.indexOf(this)+1,0,child);child.parent=parent;}});
   const detach=child=>{if(child.parent)child.parent.children.splice(child.parent.children.indexOf(child),1);};
   const hero=element('hero'),copy=element('hero-txt'),collections=element('colecao-selector'),campaigns=element('catalog-campaigns'),filters=element('catalog-search'),shop=element('shop');
-  for(const child of [copy])hero.insertBefore(child,null);
-  for(const child of [collections,campaigns,filters])shop.insertBefore(child,null);
-  const ids=new Map([hero,copy,collections,campaigns,filters].map(el=>[el.id,el]));
+  const marker=element('sl-collection-desktop');
+  for(const child of [collections,campaigns,copy])hero.insertBefore(child,null);
+  for(const child of [marker,filters])shop.insertBefore(child,null);
+  const ids=new Map([hero,copy,collections,campaigns,filters,marker].map(el=>[el.id,el]));
+  for(const el of ids.values()){Object.defineProperty(el,'parentNode',{get:()=>el.parent});Object.defineProperty(el,'nextElementSibling',{get:()=>el.parent?.children[el.parent.children.indexOf(el)+1]});}
   let change;const mobile={matches:true,addEventListener(type,action){change=action;}};
   const source=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8');
   const start=source.indexOf('function initializeMobileHero(){');
@@ -169,9 +172,13 @@ test('Mobile places campaigns directly after collection selectors and preserves 
   assert.ok(start>=0&&end>start);
   vm.runInNewContext(source.slice(start,end),{byId:id=>ids.get(id),window:{matchMedia:()=>mobile},document:{createComment:()=>element('marker')}});
   assert.deepEqual(hero.children.map(el=>el.id),['colecao-selector','catalog-campaigns','hero-txt']);
+  const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
+  const heroMarkup=html.slice(html.indexOf('<section id="hero">'),html.indexOf('<!-- PRODUTOS -->'));
+  assert.ok(heroMarkup.indexOf('id="colecao-selector"')<heroMarkup.indexOf('id="catalog-campaigns"'));
+  assert.ok(heroMarkup.indexOf('id="catalog-campaigns"')<heroMarkup.indexOf('id="hero-txt"'));
   mobile.matches=false;change();
   assert.deepEqual(hero.children.map(el=>el.id),['hero-txt']);
-  assert.deepEqual(shop.children.map(el=>el.id),['marker','colecao-selector','catalog-campaigns','catalog-search']);
+  assert.deepEqual(shop.children.map(el=>el.id),['sl-collection-desktop','colecao-selector','catalog-campaigns','catalog-search']);
 });
 
 test('Autoplay warms the next slide after the first frame, and cancels offscreen work',()=>{

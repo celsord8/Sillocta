@@ -15,10 +15,9 @@ test('The fully styled first screen reveals after two layout frames without wait
  assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,['hide']);assert.equal(opening.hidden,false);assert.equal(timers[0].ms,450);timers[0].fn();assert.equal(opening.hidden,true);
  const html=read('public/index.html');assert.ok(html.includes(revealFirstScreen.toString()));assert.ok(html.indexOf('id="sl-critical-styles"')<html.indexOf('id="sl-layout-bootstrap"'));
  const bootstrap=html.match(/<script id="sl-layout-bootstrap">([\s\S]*?)<\/script>/)[1];
- const campaign=read('source/campaigns.js');
- const initializer=campaign.slice(campaign.indexOf('function initializeCampaigns(){'),campaign.indexOf("\n  if(document.readyState==="));
- assert.ok(bootstrap.includes(initializer));
- assert.ok(bootstrap.indexOf(';initializeCampaigns();')<bootstrap.indexOf('('+revealFirstScreen.toString()+')()'));
+ assert.ok(!bootstrap.includes('initializeCampaigns'));
+ assert.ok(!bootstrap.includes('cloneNode'));
+ assert.ok(html.includes('data-active="true"'));
 });
 
 test('Opening screen waits for settled styles and has a bounded failure fallback',()=>{
@@ -56,6 +55,8 @@ test('Critical loading preserves media conditions, vector shapes, full-style fal
  assert.ok(!homeCritical.includes('.sl-product-photo'));
  assert.ok(detailCritical.includes('.sl-product-photo'));
  assert.ok(homeCritical.includes('@keyframes sl-hero-copy'));
+ const grouped=criticalStyles('#shop,#cart-drawer{padding:20px}.sl-guide-dialog{color:red}');
+ assert.ok(grouped.includes('#shop{padding:20px}'));assert.ok(!grouped.includes('#shop,#cart-drawer'));assert.ok(!grouped.includes('color:red'));
  const home=read('public/index.html'),detail=read('public/perfume/dior-miss-dior.html');
  assert.ok(home.indexOf('id="sl-layout-bootstrap"')<home.indexOf('id="fragrance-guide"'));
  assert.ok(home.includes("data-hero-layout-ready"));
@@ -85,7 +86,7 @@ test('All pages retain one complete ordered stylesheet, a generated critical sub
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
  assert.equal(read('public/storefront.css'),compactStyles(full));
  assert.ok(home.includes(criticalStyles(full)));
- assert.ok(criticalStyles(full).length<180000);
+ assert.ok(criticalStyles(full).length<95000);
  for(const selector of ['.sl-guide-invitation','.sl-catalog-filter-grid','.perfume-grid'])assert.ok(criticalStyles(full).includes(selector));
  assert.ok(!home.includes('cdnjs.cloudflare.com'));
  for(const p of products){const label=globalThis.SilloctaProductPages.badgeLabel(p),detail=read('public'+globalThis.SilloctaProductPages.path(p)+'.html');if(label)assert.ok(detail.includes('sl-product-badge">'+label));}
