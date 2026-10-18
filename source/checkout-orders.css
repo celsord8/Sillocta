@@ -46,7 +46,7 @@ html body #cart-drawer .sl-payment-result .sl-result-check{border:0;color:#c9c0b
 .sl-result-details summary{cursor:pointer;list-style-position:inside}
 html body #cart-drawer .sl-payment-result .sl-result-details p{font-size:10px;margin-bottom:0}
 .sl-result-footer{margin-top:16px}
-html body #cart-drawer .sl-payment-result .sl-result-footer .sl-cta-secondary{min-height:44px;background:transparent;border:0;color:#a69c89;text-decoration:underline;text-underline-offset:4px}
+html body #cart-drawer .sl-payment-result .sl-result-footer .sl-cta-secondary{min-height:48px;background:#ffffff03;border:1px solid #cbb47740;color:#d9cebc;text-decoration:none!important;border-radius:4px}
 html body #cart-drawer .sl-payment-result .sl-result-footer p{font-size:9px;text-align:center;margin:6px 0 0}
 @media(max-width:380px){html body #cart-drawer .sl-payment-result:not(:empty){padding:20px 0}.sl-pix-qr{width:210px}}
 /* The created payment is its own stage, without the long editable form above. */
@@ -157,7 +157,9 @@ html body #cart-drawer.sl-orders-checkout .sl-label{font-size:12px!important;col
 html body #cart-drawer.sl-orders-checkout :is(.sl-field-note,.sl-note,.sl-shipping-note,.sl-checkout-meta){font-size:12px!important;color:#c4baaa!important;line-height:1.8!important}
 html body #cart-drawer.sl-orders-checkout :is(.sl-required,.sl-optional){color:#bcb09e!important;font-size:11px!important}
 html body #cart-drawer.sl-orders-checkout .sl-checkout-primary{min-height:52px!important;font-size:13px!important;font-weight:500!important;background:#d0b97c!important;color:#17130c!important;border-color:#d0b97c!important}
-html body #cart-drawer.sl-orders-checkout .sl-checkout-actions>.sl-cta-secondary{background:transparent!important;border:0!important;color:#c4b9a7!important;min-height:44px;text-decoration:underline;text-underline-offset:4px}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-actions>.sl-cta-secondary{display:flex!important;align-items:center;justify-content:center;width:100%;box-sizing:border-box;background:#ffffff03!important;border:1px solid #cbb47740!important;border-radius:4px!important;color:#d9cebc!important;min-height:48px;padding:12px 18px!important;text-align:center;text-decoration:none!important;font:400 12px/1.6 Montserrat,sans-serif;letter-spacing:.015em;box-shadow:none!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-checkout-actions>.sl-cta-secondary,.sl-result-footer .sl-cta-secondary):hover{background:#cbb4770b!important;border-color:#cbb47780!important;transform:none!important}
+html body #cart-drawer.sl-orders-checkout :is(.sl-checkout-actions>.sl-cta-secondary,.sl-result-footer .sl-cta-secondary):focus-visible{outline:2px solid #cbb477;outline-offset:3px}
 html body #cart-drawer.sl-orders-checkout .sl-checkout-kicker{font-size:15px!important;color:#e0cca0!important}
 html body #cart-drawer.sl-orders-checkout .sl-pay-btn:disabled{opacity:.65;cursor:default}
 html body #cart-drawer.sl-orders-checkout :is(.sl-pay-btn,.sl-shipping-choice,.sl-checkout-primary){touch-action:manipulation}
@@ -181,7 +183,7 @@ html body #cart-drawer .sl-payment-result .sl-result-next{padding:16px 0;color:#
 @media(max-width:768px){
  html body #cart-drawer.sl-orders-checkout .sl-compact-summary:not([hidden]){position:sticky;bottom:0;z-index:4;display:flex!important;align-items:center;justify-content:space-between;gap:18px;padding:14px 22px calc(14px + env(safe-area-inset-bottom));background:#100e0b;border-top:1px solid #cbb47733;box-shadow:0 -10px 28px #0003}
  .sl-compact-summary>div{display:grid;gap:5px}.sl-compact-summary span{font:400 10px/1.5 Montserrat,sans-serif;color:#bfb5a5}.sl-compact-summary strong{font:400 21px/1.4 Montserrat,sans-serif;color:#e3cfa0;white-space:nowrap}
- html body #cart-drawer .sl-compact-summary button{min-height:46px;padding:12px 22px;background:#cbb477;color:#18140c;border:1px solid #cbb477;border-radius:4px;font:500 12px/1.5 Montserrat,sans-serif;cursor:pointer}
+ html body #cart-drawer .sl-compact-summary button{display:inline-flex!important;align-items:center;justify-content:center;min-height:46px;padding:12px 22px!important;background:#cbb477!important;color:#18140c!important;border:1px solid #cbb477!important;border-radius:4px;font:500 12px/1.5 Montserrat,sans-serif!important;text-decoration:none!important;box-shadow:none!important;cursor:pointer;-webkit-appearance:none;appearance:none}
  html body #cart-drawer .sl-compact-summary button:disabled{opacity:.55;cursor:wait}
  html body #cart-drawer.sl-editing .sl-compact-summary,html body #cart-drawer.sl-orders-checkout .sl-compact-summary.sl-action-visible,html body #cart-drawer.sl-payment-stage .sl-compact-summary{display:none!important}
  html body #cart-drawer .sl-compact-summary button:focus-visible{outline:2px solid #eee5d6;outline-offset:3px}
