@@ -68,7 +68,7 @@ export function revealFirstScreen(){
  }));
 }
 
-export function installHeroBootstrap(html,behavior){
+export function installHeroBootstrap(html,behavior,campaignBehavior){
  const start=behavior.indexOf('function initializeMobileHero(){');
  const end=behavior.indexOf('\ninitializeMobileHero();',start);
  if(start<0||end<start)throw Error('Missing mobile layout initializer');
@@ -77,6 +77,13 @@ export function installHeroBootstrap(html,behavior){
  // Above-fold layout is already fully styled by the inline critical sheet.
  // Reveal it after the layout initializer settles, instead of waiting for all
  // deferred behavior and the separate closed-panel stylesheet to download.
- const script='<script id="sl-layout-bootstrap">(()=>{const byId=id=>document.getElementById(id);'+behavior.slice(start,end)+';initializeMobileHero();})();('+revealFirstScreen.toString()+')();</script>';
+ const campaignStart=campaignBehavior.indexOf('function initializeCampaigns(){');
+ const campaignEnd=campaignBehavior.indexOf("\n  if(document.readyState===",campaignStart);
+ if(campaignStart<0||campaignEnd<campaignStart)throw Error('Missing campaign initializer');
+ // Settle the continuous carousel before revealing its first image. Otherwise
+ // the deferred script prepends its copies and recentres the visible original,
+ // causing a second paint of the largest image after its download has finished.
+ // The existing readiness marker keeps the deferred script a safe no-op.
+ const script='<script id="sl-layout-bootstrap">(()=>{const byId=id=>document.getElementById(id);'+behavior.slice(start,end)+';initializeMobileHero();'+campaignBehavior.slice(campaignStart,campaignEnd)+';initializeCampaigns();})();('+revealFirstScreen.toString()+')();</script>';
  return html.replace(marker,script+marker);
 }
