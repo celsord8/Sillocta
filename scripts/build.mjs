@@ -19,7 +19,7 @@ const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata(meta
 
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const originalHome=readFileSync(path.join(source,'index.html'),'utf8');
-const home=installHeroBootstrap(originalHome.replace(/<meta name="viewport"[^>]*>/,viewport=>viewport+campaignPreload(originalHome)),readFileSync(path.join(source,'enhancements.js'),'utf8'),readFileSync(path.join(source,'campaigns.js'),'utf8'));
+const home=installHeroBootstrap(originalHome.replace(/<meta name="viewport"[^>]*>/,viewport=>viewport+campaignPreload(originalHome)),readFileSync(path.join(source,'enhancements.js'),'utf8'));
 const heroStart=home.indexOf('<section id="hero">'),shopEnd=home.indexOf('</main>',heroStart);
 if(heroStart<0||shopEnd<heroStart)throw Error('Storefront layout missing');
 const shell=(home.slice(0,heroStart)+'<!-- SILLOCTA_PRODUCT_DETAIL -->'+home.slice(shopEnd+7))

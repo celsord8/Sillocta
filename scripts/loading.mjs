@@ -17,21 +17,30 @@ const firstScreen=/#(?:hero(?:-txt)?|colecao-selector|sel-(?:masc|fem)[\w-]*|img
 const globalRule=/^(?:\*|:root|html|body)(?:[.:][\w()-]+)*(?:\s*,\s*(?:\*|:root|html|body)(?:[.:][\w()-]+)*)?$/;
 const deferredPanel=/#(?:cart-(?:drawer|overlay|footer|items)|mobile-menu[\w-]*|footer-info[\w-]*)\b|\.(?:sl-guide-(?:dialog|overlay|header|close|progress|option|navigation|result[\w-]*|next|back)|sl-checkout[\w-]*|sl-payment[\w-]*|sl-pay[\w-]*)\b/;
 
-// Inline the visible storefront layout, including the next section: a short
-// viewport can expose the guide/catalog before deferred CSS arrives. Defer only
-// hidden panels, never layout-affecting catalog rules. Keep the complete stylesheet
-// unchanged and in its original order, so deferred arrival cannot reorder the
-// established cascade. Detail pages also get their entire above-fold module.
+// Keep the first screen and catalog layout in their original cascade order.
+// Filter comma-separated selectors individually: a shared #shop selector must
+// not also pull an entire grouped cart/modal rule into the critical response.
 export function criticalStyles(css,{detail=false}={}){
  const tree=postcss.parse(css);
  tree.walkRules(rule=>{
   let parent=rule.parent;
   while(parent){if(parent.type==='atrule'&&/keyframes$/i.test(parent.name))return;parent=parent.parent;}
-  const shared=firstScreen.test(rule.selector)||globalRule.test(rule.selector)||/\[hidden\]|:focus-visible|\.sl-sr-only/.test(rule.selector);
-  const productOnly=/\.sl-product[\w-]*\b/.test(rule.selector)&&!/\.perfume-grid\b|\.card\b/.test(rule.selector);
-  if(!shared&&(deferredPanel.test(rule.selector)||(!detail&&productOnly)))rule.remove();
+  const selectors=rule.selectors.filter(selector=>{
+   if(/\[hidden\]|\.sl-sr-only/.test(selector))return true;
+   const productOnly=/\.sl-product[\w-]*\b/.test(selector)&&!/\.perfume-grid\b|\.card\b/.test(selector);
+   if(deferredPanel.test(selector)||(!detail&&productOnly))return false;
+   if(/#(?:site-footer|footer-info[\w-]*|sl-toast)\b|\.(?:newsletter[\w-]*|mobile-menu[\w-]*|footer-info[\w-]*|cart-drawer|checkout[\w-]*)\b/.test(selector))return false;
+   return detail||firstScreen.test(selector)||globalRule.test(selector)||!/[#.][\w-]+/.test(selector)||/\.sl-guide-(?:invitation|eyebrow|arrow)\b|#fragrance-guide/.test(selector);
+  });
+  if(selectors.length)rule.selectors=selectors;
+  else if(/#(?:catalog[\w-]*|sec-(?:masculino|feminino)|parallax[\w-]*|px-[\w-]*)\b|\.(?:perfume-grid|card|img-box|badge|price[\w-]*|vbtn|qty[\w-]*|btn-buy|sl-catalog[\w-]*|sl-volume[\w-]*|sl-card[\w-]*|sl-collection[\w-]*)\b/.test(rule.selector)){
+   rule.walkDecls(decl=>{if(!/^(?:display|position|inset(?:-.+)?|top|right|bottom|left|float|clear|box-sizing|width|height|min-.+|max-.+|aspect-ratio|margin(?:-.+)?|padding(?:-.+)?|border(?:-.+)?|gap|row-gap|column-gap|grid-.+|flex(?:-.+)?|align-.+|justify-.+|order|font(?:-.+)?|line-height|letter-spacing|text-.+|white-space|overflow(?:-.+)?|object-.+|visibility|opacity)$/.test(decl.prop))decl.remove();});
+   if(!rule.nodes.length)rule.remove();
+  }else rule.remove();
  });
- tree.walkAtRules(at=>{if(at.nodes&&!at.nodes.length)at.remove();});
+ const animations=new Set(['sl-hero-copy']);
+ tree.walkDecls(/^animation(?:-name)?$/,decl=>decl.value.split(/[\s,]+/).forEach(value=>animations.add(value)));
+ tree.walkAtRules(at=>{if((/keyframes$/i.test(at.name)&&!animations.has(at.params))||(at.nodes&&!at.nodes.length))at.remove();});
  // A first-paint-only important layer prevents hundreds of color/border
  // transitions when the complete CSS arrives. Important layered declarations
  // outrank legacy unlayered !important rules without specificity tricks.
@@ -55,10 +64,8 @@ export function campaignPreload(html){
  return '<link id="sl-home-media-preload-campaign" rel="preload" as="image" media="(max-width:720px)" href="'+value('src')+'" imagesrcset="'+value('srcset')+'" imagesizes="'+value('sizes')+'" fetchpriority="high">';
 }
 
-// Place the existing mobile artwork/carousel as soon as their markup is parsed,
-// before the next visible section and before downloading the main behavior.
-// Reuse the source function verbatim; its readiness marker prevents a second
-// anchor/listener when enhancements.js runs or when the viewport changes.
+// The mobile artwork is already in place. The small desktop initializer also
+// supports viewport changes without duplicating listeners in enhancements.js.
 export function revealFirstScreen(){
  requestAnimationFrame(()=>requestAnimationFrame(()=>{
   const opening=document.getElementById('preloader');
@@ -68,7 +75,7 @@ export function revealFirstScreen(){
  }));
 }
 
-export function installHeroBootstrap(html,behavior,campaignBehavior){
+export function installHeroBootstrap(html,behavior){
  const start=behavior.indexOf('function initializeMobileHero(){');
  const end=behavior.indexOf('\ninitializeMobileHero();',start);
  if(start<0||end<start)throw Error('Missing mobile layout initializer');
@@ -77,13 +84,6 @@ export function installHeroBootstrap(html,behavior,campaignBehavior){
  // Above-fold layout is already fully styled by the inline critical sheet.
  // Reveal it after the layout initializer settles, instead of waiting for all
  // deferred behavior and the separate closed-panel stylesheet to download.
- const campaignStart=campaignBehavior.indexOf('function initializeCampaigns(){');
- const campaignEnd=campaignBehavior.indexOf("\n  if(document.readyState===",campaignStart);
- if(campaignStart<0||campaignEnd<campaignStart)throw Error('Missing campaign initializer');
- // Settle the continuous carousel before revealing its first image. Otherwise
- // the deferred script prepends its copies and recentres the visible original,
- // causing a second paint of the largest image after its download has finished.
- // The existing readiness marker keeps the deferred script a safe no-op.
- const script='<script id="sl-layout-bootstrap">(()=>{const byId=id=>document.getElementById(id);'+behavior.slice(start,end)+';initializeMobileHero();'+campaignBehavior.slice(campaignStart,campaignEnd)+';initializeCampaigns();})();('+revealFirstScreen.toString()+')();</script>';
+ const script='<script id="sl-layout-bootstrap">(()=>{const byId=id=>document.getElementById(id);'+behavior.slice(start,end)+';initializeMobileHero();})();('+revealFirstScreen.toString()+')();</script>';
  return html.replace(marker,script+marker);
 }
