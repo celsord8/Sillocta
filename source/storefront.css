@@ -928,6 +928,8 @@ header.glass {
 
 /* TOPBAR + HEADER UNIFICAÇÃO GLASS */
 div[style*="position:fixed;top:0"] {  /* Topbar 10% OFF */
+  /* Follow document scroll, matching the non-sticky header. */
+  position: absolute !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   background: rgba(5,4,4,.88) !important;
