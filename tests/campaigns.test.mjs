@@ -174,6 +174,17 @@ test('Mobile places campaigns directly after collection selectors and preserves 
   assert.deepEqual(shop.children.map(el=>el.id),['marker','colecao-selector','catalog-campaigns','catalog-search']);
 });
 
+test('Autoplay warms the next slide after the first frame, and cancels offscreen work',()=>{
+ const h=harness({observer:true,initialVisible:true});
+ assert.equal(h.cards[1].image.loading,'lazy');
+ h.advance(2399);assert.equal(h.cards[1].image.loading,'lazy');
+ h.advance(1);assert.equal(h.cards[1].image.loading,'eager');
+ h.advance(1600);assert.equal(h.active(),1);
+ h.visible(false);h.advance(4000);
+ assert.equal(h.cards[2].image.loading,'lazy');
+ assert.equal(h.active(),1);
+});
+
 test('Every campaign links to an available perfume, with both original and responsive files exported',()=>{
  const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
  assert.equal((html.match(/class="sl-campaign-card"/g)||[]).length,6);
