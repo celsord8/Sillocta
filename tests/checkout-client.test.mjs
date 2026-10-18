@@ -4,12 +4,32 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 const code=readFileSync(new URL('../source/checkout-orders.js',import.meta.url),'utf8');
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
-function harness({pendingMount=false,stored={},cardController,Clock=Date}={}){
+test('Only current contact and address drafts are restored; payment secrets and expired drafts are excluded',async()=>{
+  const key='sillocta-checkout-draft-v1';
+  const h=harness({stored:{[key]:JSON.stringify({expires:Date.now()+100000,customer:{nome:'Cliente',cep:'50000000',cpf:'12345678909',card:'4111111111111111',token:'secret'}})}});await tick();
+  assert.equal(h.context._checkout.nome,'Cliente');assert.equal(h.context._checkout.cpf,undefined);assert.equal(h.context._checkout.card,undefined);assert.equal(h.context._checkout.token,undefined);
+  h.context.closeCart();const saved=JSON.parse(h.storage.get(key));assert.equal(saved.customer.nome,'Cliente');assert.equal(saved.customer.cpf,undefined);assert.equal(saved.customer.card,undefined);
+  const expired=harness({stored:{[key]:JSON.stringify({expires:Date.now()-1,customer:{nome:'Expired'}})}});await tick();assert.equal(expired.context._checkout.nome,undefined);assert.equal(expired.storage.has(key),false);
+});
+test('Validation identifies every missing field and focuses the first, without sending payment',async()=>{
+  const fields=['nome','email'].map(name=>({name,value:'',required:true,message:'',focusCount:0,setCustomValidity(value){this.message=value;},checkValidity(){return !this.message;},focus(){this.focusCount++;},scrollIntoView(){this.scrolled=true;}}));
+  const h=harness({fields});await tick();h.context.syncCheckoutField=(key,value)=>{h.context._checkout[key]=value;};h.context.paymentFlow.enabled=true;
+  const errors=[];h.context.setCheckoutFieldError=(input,message)=>errors.push([input.name,message]);await h.context.submitOnlineOrder();
+  assert.deepEqual(errors,[['nome','Informe seu nome completo.'],['email','Informe seu e-mail.']]);assert.equal(fields[0].focusCount,1);assert.equal(fields[0].scrolled,true);assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);
+});
+test('Order details keep the submitted address across a lost response and never retain card secrets',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;h.context._checkout={pagamento:'pix',nome:'Original recipient',logradouro:'Rua original',numero:'10',cpf:'12345678909'};
+  let calls=0;h.context.fetch=async()=>{if(++calls===1)throw Error('lost response');return Response.json({state:'pending',method:'pix',receipt:'detail-receipt',orderId:'order-detail',totalCents:14040});};
+  await h.context.submitOnlineOrder();h.context._checkout.nome='Different recipient';await h.nodes.get('sillocta-retry').handlers.click();
+  const saved=JSON.parse(h.storage.get('sillocta-checkout-details-v1'));assert.equal(saved.detail.customer.nome,'Original recipient');assert.equal(saved.detail.customer.cpf,undefined);assert.equal(saved.detail.card,undefined);
+  const html=h.nodes.get('sillocta-payment-result').innerHTML;assert.match(html,/Original recipient/);assert.doesNotMatch(html,/Different recipient/);assert.match(html,/Número do pedido/);assert.match(html,/Próximo passo/);
+});
+function harness({pendingMount=false,stored={},cardController,Clock=Date,fields=[]}={}){
   const nodes=new Map(),storage=new Map(Object.entries(stored)),mounts=[],unmounts=[],requests=[],timers=new Map();let timerId=0;
   const node=id=>{const value={id,textContent:'',hidden:false,disabled:false,isConnected:true,focusCount:0,handlers:{},addEventListener(k,f){this.handlers[k]=f;},remove(){this.isConnected=false;},focus(){this.focusCount++;},scrollIntoView(){},setAttribute(k,v){this.attributes[k]=v;},attributes:{},classList:{values:new Set(),contains(k){return this.values.has(k);},toggle(k,on){on?this.values.add(k):this.values.delete(k);}},select(){},querySelector(){return node('child');}};Object.defineProperty(value,'innerHTML',{set(html){this.html=html;for(const match of html.matchAll(/id="([^"]+)"/g))node(match[1]);},get(){return this.html||'';}});nodes.set(id,value);return value;};
   for(const id of ['sillocta-payment-form','sillocta-payment-result','checkout-finalize-btn','checkout-error','checkout-shipping-options','cart-drawer','cart-items'])node(id);
   let selected='cartao',resolveMount;
-  const document={head:{appendChild(){}},querySelectorAll:()=>[],createElement:()=>node('script')};
+  const document={head:{appendChild(){}},querySelectorAll:()=>fields,createElement:()=>node('script')};
   const paymentFlow={enabled:true,quote:{quoteId:'signed',expiresAt:Clock.now()+600000,totalCents:14040}};
   const context=vm.createContext({Date:Clock,document,location:{protocol:'https:'},paymentFlow,cart:[],AbortSignal,crypto:{randomUUID:()=> '8ce88571-e73b-4cc2-bd48-7f347b95565c'},setTimeout:(fn,ms)=>{timers.set(++timerId,{fn,ms});return timerId;},clearTimeout:id=>timers.delete(id),byId:id=>nodes.get(id),renderCart(){context.selectCheckoutPayment(context._checkout.pagamento);},closeCart(){},selectCheckoutPayment(mode){selected=mode;context._checkout.pagamento=mode;},brl:n=>'R$ '+(n/100).toFixed(2),escapeHtml:value=>String(value),getTotals:()=>({total:1}),setCheckoutFieldError(){},paymentCartData:()=>({items:[{pid:1,volume:'5',quantity:1}],gift:true,coupon:'BEMVINDO10'}),syncPaymentShipping(){},loadPaymentShipping(){},sessionStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},fetch:async(url,options)=>{requests.push({url,options});return Response.json({enabled:false});},Response,console});
   context.window=context;context.addEventListener=()=>{};context._checkout={pagamento:selected,cep:'06233903'};
