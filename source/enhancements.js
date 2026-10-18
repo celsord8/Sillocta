@@ -166,6 +166,7 @@ let checkoutPageLock=null;
 function lockPage(){
   const checkoutOpen=byId('cart-drawer').classList.contains('open');
   const open=checkoutOpen||byId('mobile-menu-drawer').classList.contains('open')||byId('footer-info-overlay').classList.contains('open');
+  document.body.classList.toggle('sl-checkout-open',checkoutOpen);document.documentElement?.classList.toggle('sl-checkout-open',checkoutOpen);
   // iOS can move the document behind an overflow:hidden modal during bounce or
   // keyboard changes. Freeze the mobile page and restore its exact scroll on exit.
   if(checkoutOpen&&!checkoutPageLock&&window.matchMedia('(max-width:768px)').matches){
@@ -652,10 +653,21 @@ byId('footer-info-overlay').addEventListener('click',e=>{if(e.target===byId('foo
 window.footerInfoGoShop=function(){closeFooterInfo();return scrollToSectionLux('shop');};
 window.footerInfoGoHome=function(){closeFooterInfo();return headerBrandHomeLux();};
 
-function syncCheckoutViewport(){const view=window.visualViewport;if(!view||!byId('cart-drawer').classList.contains('open'))return;const top=Math.floor(view.offsetTop);byId('cart-drawer').style.setProperty('--sl-checkout-height',Math.ceil(view.height+view.offsetTop-top)+'px');byId('cart-drawer').style.setProperty('--sl-checkout-top',top+'px');}
+function syncCheckoutViewport(){
+  const view=window.visualViewport,drawer=byId('cart-drawer');if(!view||!drawer.classList.contains('open'))return;
+  const editing=!!document.activeElement?.matches?.('input,textarea,select,[contenteditable="true"]');
+  const keyboard=editing&&view.height<window.innerHeight-100;
+  // Safari's collapsed browser bars can change offsetTop without a keyboard.
+  // Keep the default full-screen shell; only fit the visual viewport for input.
+  const top=keyboard?Math.floor(view.offsetTop):0;
+  drawer.style.setProperty('--sl-checkout-height',keyboard?Math.ceil(view.height+view.offsetTop-top)+'px':'100dvh');
+  drawer.style.setProperty('--sl-checkout-top',top+'px');
+}
 window.visualViewport?.addEventListener('resize',syncCheckoutViewport,{passive:true});
 window.visualViewport?.addEventListener('scroll',syncCheckoutViewport,{passive:true});
 window.addEventListener('resize',syncCheckoutViewport,{passive:true});
+document.addEventListener('focusin',()=>requestAnimationFrame(syncCheckoutViewport));
+document.addEventListener('focusout',()=>requestAnimationFrame(syncCheckoutViewport));
 
 // Preview-only Orders checkout is initialized in checkout-orders.js.
 
