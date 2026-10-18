@@ -3,10 +3,18 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {consolidateStyles,compactStyles} from '../scripts/styles.mjs';
-import {iconStyles,criticalStyles,campaignPreload} from '../scripts/loading.mjs';
+import {iconStyles,criticalStyles,campaignPreload,revealFirstScreen} from '../scripts/loading.mjs';
 import '../source/product-pages.js';
 import products from '../source/products.json' with {type:'json'};
 const read=name=>readFileSync(new URL('../'+name,import.meta.url),'utf8');
+
+test('The fully styled first screen reveals after two layout frames without waiting for deferred resources',()=>{
+ const frames=[],timers=[],classes=[];const opening={hidden:false,classList:{add:name=>classes.push(name)}};
+ const context=vm.createContext({document:{getElementById:id=>id==='preloader'?opening:null},requestAnimationFrame:fn=>frames.push(fn),setTimeout:(fn,ms)=>timers.push({fn,ms})});
+ vm.runInContext('('+revealFirstScreen.toString()+')()',context);
+ assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,['hide']);assert.equal(opening.hidden,false);assert.equal(timers[0].ms,450);timers[0].fn();assert.equal(opening.hidden,true);
+ const html=read('public/index.html');assert.ok(html.includes(revealFirstScreen.toString()));assert.ok(html.indexOf('id="sl-critical-styles"')<html.indexOf('id="sl-layout-bootstrap"'));
+});
 
 test('Opening screen waits for settled styles and has a bounded failure fallback',()=>{
  const source=read('source/enhancements.js');
