@@ -30,7 +30,7 @@
   for(const clone of before)track.insertBefore(clone,cards[0]);
   for(const clone of after)track.appendChild(clone);
   const copies=[...before,...after],all=[...before,...cards,...after];
-  let pending=false,layoutPending=false,timer=0,settleTimer=0;
+  let pending=false,layoutPending=false,timer=0,preloadTimer=0,settleTimer=0;
   let hovered=false,focused=false,pressed=false,manualUntil=0,looping=false,origin=0,period=0;
   const measureView=()=>{
     const rect=root.getBoundingClientRect?.();
@@ -45,7 +45,7 @@
     const shown=visible();
     return shown.reduce((best,card)=>Math.abs(offset(card)-track.scrollLeft)<Math.abs(offset(best)-track.scrollLeft)?card:best,shown[0]);
   };
-  const stop=()=>{clearTimeout(timer);timer=0;};
+  const stop=()=>{clearTimeout(timer);clearTimeout(preloadTimer);timer=0;preloadTimer=0;};
   const canPlay=()=>looping&&!reduced.matches&&!document.hidden&&inView&&!hovered&&!focused&&!pressed;
   const jump=left=>{
     // An instant equivalent position is painted with snap and smooth disabled.
@@ -78,13 +78,19 @@
     stop();
     if(!canPlay())return;
     const next=(active()+1)%cards.length;
-    all.filter(card=>indexes.get(card)===next).forEach(card=>{
-      const img=card.querySelector('img');if(img){img.loading='eager';img.fetchPriority='low';}
-    });
+    const delay=Math.max(interval,manualUntil-Date.now());
+    // Leave bandwidth to the visible first frame, then warm the next slide
+    // before the existing autoplay transition. Original images stay unchanged.
+    preloadTimer=setTimeout(()=>{
+      preloadTimer=0;if(!canPlay())return;
+      all.filter(card=>indexes.get(card)===next).forEach(card=>{
+        const img=card.querySelector('img');if(img){img.loading='eager';img.fetchPriority='low';}
+      });
+    },Math.max(0,delay-1600));
     timer=setTimeout(()=>{
       timer=0;if(!canPlay())return;
       step(1);queueAutoplay();
-    },Math.max(interval,manualUntil-Date.now()));
+    },delay);
   };
   const manual=()=>{manualUntil=Date.now()+7000;queueAutoplay();};
   const update=()=>{

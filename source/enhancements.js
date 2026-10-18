@@ -602,9 +602,20 @@ byId('sl-toast').addEventListener('focusin',()=>clearTimeout(toastTimer));
 byId('sl-toast').addEventListener('focusout',scheduleToastDismiss);
 byId('sl-toast').addEventListener('mouseenter',()=>clearTimeout(toastTimer));
 byId('sl-toast').addEventListener('mouseleave',scheduleToastDismiss);
-if('IntersectionObserver' in window&&motion()){revealObserver=new IntersectionObserver(entries=>entries.forEach(({target,isIntersecting})=>{if(isIntersecting){target.classList.remove('sl-pending');target.classList.add('sl-in');revealObserver.unobserve(target);}}),{threshold:.08,rootMargin:'0px 0px 70px 0px'});document.querySelectorAll('.card').forEach((card,i)=>{card.style.transitionDelay=(i%2)*65+'ms';if(card.getBoundingClientRect().top>window.innerHeight){card.classList.add('sl-pending');revealObserver.observe(card);}});}
+if('IntersectionObserver' in window&&motion()){
+  revealObserver=new IntersectionObserver(entries=>entries.forEach(({target,isIntersecting})=>{if(isIntersecting){target.classList.remove('sl-pending');target.classList.add('sl-in');revealObserver.unobserve(target);}}),{threshold:.08,rootMargin:'0px 0px 70px 0px'});
+  // Read every position before changing any styles: one layout, not one per card.
+  const initialCards=[...document.querySelectorAll('.card')].map(card=>({card,below:card.getBoundingClientRect().top>window.innerHeight}));
+  initialCards.forEach(({card,below},i)=>{card.style.transitionDelay=(i%2)*65+'ms';if(below){card.classList.add('sl-pending');revealObserver.observe(card);}});
+}
 reduced.addEventListener?.('change',()=>{if(reduced.matches){revealObserver?.disconnect();document.querySelectorAll('.sl-pending').forEach(n=>n.classList.remove('sl-pending'));}});
-let scrollFrame=0;window.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{scrollFrame=0;document.querySelector('header.glass').classList.toggle('sl-scrolled',window.scrollY>30);if(!motion())return;for(const id of ['parallax-hero','parallax-fem']){const el=byId(id);if(!el)continue;const rect=el.getBoundingClientRect();if(rect.bottom>0&&rect.top<window.innerHeight)el.style.setProperty('--sl-parallax',Math.max(-12,Math.min(12,(rect.top-window.innerHeight*.45)*.03))+'px');}});},{passive:true});
+let scrollFrame=0;window.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{
+  scrollFrame=0;
+  const scrolled=window.scrollY>30,parallax=[];
+  if(motion())for(const id of ['parallax-hero','parallax-fem']){const el=byId(id);if(!el)continue;const rect=el.getBoundingClientRect();if(rect.bottom>0&&rect.top<window.innerHeight)parallax.push([el,Math.max(-12,Math.min(12,(rect.top-window.innerHeight*.45)*.03))+'px']);}
+  document.querySelector('header.glass').classList.toggle('sl-scrolled',scrolled);
+  for(const [el,value] of parallax)el.style.setProperty('--sl-parallax',value);
+});},{passive:true});
 document.addEventListener('visibilitychange',lockPage);
 const firstScreenStartedAt=Date.now();
 function hidePreloader(){
