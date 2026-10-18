@@ -9,10 +9,10 @@ import products from '../source/products.json' with {type:'json'};
 const read=name=>readFileSync(new URL('../'+name,import.meta.url),'utf8');
 
 test('The fully styled first screen reveals after two layout frames without waiting for deferred resources',()=>{
- const frames=[],timers=[],classes=[];const opening={hidden:false,classList:{add:name=>classes.push(name)}};
- const context=vm.createContext({document:{getElementById:id=>id==='preloader'?opening:null},requestAnimationFrame:fn=>frames.push(fn),setTimeout:(fn,ms)=>timers.push({fn,ms})});
+ const frames=[],timers=[],classes=[],layoutClasses=[];const opening={hidden:false,classList:{add:name=>classes.push(name)}};
+ const context=vm.createContext({document:{documentElement:{classList:{add:name=>layoutClasses.push(name)}},getElementById:id=>id==='preloader'?opening:null},requestAnimationFrame:fn=>frames.push(fn),setTimeout:(fn,ms)=>timers.push({fn,ms})});
  vm.runInContext('('+revealFirstScreen.toString()+')()',context);
- assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,[]);frames.shift()();assert.deepEqual(classes,['hide']);assert.equal(opening.hidden,false);assert.equal(timers[0].ms,450);timers[0].fn();assert.equal(opening.hidden,true);
+ assert.deepEqual(classes,[]);assert.deepEqual(layoutClasses,[]);frames.shift()();assert.deepEqual(classes,[]);assert.deepEqual(layoutClasses,[]);frames.shift()();assert.deepEqual(layoutClasses,['sl-layout-ready']);assert.deepEqual(classes,['hide']);assert.equal(opening.hidden,false);assert.equal(timers[0].ms,450);timers[0].fn();assert.equal(opening.hidden,true);
  const html=read('public/index.html');assert.ok(html.includes(revealFirstScreen.toString()));assert.ok(html.indexOf('id="sl-critical-styles"')<html.indexOf('id="sl-layout-bootstrap"'));
  const bootstrap=html.match(/<script id="sl-layout-bootstrap">([\s\S]*?)<\/script>/)[1];
  const campaign=read('source/campaigns.js');
@@ -79,6 +79,7 @@ test('All pages retain one complete ordered stylesheet, a generated critical sub
  assert.match(home,/<link id="sl-full-styles" rel="preload" as="style"/);
  assert.match(home,/<noscript><link rel="stylesheet"/);
  assert.ok(home.includes('@layer sl-first-paint{html:not(.sl-styles-ready)'));
+ assert.ok(home.includes('html:not(.sl-layout-ready) body:not(.sl-detail-view) *'));
  assert.ok(home.includes("requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')))"));
  assert.match(read('source/enhancements.js'),/byId\('sl-full-styles'\).*sl-styles-ready.*firstScreenStartedAt<2500/);
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
