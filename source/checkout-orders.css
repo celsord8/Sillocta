@@ -166,6 +166,27 @@ html body #cart-drawer.sl-orders-checkout .sl-summary-row{font-size:12px!importa
 @media(max-width:768px){html body #cart-drawer.sl-orders-checkout :is(.sl-input,.sl-textarea){font-size:16px!important;min-height:48px!important}html body #cart-drawer.sl-orders-checkout #cart-items{padding-inline:22px!important}html body #cart-drawer.sl-orders-checkout .sl-checkout-block{padding-bottom:24px!important;margin-bottom:22px!important}}
 @media(max-width:380px){html body #cart-drawer.sl-orders-checkout #cart-items{padding-inline:18px!important}html body #cart-drawer.sl-orders-checkout .sl-city-fields{grid-template-columns:minmax(0,1fr) 76px;gap:12px}}
 
+/* Helpful details remain quiet; the mobile summary yields to fields and keyboards. */
+html body #cart-drawer.sl-orders-checkout .sl-context-help{display:block;font:400 11px/1.75 Montserrat,sans-serif;color:#bfb5a5;margin:4px 0 0;letter-spacing:0}
+html body #cart-drawer.sl-orders-checkout .sl-guest-note{font-size:11px!important;color:#cbb477!important;margin-top:8px!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-thumb{aspect-ratio:3/4;height:auto!important;background:#080707!important}
+html body #cart-drawer.sl-orders-checkout .sl-checkout-thumb img{width:100%;height:100%;object-fit:contain!important;object-position:center!important}
+html body #cart-drawer.sl-orders-checkout .sl-field-error{font:400 11px/1.7 Montserrat,sans-serif;color:#efafa4;margin-top:4px}
+html body #cart-drawer.sl-orders-checkout .sl-field.is-invalid .sl-input{border-color:#dc9b90!important}
+.sl-compact-summary{display:none!important}
+html body #cart-drawer .sl-receipt-overview{margin:22px 0 0;padding:18px 0;border-top:1px solid #cbb47726;display:grid;gap:14px;font:400 11px/1.7 Montserrat,sans-serif}
+.sl-receipt-overview div{display:grid;gap:4px}.sl-receipt-overview dt{color:#bfb5a5}.sl-receipt-overview dd{margin:0;color:#eee5d6;overflow-wrap:anywhere}
+.sl-receipt-items{padding:0;margin:18px 0;list-style:none}.sl-receipt-items li{padding:10px 0;color:#ded4c4;line-height:1.8;border-bottom:1px solid #ffffff0e}
+html body #cart-drawer .sl-payment-result .sl-result-next{padding:16px 0;color:#d1c6b4;font-size:12px;line-height:1.85}
+@media(max-width:768px){
+ html body #cart-drawer.sl-orders-checkout .sl-compact-summary:not([hidden]){position:sticky;bottom:0;z-index:4;display:flex!important;align-items:center;justify-content:space-between;gap:18px;padding:14px 22px calc(14px + env(safe-area-inset-bottom));background:#100e0b;border-top:1px solid #cbb47733;box-shadow:0 -10px 28px #0003}
+ .sl-compact-summary>div{display:grid;gap:5px}.sl-compact-summary span{font:400 10px/1.5 Montserrat,sans-serif;color:#bfb5a5}.sl-compact-summary strong{font:400 21px/1.4 Montserrat,sans-serif;color:#e3cfa0;white-space:nowrap}
+ html body #cart-drawer .sl-compact-summary button{min-height:46px;padding:12px 22px;background:#cbb477;color:#18140c;border:1px solid #cbb477;border-radius:4px;font:500 12px/1.5 Montserrat,sans-serif;cursor:pointer}
+ html body #cart-drawer .sl-compact-summary button:disabled{opacity:.55;cursor:wait}
+ html body #cart-drawer.sl-editing .sl-compact-summary,html body #cart-drawer.sl-orders-checkout .sl-compact-summary.sl-action-visible,html body #cart-drawer.sl-payment-stage .sl-compact-summary{display:none!important}
+ html body #cart-drawer .sl-compact-summary button:focus-visible{outline:2px solid #eee5d6;outline-offset:3px}
+ html body #cart-drawer.sl-orders-checkout .sl-input{font-size:16px!important}
+}
 /* Maison finish: a continuous reading surface, with gold reserved for decisions. */
 html body #cart-drawer.sl-orders-checkout{--sl-checkout-line:#cbb47724;--sl-checkout-copy:#c9bfae;background:#0c0b0a!important}
 html body #cart-drawer.sl-orders-checkout #cart-drawer-head{padding-inline:28px!important;padding-top:calc(24px + env(safe-area-inset-top))!important;padding-bottom:20px!important;border-bottom:1px solid #ffffff0e!important}
