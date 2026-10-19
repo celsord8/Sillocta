@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import PRODUCTS from '../source/products.json' with {type:'json'};
 import CAMPAIGNS from '../source/campaigns.json' with {type:'json'};
@@ -52,8 +53,8 @@ function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialV
 
 test('A visible carousel starts without waiting for interaction or its first observer callback',()=>{
   const h=harness({observer:true,initialVisible:true});
-  h.advance(4000);assert.equal(h.active(),1);
-  h.visible(true,.02);h.advance(4000);assert.equal(h.active(),2);
+  h.advance(2000);assert.equal(h.active(),1);
+  h.visible(true,.02);h.advance(2000);assert.equal(h.active(),2);
 });
 
 test('Early script loading waits for parsed markup and repeated initialization never duplicates the loop',()=>{
@@ -61,16 +62,16 @@ test('Early script loading waits for parsed markup and repeated initialization n
   assert.equal(h.rendered.length,6);assert.equal(h.scrolls.length,0);
   h.domReady();assert.equal(h.rendered.length,18);assert.equal(h.active(),0);
   h.runAgain();assert.equal(h.rendered.length,18);
-  h.advance(4000);assert.equal(h.active(),1);
+  h.advance(2000);assert.equal(h.active(),1);
   assert.equal(h.scrolls.filter(s=>s.behavior==='smooth').length,1);
 });
 
 test('Returning from browser history clears stale pointer pauses and resumes at the same perfume',()=>{
   const h=harness({observer:true,initialVisible:true});
-  h.advance(4000);assert.equal(h.active(),1);
+  h.advance(2000);assert.equal(h.active(),1);
   h.rootEvent('pointerenter',{pointerType:'mouse'});h.rootEvent('pointerdown');
   h.windowEvent('pagehide');h.advance(10000);assert.equal(h.active(),1);
-  h.windowEvent('pageshow',{persisted:true});h.advance(4000);assert.equal(h.active(),2);
+  h.windowEvent('pageshow',{persisted:true});h.advance(2000);assert.equal(h.active(),2);
 });
 
 test('Six controls select the corresponding perfume in every run and a touch scroll updates the indicator',()=>{
@@ -84,10 +85,10 @@ test('Six controls select the corresponding perfume in every run and a touch scr
   assert.ok(h.track.scrollLeft<=h.track.scrollWidth-h.track.clientWidth);
 });
 
-test('Automatic advance uses 4 seconds and always travels one image forward across repeated seams',()=>{
-  const h=harness();h.advance(3999);assert.equal(h.active(),0);
+test('Automatic advance uses 2 seconds and always travels one image forward across repeated seams',()=>{
+  const h=harness();h.advance(1999);assert.equal(h.active(),0);
   h.advance(1);assert.equal(h.active(),1);
-  for(let i=2;i<=24;i++){h.advance(4000);assert.equal(h.active(),i%CAMPAIGNS.length);}
+  for(let i=2;i<=24;i++){h.advance(2000);assert.equal(h.active(),i%CAMPAIGNS.length);}
   const moves=h.scrolls.filter(s=>s.behavior==='smooth');
   assert.equal(moves.length,24);
   for(const move of moves){assert.equal(move.actual-move.previous,632);}
@@ -136,7 +137,7 @@ test('Resizing preserves the current perfume and resets to an equivalent middle-
 test('Pointer navigation resumes automatically while keyboard browsing keeps the images still',()=>{
   const h=harness();
   h.rootEvent('pointerenter',{pointerType:'mouse'});h.advance(24000);assert.equal(h.active(),0);
-  h.rootEvent('pointerleave',{pointerType:'mouse'});h.advance(4000);assert.equal(h.active(),1);
+  h.rootEvent('pointerleave',{pointerType:'mouse'});h.advance(2000);assert.equal(h.active(),1);
   h.rootEvent('pointerdown');h.rootEvent('focusin',{target:{matches:()=>false}});
   h.advance(24000);assert.equal(h.active(),1);
   h.windowEvent('pointercancel');h.advance(7000);assert.equal(h.active(),2);
@@ -148,12 +149,12 @@ test('Pointer navigation resumes automatically while keyboard browsing keeps the
 
 test('Automatic advance stops outside the view, in a hidden tab and with reduced motion',()=>{
   const h=harness({observer:true});h.advance(24000);assert.equal(h.active(),0);
-  h.visible(true);h.advance(4000);assert.equal(h.active(),1);
+  h.visible(true);h.advance(2000);assert.equal(h.active(),1);
   h.visible(false);h.advance(24000);assert.equal(h.active(),1);
   h.visible(true);h.hidden(true);h.advance(24000);assert.equal(h.active(),1);
-  h.hidden(false);h.advance(4000);assert.equal(h.active(),2);
+  h.hidden(false);h.advance(2000);assert.equal(h.active(),2);
   h.reduced(true);h.advance(24000);assert.equal(h.active(),2);
-  h.reduced(false);h.advance(4000);assert.equal(h.active(),3);
+  h.reduced(false);h.advance(2000);assert.equal(h.active(),3);
 });
 
 test('Mobile places campaigns directly after collection selectors and preserves the hero copy on resize',()=>{
@@ -184,10 +185,10 @@ test('Mobile places campaigns directly after collection selectors and preserves 
 test('Autoplay warms the next slide after the first frame, and cancels offscreen work',()=>{
  const h=harness({observer:true,initialVisible:true});
  assert.equal(h.cards[1].image.loading,'lazy');
- h.advance(2399);assert.equal(h.cards[1].image.loading,'lazy');
+ h.advance(799);assert.equal(h.cards[1].image.loading,'lazy');
  h.advance(1);assert.equal(h.cards[1].image.loading,'eager');
- h.advance(1600);assert.equal(h.active(),1);
- h.visible(false);h.advance(4000);
+ h.advance(1200);assert.equal(h.active(),1);
+ h.visible(false);h.advance(2000);
  assert.equal(h.cards[2].image.loading,'lazy');
  assert.equal(h.active(),1);
 });
@@ -200,5 +201,31 @@ test('Every campaign links to an available perfume, with both original and respo
   assert.ok(product?.available);
   assert.ok(html.includes(`href="${globalThis.SilloctaProductPages.path(product)}"`));
   assert.deepEqual(readFileSync(new URL('../public/'+campaign.image,import.meta.url)),readFileSync(new URL('../source/'+campaign.image,import.meta.url)));
+ }
+});
+
+test('Campaign crops serve each viewport at Retina resolution without changing or upscaling original photography',()=>{
+ const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
+ const preload=html.match(/<link id="sl-home-media-preload-campaign"[^>]*>/)?.[0];
+ for(const campaign of CAMPAIGNS){
+  const original=readFileSync(new URL('../source/'+campaign.image,import.meta.url));
+  assert.equal(createHash('sha256').update(original).digest('hex'),campaign.media.originalSha256);
+  const card=html.match(new RegExp('<a id="campaign-card-'+campaign.productId+'"[\\s\\S]*?</a>'))?.[0];
+  assert.ok(card?.includes('<picture class="sl-campaign-picture">'));
+  assert.ok(card.includes('<source media="(min-width:721px)"'));
+  for(const [layout,media] of Object.entries(campaign.displayMedia)){
+   assert.ok(media.sources.some(s=>s.width===960),'A 320px card needs a native 960px candidate on a 3x screen');
+   const set=media.sources.map(s=>'/'+s.url+' '+s.width+'w').join(', ');
+   assert.ok(card.includes('srcset="'+set+'"'));
+   if(campaign.productId===1&&layout==='mobile')assert.ok(preload?.includes('imagesrcset="'+set+'"'));
+   for(const image of media.sources){
+    assert.ok(image.width<=media.nativeWidth&&image.height<=media.nativeHeight);
+    assert.ok(Math.abs(image.width/image.height-media.ratio)<.01);
+    assert.ok(image.quality>=94&&image.psnr>=34);
+    const file=readFileSync(new URL('../public/'+image.url,import.meta.url));
+    assert.equal(file.length,image.bytes);
+    assert.ok(image.url.includes(createHash('sha256').update(file).digest('hex').slice(0,12)));
+   }
+  }
  }
 });
