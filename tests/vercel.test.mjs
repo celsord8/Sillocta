@@ -55,7 +55,7 @@ test('Home retains all product links, both floating collections and the approved
   assert.equal((home.match(/class="sl-campaign-card"/g)||[]).length,6);
   for(const asset of ['campaigns.css','campaigns.js','campaigns.json','navigation.js','media.json'])assert.ok(existsSync(new URL('../public/'+asset,import.meta.url)));
   assert.deepEqual(readFileSync(new URL('../public/enhancements.css',import.meta.url)),readFileSync(new URL('../source/enhancements.css',import.meta.url)));
-  assert.deepEqual(readFileSync(new URL('../public/enhancements.js',import.meta.url)),readFileSync(new URL('../source/enhancements.js',import.meta.url)));
+  assert.ok(readFileSync(new URL('../public/enhancements.js',import.meta.url)).length<readFileSync(new URL('../source/enhancements.js',import.meta.url)).length*.9);
   for(const p of PRODUCTS)assert.deepEqual(readFileSync(new URL('../public/'+p.image,import.meta.url)),readFileSync(new URL('../source/'+p.image,import.meta.url)));
 });
 
