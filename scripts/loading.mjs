@@ -62,6 +62,12 @@ export function installCriticalStyles(html,css,options){
 // The campaign is part of the initial mobile viewport, but below the fold on
 // desktop. Reuse its exact responsive candidates; never preload a second size.
 export function campaignPreload(html){
+ const preferred=html.match(/id="campaign-card-1"[\s\S]*?<source media="\(max-width:720px\)" type="image\/avif"\s+([^>]+)>/)?.[1];
+ if(preferred){
+  const value=name=>preferred.match(new RegExp('(?:^|\\s)'+name+'="([^"]+)"'))?.[1];
+  const srcset=value('srcset');
+  return '<link id="sl-home-media-preload-campaign" rel="preload" as="image" type="image/avif" media="(max-width:720px)" href="'+srcset.split(',')[0].trim().split(' ')[0]+'" imagesrcset="'+srcset+'" imagesizes="'+value('sizes')+'" fetchpriority="high">';
+ }
  const image=html.match(/id="campaign-card-1"[\s\S]*?<img\s+([^>]+)>/)?.[1];
  if(!image)return '';
  const value=name=>image.match(new RegExp('(?:^|\\s)'+name+'="([^"]+)"'))?.[1];
