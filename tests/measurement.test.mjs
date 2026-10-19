@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {measurementMetadata} from '../scripts/measurement.mjs';
-const code=readFileSync(new URL('../source/measurement.js',import.meta.url),'utf8');
+const code=readFileSync(new URL(process.env.SILLOCTA_TEST_BUNDLES?'../public/measurement.js':'../source/measurement.js',import.meta.url),'utf8');
 function harness({privacy={},storage=new Map(),collector,gaId='',vercel=true}={}){
  const scripts=[],timers=[];
  const context=vm.createContext({navigator:privacy,location:{origin:'https://shop.example',pathname:'/perfume/creed-aventus'},URL,sessionStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,value)},document:{title:'Aventus | Sillocta',referrer:'https://referrer.example/?private=value#secret',querySelector:selector=>({getAttribute:()=>selector.includes('ga4')?gaId:String(vercel)}),getElementById:()=>null,createElement:()=>({}),head:{appendChild:script=>scripts.push(script)}},setTimeout:fn=>timers.push(fn)});
