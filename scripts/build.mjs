@@ -5,6 +5,7 @@ import {consolidateStyles,compactStyles} from './styles.mjs';
 import {iconStyles,installCriticalStyles,campaignPreload,installHeroBootstrap} from './loading.mjs';
 import {deploymentMetadata,seoFiles,pageMetadata} from './site-metadata.mjs';
 import {measurementMetadata} from './measurement.mjs';
+import {minify} from 'terser';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const source=path.join(root,'source'),output=path.join(root,'public');
@@ -32,6 +33,16 @@ const shell=(home.slice(0,heroStart)+'<!-- SILLOCTA_PRODUCT_DETAIL -->'+home.sli
 rmSync(output,{recursive:true,force:true});
 mkdirSync(path.join(output,'perfume'),{recursive:true});
 for(const name of ['measurement.js','enhancements.css','enhancements.js','product-pages.css','product-pages.js','products.json','campaigns.css','campaigns.js','campaigns.json','navigation.js','discovery.js','media.json','checkout-orders.js','checkout-orders.css','assets'])cpSync(path.join(source,name),path.join(output,name),{recursive:true});
+// Preserve global names used by inline controls and other scripts; shorten
+// local implementation details and remove comments/whitespace in production.
+for(const name of ['measurement.js','enhancements.js','product-pages.js','campaigns.js','navigation.js','discovery.js','checkout-orders.js']){
+ const result=await minify(readFileSync(path.join(source,name),'utf8'),{
+  ecma:2020,toplevel:false,compress:{passes:2},mangle:{toplevel:false},
+  format:{comments:/^!/,quote_style:1},
+ });
+ if(!result.code)throw Error('Empty browser bundle: '+name);
+ writeFileSync(path.join(output,name),result.code);
+}
 const styles=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'].map(name=>readFileSync(path.join(source,name),'utf8'));
 const icons=iconStyles(JSON.parse(readFileSync(path.join(source,'icons.json'),'utf8')));
 const bundled=consolidateStyles(icons+'\n'+styles.join('\n'));
