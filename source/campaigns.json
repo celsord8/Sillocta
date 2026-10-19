@@ -28,6 +28,90 @@
           "bytes": 454762
         }
       ]
+    },
+    "displayMedia": {
+      "mobile": {
+        "ratio": 1.78,
+        "focus": "55% 50%",
+        "nativeWidth": 1246,
+        "nativeHeight": 700,
+        "sizes": "(max-width: 360px) calc((100vw - 28px) * .84), calc((100vw - 36px) * .84)",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-480-cb09bf9d5838.webp",
+            "width": 480,
+            "height": 270,
+            "bytes": 69564,
+            "quality": 95,
+            "psnr": 42.5
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-640-ab1ff3477fd6.webp",
+            "width": 640,
+            "height": 360,
+            "bytes": 123540,
+            "quality": 95,
+            "psnr": 42.96
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-960-e62c3796fc50.webp",
+            "width": 960,
+            "height": 539,
+            "bytes": 270328,
+            "quality": 95,
+            "psnr": 43.46
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-1246-93ca5ef9b18a.webp",
+            "width": 1246,
+            "height": 700,
+            "bytes": 443630,
+            "quality": 95,
+            "psnr": 44.11
+          }
+        ]
+      },
+      "desktop": {
+        "ratio": 2.15,
+        "focus": "55% 50%",
+        "nativeWidth": 1505,
+        "nativeHeight": 700,
+        "sizes": "(max-width: 1060px) calc((100vw - 48px) * .62), 620px",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-aventus-desktop-480-bfd4350cbbea.webp",
+            "width": 480,
+            "height": 223,
+            "bytes": 57818,
+            "quality": 95,
+            "psnr": 42.32
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-desktop-640-34a7cbf85a9e.webp",
+            "width": 640,
+            "height": 298,
+            "bytes": 103144,
+            "quality": 95,
+            "psnr": 42.66
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-desktop-960-2546a7600650.webp",
+            "width": 960,
+            "height": 447,
+            "bytes": 230374,
+            "quality": 95,
+            "psnr": 43.27
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-desktop-1280-b4d3fa1d25cc.webp",
+            "width": 1280,
+            "height": 595,
+            "bytes": 399018,
+            "quality": 95,
+            "psnr": 43.61
+          }
+        ]
+      }
     }
   },
   {
@@ -51,6 +135,90 @@
           "bytes": 320378
         }
       ]
+    },
+    "displayMedia": {
+      "mobile": {
+        "ratio": 1.78,
+        "focus": "50% 45%",
+        "nativeWidth": 1669,
+        "nativeHeight": 938,
+        "sizes": "(max-width: 360px) calc((100vw - 28px) * .84), calc((100vw - 36px) * .84)",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-480-384dc2a2e9c4.webp",
+            "width": 480,
+            "height": 270,
+            "bytes": 86238,
+            "quality": 95,
+            "psnr": 35.52
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-640-dfe4b139f5b3.webp",
+            "width": 640,
+            "height": 360,
+            "bytes": 141740,
+            "quality": 95,
+            "psnr": 37.65
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-960-09ff70ca229a.webp",
+            "width": 960,
+            "height": 539,
+            "bytes": 279248,
+            "quality": 95,
+            "psnr": 40.42
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-1280-0f83c2f25286.webp",
+            "width": 1280,
+            "height": 719,
+            "bytes": 419334,
+            "quality": 95,
+            "psnr": 41.6
+          }
+        ]
+      },
+      "desktop": {
+        "ratio": 2.15,
+        "focus": "50% 45%",
+        "nativeWidth": 1680,
+        "nativeHeight": 781,
+        "sizes": "(max-width: 1060px) calc((100vw - 48px) * .62), 620px",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-miss-dior-desktop-480-6682bb81775a.webp",
+            "width": 480,
+            "height": 223,
+            "bytes": 71388,
+            "quality": 95,
+            "psnr": 35.45
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-desktop-640-4d9cd778ed08.webp",
+            "width": 640,
+            "height": 298,
+            "bytes": 117190,
+            "quality": 95,
+            "psnr": 37.45
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-desktop-960-002628e843a4.webp",
+            "width": 960,
+            "height": 447,
+            "bytes": 231254,
+            "quality": 95,
+            "psnr": 40.38
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-desktop-1280-5bf78475efd1.webp",
+            "width": 1280,
+            "height": 595,
+            "bytes": 347160,
+            "quality": 95,
+            "psnr": 41.46
+          }
+        ]
+      }
     }
   },
   {
@@ -76,6 +244,90 @@
           "bytes": 157740
         }
       ]
+    },
+    "displayMedia": {
+      "mobile": {
+        "ratio": 1.78,
+        "focus": "50% 60%",
+        "nativeWidth": 1280,
+        "nativeHeight": 719,
+        "sizes": "(max-width: 360px) calc((100vw - 28px) * .84), calc((100vw - 36px) * .84)",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-480-86df39dd4e9b.webp",
+            "width": 480,
+            "height": 270,
+            "bytes": 46612,
+            "quality": 95,
+            "psnr": 37.67
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-640-cbe0be01274f.webp",
+            "width": 640,
+            "height": 360,
+            "bytes": 75096,
+            "quality": 95,
+            "psnr": 39.75
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-960-45c0c178c3f3.webp",
+            "width": 960,
+            "height": 539,
+            "bytes": 138210,
+            "quality": 95,
+            "psnr": 42.32
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-1280-cbea329728cd.webp",
+            "width": 1280,
+            "height": 719,
+            "bytes": 193092,
+            "quality": 95,
+            "psnr": 44.04
+          }
+        ]
+      },
+      "desktop": {
+        "ratio": 2.15,
+        "focus": "50% 60%",
+        "nativeWidth": 1280,
+        "nativeHeight": 595,
+        "sizes": "(max-width: 1060px) calc((100vw - 48px) * .62), 620px",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-desktop-480-ca13ea1004b1.webp",
+            "width": 480,
+            "height": 223,
+            "bytes": 38550,
+            "quality": 95,
+            "psnr": 37.55
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-desktop-640-5ebd968d1a34.webp",
+            "width": 640,
+            "height": 298,
+            "bytes": 62006,
+            "quality": 95,
+            "psnr": 39.56
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-desktop-960-78003fc1caa5.webp",
+            "width": 960,
+            "height": 447,
+            "bytes": 113736,
+            "quality": 95,
+            "psnr": 42.18
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-desktop-1280-0758e39cacc4.webp",
+            "width": 1280,
+            "height": 595,
+            "bytes": 168506,
+            "quality": 95,
+            "psnr": 44.0
+          }
+        ]
+      }
     }
   },
   {
@@ -99,6 +351,90 @@
           "bytes": 484782
         }
       ]
+    },
+    "displayMedia": {
+      "mobile": {
+        "ratio": 1.78,
+        "focus": "50% 57%",
+        "nativeWidth": 1170,
+        "nativeHeight": 657,
+        "sizes": "(max-width: 360px) calc((100vw - 28px) * .84), calc((100vw - 36px) * .84)",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-libre-mobile-480-953e3829e1a9.webp",
+            "width": 480,
+            "height": 270,
+            "bytes": 75008,
+            "quality": 95,
+            "psnr": 34.61
+          },
+          {
+            "url": "assets/responsive/campaign-libre-mobile-640-10139c41a0a7.webp",
+            "width": 640,
+            "height": 360,
+            "bytes": 128932,
+            "quality": 95,
+            "psnr": 35.68
+          },
+          {
+            "url": "assets/responsive/campaign-libre-mobile-960-4a7207f9cb84.webp",
+            "width": 960,
+            "height": 539,
+            "bytes": 277560,
+            "quality": 95,
+            "psnr": 37.49
+          },
+          {
+            "url": "assets/responsive/campaign-libre-mobile-1170-3b45b9b3ee6d.webp",
+            "width": 1170,
+            "height": 657,
+            "bytes": 407390,
+            "quality": 95,
+            "psnr": 39.42
+          }
+        ]
+      },
+      "desktop": {
+        "ratio": 2.15,
+        "focus": "50% 57%",
+        "nativeWidth": 1170,
+        "nativeHeight": 544,
+        "sizes": "(max-width: 1060px) calc((100vw - 48px) * .62), 620px",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-libre-desktop-480-1338bf93a5e2.webp",
+            "width": 480,
+            "height": 223,
+            "bytes": 62116,
+            "quality": 95,
+            "psnr": 34.75
+          },
+          {
+            "url": "assets/responsive/campaign-libre-desktop-640-7d44766959bd.webp",
+            "width": 640,
+            "height": 298,
+            "bytes": 104606,
+            "quality": 95,
+            "psnr": 35.77
+          },
+          {
+            "url": "assets/responsive/campaign-libre-desktop-960-52fc04e8b357.webp",
+            "width": 960,
+            "height": 447,
+            "bytes": 228496,
+            "quality": 95,
+            "psnr": 37.71
+          },
+          {
+            "url": "assets/responsive/campaign-libre-desktop-1170-d7b914c8b8eb.webp",
+            "width": 1170,
+            "height": 544,
+            "bytes": 340870,
+            "quality": 95,
+            "psnr": 39.34
+          }
+        ]
+      }
     }
   },
   {
@@ -132,6 +468,90 @@
           "bytes": 185964
         }
       ]
+    },
+    "displayMedia": {
+      "mobile": {
+        "ratio": 1.78,
+        "focus": "50% 65%",
+        "nativeWidth": 1280,
+        "nativeHeight": 719,
+        "sizes": "(max-width: 360px) calc((100vw - 28px) * .84), calc((100vw - 36px) * .84)",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-480-304a2978691c.webp",
+            "width": 480,
+            "height": 270,
+            "bytes": 35276,
+            "quality": 95,
+            "psnr": 38.54
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-640-eaba48886c87.webp",
+            "width": 640,
+            "height": 360,
+            "bytes": 59330,
+            "quality": 95,
+            "psnr": 40.04
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-960-266bce386b64.webp",
+            "width": 960,
+            "height": 539,
+            "bytes": 118150,
+            "quality": 95,
+            "psnr": 42.32
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-1280-3b95f58e8450.webp",
+            "width": 1280,
+            "height": 719,
+            "bytes": 182926,
+            "quality": 95,
+            "psnr": 43.99
+          }
+        ]
+      },
+      "desktop": {
+        "ratio": 2.15,
+        "focus": "50% 65%",
+        "nativeWidth": 1280,
+        "nativeHeight": 595,
+        "sizes": "(max-width: 1060px) calc((100vw - 48px) * .62), 620px",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-naxos-desktop-480-b65078ca1f0d.webp",
+            "width": 480,
+            "height": 223,
+            "bytes": 30090,
+            "quality": 95,
+            "psnr": 37.99
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-desktop-640-259646e3272f.webp",
+            "width": 640,
+            "height": 298,
+            "bytes": 50436,
+            "quality": 95,
+            "psnr": 39.66
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-desktop-960-72c04ed313da.webp",
+            "width": 960,
+            "height": 447,
+            "bytes": 98950,
+            "quality": 95,
+            "psnr": 41.96
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-desktop-1280-e4bb5fd9a682.webp",
+            "width": 1280,
+            "height": 595,
+            "bytes": 157088,
+            "quality": 95,
+            "psnr": 43.56
+          }
+        ]
+      }
     }
   },
   {
@@ -165,6 +585,90 @@
           "bytes": 126438
         }
       ]
+    },
+    "displayMedia": {
+      "mobile": {
+        "ratio": 1.78,
+        "focus": "50% 55%",
+        "nativeWidth": 1280,
+        "nativeHeight": 719,
+        "sizes": "(max-width: 360px) calc((100vw - 28px) * .84), calc((100vw - 36px) * .84)",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-480-11a6eedc82d1.webp",
+            "width": 480,
+            "height": 270,
+            "bytes": 28954,
+            "quality": 95,
+            "psnr": 42.66
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-640-354895cb4303.webp",
+            "width": 640,
+            "height": 360,
+            "bytes": 47624,
+            "quality": 95,
+            "psnr": 43.64
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-960-8edf72ba9755.webp",
+            "width": 960,
+            "height": 539,
+            "bytes": 96430,
+            "quality": 95,
+            "psnr": 44.96
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-1280-462c84f219a0.webp",
+            "width": 1280,
+            "height": 719,
+            "bytes": 138266,
+            "quality": 95,
+            "psnr": 45.94
+          }
+        ]
+      },
+      "desktop": {
+        "ratio": 2.15,
+        "focus": "50% 55%",
+        "nativeWidth": 1280,
+        "nativeHeight": 595,
+        "sizes": "(max-width: 1060px) calc((100vw - 48px) * .62), 620px",
+        "sources": [
+          {
+            "url": "assets/responsive/campaign-irresistible-desktop-480-10a969e07638.webp",
+            "width": 480,
+            "height": 223,
+            "bytes": 23822,
+            "quality": 95,
+            "psnr": 42.8
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-desktop-640-314928e1b646.webp",
+            "width": 640,
+            "height": 298,
+            "bytes": 39168,
+            "quality": 95,
+            "psnr": 43.78
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-desktop-960-316fedfbc0a4.webp",
+            "width": 960,
+            "height": 447,
+            "bytes": 74638,
+            "quality": 95,
+            "psnr": 44.72
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-desktop-1280-d5af2fc35e87.webp",
+            "width": 1280,
+            "height": 595,
+            "bytes": 114180,
+            "quality": 95,
+            "psnr": 45.83
+          }
+        ]
+      }
     }
   }
 ]

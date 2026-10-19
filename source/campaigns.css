@@ -18,7 +18,8 @@ html body .sl-campaign-card[data-active=true]::before,html body .sl-campaign-car
 @supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
   html body .sl-campaign-card::before{border:0;padding:1px;background:linear-gradient(135deg,#ead39ad9 0%,#cbb477a6 38%,#a27c427a 68%,#e5ca91cf 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 }
-html body .sl-campaign-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:var(--campaign-focus,center);transition:transform 1s cubic-bezier(.22,1,.36,1);transform:scale(1)}
+html body .sl-campaign-picture{display:block;width:100%;height:100%}
+html body .sl-campaign-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 1s cubic-bezier(.22,1,.36,1);transform:scale(1)}
 html body .sl-campaign-card[data-active=true] img{transform:scale(1.014)}
 html body .sl-campaign-card::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 38%,#08060420 53%,#080604c9 100%)}
 html body .sl-campaign-caption{position:absolute;z-index:1;bottom:20px;left:24px;right:20px;display:flex;flex-direction:column;gap:5px}

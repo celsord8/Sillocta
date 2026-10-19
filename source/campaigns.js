@@ -12,7 +12,7 @@
   if(!cards.length)return;
   root.setAttribute('data-campaign-ready','true');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const interval=4000;
+  const interval=2000;
   const indexes=new Map(cards.map((card,index)=>[card,index]));
   const duplicate=card=>{
     const clone=card.cloneNode(true);
@@ -88,14 +88,14 @@
     if(!canPlay())return;
     const next=(active()+1)%cards.length;
     const delay=Math.max(interval,manualUntil-Date.now());
-    // Leave bandwidth to the visible first frame, then warm the next slide
-    // before the existing autoplay transition. Original images stay unchanged.
+    // Leave bandwidth to the visible first frame, then warm only the next
+    // slide before the two-second transition. Original files stay unchanged.
     preloadTimer=setTimeout(()=>{
       preloadTimer=0;if(!canPlay())return;
       all.filter(card=>indexes.get(card)===next).forEach(card=>{
         const img=card.querySelector('img');if(img){img.loading='eager';img.fetchPriority='low';}
       });
-    },Math.max(0,delay-1600));
+    },Math.max(0,delay-1200));
     timer=setTimeout(()=>{
       timer=0;if(!canPlay())return;
       step(1);queueAutoplay();
