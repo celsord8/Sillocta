@@ -78,13 +78,14 @@ test('All pages retain one complete ordered stylesheet, a generated critical sub
  const home=read('public/index.html'),sources=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'];
  const detail=read('public/perfume/dior-miss-dior.html');
  assert.equal((home.match(/id="sl-critical-styles"/g)||[]).length,0);
- assert.match(home,/<link id="sl-full-styles" rel="stylesheet"/);
+ assert.match(home,/<style id="sl-full-styles">/);
  assert.match(detail,/<noscript><link rel="stylesheet"/);
  assert.ok(detail.includes('@layer sl-first-paint{html:not(.sl-styles-ready)'));
  assert.ok(detail.includes("requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')))"));
  assert.match(read('source/enhancements.js'),/byId\('sl-full-styles'\).*sl-styles-ready.*firstScreenStartedAt<2500/);
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
+ assert.ok(home.includes('<style id="sl-full-styles">'+compactStyles(full)+'</style>'));
  assert.equal(read('public/storefront.css'),compactStyles(full));
  assert.ok(detail.includes(criticalStyles(full,{detail:true})));
  assert.ok(criticalStyles(full).length<95000);
