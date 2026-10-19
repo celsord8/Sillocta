@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
-const code=readFileSync(new URL('../source/checkout-orders.js',import.meta.url),'utf8');
+const code=readFileSync(new URL(process.env.SILLOCTA_TEST_BUNDLES?'../public/checkout-orders.js':'../source/checkout-orders.js',import.meta.url),'utf8');
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 test('Only current contact and address drafts are restored; payment secrets and expired drafts are excluded',async()=>{
   const key='sillocta-checkout-draft-v1';
