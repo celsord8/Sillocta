@@ -227,7 +227,15 @@ test('Campaign crops serve each viewport at Retina resolution without changing o
    assert.ok(media.sources.some(s=>s.width===960),'A 320px card needs a native 960px candidate on a 3x screen');
    const set=media.sources.map(s=>'/'+s.url+' '+s.width+'w').join(', ');
    assert.ok(card.includes('srcset="'+set+'"'));
-   if(campaign.productId===1&&layout==='mobile')assert.ok(preload?.includes('imagesrcset="'+set+'"'));
+   if(layout==='mobile'){
+    const avifSet=media.avifSources.map(s=>'/'+s.url+' '+s.width+'w').join(', ');
+    assert.ok(card.includes('type="image/avif" srcset="'+avifSet+'"'));
+    if(campaign.productId===1){assert.ok(preload?.includes('type="image/avif"'));assert.ok(preload.includes('imagesrcset="'+avifSet+'"'));}
+    for(const image of media.avifSources){
+     assert.ok(image.psnr>=34&&image.width<=media.nativeWidth&&image.height<=media.nativeHeight);
+     assert.equal(readFileSync(new URL('../public/'+image.url,import.meta.url)).length,image.bytes);
+    }
+   }
    for(const image of media.sources){
     assert.ok(image.width<=media.nativeWidth&&image.height<=media.nativeHeight);
     assert.ok(Math.abs(image.width/image.height-media.ratio)<.01);
