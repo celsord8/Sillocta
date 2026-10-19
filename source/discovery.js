@@ -71,10 +71,10 @@
   let answers=cleanAnswers(read('sillocta-guide-v1')),step=questions.every(q=>answers[q.key])?3:0,guideOrigin=null;
   let restoring=false,fadeFrame=0,flight=null;
   const dialog=document.createElement('dialog');dialog.id='sl-fragrance-dialog';dialog.className='sl-guide-dialog';dialog.setAttribute('aria-labelledby','sl-guide-title');
-  dialog.innerHTML='<div class="sl-guide-header"><div><p class="sl-guide-eyebrow">Curadoria olfativa</p><h2 id="sl-guide-title">Encontre sua fragrância</h2></div><button type="button" class="sl-guide-close" aria-label="Fechar guia de fragrâncias"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="sl-guide-body"></div>';
+  dialog.innerHTML='<div class="sl-guide-header"><div><p class="sl-guide-eyebrow">Curadoria olfativa</p><h2 id="sl-guide-title">Qual será sua próxima descoberta?</h2></div><button type="button" class="sl-guide-close" aria-label="Fechar guia de fragrâncias"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="sl-guide-body"></div>';
   document.body.append(dialog);
   const guideArrow='<svg class="sl-guide-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
-  function syncGuideInvitation(){document.querySelectorAll('#fragrance-guide [data-open-guide]').forEach(button=>{button.innerHTML=(step===3?'Rever minha seleção':'Descobrir minha seleção')+' '+guideArrow;});}
+  function syncGuideInvitation(){document.querySelectorAll('#fragrance-guide [data-open-guide]').forEach(button=>{button.innerHTML=(step===3?'Rever minha seleção':'Encontrar minha seleção')+' '+guideArrow;});}
   function guideVolume(){return typeof catalogState!=='undefined'?catalogState.volume:'5';}
   function renderGuide(focus=true){
     const body=byId('sl-guide-body');
