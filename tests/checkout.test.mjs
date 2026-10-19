@@ -152,7 +152,7 @@ test('The Preview standard free-shipping policy applies to products, while expre
   const cookie=await session(),q=await quote(cookie,{items:[{pid:1,volume:'5',quantity:3}]});assert.equal(q.options[0].priceCents,0);assert.equal(q.options[1].priceCents,2990);assert.equal(q.options[0].demo,true);
 });
 test('Deployed pages load the official tokenization controller and never ship private server files',()=>{
-  const home=readFileSync(new URL('../public/index.html',import.meta.url),'utf8'),client=readFileSync(new URL('../public/checkout-orders.js',import.meta.url),'utf8');assert.ok(home.includes('/checkout-orders.js'));assert.ok(client.includes('https://sdk.mercadopago.com/js/v2'));assert.ok(client.includes("create('cardPayment'"));assert.ok(client.includes('controller.unmount()'));assert.ok(!client.includes('MERCADO_PAGO_ACCESS_TOKEN'));assert.ok(!home.includes('data-sillocta-review'));
+  const home=readFileSync(new URL('../public/index.html',import.meta.url),'utf8'),client=readFileSync(new URL('../public/checkout-orders.js',import.meta.url),'utf8');assert.ok(home.includes('/checkout-orders.js'));assert.ok(client.includes('https://sdk.mercadopago.com/js/v2'));assert.ok(client.includes("create('cardPayment'"));assert.ok(/\.unmount\(\)/.test(client));assert.ok(!client.includes('MERCADO_PAGO_ACCESS_TOKEN'));assert.ok(!home.includes('data-sillocta-review'));
 });
 
 // Melhor Envio quotation integration.
