@@ -710,7 +710,7 @@ html body .perfume-grid .sl-card-purchase>.btn-buy{min-height:44px!important;mar
 html body .perfume-grid>.card:hover{transform:none!important;translate:0 0!important}
 @media(max-width:720px){
   html body .perfume-grid .sl-card-purchase>.sl-price-row{flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important;min-height:44px;gap:2px!important}
-  html body .perfume-grid .sl-card-purchase>.btn-buy{min-height:60px!important}
+  html body .perfume-grid .sl-card-purchase>.btn-buy{min-height:44px!important}
 }
 
 /* Volume options carry the catalog price; purchase controls stay unobstructed. */

@@ -103,3 +103,11 @@ html body .sl-product-page .sl-product-bag{color:#dfc994}
   html body #hero-txt>button,html body .perfume-grid .card .btn-buy,
   html body .sl-product-page .sl-product-primary{transition:none!important}
 }
+
+/* Mobile catalog: a 40px gold surface within the full 44px touch target. */
+@media(max-width:720px){
+  html body .perfume-grid .card .btn-buy{position:relative;isolation:isolate;min-height:44px!important;height:44px!important;padding:0 8px!important;border:0!important;background:transparent!important}
+  html body .perfume-grid .card .btn-buy::before{content:"";position:absolute;inset:2px 0;z-index:-1;pointer-events:none;border:1px solid #dfc994;border-radius:inherit;background:#cbb477}
+  html body .perfume-grid .card .btn-buy:is(:hover,:active){background:transparent!important}
+  html body .perfume-grid .card .btn-buy:hover::before{background:#dfc994;border-color:#ebd8af}
+}

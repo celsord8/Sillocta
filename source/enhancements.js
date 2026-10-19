@@ -318,7 +318,7 @@ function checkoutField(key,label,C,options={}){
 }
 function _renderCartLayout(){
   const el=byId('cart-items'),footer=byId('cart-footer');footer.innerHTML='';
-  if(!cart.length){el.innerHTML=`<div class="sl-empty-bag"><i class="fas fa-shopping-bag" aria-hidden="true"></i><h2>Sua sacola está vazia</h2><p>Encontre sua próxima fragrância na coleção.</p><button type="button" class="sl-cta-secondary" data-continue-shopping="1">Explorar coleção</button></div>`;return;}
+  if(!cart.length){el.innerHTML=`<div class="sl-empty-bag"><i class="fas fa-shopping-bag" aria-hidden="true"></i><h2>Sua sacola está vazia</h2><p>Sua próxima descoberta está na coleção.</p><button type="button" class="sl-cta-secondary" data-continue-shopping="1">Explorar fragrâncias</button></div>`;return;}
   const C=Object.fromEntries(Object.entries(window._checkout).map(([k,v])=>[k,escapeHtml(v)])),t=getTotals();
   const coupon=escapeHtml(window._couponCode||''),gift=window._giftWrap,faltaFrete=Math.max(0,29900-t.subtotal);
   const itemsHtml=cart.map(i=>{
@@ -421,7 +421,7 @@ function showPaymentStatus(orderId){
         {title:'Nossa postura', html:'<p>Transparência, refinamento e consistência. O objetivo é aproximar você de perfumes extraordinários sem fricção e sem ruído visual.</p>'},
         {title:'Nossa promessa', html:'<p>Que cada interação com a Sillocta soe como casa de luxo: direta, bonita e confiável.</p>'}
       ],
-      actions:[{label:'Explorar coleção', kind:'secondary', action:'shop'},{label:'WhatsApp', kind:'primary', href:'https://wa.me/5585991857074'}]
+      actions:[{label:'Explorar fragrâncias', kind:'secondary', action:'shop'},{label:'WhatsApp', kind:'primary', href:'https://wa.me/5585991857074'}]
     },
     como: {
       kicker: 'Como funciona',
