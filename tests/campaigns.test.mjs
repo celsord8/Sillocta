@@ -29,7 +29,7 @@ function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialV
   class FakeDate extends Date{static now(){return clock;}}
   class IntersectionObserver{constructor(action){intersection=action;}observe(){}}
   if(observer)window.IntersectionObserver=IntersectionObserver;
-  const source=readFileSync(new URL('../source/campaigns.js',import.meta.url),'utf8');
+  const source=readFileSync(new URL(process.env.SILLOCTA_TEST_BUNDLES?'../public/campaigns.js':'../source/campaigns.js',import.meta.url),'utf8');
   const context={document,window,IntersectionObserver,Date:FakeDate,requestAnimationFrame:action=>frames.push(action),setTimeout(action,delay){const id=++timerId;timers.set(id,{action,at:clock+delay});return id;},clearTimeout:id=>timers.delete(id)};
   vm.runInNewContext(source,context);
   const flush=()=>{let limit=0;while(frames.length){assert.ok(++limit<100);frames.shift()();}};
