@@ -45,7 +45,7 @@ test('Product sharing handles native success, cancellation, copy fallback and de
 
 test('The built home and perfume pages load the same discovery behavior and accessible invitation',()=>{
   const home=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
-  assert.ok(home.includes('id="fragrance-guide"'));assert.ok(home.includes('data-open-guide'));assert.ok(home.includes('/discovery.js?v=speed-v54'));
-  for(const p of PRODUCTS){const route=[p.brand,p.name].join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');const page=readFileSync(new URL('../public/perfume/'+route+'.html',import.meta.url),'utf8');assert.ok(page.includes('/discovery.js?v=speed-v54'));}
+  assert.ok(home.includes('id="fragrance-guide"'));assert.ok(home.includes('data-open-guide'));assert.ok(home.includes('/discovery.js?v=narrative-v57'));
+  for(const p of PRODUCTS){const route=[p.brand,p.name].join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');const page=readFileSync(new URL('../public/perfume/'+route+'.html',import.meta.url),'utf8');assert.ok(page.includes('/discovery.js?v=narrative-v57'));}
   assert.ok(readFileSync(new URL('../public/discovery.js',import.meta.url)).length<readFileSync(new URL('../source/discovery.js',import.meta.url)).length*.8);
 });
