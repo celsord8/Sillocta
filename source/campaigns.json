@@ -69,6 +69,40 @@
             "quality": 95,
             "psnr": 44.11
           }
+        ],
+        "avifSources": [
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-480-b45674fb7dcd.avif",
+            "width": 480,
+            "height": 270,
+            "bytes": 45498,
+            "quality": 80,
+            "psnr": 37.78
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-640-5cf9fc25d135.avif",
+            "width": 640,
+            "height": 360,
+            "bytes": 80412,
+            "quality": 80,
+            "psnr": 37.92
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-960-ac96f10f2d3c.avif",
+            "width": 960,
+            "height": 539,
+            "bytes": 178575,
+            "quality": 80,
+            "psnr": 38.28
+          },
+          {
+            "url": "assets/responsive/campaign-aventus-mobile-1246-c0c829335abf.avif",
+            "width": 1246,
+            "height": 700,
+            "bytes": 292502,
+            "quality": 80,
+            "psnr": 38.53
+          }
         ]
       },
       "desktop": {
@@ -175,6 +209,40 @@
             "bytes": 419334,
             "quality": 95,
             "psnr": 41.6
+          }
+        ],
+        "avifSources": [
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-480-d0c0dc784dd9.avif",
+            "width": 480,
+            "height": 270,
+            "bytes": 60989,
+            "quality": 80,
+            "psnr": 34.65
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-640-5f0076083d36.avif",
+            "width": 640,
+            "height": 360,
+            "bytes": 95443,
+            "quality": 80,
+            "psnr": 35.73
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-960-8136699ebc41.avif",
+            "width": 960,
+            "height": 539,
+            "bytes": 171106,
+            "quality": 80,
+            "psnr": 37.47
+          },
+          {
+            "url": "assets/responsive/campaign-miss-dior-mobile-1280-f83a1169f998.avif",
+            "width": 1280,
+            "height": 719,
+            "bytes": 242610,
+            "quality": 80,
+            "psnr": 38.83
           }
         ]
       },
@@ -285,6 +353,40 @@
             "quality": 95,
             "psnr": 44.04
           }
+        ],
+        "avifSources": [
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-480-e3e5445724fd.avif",
+            "width": 480,
+            "height": 270,
+            "bytes": 30863,
+            "quality": 80,
+            "psnr": 38.01
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-640-336c6d38bcf5.avif",
+            "width": 640,
+            "height": 360,
+            "bytes": 49252,
+            "quality": 80,
+            "psnr": 38.99
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-960-477f3dda2650.avif",
+            "width": 960,
+            "height": 539,
+            "bytes": 90533,
+            "quality": 80,
+            "psnr": 40.59
+          },
+          {
+            "url": "assets/responsive/campaign-tobacco-vanille-mobile-1280-ed181e032feb.avif",
+            "width": 1280,
+            "height": 719,
+            "bytes": 132203,
+            "quality": 80,
+            "psnr": 41.88
+          }
         ]
       },
       "desktop": {
@@ -391,6 +493,40 @@
             "bytes": 407390,
             "quality": 95,
             "psnr": 39.42
+          }
+        ],
+        "avifSources": [
+          {
+            "url": "assets/responsive/campaign-libre-mobile-480-375cc3d57131.avif",
+            "width": 480,
+            "height": 270,
+            "bytes": 50820,
+            "quality": 80,
+            "psnr": 34.98
+          },
+          {
+            "url": "assets/responsive/campaign-libre-mobile-640-d6bc51dc7027.avif",
+            "width": 640,
+            "height": 360,
+            "bytes": 85931,
+            "quality": 80,
+            "psnr": 35.41
+          },
+          {
+            "url": "assets/responsive/campaign-libre-mobile-960-d74e24c91ccd.avif",
+            "width": 960,
+            "height": 539,
+            "bytes": 189581,
+            "quality": 80,
+            "psnr": 36.33
+          },
+          {
+            "url": "assets/responsive/campaign-libre-mobile-1170-a9374d236b26.avif",
+            "width": 1170,
+            "height": 657,
+            "bytes": 283630,
+            "quality": 80,
+            "psnr": 36.9
           }
         ]
       },
@@ -509,6 +645,40 @@
             "quality": 95,
             "psnr": 43.99
           }
+        ],
+        "avifSources": [
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-480-0f4fe0f7a1e9.avif",
+            "width": 480,
+            "height": 270,
+            "bytes": 24594,
+            "quality": 80,
+            "psnr": 39.85
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-640-6f7e9ce89594.avif",
+            "width": 640,
+            "height": 360,
+            "bytes": 40795,
+            "quality": 80,
+            "psnr": 40.35
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-960-006f293573be.avif",
+            "width": 960,
+            "height": 539,
+            "bytes": 80608,
+            "quality": 80,
+            "psnr": 41.12
+          },
+          {
+            "url": "assets/responsive/campaign-naxos-mobile-1280-db1283eb179e.avif",
+            "width": 1280,
+            "height": 719,
+            "bytes": 122617,
+            "quality": 80,
+            "psnr": 41.8
+          }
         ]
       },
       "desktop": {
@@ -625,6 +795,40 @@
             "bytes": 138266,
             "quality": 95,
             "psnr": 45.94
+          }
+        ],
+        "avifSources": [
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-480-d8d3749c495a.avif",
+            "width": 480,
+            "height": 270,
+            "bytes": 17897,
+            "quality": 80,
+            "psnr": 41.27
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-640-bd4bbb25a7ad.avif",
+            "width": 640,
+            "height": 360,
+            "bytes": 28379,
+            "quality": 80,
+            "psnr": 41.65
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-960-2e170778e933.avif",
+            "width": 960,
+            "height": 539,
+            "bytes": 57478,
+            "quality": 80,
+            "psnr": 42.44
+          },
+          {
+            "url": "assets/responsive/campaign-irresistible-mobile-1280-c796c108f7a6.avif",
+            "width": 1280,
+            "height": 719,
+            "bytes": 91052,
+            "quality": 80,
+            "psnr": 43.3
           }
         ]
       },
