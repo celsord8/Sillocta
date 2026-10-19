@@ -31,6 +31,7 @@
   const after=cards.map(duplicate),tail=cards.map(duplicate);
   for(const clone of [...after,...tail])track.appendChild(clone);
   const copies=[...after,...tail],all=[...cards,...after,...tail];
+  const waitingImages=new WeakSet();
   let pending=false,layoutPending=false,timer=0,preloadTimer=0,settleTimer=0;
   let hovered=false,focused=false,pressed=false,manualUntil=0,looping=false,centered=false,origin=0,period=0;
   const positions=new Map();
@@ -83,9 +84,22 @@
     const candidates=visible().filter(card=>indexes.get(card)===index);
     move(candidates.reduce((best,card)=>!best||Math.abs(offset(card)-track.scrollLeft)<Math.abs(offset(best)-track.scrollLeft)?card:best,null));
   };
+  const waitForImage=image=>{
+    if(!image||image.complete!==false)return false;
+    if(!waitingImages.has(image)){
+      waitingImages.add(image);
+      const ready=()=>{waitingImages.delete(image);queueAutoplay();};
+      image.addEventListener('load',ready,{once:true});
+      image.addEventListener('error',ready,{once:true});
+    }
+    return true;
+  };
   const queueAutoplay=()=>{
     stop();
     if(!canPlay())return;
+    // Give a slow connection the full dwell time after the visible photograph
+    // arrives. Never move away from an image that has not finished loading.
+    if(waitForImage(nearest()?.querySelector('img')))return;
     const next=(active()+1)%cards.length;
     const delay=Math.max(interval,manualUntil-Date.now());
     // Leave bandwidth to the visible first frame, then warm only the next
@@ -98,6 +112,8 @@
     },Math.max(0,delay-1200));
     timer=setTimeout(()=>{
       timer=0;if(!canPlay())return;
+      const nextCard=visible().find(card=>indexes.get(card)===next);
+      if(waitForImage(nextCard?.querySelector('img')))return;
       step(1);queueAutoplay();
     },delay);
   };
