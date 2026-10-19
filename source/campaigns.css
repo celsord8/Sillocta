@@ -1,6 +1,9 @@
 /* Campaign imagery is a quiet, touch-driven extension of the collection. */
 html body #catalog-campaigns{max-width:1040px;min-width:0;margin:0 auto 22px;padding:0;background:transparent}
 html body #hero>#catalog-campaigns{width:100%;flex:none;margin:0;max-width:1040px;align-self:center}
+/* Desktop bootstrap moves these blocks below the hero. Reserve the final
+   first-paint geometry while parsing, before the inline move can run. */
+@media(min-width:721px){html body #hero>#colecao-selector,html body #hero>#catalog-campaigns{display:none!important}}
 html body .sl-campaign-pagination{display:flex;justify-content:center;align-items:center;gap:2px;margin-top:2px}
 html body .sl-campaign-pagination[hidden]{display:none!important}
 html body .sl-campaign-pagination button{display:grid;place-items:center;width:30px;min-height:30px;padding:0;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:#e1cfa4;cursor:pointer}
