@@ -22,7 +22,7 @@ for campaign in campaigns:
         native_width = min(original.width, math.floor(original.height * ratio))
         native_height = round(native_width / ratio)
         crop = ImageOps.fit(original, (native_width, native_height), Image.Resampling.LANCZOS, centering=focus)
-        entries = []
+        entries, avif_entries = [], []
         for width in sorted({480, 640, 960, min(1280, native_width)}):
             if width > native_width:
                 continue
@@ -37,7 +37,19 @@ for campaign in campaigns:
             asset = f'assets/responsive/{Path(campaign["image"]).stem}-{layout}-{width}-{hashlib.sha256(data).hexdigest()[:12]}.webp'
             (source / asset).write_bytes(data)
             entries.append(dict(url=asset, width=width, height=height, bytes=len(data), quality=95, psnr=psnr))
+            if layout == 'mobile':
+                efficient = io.BytesIO()
+                reference.save(efficient, 'AVIF', quality=80, speed=6, subsampling='4:4:4')
+                avif_data = efficient.getvalue()
+                avif_decoded = Image.open(io.BytesIO(avif_data)).convert('RGB')
+                avif_mse = sum(v*v for v in ImageStat.Stat(ImageChops.difference(reference,avif_decoded)).rms)/3
+                avif_psnr = round(10*math.log10(255**2/avif_mse),2) if avif_mse else 99
+                avif_asset = f'assets/responsive/{Path(campaign["image"]).stem}-{layout}-{width}-{hashlib.sha256(avif_data).hexdigest()[:12]}.avif'
+                (source / avif_asset).write_bytes(avif_data)
+                avif_entries.append(dict(url=avif_asset,width=width,height=height,bytes=len(avif_data),quality=80,psnr=avif_psnr))
         prepared[layout] = dict(ratio=ratio, focus=campaign['position'], nativeWidth=native_width, nativeHeight=native_height, sizes=sizes[layout], sources=entries)
+        if avif_entries:
+            prepared[layout]['avifSources'] = avif_entries
     campaign['displayMedia'] = prepared
     def srcset(layout):
         return ', '.join('/'+item['url']+' '+str(item['width'])+'w' for item in prepared[layout]['sources'])
@@ -48,7 +60,8 @@ for campaign in campaigns:
         image = re.sub(r'\s(?:src|srcset|sizes|width|height)="[^"]*"', '', image)
         fallback = next(item for item in prepared['mobile']['sources'] if item['width'] == 640)
         image = image[:-1] + f' src="/{fallback["url"]}" width="{fallback["width"]}" height="{fallback["height"]}" srcset="{srcset("mobile")}" sizes="{sizes["mobile"]}">'
-        picture = f'<picture class="sl-campaign-picture"><source media="(min-width:721px)" srcset="{srcset("desktop")}" sizes="{sizes["desktop"]}">{image}</picture>'
+        avif_srcset = ', '.join('/'+item['url']+' '+str(item['width'])+'w' for item in prepared['mobile']['avifSources'])
+        picture = f'<picture class="sl-campaign-picture"><source media="(max-width:720px)" type="image/avif" srcset="{avif_srcset}" sizes="{sizes["mobile"]}"><source media="(min-width:721px)" srcset="{srcset("desktop")}" sizes="{sizes["desktop"]}">{image}</picture>'
         card = re.sub(r'<picture\b[^>]*>[\s\S]*?</picture>|<img\b[^>]*>', lambda _: picture, card, count=1)
         return card
     html = re.sub(r'<a id="campaign-card-'+str(campaign['productId'])+r'"[\s\S]*?</a>', replace_card, html, count=1)
