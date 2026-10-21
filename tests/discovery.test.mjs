@@ -34,9 +34,9 @@ test('Related products have a stated olfactory overlap, are available, exclude t
   }
 });
 
-function catalogHarness(saved='[]',storageBlocked=false){
+function catalogHarness(saved='[]',storageBlocked=false,reducedMotion=true){
   let scrollTop=0,frames=[];
-  const scrollCalls=[];
+  const scrollCalls=[],animations=[];
   const storage=new Map([['sillocta-favorites-v1',saved]]),nodes=new Map();
   const classes=new Set(),classList={contains:key=>classes.has(key),add:key=>classes.add(key),remove:key=>classes.delete(key),toggle(key,on){if(on)classes.add(key);else classes.delete(key);}};
   const node=(id,extra={})=>{const n={id,value:'',textContent:'',attributes:{},dataset:{},style:{},hidden:false,classList,setAttribute(k,v){this.attributes[k]=v;},focus(){document.activeElement=this;},...extra};nodes.set(id,n);return n;};
@@ -46,6 +46,7 @@ function catalogHarness(saved='[]',storageBlocked=false){
   const cards=PRODUCTS.map(p=>{
     const card=node('card-'+p.id,{dataset:{productId:String(p.id)}}),current=node('current-'+p.id),old=node('old-'+p.id);
     const choices=['5','10'].map(volume=>node('choice-'+p.id+'-'+volume,{dataset:{ml:volume}}));
+    card.animate=(keyframes,options)=>{const animation={id:p.id,keyframes,options,cancelled:false,cancel(){this.cancelled=true;}};animations.push(animation);return animation;};
     card.querySelectorAll=selector=>selector==='.vbtn'?choices:[];
     card.querySelector=selector=>selector==='.price-cur'?current:selector==='.price-old'?old:null;
     return card;
@@ -61,12 +62,12 @@ function catalogHarness(saved='[]',storageBlocked=false){
   const buttons=PRODUCTS.flatMap(p=>[node('heart-home-'+p.id,{dataset:{favoriteId:String(p.id)}}),node('heart-detail-'+p.id,{dataset:{favoriteId:String(p.id)}})]);
   const document={getElementById:id=>id==='sillocta-products'?{textContent:JSON.stringify(PRODUCTS)}:nodes.get(id)||null,querySelectorAll:sel=>sel==='[data-catalog-volume]'?volumes:sel==='[data-favorite-id]'?buttons:sel==='.perfume-grid .card'?cards:sel==='.perfume-grid'?grids:[],querySelector:sel=>sel==='header.glass'?{getBoundingClientRect:()=>({bottom:64})}:sel==='.perfume-grid .card:not([hidden])'?grids.flatMap(g=>g.children).find(c=>!c.hidden)||null:null,body:{classList},activeElement:null};
   const localStorage={getItem:k=>{if(storageBlocked)throw Error('Blocked');return storage.get(k)||null;},setItem:(k,v)=>{if(storageBlocked)throw Error('Blocked');storage.set(k,v);}};
-  const window={matchMedia:()=>({matches:true}),get scrollY(){return scrollTop;},scrollTo(options){scrollTop=options.top;scrollCalls.push(options);}};
+  const window={matchMedia:()=>({matches:reducedMotion}),get scrollY(){return scrollTop;},scrollTo(options){scrollTop=options.top;scrollCalls.push(options);}};
   const context=vm.createContext({currentProduct:()=>null,document,window,requestAnimationFrame:callback=>frames.push(callback),localStorage,Intl,URL,console,setTimeout:()=>1,clearTimeout(){}});
   const code=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8');
   vm.runInContext(code.slice(0,code.indexOf('\n\n(function(){')),context);
   context.SilloctaProductPages=pages;
-  return {nodes,cards,buttons,grids,storage,classes,scrollCalls,flushFrames(){for(let i=0;frames.length&&i<5;i++){const callbacks=frames;frames=[];callbacks.forEach(f=>f());}},run:code=>vm.runInContext(code,context)};
+  return {nodes,cards,buttons,grids,storage,classes,scrollCalls,animations,setReduced(value){reducedMotion=value;},flushFrames(){for(let i=0;frames.length&&i<5;i++){const callbacks=frames;frames=[];callbacks.forEach(f=>f());}},run:code=>vm.runInContext(code,context)};
 }
 
 test('Favorite interactions persist valid IDs, synchronize home/detail buttons and compose with live filters',()=>{
@@ -168,4 +169,15 @@ test('Floating catalog shortcuts remain hidden until every nearby purchase block
   report([{target:purchases[1],isIntersecting:false}]);assert.equal(classes.size,0);
   const fallback=vm.createContext({document,window:{}});vm.runInContext(guard+'initializeCatalogFloatGuard()',fallback);assert.ok(classes.has('sl-catalog-actions-visible'));
   classes.clear();document.querySelectorAll=()=>[];vm.runInContext(guard+'initializeCatalogFloatGuard()',fallback);assert.equal(classes.size,0);
+});
+
+test('Filter transitions keep results immediate, cancel stale effects and respect reduced motion',()=>{
+  const h=catalogHarness('[]',false,false);h.run('initializeCatalogTools()');assert.equal(h.animations.length,0);
+  h.nodes.get('catalog-query').value='Aventus';h.run('updateCatalogFilters()');
+  assert.deepEqual(h.cards.filter(c=>!c.hidden).map(c=>Number(c.dataset.productId)),[1]);assert.equal(h.animations.length,1);
+  const first=h.animations[0];h.run('updateCatalogFilters()');assert.equal(h.animations.length,1);
+  h.nodes.get('catalog-query').value='';h.run('updateCatalogFilters()');assert.equal(first.cancelled,true);assert.equal(h.animations.length,9);
+  h.nodes.get('catalog-query').value='nothing-matches';h.run('updateCatalogFilters()');assert.equal(h.nodes.get('catalog-empty').hidden,false);assert.ok(h.animations.every(a=>a.cancelled));
+  h.setReduced(true);h.nodes.get('catalog-query').value='Dior';h.run('updateCatalogFilters()');
+  assert.equal(h.animations.length,9);assert.equal(h.cards.filter(c=>!c.hidden).length,2);
 });
