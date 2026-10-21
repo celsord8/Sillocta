@@ -45,6 +45,8 @@
   const active=()=>Math.max(0,buttons.findIndex(button=>button.getAttribute('aria-pressed')==='true'));
   const hydrate=card=>{
     if(!card)return;
+    const image=card.querySelector('img');
+    if(image&&image.getAttribute('data-sl-src')!==null){image.loading='eager';image.fetchPriority='low';}
     // Source elements precede the img, so the browser sees the final responsive
     // selection before starting a request. Clones reuse that same cached URL.
     card.querySelectorAll('[data-sl-srcset],[data-sl-src]').forEach(node=>{
@@ -167,7 +169,7 @@
     update();queueAutoplay();
   };
   const resize=()=>{if(!layoutPending){layoutPending=true;requestAnimationFrame(layout);}};
-  buttons.forEach((button,index)=>button.addEventListener('click',()=>{manual();go(index);}));
+  buttons.forEach((button,index)=>button.addEventListener('click',()=>{manual();requestAnimationFrame(()=>go(index));}));
   track.addEventListener('scroll',schedule,{passive:true});
   track.addEventListener('scrollend',normalize,{passive:true});
   track.addEventListener('wheel',manual,{passive:true});
@@ -192,9 +194,11 @@
   track.addEventListener('keydown',event=>{
     if(event.target!==track||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
     event.preventDefault();manual();
-    if(event.key==='Home')go(0);
-    else if(event.key==='End')go(cards.length-1);
-    else step(event.key==='ArrowRight'?1:-1);
+    requestAnimationFrame(()=>{
+      if(event.key==='Home')go(0);
+      else if(event.key==='End')go(cards.length-1);
+      else step(event.key==='ArrowRight'?1:-1);
+    });
   });
   window.addEventListener('resize',resize,{passive:true});
   if('ResizeObserver' in window)new ResizeObserver(resize).observe(track);
