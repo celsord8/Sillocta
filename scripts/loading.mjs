@@ -49,13 +49,21 @@ export function criticalStyles(css,{detail=false}={}){
 }
 
 export function installCriticalStyles(html,css,options){
- const critical=criticalStyles(css,options);
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
- // Deliver the complete, ordered home cascade in the document. This removes
- // a blocking stylesheet round trip without a second cascade or restyle.
- if(!options?.detail)return html.replace(marker,()=>'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
- return html.replace(marker,(_,href)=>'<style id="sl-critical-styles">'+critical+'</style><link id="sl-full-styles" rel="preload" as="style" href="'+href+'" onload="this.onload=null;this.rel=\'stylesheet\';requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add(\'sl-styles-ready\')))"><noscript><link rel="stylesheet" href="'+href+'"></noscript>');
+ // Every page receives the same complete, ordered cascade on first paint.
+ // Detail pages no longer wait for a second sheet, restyle and two frames.
+ const preload=options?.detail?productPreload(html):'';
+ return html.replace(marker,()=>preload+'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
+}
+
+// Discover the detail image in the head, with exactly the same candidates and
+// sizes as the visible image. No extra download, recompression or smaller cap.
+export function productPreload(html){
+ const image=html.match(/class="sl-product-photo"><img\s+([^>]+)>/)?.[1];
+ if(!image)return '';
+ const value=name=>image.match(new RegExp('(?:^|\\s)'+name+'="([^"]+)"'))?.[1];
+ return '<link id="sl-product-media-preload" rel="preload" as="image" href="'+value('src')+'"'+(value('srcset')?' imagesrcset="'+value('srcset')+'" imagesizes="'+value('sizes')+'"':'')+' fetchpriority="high">';
 }
 
 // The campaign is part of the initial mobile viewport, but below the fold on
