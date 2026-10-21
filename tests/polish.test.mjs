@@ -74,20 +74,19 @@ test('Critical loading preserves media conditions, vector shapes, full-style fal
  }
 });
 
-test('All pages retain one complete ordered stylesheet, a generated critical subset and consistent editorial labels',()=>{
+test('All pages receive the complete ordered cascade without a late stylesheet and retain editorial labels',()=>{
  const home=read('public/index.html'),sources=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'];
  const detail=read('public/perfume/dior-miss-dior.html');
  assert.equal((home.match(/id="sl-critical-styles"/g)||[]).length,0);
  assert.match(home,/<style id="sl-full-styles">/);
- assert.match(detail,/<noscript><link rel="stylesheet"/);
- assert.ok(detail.includes('@layer sl-first-paint{html:not(.sl-styles-ready)'));
- assert.ok(detail.includes("requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')))"));
+ assert.ok(!detail.includes('id="sl-critical-styles"'));
+ assert.ok(!detail.includes('rel="preload" as="style"'));
  assert.match(read('source/enhancements.js'),/byId\('sl-full-styles'\).*sl-styles-ready.*firstScreenStartedAt<2500/);
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
  assert.ok(home.includes('<style id="sl-full-styles">'+compactStyles(full)+'</style>'));
  assert.equal(read('public/storefront.css'),compactStyles(full));
- assert.ok(detail.includes(criticalStyles(full,{detail:true})));
+ assert.ok(detail.includes('<style id="sl-full-styles">'+compactStyles(full)+'</style>'));
  assert.ok(criticalStyles(full).length<95000);
  for(const selector of ['.sl-guide-invitation','.sl-catalog-filter-grid','.perfume-grid'])assert.ok(criticalStyles(full).includes(selector));
  assert.ok(!home.includes('cdnjs.cloudflare.com'));
