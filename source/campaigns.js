@@ -43,6 +43,17 @@
   };
   let inView=measureView();
   const active=()=>Math.max(0,buttons.findIndex(button=>button.getAttribute('aria-pressed')==='true'));
+  const hydrate=card=>{
+    if(!card)return;
+    // Source elements precede the img, so the browser sees the final responsive
+    // selection before starting a request. Clones reuse that same cached URL.
+    card.querySelectorAll('[data-sl-srcset],[data-sl-src]').forEach(node=>{
+      for(const name of ['srcset','src']){
+        const value=node.getAttribute('data-sl-'+name);
+        if(value!==null){node.setAttribute(name,value);node.removeAttribute('data-sl-'+name);}
+      }
+    });
+  };
   const offset=card=>positions.get(card)??0;
   const visible=()=>shown;
   const nearest=()=>{
@@ -68,6 +79,7 @@
   };
   const move=card=>{
     if(!card)return;
+    hydrate(card);
     track.scrollTo({left:offset(card),behavior:reduced.matches?'instant':'smooth'});
   };
   const center=()=>{
@@ -94,19 +106,20 @@
     }
     return true;
   };
-  const queueAutoplay=()=>{
+  const queueAutoplay=(fromIndex=active())=>{
     stop();
     if(!canPlay())return;
     // Give a slow connection the full dwell time after the visible photograph
     // arrives. Never move away from an image that has not finished loading.
     if(waitForImage(nearest()?.querySelector('img')))return;
-    const next=(active()+1)%cards.length;
+    const next=(fromIndex+1)%cards.length;
     const delay=Math.max(interval,manualUntil-Date.now());
     // Leave bandwidth to the visible first frame, then warm only the next
     // slide before the two-second transition. Original files stay unchanged.
     preloadTimer=setTimeout(()=>{
       preloadTimer=0;if(!canPlay())return;
       all.filter(card=>indexes.get(card)===next).forEach(card=>{
+        hydrate(card);
         const img=card.querySelector('img');if(img){img.loading='eager';img.fetchPriority='low';}
       });
     },Math.max(0,delay-1200));
@@ -114,13 +127,18 @@
       timer=0;if(!canPlay())return;
       const nextCard=visible().find(card=>indexes.get(card)===next);
       if(waitForImage(nextCard?.querySelector('img')))return;
-      step(1);queueAutoplay();
+      // Smooth scrolling updates the active dot asynchronously. Carry the
+      // intended destination so the following wait checks the right photo.
+      step(1);queueAutoplay(next);
     },delay);
   };
   const manual=()=>{center();manualUntil=Date.now()+7000;queueAutoplay();};
   const update=()=>{
     pending=false;
     const current=indexes.get(nearest())??0;
+    // Warm the current photograph and the visible peek immediately, including
+    // after a swipe, keyboard jump, resize or browser-history restoration.
+    all.filter(card=>[current,(current+1)%cards.length].includes(indexes.get(card))).forEach(hydrate);
     buttons.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===current)));
     all.forEach(card=>card.setAttribute('data-active',String(indexes.get(card)===current)));
     pagination.hidden=!looping;
@@ -169,7 +187,7 @@
     focused=!!(root.contains(document.activeElement)&&document.activeElement?.matches?.(':focus-visible'));
     inView=measureView();resize();
   });
-  reduced.addEventListener?.('change',queueAutoplay);
+  reduced.addEventListener?.('change',()=>queueAutoplay());
   if('IntersectionObserver' in window)new IntersectionObserver(entries=>{inView=!!entries[0]?.isIntersecting;queueAutoplay();},{threshold:0}).observe(root);
   track.addEventListener('keydown',event=>{
     if(event.target!==track||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
