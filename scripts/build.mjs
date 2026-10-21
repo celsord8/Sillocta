@@ -6,6 +6,7 @@ import {iconStyles,installCriticalStyles,campaignPreload,installHeroBootstrap} f
 import {deploymentMetadata,seoFiles,pageMetadata} from './site-metadata.mjs';
 import {measurementMetadata} from './measurement.mjs';
 import {minify} from 'terser';
+import {createHash} from 'node:crypto';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const source=path.join(root,'source'),output=path.join(root,'public');
@@ -20,6 +21,11 @@ const {origin,preview}=metadata;
 const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata(metadata,route,product)+measurementMetadata(process.env)+'</head>');
 
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bundleVersions=new Map();
+const versionBundles=html=>html.replace(/<script defer src="\/([^"?]+\.js)\?v=([^"&]+)"><\/script>/g,(tag,name,version)=>{
+ const hash=bundleVersions.get(name);if(!hash)throw Error('Unversioned browser bundle: '+name);
+ return tag.replace('?v='+version,'?v='+version+'-'+hash);
+});
 const originalHome=readFileSync(path.join(source,'index.html'),'utf8');
 const home=installHeroBootstrap(originalHome.replace(/<meta name="viewport"[^>]*>/,viewport=>viewport+campaignPreload(originalHome)),readFileSync(path.join(source,'enhancements.js'),'utf8'));
 const heroStart=home.indexOf('<section id="hero">'),shopEnd=home.indexOf('</main>',heroStart);
@@ -42,12 +48,13 @@ for(const name of ['measurement.js','enhancements.js','product-pages.js','campai
  });
  if(!result.code)throw Error('Empty browser bundle: '+name);
  writeFileSync(path.join(output,name),result.code);
+ bundleVersions.set(name,createHash('sha256').update(result.code).digest('hex').slice(0,12));
 }
 const styles=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'].map(name=>readFileSync(path.join(source,name),'utf8'));
 const icons=iconStyles(JSON.parse(readFileSync(path.join(source,'icons.json'),'utf8')));
 const bundled=consolidateStyles(icons+'\n'+styles.join('\n'));
 writeFileSync(path.join(output,'storefront.css'),compactStyles(bundled.css));
-writeFileSync(path.join(output,'index.html'),installCriticalStyles(addMetadata(home,'/'),bundled.css));
+writeFileSync(path.join(output,'index.html'),versionBundles(installCriticalStyles(addMetadata(home,'/'),bundled.css)));
 for(const product of products){
   const route=pages.path(product);
   let html=shell
@@ -55,7 +62,7 @@ for(const product of products){
     .replace(/<meta name="description" content="[^"]*">/,'<meta name="description" content="'+escape(pages.description(product))+'">')
     .replace('<!-- SILLOCTA_PRODUCT_DETAIL -->',pages.render(product,{products}));
   html=installCriticalStyles(addMetadata(html,route,product),bundled.css,{detail:true});
-  writeFileSync(path.join(output,route.slice(1)+'.html'),html);
+  writeFileSync(path.join(output,route.slice(1)+'.html'),versionBundles(html));
 }
 
 const seo=seoFiles(metadata,routes);
