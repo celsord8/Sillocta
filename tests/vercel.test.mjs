@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import PRODUCTS from '../source/products.json' with {type:'json'};
 import '../source/product-pages.js';
 
@@ -22,6 +23,27 @@ test('Responsive assets accompany every generated page and home-only image prelo
     const detail=read(pages.path(p).slice(1)+'.html');
     assert.ok(!detail.includes('id="sl-home-media-preload"'));
     assert.ok(detail.includes('srcset="'+p.media.sources.map(item=>'/'+item.url+' '+item.width+'w').join(', ')+'"'));
+    const preload=detail.match(/<link id="sl-product-media-preload"[^>]+>/)?.[0];
+    const image=detail.match(/class="sl-product-photo"><img\s+([^>]+)>/)[1];
+    assert.ok(preload&&detail.indexOf(preload)<detail.indexOf('<style id="sl-full-styles">'));
+    for(const [name,preloadName] of [['src','href'],['srcset','imagesrcset'],['sizes','imagesizes']]){
+      const value=image.match(new RegExp('(?:^|\\s)'+name+'="([^"]+)"'))[1];
+      assert.ok(preload.includes(preloadName+'="'+value+'"'));
+    }
+  }
+});
+
+test('Long-lived browser bundles have content-derived versions on home and all detail pages',()=>{
+  const config=JSON.parse(readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
+  const rule=config.headers.find(h=>h.has?.some(condition=>condition.key==='v'&&condition.value==='.+-[a-f0-9]{12}'));
+  assert.ok(rule?.headers.some(h=>h.key==='Cache-Control'&&h.value.includes('immutable')));
+  for(const name of ['index.html',...PRODUCTS.map(p=>pages.path(p).slice(1)+'.html')]){
+    const scripts=[...read(name).matchAll(/<script defer src="\/([^"?]+\.js)\?v=([^"&]+)"><\/script>/g)];
+    assert.equal(scripts.length,7);
+    for(const [,bundle,version] of scripts){
+      const hash=createHash('sha256').update(readFileSync(new URL('../public/'+bundle,import.meta.url))).digest('hex').slice(0,12);
+      assert.ok(version.endsWith('-'+hash),bundle+' must change its URL whenever its content changes');
+    }
   }
 });
 
