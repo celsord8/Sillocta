@@ -189,3 +189,9 @@ html body .sl-product-page .sl-note-name{font:400 clamp(1.125rem,1.65vw,1.375rem
   html body .sl-product-page .sl-product-notes ul{gap:12px}
   html body .sl-product-page .sl-note-name{font-size:1.1875rem;line-height:1.25}
 }
+
+/* Show the main photo immediately while retaining its subtle entrance movement. */
+@media(prefers-reduced-motion:no-preference){
+  .sl-product-visual{animation-name:sl-product-photo-entry}
+  @keyframes sl-product-photo-entry{from{translate:0 10px}to{translate:0 0}}
+}
