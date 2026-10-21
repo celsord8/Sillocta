@@ -130,3 +130,30 @@ html body #colecao-selector :is(#sel-masc-btn,#sel-fem-btn)>div:last-child{posit
 /* Fit the full portrait artwork rather than cropping it into the square stage. */
 html body #colecao-selector :is(#img-masc,#img-fem){object-fit:contain!important}
 html body #colecao-selector.sl-hero-motion .sl-hero-glint>img{object-fit:contain!important}
+
+/* A single editorial feature gives the collection a quieter visual counterpoint. */
+html body .sl-editorial{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,80px);max-width:1080px;margin:72px auto 64px;padding:0 32px;box-sizing:border-box;color:#eee7dc}
+.sl-editorial-copy{padding:20px 0}
+.sl-editorial-eyebrow{margin:0 0 24px;font:400 .6875rem/1.7 Montserrat,sans-serif;letter-spacing:.19em;text-transform:uppercase;color:#d1ba84}
+html body .sl-editorial h2{margin:0 0 28px;font:300 clamp(40px,4.8vw,64px)/1.06 'Cormorant Garamond',serif;letter-spacing:-.025em;text-wrap:balance}
+.sl-editorial h2 em{font-weight:300;color:#d1ba84}
+.sl-editorial-name{margin:0 0 14px;font:400 .75rem/1.7 Montserrat,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#e4d7bf}
+.sl-editorial-description{max-width:330px;margin:0 0 22px;font:300 .875rem/1.9 Montserrat,sans-serif;color:#c2b8a8;text-wrap:pretty}
+.sl-editorial-link{display:inline-flex;align-items:center;justify-content:space-between;gap:26px;min-height:44px;border-bottom:1px solid #cbb47770;color:#e4d1a6;text-decoration:none;font:400 .75rem/1.7 Montserrat,sans-serif;transition:color .2s,border-color .2s}
+.sl-editorial-link>span{font-size:20px}
+.sl-editorial-link:hover{color:#fff0cd;border-color:#e7cf9a}
+.sl-editorial-link:focus-visible{outline:2px solid #dec894;outline-offset:6px}
+.sl-editorial-visual{min-width:0;margin:0}
+.sl-editorial-visual>a{display:block;aspect-ratio:1;background:#090807}
+.sl-editorial-visual img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;border-radius:2px}
+.sl-editorial-visual figcaption{max-width:330px;margin:12px auto 0;font:300 .6875rem/1.7 Montserrat,sans-serif;text-align:center;color:#b9af9f}
+body.collection-view #maison-editorial{display:none!important}
+@media(max-width:720px){
+  html body .sl-editorial{grid-template-columns:minmax(0,1fr);gap:24px;max-width:440px;margin:48px auto 44px;padding:0 24px}
+  .sl-editorial-visual{grid-row:1}
+  .sl-editorial-copy{padding:0 4px}
+  .sl-editorial-eyebrow{margin-bottom:16px;font-size:.625rem}
+  html body .sl-editorial h2{font-size:clamp(36px,10vw,46px);margin-bottom:22px}
+  .sl-editorial-description{font-size:.8125rem;max-width:360px;margin-bottom:16px}
+}
+@media(prefers-reduced-motion:reduce){.sl-editorial-link{transition:none}}
