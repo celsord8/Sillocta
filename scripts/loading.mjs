@@ -66,6 +66,20 @@ export function productPreload(html){
  return '<link id="sl-product-media-preload" rel="preload" as="image" href="'+value('src')+'"'+(value('srcset')?' imagesrcset="'+value('srcset')+'" imagesizes="'+value('sizes')+'"':'')+' fetchpriority="high">';
 }
 
+// Keep the first photograph and its visible neighbor in the parser's request
+// queue. Later photographs retain their exact picture candidates and originals,
+// but enter the queue when the carousel warms them, not all at first paint.
+export function deferCampaignImages(html){
+ let index=0;
+ return html.replace(/(<a\b[^>]*class="sl-campaign-card"[^>]*>)([\s\S]*?)(<\/a>)/g,(all,open,body,close)=>{
+  if(index++<2)return all;
+  return open+body.replace(/<picture\b[^>]*>[\s\S]*?<\/picture>/,picture=>{
+   const deferred=picture.replace(/\s(srcset|src)="([^"]*)"/g,(_,name,value)=>' data-sl-'+name+'="'+value+'"');
+   return deferred+'<noscript>'+picture+'</noscript>';
+  })+close;
+ });
+}
+
 // The campaign is part of the initial mobile viewport, but below the fold on
 // desktop. Reuse its exact responsive candidates; never preload a second size.
 export function campaignPreload(html){
