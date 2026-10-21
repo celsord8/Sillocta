@@ -6,16 +6,18 @@ import vm from 'node:vm';
 import PRODUCTS from '../source/products.json' with {type:'json'};
 import CAMPAIGNS from '../source/campaigns.json' with {type:'json'};
 import '../source/product-pages.js';
+import {deferCampaignImages} from '../scripts/loading.mjs';
 
-function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialVisible=!observer,readyState='complete',firstLoaded=true}={}){
+function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialVisible=!observer,readyState='complete',firstLoaded=true,deferred=false}={}){
   const frames=[],scrolls=[],timers=new Map(),windowEvents=new Map(),documentEvents=new Map();
   let clock=0,timerId=0,intersection,preference,onScreen=initialVisible;
   const node=()=>({hidden:false,attributes:{},listeners:new Map(),setAttribute(key,value){this.attributes[key]=value;},getAttribute(key){return this.attributes[key];},removeAttribute(key){delete this.attributes[key];},addEventListener(type,action){this.listeners.set(type,action);}});
   const rendered=[];
   const shown=()=>rendered.filter(card=>!card.hidden);
   const makeCard=index=>{
-    const image={loading:index?'lazy':'eager',complete:index>0||firstLoaded,listeners:new Map(),addEventListener(type,action){this.listeners.set(type,action);}};
-    return Object.assign(node(),{index,image,querySelector:()=>image,querySelectorAll:()=>[],cloneNode:()=>makeCard(index),getBoundingClientRect(){const left=50+shown().indexOf(this)*(cardWidth+12)-track.scrollLeft;return {left,right:left+cardWidth,width:cardWidth};}});
+    const attributes=new Map(deferred&&index>1?[['data-sl-src','/photo-'+index+'-original.webp'],['data-sl-srcset','/photo-'+index+'-960.webp 960w, /photo-'+index+'-original.webp 1600w']]:[]);
+    const image={loading:index?'lazy':'eager',complete:index>0||firstLoaded,listeners:new Map(),getAttribute:name=>attributes.get(name)??null,setAttribute(name,value){attributes.set(name,value);if(name==='src')this.complete=false;},removeAttribute:name=>attributes.delete(name),addEventListener(type,action){this.listeners.set(type,action);}};
+    return Object.assign(node(),{index,image,querySelector:()=>image,querySelectorAll:selector=>selector==='[data-sl-srcset],[data-sl-src]'&&attributes.size?[image]:[],cloneNode:()=>makeCard(index),getBoundingClientRect(){const left=50+shown().indexOf(this)*(cardWidth+12)-track.scrollLeft;return {left,right:left+cardWidth,width:cardWidth};}});
   };
   const cards=CAMPAIGNS.map((_,i)=>makeCard(i));rendered.push(...cards);
   cards.forEach((card,i)=>card.setAttribute('id','campaign-card-'+i));
@@ -214,6 +216,24 @@ test('Every campaign links to an available perfume, with both original and respo
  }
 });
 
+test('Later campaign photos wait for warming while retaining exact sources and a no-script fallback',()=>{
+ const source=readFileSync(new URL('../source/index.html',import.meta.url),'utf8');
+ const html=deferCampaignImages(source);
+ const originals=[...source.matchAll(/class="sl-campaign-card"[^>]*>([\s\S]*?)<\/a>/g)];
+ const deferred=[...html.matchAll(/class="sl-campaign-card"[^>]*>([\s\S]*?)<\/a>/g)];
+ assert.equal(deferred.length,6);
+ deferred.forEach(([,body],index)=>{
+  const original=originals[index][1].match(/<picture\b[^>]*>[\s\S]*?<\/picture>/)[0];
+  if(index<2){assert.ok(body.includes(original));assert.ok(!body.includes('data-sl-src'));}
+  else{
+   assert.ok(body.includes('<noscript>'+original+'</noscript>'));
+   const picture=body.slice(0,body.indexOf('<noscript>'));
+   assert.ok(!/\s(?:srcset|src)="/.test(picture));
+   assert.equal(picture.replace(/data-sl-(srcset|src)=/g,'$1=').trim(),original);
+  }
+ });
+});
+
 test('Campaign crops serve each viewport at Retina resolution without changing or upscaling original photography',()=>{
  const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
  const preload=html.match(/<link id="sl-home-media-preload-campaign"[^>]*>/)?.[0];
@@ -246,4 +266,16 @@ test('Campaign crops serve each viewport at Retina resolution without changing o
    }
   }
  }
+});
+
+test('Carousel warms exact deferred photo candidates before their dwell time and hydrates keyboard destinations',()=>{
+ const h=harness({deferred:true});
+ assert.equal(h.cards[2].image.getAttribute('src'),null);
+ h.advance(2000);assert.equal(h.active(),1);
+ assert.equal(h.cards[2].image.getAttribute('src'),'/photo-2-original.webp');
+ assert.equal(h.cards[2].image.getAttribute('srcset'),'/photo-2-960.webp 960w, /photo-2-original.webp 1600w');
+ assert.equal(h.cards[2].image.getAttribute('data-sl-src'),null);
+ h.advance(2000);assert.equal(h.active(),1,'Never autoplay into a pending full-quality photo');
+ h.imageLoaded(2);h.advance(2000);assert.equal(h.active(),2);
+ h.key('End');assert.equal(h.cards[5].image.getAttribute('src'),'/photo-5-original.webp');
 });
