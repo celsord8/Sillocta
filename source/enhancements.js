@@ -528,8 +528,6 @@ function showPaymentStatus(orderId){
     document.body.classList.add('footer-info-open');
     return false;
   };
-  document.addEventListener('click', function(e){ if(e.target === q('footer-info-overlay')) closeModal(); }, true);
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
   var c=q('footer-info-close'); if(c) c.onclick = closeModal;
 })();
 // Perfume detail pages use the same catalog, bag and checkout controller.
@@ -614,7 +612,7 @@ function initializeProductPages(){
 }
 // Accessibility and animation lifecycle, without overlapping input guards.
 const originalOpenInfo=openFooterInfo,originalCloseInfo=closeFooterInfo;
-openFooterInfo=function(type){const origin=document.activeElement,fromMenu=!!origin?.closest?.('#mobile-menu-drawer');closeCart();closeMobileMenu();byId('footer-info-overlay').inert=false;const result=originalOpenInfo(type);lastFocused=fromMenu?byId('menu-trigger'):origin;requestAnimationFrame(()=>byId('footer-info-close').focus());lockPage();return result;};
+openFooterInfo=function(type){const origin=document.activeElement,fromMenu=!!origin?.closest?.('#mobile-menu-drawer');closeCart();closeMobileMenu();byId('footer-info-overlay').inert=false;const result=originalOpenInfo(type);byId('footer-info-body').scrollTop=0;lastFocused=fromMenu?byId('menu-trigger'):origin;requestAnimationFrame(()=>byId('footer-info-close').focus({preventScroll:true}));lockPage();return result;};
 closeFooterInfo=function(){const wasOpen=byId('footer-info-overlay').classList.contains('open'),result=originalCloseInfo();byId('footer-info-overlay').inert=true;lockPage();if(wasOpen&&lastFocused?.isConnected)lastFocused.focus({preventScroll:true});return result;};
 byId('cart-overlay').onclick=()=>closeCart();
 byId('catalog-query')?.addEventListener('input',updateCatalogFilters);
