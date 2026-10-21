@@ -195,10 +195,10 @@ function updateIndicators(){
     byId('sel-'+word+'-bar').style.width=on?'28px':'0';
     byId('sel-'+word+'-bar').style.opacity=on?'1':'0';
     button.setAttribute('aria-pressed',String(on));
-    button.setAttribute('aria-label',`Explorar coleção ${name}`);
+    button.setAttribute('aria-label',`${on?'Explorar':'Selecionar'} coleção ${name}`);
   }
   const hint=byId('sl-collection-hint');
-  if(hint)hint.textContent='Explore uma coleção';
+  if(hint)hint.textContent=heroCollectionSelection?'Selecione novamente para explorar':'Selecione uma coleção';
 }
 let collectionNavigation=0;
 let heroCollectionSelection='';
@@ -231,7 +231,9 @@ function goToCartLux(){openCart();return false;}
 function switchTab(gender){if(!['m','f'].includes(gender))return;activeTab=gender;heroCollectionSelection=gender;updateIndicators();}
 function activateCollectionArtwork(gender){
   if(!['m','f'].includes(gender))return false;
-  return handleCollectionSelector(gender);
+  if(heroCollectionSelection===gender)return handleCollectionSelector(gender);
+  // Preview only: cancel an older pending scroll without touching filters or view.
+  ++collectionNavigation;heroCollectionSelection=gender;updateIndicators();return false;
 }
 function enterCollectionView(gender){if(!['m','f'].includes(gender))return false;closeCart();closeMobileMenu();if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;switchTab(gender);document.body.classList.add('collection-view');document.body.classList.toggle('collection-m',gender==='m');document.body.classList.toggle('collection-f',gender==='f');syncMenuState();applyCatalogFilters();const section=byId('catalog-search');section.classList.remove('sl-collection-enter');requestAnimationFrame(()=>section.classList.add('sl-collection-enter'));scrollToCollectionBanner(gender);return false;}
 function handleCollectionSelector(gender){if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;byId('catalog-query').value='';resetCatalogVisibility();return enterCollectionView(gender);}
