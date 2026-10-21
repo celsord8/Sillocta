@@ -85,6 +85,19 @@ function syncCatalogVolumes(){
     if(current)current.textContent=brl(product.prices[volume]);if(old)old.textContent=brl(product.oldPrices[volume]);
   });
 }
+let catalogTransitionKey='',catalogTransitions=[];
+function animateCatalogResults(cards,key){
+  const initialized=!!catalogTransitionKey,changed=key!==catalogTransitionKey;
+  catalogTransitionKey=key;
+  if(!changed)return;
+  catalogTransitions.forEach(animation=>animation.cancel());catalogTransitions=[];
+  if(!initialized||!motion())return;
+  cards.filter(card=>!card.hidden).slice(0,8).forEach((card,index)=>{
+    card.classList.remove('sl-pending');card.classList.add('sl-in');
+    const animation=card.animate?.([{opacity:.4,translate:'0 10px'},{opacity:1,translate:'0 0'}],{duration:360,delay:Math.min(index,3)*35,easing:'cubic-bezier(.22,1,.36,1)'});
+    if(animation)catalogTransitions.push(animation);
+  });
+}
 function applyCatalogFilters(){
   if(!byId('catalog-query'))return;
   const gender=document.body.classList.contains('collection-view')?activeTab:'';
@@ -104,6 +117,7 @@ function applyCatalogFilters(){
   byId('catalog-empty').hidden=products.length>0;
   const message=byId('catalog-empty-copy');if(message)message.textContent=catalogState.savedOnly&&!favoriteIds.size?'Você ainda não salvou perfumes. Toque no coração para criar sua seleção.':'Nenhum perfume corresponde à sua seleção. Experimente ajustar os filtros.';
   syncCatalogControls();
+  animateCatalogResults([...document.querySelectorAll('.perfume-grid .card')],catalogState.sort+':'+catalogState.volume+':'+products.map(p=>p.id).join(','));
 }
 function initializeCatalogFloatGuard(){
   const purchases=[...document.querySelectorAll('.perfume-grid .sl-card-purchase')];
@@ -629,7 +643,7 @@ if('IntersectionObserver' in window&&motion()){
   // a synchronous position query for every offscreen product card.
   document.querySelectorAll('.card').forEach((card,i)=>{card.style.transitionDelay=(i%2)*65+'ms';revealObserver.observe(card);});
 }
-reduced.addEventListener?.('change',()=>{if(reduced.matches){revealObserver?.disconnect();document.querySelectorAll('.sl-pending').forEach(n=>n.classList.remove('sl-pending'));}});
+reduced.addEventListener?.('change',()=>{if(reduced.matches){catalogTransitions.forEach(animation=>animation.cancel());catalogTransitions=[];revealObserver?.disconnect();document.querySelectorAll('.sl-pending').forEach(n=>n.classList.remove('sl-pending'));}});
 let scrollFrame=0;window.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{
   scrollFrame=0;
   const scrolled=window.scrollY>30,parallax=[];
