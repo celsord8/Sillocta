@@ -195,10 +195,10 @@ function updateIndicators(){
     byId('sel-'+word+'-bar').style.width=on?'28px':'0';
     byId('sel-'+word+'-bar').style.opacity=on?'1':'0';
     button.setAttribute('aria-pressed',String(on));
-    button.setAttribute('aria-label',`${on?'Explorar':'Selecionar'} coleção ${name}`);
+    button.setAttribute('aria-label',`Explorar coleção ${name}`);
   }
   const hint=byId('sl-collection-hint');
-  if(hint)hint.textContent=heroCollectionSelection?'Selecione novamente para explorar':'Selecione uma coleção';
+  if(hint)hint.textContent='Explore uma coleção';
 }
 let collectionNavigation=0;
 let heroCollectionSelection='';
@@ -231,9 +231,7 @@ function goToCartLux(){openCart();return false;}
 function switchTab(gender){if(!['m','f'].includes(gender))return;activeTab=gender;heroCollectionSelection=gender;updateIndicators();}
 function activateCollectionArtwork(gender){
   if(!['m','f'].includes(gender))return false;
-  if(heroCollectionSelection===gender)return handleCollectionSelector(gender);
-  // Preview only: cancel an older pending scroll without touching filters or view.
-  ++collectionNavigation;heroCollectionSelection=gender;updateIndicators();return false;
+  return handleCollectionSelector(gender);
 }
 function enterCollectionView(gender){if(!['m','f'].includes(gender))return false;closeCart();closeMobileMenu();if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;switchTab(gender);document.body.classList.add('collection-view');document.body.classList.toggle('collection-m',gender==='m');document.body.classList.toggle('collection-f',gender==='f');syncMenuState();applyCatalogFilters();const section=byId('catalog-search');section.classList.remove('sl-collection-enter');requestAnimationFrame(()=>section.classList.add('sl-collection-enter'));scrollToCollectionBanner(gender);return false;}
 function handleCollectionSelector(gender){if(navigateToCatalog(gender==='m'?'sec-masculino':'sec-feminino'))return false;byId('catalog-query').value='';resetCatalogVisibility();return enterCollectionView(gender);}
@@ -414,12 +412,12 @@ function showPaymentStatus(orderId){
   var CONTENT = {
     sobre: {
       kicker: 'Sobre a Sillocta',
-      title: 'Curadoria rara. Presença memorável.',
-      subtitle: 'A Sillocta seleciona fragrâncias com intenção: decants impecáveis, linguagem elegante e uma experiência pensada para quem valoriza assinatura olfativa.',
+      title: 'Seu próximo perfume começa pela descoberta.',
+      subtitle: 'Conheça fragrâncias em decants de 5 ml e 10 ml e escolha o que combina com você antes de investir em um frasco inteiro.',
       body: [
-        {title:'O que entregamos', html:'<p>Uma coleção curada para revelar, comparar e encontrar a fragrância certa com praticidade e um acabamento de marca premium.</p>'},
-        {title:'Nossa postura', html:'<p>Transparência, refinamento e consistência. O objetivo é aproximar você de perfumes extraordinários sem fricção e sem ruído visual.</p>'},
-        {title:'Nossa promessa', html:'<p>Que cada interação com a Sillocta soe como casa de luxo: direta, bonita e confiável.</p>'}
+        {title:'O que você está comprando', html:'<p>Um decant é uma porção do perfume em um recipiente menor. Aqui, você escolhe entre 5 ml e 10 ml. As imagens do frasco original identificam a fragrância; o frasco inteiro não acompanha a compra.</p>'},
+        {title:'Encontre a sua fragrância', html:'<p>Compare as notas e os perfis no catálogo, salve seus favoritos ou use o guia de descoberta. O preço acompanha o volume selecionado, para você conferir cada escolha antes de adicionar à sacola.</p>'},
+        {title:'Da escolha ao pedido', html:'<p>Revise os volumes e as quantidades na sacola. No checkout, informe seu endereço, consulte a entrega e confira o total antes de pagar. Se precisar de ajuda para escolher ou concluir, fale com a Sillocta pelo WhatsApp.</p>'}
       ],
       actions:[{label:'Explorar fragrâncias', kind:'secondary', action:'shop'},{label:'WhatsApp', kind:'primary', href:'https://wa.me/5585991857074'}]
     },
