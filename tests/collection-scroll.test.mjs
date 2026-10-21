@@ -46,32 +46,36 @@ test('Rapid switching cancels the older target and reduced motion jumps directly
   h.context.scrollToSectionLux('sec-masculino');h.context.switchTab('m');h.flush();assert.equal(h.bannerTop('m'),64);
 });
 
-test('One artwork activation opens the chosen collection, clears search and scrolls precisely',()=>{
+test('The first artwork activation selects only; the second enters that collection and scrolls precisely',()=>{
   for(const gender of ['m','f']){
     const h=navigationHarness(),word=gender==='m'?'masc':'fem',other=gender==='m'?'fem':'masc';
     for(const key of ['masc','fem'])assert.equal(h.nodes.get('sel-'+key+'-btn').attributes['aria-pressed'],'false');
     h.activate(gender);h.flush();
+    assert.equal(h.calls.length,0);assert.equal(h.bodyClasses.has('collection-view'),false);
+    assert.equal(h.nodes.get('catalog-query').value,'Aventus');assert.equal(h.context.activeTab,'m');
     assert.equal(h.nodes.get('sel-'+word+'-btn').attributes['aria-pressed'],'true');
     assert.equal(h.nodes.get('sel-'+other+'-btn').attributes['aria-pressed'],'false');
+    assert.ok(h.nodes.get('sl-collection-hint').textContent.includes('novamente'));
+    h.activate(gender);h.flush();
     assert.equal(h.calls.length,1);assert.equal(h.bannerTop(gender),64);
     assert.equal(h.nodes.get('catalog-query').value,'');assert.equal(h.bodyClasses.has('collection-'+gender),true);
   }
 });
 
-test('Rapid artwork navigation keeps only the latest destination and resetting cancels pending navigation',()=>{
-  const h=navigationHarness();h.activate('m');h.activate('f');h.flush();
-  assert.equal(h.calls.length,1);assert.equal(h.bannerTop('f'),64);
-  assert.equal(h.nodes.get('sel-fem-btn').attributes['aria-pressed'],'true');
-  h.activate('m');h.context.exitCollectionView();h.flush();
-  assert.equal(h.calls.length,1);assert.equal(h.bodyClasses.has('collection-view'),false);
+test('Selecting another artwork cancels a queued scroll, and an explicit reset clears the selection',()=>{
+  const h=navigationHarness();h.activate('m');h.activate('m');h.activate('f');h.flush();
+  assert.equal(h.calls.length,0);assert.equal(h.nodes.get('sel-fem-btn').attributes['aria-pressed'],'true');
+  h.activate('f');h.context.exitCollectionView();h.flush();
+  assert.equal(h.calls.length,0);assert.equal(h.bodyClasses.has('collection-view'),false);
   for(const key of ['masc','fem'])assert.equal(h.nodes.get('sel-'+key+'-btn').attributes['aria-pressed'],'false');
-  assert.equal(h.nodes.get('sl-collection-hint').textContent,'Explore uma coleção');
-  h.activate('f');h.flush();assert.equal(h.calls.length,2);assert.equal(h.bannerTop('f'),64);
+  assert.equal(h.nodes.get('sl-collection-hint').textContent,'Selecione uma coleção');
+  h.activate('f');h.flush();assert.equal(h.calls.length,0);
+  h.activate('f');h.flush();assert.equal(h.bannerTop('f'),64);
 });
 
 test('Returning through the logo or a hero link restores home, preserves the lit selection and cancels pending collection scrolling',()=>{
   for(const reduced of [false,true])for(const viaLogo of [false,true]){
-    const h=navigationHarness({reduced});h.activate('f');
+    const h=navigationHarness({reduced});h.activate('f');h.activate('f');
     if(viaLogo)h.context.headerBrandHomeLux();else h.context.scrollToSectionLux('hero');
     h.flush();
     assert.equal(h.calls.length,1);assert.equal(h.calls[0].top,0);
@@ -84,11 +88,12 @@ test('Returning through the logo or a hero link restores home, preserves the lit
   }
 });
 
-test('Enter and Space each open a collection once, while repeated key events do not navigate again',()=>{
+test('Enter and Space use the same two activations, and holding a key cannot accidentally enter a collection',()=>{
   const h=navigationHarness({reduced:true});
   for(const [gender,key] of [['m','Enter'],['f',' ']]){
     const before=h.calls.length;assert.equal(h.key(gender,key),true);h.flush();
-    assert.equal(h.calls.length,before+1);assert.equal(h.key(gender,key,true),true);h.flush();
+    assert.equal(h.calls.length,before);assert.equal(h.key(gender,key,true),true);h.flush();
+    assert.equal(h.calls.length,before);h.key(gender,key);h.flush();
     assert.equal(h.calls.length,before+1);assert.equal(h.bannerTop(gender),64);
     assert.equal(h.calls.at(-1).behavior,'instant');
   }
