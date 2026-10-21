@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
-function harness({reduced=false,onScreen=true}={}){
+function harness({reduced=false,onScreen=true,bootstrapped=false}={}){
   const nodes=new Map(),events=new Map(),timers=new Map(),frames=new Map();let id=0,intersection;
   const node=(name='')=>{
     const classes=new Set(),attributes=new Map(),listeners=new Map();
@@ -19,6 +19,7 @@ function harness({reduced=false,onScreen=true}={}){
   };
   const hero=node('hero'),collections=node('colecao-selector'),copy=node('hero-txt');
   copy.children=[node('kicker'),node('title'),node('explore')];
+  if(bootstrapped){hero.classList.add('sl-hero-motion');if(!reduced)hero.classList.add('sl-hero-intro');}
   for(const key of ['masc','fem']){
     const plane=node(),image=node('img-'+key);image.parentElement=plane;plane.children.push(image);
     image.setAttribute('src','/assets/img-'+key+'.jpg');image.setAttribute('width','870');image.setAttribute('height','1080');
@@ -31,6 +32,7 @@ function harness({reduced=false,onScreen=true}={}){
   const source=readFileSync(new URL('../source/enhancements.js',import.meta.url),'utf8');
   const context=vm.createContext({document,window,IntersectionObserver,setTimeout:action=>{timers.set(++id,action);return id;},clearTimeout:key=>timers.delete(key),requestAnimationFrame:action=>{frames.set(++id,action);return id;},cancelAnimationFrame:key=>frames.delete(key)});
   vm.runInContext(source.slice(source.indexOf('function initializeHeroMotion(){')),context);
+  for(let count=0;frames.size&&count<4;count++){const pending=[...frames];frames.clear();for(const [,action] of pending)action();}
   return {hero,collections,copy,nodes,timers,document,
     event(type,event={}){events.get(type)?.(event);},
     finish(){for(const [key,action] of timers){timers.delete(key);action();}},
@@ -79,4 +81,15 @@ test('Hidden tabs pause motion and reduced-motion preferences stop the intro whi
   h.reduced(true);assert.ok(!h.hero.classList.contains('sl-hero-intro'));
   assert.ok(h.collections.classList.contains('sl-hero-motion-paused'));
   const initial=harness({reduced:true});assert.ok(!initial.hero.classList.contains('sl-hero-intro'));assert.equal(initial.timers.size,0);
+});
+
+test('An intro started in HTML still receives one complete motion controller after first paint',()=>{
+  const h=harness({bootstrapped:true});
+  assert.equal(h.collections.getAttribute('data-hero-motion-ready'),'true');
+  assert.ok(h.hero.classList.contains('sl-hero-intro'));
+  h.initializeAgain();
+  for(const key of ['masc','fem'])assert.equal(h.nodes.get('img-'+key).parentElement.children.length,2);
+  h.reduced(true);assert.ok(!h.hero.classList.contains('sl-hero-intro'));
+  const reduced=harness({bootstrapped:true,reduced:true});
+  assert.ok(!reduced.hero.classList.contains('sl-hero-intro'));
 });
