@@ -37,7 +37,7 @@ test('Order details keep the submitted address across a lost response and never 
 function harness({pendingMount=false,stored={},cardController,Clock=Date,fields=[],viewport}={}){
   const nodes=new Map(),storage=new Map(Object.entries(stored)),mounts=[],unmounts=[],requests=[],timers=new Map();let timerId=0;
   const node=id=>{const value={id,textContent:'',hidden:false,disabled:false,isConnected:true,focusCount:0,handlers:{},addEventListener(k,f){this.handlers[k]=f;},remove(){this.isConnected=false;},focus(){this.focusCount++;},scrollIntoView(){},setAttribute(k,v){this.attributes[k]=v;},attributes:{},classList:{values:new Set(),contains(k){return this.values.has(k);},toggle(k,on){on?this.values.add(k):this.values.delete(k);}},select(){},querySelector(){return node('child');}};Object.defineProperty(value,'innerHTML',{set(html){this.html=html;for(const match of html.matchAll(/id="([^"]+)"/g))node(match[1]);},get(){return this.html||'';}});nodes.set(id,value);return value;};
-  for(const id of ['sillocta-payment-form','sillocta-payment-result','checkout-finalize-btn','checkout-error','checkout-shipping-options','cart-drawer','cart-items'])node(id);
+  for(const id of ['sillocta-payment-form','sillocta-payment-guidance','sillocta-payment-result','checkout-finalize-btn','checkout-error','checkout-shipping-options','cart-drawer','cart-items'])node(id);
   let selected='cartao',resolveMount;
   const document={head:{appendChild(){}},querySelectorAll:()=>fields,createElement:()=>node('script')};
   const paymentFlow={enabled:true,quote:{quoteId:'signed',expiresAt:Clock.now()+600000,totalCents:14040}};
@@ -286,4 +286,16 @@ test('Funnel approval is notified only when the validated checkout API response 
  h.context.fetch=async()=>Response.json(result);h.context.selectCheckoutPayment('pix');await h.context.submitOnlineOrder();
  assert.equal(seen.length,1);assert.equal(seen[0].state,'pending');
  result.state='approved';await h.nodes.get('sillocta-refresh').handlers.click();assert.equal(seen.at(-1).state,'approved');assert.equal(seen.at(-1).sandbox,true);
+});
+
+test('Payment guidance follows the selected method without asking customers to select it again',async()=>{
+  const h=harness();await tick();h.context.paymentFlow.enabled=true;
+  for(const [mode,label] of [['pix','Pix'],['boleto','Boleto'],['cartao','Cartão'],['pix','Pix']]){
+    h.context.selectCheckoutPayment(mode);
+    const message=h.nodes.get('sillocta-payment-guidance').textContent;
+    assert.ok(message.startsWith(label+' selecionado.'));
+    assert.doesNotMatch(message,/Selecione a forma/);
+    await tick();
+  }
+  assert.equal(h.requests.filter(r=>r.url.endsWith('/order')).length,0);
 });
