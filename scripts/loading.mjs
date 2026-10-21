@@ -48,14 +48,12 @@ export function criticalStyles(css,{detail=false}={}){
  return compactStyles(tree.toString()+safety);
 }
 
-export function installCriticalStyles(html,css,options){
- const critical=criticalStyles(css,options);
+export function installCriticalStyles(html,css){
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
- // Deliver the complete, ordered home cascade in the document. This removes
- // a blocking stylesheet round trip without a second cascade or restyle.
- if(!options?.detail)return html.replace(marker,()=>'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
- return html.replace(marker,(_,href)=>'<style id="sl-critical-styles">'+critical+'</style><link id="sl-full-styles" rel="preload" as="style" href="'+href+'" onload="this.onload=null;this.rel=\'stylesheet\';requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add(\'sl-styles-ready\')))"><noscript><link rel="stylesheet" href="'+href+'"></noscript>');
+ // One complete cascade is available on the first paint on every route.
+ // Perfume pages no longer reapply a second sheet after their first render.
+ return html.replace(marker,()=>'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
 }
 
 // The campaign is part of the initial mobile viewport, but below the fold on
