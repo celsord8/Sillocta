@@ -705,7 +705,8 @@ for(const [key,label] of [['entrega','Entrega e prazos'],['privacidade','Privaci
 function initializeHeroMotion(){
   const hero=document.getElementById('hero');
   const collections=document.getElementById('colecao-selector');
-  if(!hero||!collections||hero.classList.contains('sl-hero-motion'))return;
+  if(!hero||!collections||collections.getAttribute('data-hero-motion-ready')==='true')return;
+  collections.setAttribute('data-hero-motion-ready','true');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   const fine=window.matchMedia('(hover: hover) and (pointer: fine)');
   const sections=[hero,collections];
@@ -787,4 +788,6 @@ function initializeHeroMotion(){
   fine.addEventListener?.('change',syncMotion);
   syncMotion();
 }
-initializeHeroMotion();
+// Let the first styled frame paint before measuring artwork visibility. The
+// copy intro already starts during HTML parsing, so it never replays here.
+requestAnimationFrame(()=>requestAnimationFrame(initializeHeroMotion));
