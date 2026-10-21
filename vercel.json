@@ -69,12 +69,12 @@
       ]
     },
     {
-      "source": "/(enhancements|product-pages|campaigns|navigation).(css|js)",
+      "source": "/(enhancements|product-pages|campaigns|navigation|measurement|discovery|checkout-orders).js",
       "has": [
         {
           "type": "query",
           "key": "v",
-          "value": "type-v40"
+          "value": ".+-[a-f0-9]{12}"
         }
       ],
       "headers": [
