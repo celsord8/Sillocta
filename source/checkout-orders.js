@@ -226,10 +226,20 @@
       if(generation!==state.generation||!container.isConnected){await controller.unmount();return;}state.controller=controller;syncCardAction();
     }catch(e){cardFailure(container,generation,e.message||'Não foi possível carregar o formulário de cartão.');}
   }
+  function syncPaymentGuidance(){
+    const note=byId('sillocta-payment-guidance');
+    if(!note||!paymentFlow.enabled)return;
+    note.textContent=state.result?'Pedido criado. Consulte o pagamento abaixo.':({
+      pix:'Pix selecionado. Confira seus dados e gere o código para pagar.',
+      cartao:'Cartão selecionado. Escolha a entrega para conferir o total e preencher o formulário seguro.',
+      boleto:'Boleto selecionado. Confira seus dados e informe o CPF do pagador.'
+    }[window._checkout.pagamento]||'Escolha como prefere pagar.');
+  }
   function renderMethod(){
     if(!paymentFlow.enabled)return;const region=byId('sillocta-payment-form');if(!region)return;
     disposeCard();const mode=window._checkout.pagamento||'pix',button=byId('checkout-finalize-btn');state.renderedRegion=region;state.renderedMethod=mode;
-    if(state.result){originalSelect(state.result.method);region.innerHTML='<p class="sl-field-note">Este pedido de '+({pix:'Pix',boleto:'boleto',cartao:'cartão'}[state.result.method]||'pagamento')+' já foi criado. Para escolher outra forma de pagamento, toque em “Iniciar outro pedido”. A consulta deste pedido será mantida.</p>';if(button)button.hidden=true;renderResult();return;}
+    if(state.result){originalSelect(state.result.method);syncPaymentGuidance();region.innerHTML='<p class="sl-field-note">Este pedido de '+({pix:'Pix',boleto:'boleto',cartao:'cartão'}[state.result.method]||'pagamento')+' já foi criado. Para escolher outra forma de pagamento, toque em “Iniciar outro pedido”. A consulta deste pedido será mantida.</p>';if(button)button.hidden=true;renderResult();return;}
+    syncPaymentGuidance();
     region.innerHTML=mode==='cartao'?'<div id="sillocta-card-payment"></div><button type="button" id="sillocta-card-submit" class="sl-cta sl-checkout-primary" disabled aria-describedby="sillocta-card-note"><span>Aguardando formulário do cartão</span></button><p id="sillocta-card-feedback" class="sl-error" role="alert"></p><p id="sillocta-card-note" class="sl-field-note">Preencha os dados do cartão e toque em “Pagar com cartão”.</p>':mode==='boleto'?'<div class="sl-field"><label class="sl-label" for="sillocta-cpf">CPF<span class="sl-required">Obrigatório</span></label><input required id="sillocta-cpf" class="sl-input" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="123.456.789-09" value="'+escapeHtml(window._checkout.cpf||'')+'"><p class="sl-field-note">Você poderá abrir o boleto ou copiar a linha digitável após confirmar os dados.</p></div>':'<p class="sl-field-note">Após confirmar os dados, use o QR Code ou o Pix copia e cola. A confirmação aparece aqui automaticamente.</p>';
     const cpf=byId('sillocta-cpf');if(cpf){cpf.name='cpf';cpf.setAttribute('aria-describedby','field-error-cpf sillocta-cpf-help');cpf.insertAdjacentHTML?.('afterend','<span id="field-error-cpf" class="sl-field-error" hidden></span><small id="sillocta-cpf-help" class="sl-context-help">O CPF do pagador é necessário para emitir o boleto.</small>');cpf.addEventListener('input',e=>{window._checkout.cpf=e.target.value;setCheckoutFieldError(cpf,'');});}
     if(button){button.hidden=mode==='cartao'||!!state.result;button.disabled=paymentFlow.submitting||!!state.attempt;button.onclick=()=>submitOnlineOrder();button.innerHTML='<i class="fas fa-lock" aria-hidden="true"></i><span>'+ (paymentFlow.submitting?'Enviando pagamento…':mode==='boleto'?'Gerar boleto':'Gerar Pix')+'</span>';}
@@ -241,7 +251,7 @@
     if(!cart.length)return;
     byId('cart-drawer')?.classList.add('sl-orders-checkout');
     const intro=byId('cart-items').querySelector('.sl-checkout-service');intro.innerHTML=securityIcon+'<span>Finalização do pedido</span>';
-    const payment=byId('checkout-payment-title').closest('section');payment.querySelector('.sl-field-note').textContent='Selecione a forma de pagamento para continuar.';
+    const payment=byId('checkout-payment-title').closest('section');const guidance=payment.querySelector('.sl-field-note');guidance.id='sillocta-payment-guidance';guidance.setAttribute('aria-live','polite');syncPaymentGuidance();
     const choices={pix:['qrcode','Pix','QR Code ou copia e cola'],cartao:['card','Cartão','Crédito e débito'],boleto:['barcode','Boleto','Código para pagamento']},grid=payment.querySelector('.sl-pay-grid');
     grid.setAttribute('aria-label','Forma de pagamento');
     grid.innerHTML=Object.entries(choices).map(([mode,[icon,label,description]])=>'<button type="button" onclick="selectCheckoutPayment(\''+mode+'\')" class="sl-pay-btn sl-pay-action '+(window._checkout.pagamento===mode?'is-on':'')+'" data-pay="'+mode+'" aria-label="'+label+'" aria-describedby="sillocta-pay-description-'+mode+'" aria-pressed="'+(window._checkout.pagamento===mode)+'"'+(!paymentFlow.enabled?' disabled':'')+'><span class="sl-option-check" aria-hidden="true">✓</span>'+checkoutControlIcon(icon)+'<span class="sl-payment-choice-copy"><span class="sl-payment-choice-name">'+label+'</span><small id="sillocta-pay-description-'+mode+'">'+description+'</small></span></button>').join('');
