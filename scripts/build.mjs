@@ -2,7 +2,7 @@ import {readFileSync, writeFileSync, mkdirSync, cpSync, rmSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {consolidateStyles,compactStyles} from './styles.mjs';
-import {iconStyles,installCriticalStyles,campaignPreload,installHeroBootstrap} from './loading.mjs';
+import {iconStyles,installCriticalStyles,campaignPreload,installHeroBootstrap,deferCampaignImages} from './loading.mjs';
 import {deploymentMetadata,seoFiles,pageMetadata} from './site-metadata.mjs';
 import {measurementMetadata} from './measurement.mjs';
 import {minify} from 'terser';
@@ -54,7 +54,7 @@ const styles=['storefront.css','enhancements.css','product-pages.css','campaigns
 const icons=iconStyles(JSON.parse(readFileSync(path.join(source,'icons.json'),'utf8')));
 const bundled=consolidateStyles(icons+'\n'+styles.join('\n'));
 writeFileSync(path.join(output,'storefront.css'),compactStyles(bundled.css));
-writeFileSync(path.join(output,'index.html'),versionBundles(installCriticalStyles(addMetadata(home,'/'),bundled.css)));
+writeFileSync(path.join(output,'index.html'),versionBundles(installCriticalStyles(addMetadata(deferCampaignImages(home),'/'),bundled.css)));
 for(const product of products){
   const route=pages.path(product);
   let html=shell
