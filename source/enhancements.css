@@ -892,3 +892,34 @@ html body :is(.sl-guide-invitation>button,.sl-guide-close,.sl-guide-navigation b
 /* Editorial catalog labels: one quiet highlight, with room for the favorite control. */
 html body .perfume-grid .img-box .badge,html body .sl-product-badge{position:absolute;top:14px;left:14px;right:auto;max-width:calc(100% - 76px);box-sizing:border-box;display:inline-flex;align-items:center;min-height:28px;padding:6px 9px;border:1px solid #cbb47760!important;border-radius:2px;background:#090807eb!important;color:#e5d3ac!important;font:500 9px/1.45 Montserrat,sans-serif!important;letter-spacing:.09em;text-transform:uppercase;white-space:normal;overflow-wrap:normal;box-shadow:none!important;backdrop-filter:none!important;pointer-events:none;z-index:3}
 @media(max-width:720px){html body .perfume-grid .img-box .badge{top:10px;left:10px;max-width:calc(100% - 60px);min-height:26px;font-size:8px!important;padding:5px 7px;letter-spacing:.055em}}
+
+/* Institutional dialogs keep both closing controls outside the scrolling copy. */
+html body #footer-info-overlay{box-sizing:border-box;padding:20px}
+html body #footer-info-modal{display:grid;grid-template-rows:auto minmax(0,1fr) auto;box-sizing:border-box;max-height:min(860px,calc(100dvh - 40px));padding:0;overflow:hidden;border-radius:4px}
+html body #footer-info-modal .sl-info-header{position:relative;min-width:0;padding:24px 80px 20px 24px;border-bottom:1px solid #cbb47726}
+html body #footer-info-title{overflow-wrap:anywhere}
+html body #footer-info-subtitle{margin-bottom:0;letter-spacing:.02em}
+html body #footer-info-close{top:14px;right:14px;z-index:1;box-sizing:border-box;border:1px solid #cbb47750!important;border-radius:4px!important;color:#dfd0b4!important;cursor:pointer}
+html body #footer-info-close:hover{border-color:#d9c28c!important;color:#f3e5ca!important}
+html body #footer-info-close:focus-visible{outline:2px solid #dfc58d!important;outline-offset:3px}
+html body #footer-info-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-color:#7f7050 #0b0908;scrollbar-width:thin;padding:20px 24px;scroll-padding-block:20px}
+html body #footer-info-actions{min-width:0;margin:0;padding:16px 24px;border-top:1px solid #cbb47726;align-items:stretch;gap:12px}
+html body #footer-info-actions:empty{display:none}
+html body #footer-info-modal .footer-info-btn{box-sizing:border-box;min-width:88px;min-height:46px;max-width:100%;padding:12px 18px;border-radius:4px;font-size:.8125rem;line-height:1.5;text-align:center;white-space:normal;overflow-wrap:anywhere}
+html body #footer-info-modal .footer-info-btn:focus-visible{outline:2px solid #dfc58d!important;outline-offset:3px}
+@media(max-width:640px){
+ html body #footer-info-overlay{padding:12px}
+ html body #footer-info-modal{max-height:calc(100dvh - 24px)}
+ html body #footer-info-modal .sl-info-header{padding:22px 72px 18px 18px}
+ html body #footer-info-close{top:12px;right:12px}
+ html body #footer-info-body{padding:18px}
+ html body #footer-info-actions{padding:14px 18px;gap:10px}
+ html body #footer-info-modal .footer-info-btn{width:100%}
+}
+@media(max-height:500px){
+ html body #footer-info-modal .sl-info-header{padding-block:16px}
+ html body #footer-info-kicker,html body #footer-info-subtitle{display:none}
+ html body #footer-info-title{font-size:28px;margin-bottom:0}
+ html body #footer-info-actions{flex-direction:row;padding-block:10px}
+ html body #footer-info-modal .footer-info-btn{width:auto;flex:1}
+}
