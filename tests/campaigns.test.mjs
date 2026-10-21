@@ -272,6 +272,7 @@ test('Carousel warms exact deferred photo candidates before their dwell time and
  const h=harness({deferred:true});
  assert.equal(h.cards[2].image.getAttribute('src'),null);
  h.advance(2000);assert.equal(h.active(),1);
+ assert.equal(h.cards[2].image.loading,'eager');
  assert.equal(h.cards[2].image.getAttribute('src'),'/photo-2-original.webp');
  assert.equal(h.cards[2].image.getAttribute('srcset'),'/photo-2-960.webp 960w, /photo-2-original.webp 1600w');
  assert.equal(h.cards[2].image.getAttribute('data-sl-src'),null);
