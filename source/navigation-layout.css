@@ -119,3 +119,10 @@ html body .sl-product-page .sl-product-bag{color:#dfc994}
   html body .perfume-grid .sl-card-body{padding:18px 20px!important}
   html body .perfume-grid .sl-card-purchase{gap:12px}
 }
+
+/* Reserve a separate caption area outside the animated artwork and its light. */
+html body #colecao-selector :is(#sel-masc-btn,#sel-fem-btn)>div:first-child{z-index:1;clip-path:inset(-32px -32px 0)}
+html body #colecao-selector :is(#sel-masc-btn,#sel-fem-btn)>div:last-child{position:relative;z-index:2;margin-top:24px;padding-top:6px!important}
+@media(max-width:720px){
+  html body #hero #colecao-selector :is(#sel-masc-btn,#sel-fem-btn)>div:last-child{margin-top:14px;padding-top:4px!important}
+}
