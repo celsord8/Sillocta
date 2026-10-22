@@ -74,7 +74,7 @@ test('Critical loading preserves media conditions, vector shapes, full-style fal
  }
 });
 
-test('All pages receive the complete ordered cascade without a late stylesheet and retain editorial labels',()=>{
+test('Home paints the ordered critical cascade and preloads the complete stylesheet while details retain the full cascade',()=>{
  const home=read('public/index.html'),sources=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'];
  const detail=read('public/perfume/dior-miss-dior.html');
  assert.equal((home.match(/id="sl-critical-styles"/g)||[]).length,0);
@@ -84,7 +84,10 @@ test('All pages receive the complete ordered cascade without a late stylesheet a
  assert.match(read('source/enhancements.js'),/byId\('sl-full-styles'\).*sl-styles-ready.*firstScreenStartedAt<2500/);
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
- assert.ok(home.includes('<style id="sl-full-styles">'+compactStyles(full)+'</style>'));
+ assert.ok(home.includes('<style id="sl-full-styles">'+criticalStyles(full)+'</style>'));
+ assert.match(home, /<link rel="preload" as="style" href="\/storefront\.css\?v=[^"]+" onload=/);
+ assert.ok(home.includes("document.documentElement.classList.add('sl-styles-ready')"));
+ assert.ok(home.includes('<noscript><link rel="stylesheet"')); 
  assert.equal(read('public/storefront.css'),compactStyles(full));
  assert.ok(detail.includes('<style id="sl-full-styles">'+compactStyles(full)+'</style>'));
  assert.ok(criticalStyles(full).length<95000);
