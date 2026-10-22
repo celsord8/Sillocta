@@ -13,7 +13,7 @@ export function iconStyles(icons){
  }).join('');
 }
 
-const firstScreen=/#(?:hero(?:-txt)?|colecao-selector|sel-(?:masc|fem)[\w-]*|img-(?:masc|fem)|sl-collection-hint|o[123]|stars|shop|smooth-(?:wrapper|content)|preloader|catalog-campaigns|cc|menu-trigger|header-bag-button|sl-header-brand)\b|\.(?:glass|sl-header[\w-]*|sl-campaign[\w-]*|sl-hero[\w-]*|sl-artwork-plane|gold-grad|fu|vis|pl-[\w-]+|fas|fab|fa-[\w-]+)\b/;
+const firstScreen=/#(?:hero(?:-txt)?|colecao-selector|sel-(?:masc|fem)[\w-]*|img-(?:masc|fem)|sl-collection-hint|o[123]|stars|shop|smooth-(?:wrapper|content)|preloader|catalog-campaigns|cc|menu-trigger|header-bag-button|sl-header-brand|wa-float|sl-bag-shortcut)\b|\.(?:glass|sl-header[\w-]*|sl-campaign[\w-]*|sl-hero[\w-]*|sl-artwork-plane|gold-grad|fu|vis|pl-[\w-]+|fas|fab|fa-[\w-]+)\b/;
 const globalRule=/^(?:\*|:root|html|body)(?:[.:][\w()-]+)*(?:\s*,\s*(?:\*|:root|html|body)(?:[.:][\w()-]+)*)?$/;
 const deferredPanel=/#(?:cart-(?:drawer|overlay|footer|items)|mobile-menu[\w-]*|footer-info[\w-]*)\b|\.(?:sl-guide-(?:dialog|overlay|header|close|progress|option|navigation|result[\w-]*|next|back)|sl-checkout[\w-]*|sl-payment[\w-]*|sl-pay[\w-]*)\b/;
 
@@ -48,13 +48,42 @@ export function criticalStyles(css,{detail=false}={}){
  return compactStyles(tree.toString()+safety);
 }
 
+// Keep non-visible interface styling from competing with the first painted
+// photograph. Any interaction requests the complete cascade immediately.
+export function loadRemainingStyles(){
+ const link=document.getElementById('sl-deferred-styles');if(!link)return;
+ let applied=false,settled=false;
+ const events=['pointerdown','keydown','focusin','touchstart','wheel','scroll'];
+ const unlock=()=>{if(!applied||settled)return;settled=true;requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add('sl-styles-ready')));};
+ const apply=()=>{
+  if(applied)return;applied=true;clearTimeout(fallback);
+  for(const type of events)document.removeEventListener(type,apply,true);
+  link.rel='stylesheet';if(link.sheet)unlock();
+ };
+ link.addEventListener('load',unlock);
+ for(const type of events)document.addEventListener(type,apply,{capture:true,passive:true,once:true});
+ const fallback=setTimeout(apply,5000);
+ const start=()=>{
+  const photo=document.querySelector('#campaign-card-1 img');
+  const paint=()=>{
+   let decoded;try{decoded=photo?.decode?.();}catch{}
+   Promise.resolve(decoded).catch(()=>{}).then(()=>requestAnimationFrame(()=>requestAnimationFrame(apply)));
+  };
+  if(!photo||photo.complete)paint();
+  else{photo.addEventListener('load',paint,{once:true});photo.addEventListener('error',apply,{once:true});}
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+}
+
 export function installCriticalStyles(html,css,options){
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
  // Every page receives the same complete, ordered cascade on first paint.
  // Detail pages no longer wait for a second sheet, restyle and two frames.
  const preload=options?.detail?productPreload(html):'';
- return html.replace(marker,()=>preload+'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
+ if(options?.detail)return html.replace(marker,()=>preload+'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
+ const href=html.match(marker)[1];
+ return html.replace(marker,()=>'<style id="sl-full-styles">'+criticalStyles(css)+'</style><link id="sl-deferred-styles" rel="preload" as="style" fetchpriority="low" blocking="render" href="'+href+'"><noscript><link rel="stylesheet" href="'+href+'"></noscript><script>('+loadRemainingStyles.toString()+')();</script>');
 }
 
 // Discover the detail image in the head, with exactly the same candidates and
