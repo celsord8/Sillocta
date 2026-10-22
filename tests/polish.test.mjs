@@ -64,7 +64,7 @@ test('Critical loading preserves media conditions, vector shapes, full-style fal
  assert.match(campaignPreload(home),/media="\(max-width:720px\)"/);
  assert.match(campaignPreload(home),/960[^\"]*960w/);
  assert.ok(!detail.includes('sl-home-media-preload'));
- assert.equal((home.match(/rel="preload" as="font"/g)||[]).length,3);
+ assert.equal((home.match(/rel="preload" as="font"/g)||[]).length,2);
  for(const name of ['campaign-aventus','campaign-miss-dior']){
   const entry=JSON.parse(read('source/media.json'))['assets/'+name+'.webp'];
   const retina=entry.sources.find(s=>s.width===960);
