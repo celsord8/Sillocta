@@ -928,3 +928,15 @@ html body #footer-info-actions .footer-info-btn[onclick*="closeFooterInfo"]::aft
  html body #footer-info-actions{flex-direction:row;padding-block:10px}
  html body #footer-info-modal .footer-info-btn{width:auto;flex:1}
 }
+
+/* Commercial clarity stays quiet: the existing palette, type and controls. */
+html body .sl-commerce-intro{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start;gap:24px 48px;max-width:1040px;margin:30px auto 28px;padding:24px 0;border-top:1px solid #cbb47726}
+html body .sl-commerce-intro h2{font:300 clamp(26px,3vw,34px)/1.15 'Cormorant Garamond',serif;color:#e9e0d2;margin:0;letter-spacing:-.01em}
+html body .sl-commerce-intro p{font:300 .8125rem/1.9 Montserrat,sans-serif;color:#c4baaa;margin:0;text-wrap:pretty}
+html body .sl-commerce-intro .sl-commerce-delivery{font-size:.75rem;color:#b7a886;margin-top:10px}
+html body .perfume-grid .card .sl-card-stock{display:flex;align-items:center;justify-content:center;gap:7px;margin:0!important;font:400 .6875rem/1.6 Montserrat,sans-serif!important;letter-spacing:.01em!important;color:#cbbd9b!important;text-align:center}
+html body .perfume-grid .sl-card-stock>span{flex:0 0 4px;width:4px;height:4px;border-radius:50%;background:#cbb477}
+html body .perfume-grid .card .sl-card-stock.is-unavailable{color:#b7aca0!important}
+html body .perfume-grid .sl-card-stock.is-unavailable>span{background:#918579}
+html body .perfume-grid .card .sl-volume-price{font-size:.875rem!important;font-weight:400!important;line-height:1.6!important}
+@media(max-width:720px){html body .sl-commerce-intro{grid-template-columns:minmax(0,1fr);gap:12px;margin:24px 0;padding:22px 0}html body .sl-commerce-intro h2{font-size:28px}html body .sl-commerce-intro p{font-size:.8125rem}html body .perfume-grid .card .sl-volume-price{font-size:.8125rem!important}}
