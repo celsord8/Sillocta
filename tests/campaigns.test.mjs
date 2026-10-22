@@ -7,7 +7,7 @@ import PRODUCTS from '../source/products.json' with {type:'json'};
 import CAMPAIGNS from '../source/campaigns.json' with {type:'json'};
 import '../source/product-pages.js';
 
-function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialVisible=!observer,readyState='complete',firstLoaded=true}={}){
+function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialVisible=!observer,readyState='complete',firstLoaded=true,decode=false}={}){
   const frames=[],scrolls=[],timers=new Map(),windowEvents=new Map(),documentEvents=new Map();
   let clock=0,timerId=0,intersection,preference,onScreen=initialVisible;
   const node=()=>({hidden:false,attributes:{},listeners:new Map(),setAttribute(key,value){this.attributes[key]=value;},getAttribute(key){return this.attributes[key];},removeAttribute(key){delete this.attributes[key];},addEventListener(type,action){this.listeners.set(type,action);}});
@@ -15,6 +15,7 @@ function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialV
   const shown=()=>rendered.filter(card=>!card.hidden);
   const makeCard=index=>{
     const image={loading:index?'lazy':'eager',complete:index>0||firstLoaded,listeners:new Map(),addEventListener(type,action){this.listeners.set(type,action);}};
+    if(decode)image.decode=()=>new Promise((resolve,reject)=>{image.resolveDecode=resolve;image.rejectDecode=reject;});
     return Object.assign(node(),{index,image,querySelector:()=>image,querySelectorAll:()=>[],cloneNode:()=>makeCard(index),getBoundingClientRect(){const left=50+shown().indexOf(this)*(cardWidth+12)-track.scrollLeft;return {left,right:left+cardWidth,width:cardWidth};}});
   };
   const cards=CAMPAIGNS.map((_,i)=>makeCard(i));rendered.push(...cards);
@@ -37,6 +38,7 @@ function harness({reduced=false,width=1040,cardWidth=620,observer=false,initialV
   const advance=ms=>{const end=clock+ms;let count=0;while(true){const next=[...timers.entries()].sort((a,b)=>a[1].at-b[1].at)[0];if(!next||next[1].at>end)break;assert.ok(++count<1000,'Timers must not form an immediate loop');clock=next[1].at;timers.delete(next[0]);next[1].action();flush();}clock=end;flush();};
   flush();
   return {track,cards,rendered,buttons,pagination,scrolls,timers,active,flush,advance,period:()=>CAMPAIGNS.length*(cardWidth+12),
+    frameStep(){const current=frames.splice(0);current.forEach(action=>action());},
     imageLoaded(index){cards[index].image.complete=true;cards[index].image.listeners.get('load')?.();flush();},
     domReady(){document.readyState='interactive';documentEvents.get('DOMContentLoaded')?.();flush();},
     runAgain(){vm.runInNewContext(source,context);flush();},
@@ -65,6 +67,35 @@ test('Slow image downloads receive a full dwell time and never advance into an u
  h.cards[1].image.complete=false;h.advance(1);assert.equal(h.active(),0);
  h.imageLoaded(1);h.advance(1999);assert.equal(h.active(),0);
  h.advance(1);assert.equal(h.active(),1);
+});
+
+test('Downloaded photographs receive two paint frames and a full dwell, with the next photo decoded without restarting the current timer',async()=>{
+ const h=harness({decode:true});h.advance(5000);assert.equal(h.active(),0);assert.equal(h.timers.size,0);
+ h.cards[0].image.resolveDecode();for(let i=0;i<4;i++)await Promise.resolve();
+ assert.equal(h.timers.size,0);h.frameStep();assert.equal(h.timers.size,0);h.frameStep();assert.equal(h.timers.size,2);
+ h.advance(800);assert.equal(typeof h.cards[1].image.resolveDecode,'function');
+ h.cards[1].image.resolveDecode();for(let i=0;i<4;i++)await Promise.resolve();h.frameStep();h.frameStep();
+ h.advance(1199);assert.equal(h.active(),0);h.advance(1);assert.equal(h.active(),1);
+});
+
+test('A completed decode cannot restart autoplay while the document is hidden',async()=>{
+ const h=harness({decode:true});h.hidden(true);h.cards[0].image.resolveDecode();
+ for(let i=0;i<4;i++)await Promise.resolve();h.frameStep();h.frameStep();
+ assert.equal(h.timers.size,0);h.advance(5000);assert.equal(h.active(),0);
+ h.hidden(false);assert.equal(h.timers.size,2);
+});
+
+test('An unavailable browser decoder cannot leave a fully downloaded photograph permanently paused',async()=>{
+ const h=harness({decode:true});h.cards[0].image.rejectDecode(new Error('Decoder unavailable'));
+ for(let i=0;i<4;i++)await Promise.resolve();h.frameStep();h.frameStep();
+ assert.equal(h.timers.size,2);assert.equal(h.active(),0);
+});
+
+test('Responsive source changes cannot reuse a decoded frame from the previous photograph size',async()=>{
+ const h=harness({decode:true});h.cards[0].image.resolveDecode();
+ for(let i=0;i<4;i++)await Promise.resolve();h.frameStep();h.frameStep();assert.equal(h.timers.size,2);
+ h.cards[0].image.currentSrc='/larger-original-quality.webp';h.resize(760,470);assert.equal(h.timers.size,0);
+ h.cards[0].image.resolveDecode();for(let i=0;i<4;i++)await Promise.resolve();h.frameStep();h.frameStep();assert.equal(h.timers.size,2);
 });
 
 test('Early script loading waits for parsed markup and repeated initialization never duplicates the loop',()=>{
