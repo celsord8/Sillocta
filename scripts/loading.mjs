@@ -78,10 +78,12 @@ export function loadRemainingStyles(){
 export function installCriticalStyles(html,css,options){
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
- // Every page receives the same complete, ordered cascade on first paint.
- // Detail pages no longer wait for a second sheet, restyle and two frames.
+ // Detail pages retain their complete, ordered cascade on first paint.
  const preload=options?.detail?productPreload(html):'';
  if(options?.detail)return html.replace(marker,()=>preload+'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
+ // The opening photograph belongs to the first frame. Let the browser paint
+ // its decoded pixels with that frame rather than scheduling them separately.
+ html=html.replace(/(id="campaign-card-1"[\s\S]*?<img\b[^>]*\bdecoding=)"async"/,'$1"sync"');
  const href=html.match(marker)[1];
  return html.replace(marker,()=>'<style id="sl-full-styles">'+criticalStyles(css)+'</style><link id="sl-deferred-styles" rel="preload" as="style" fetchpriority="low" blocking="render" href="'+href+'"><noscript><link rel="stylesheet" href="'+href+'"></noscript><script>('+loadRemainingStyles.toString()+')();</script>');
 }
