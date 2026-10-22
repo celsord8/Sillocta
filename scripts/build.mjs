@@ -5,6 +5,7 @@ import {consolidateStyles,compactStyles} from './styles.mjs';
 import {iconStyles,installCriticalStyles,campaignPreload,installHeroBootstrap} from './loading.mjs';
 import {deploymentMetadata,seoFiles,pageMetadata} from './site-metadata.mjs';
 import {measurementMetadata} from './measurement.mjs';
+import {openingFontStyles,openingFontPreloads} from './opening-fonts.mjs';
 import {minify} from 'terser';
 import {createHash} from 'node:crypto';
 
@@ -18,7 +19,7 @@ if(new Set(routes).size!==products.length)throw Error('Duplicate perfume URL');
 
 const metadata=deploymentMetadata(process.env);
 const {origin,preview}=metadata;
-const addMetadata=(html,route,product)=>html.replace('</head>',pageMetadata(metadata,route,product)+measurementMetadata(process.env)+'</head>');
+const addMetadata=(html,route,product)=>html.replace('</head>','<style id="sl-opening-fonts">'+openingStyles+'</style>'+pageMetadata(metadata,route,product)+measurementMetadata(process.env)+'</head>');
 
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bundleVersions=new Map();
@@ -26,7 +27,7 @@ const versionBundles=html=>html.replace(/<script defer src="\/([^"?]+\.js)\?v=([
  const hash=bundleVersions.get(name);if(!hash)throw Error('Unversioned browser bundle: '+name);
  return tag.replace('?v='+version,'?v='+version+'-'+hash);
 });
-const originalHome=readFileSync(path.join(source,'index.html'),'utf8');
+const originalHome=openingFontPreloads(readFileSync(path.join(source,'index.html'),'utf8'));
 const home=installHeroBootstrap(originalHome.replace(/<meta name="viewport"[^>]*>/,viewport=>viewport+campaignPreload(originalHome)),readFileSync(path.join(source,'enhancements.js'),'utf8'));
 const heroStart=home.indexOf('<section id="hero">'),shopEnd=home.indexOf('</main>',heroStart);
 if(heroStart<0||shopEnd<heroStart)throw Error('Storefront layout missing');
@@ -52,6 +53,7 @@ for(const name of ['measurement.js','enhancements.js','product-pages.js','campai
 }
 const styles=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'].map(name=>readFileSync(path.join(source,name),'utf8'));
 const icons=iconStyles(JSON.parse(readFileSync(path.join(source,'icons.json'),'utf8')));
+const openingStyles=openingFontStyles(output);
 const bundled=consolidateStyles(icons+'\n'+styles.join('\n'));
 writeFileSync(path.join(output,'storefront.css'),compactStyles(bundled.css));
 writeFileSync(path.join(output,'index.html'),versionBundles(installCriticalStyles(addMetadata(home,'/'),bundled.css)));
