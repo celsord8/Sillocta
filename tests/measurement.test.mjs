@@ -4,11 +4,12 @@ import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {measurementMetadata} from '../scripts/measurement.mjs';
 const code=readFileSync(new URL(process.env.SILLOCTA_TEST_BUNDLES?'../public/measurement.js':'../source/measurement.js',import.meta.url),'utf8');
-function harness({privacy={},storage=new Map(),collector,gaId='',vercel=true}={}){
- const scripts=[],timers=[];
- const context=vm.createContext({navigator:privacy,location:{origin:'https://shop.example',pathname:'/perfume/creed-aventus'},URL,sessionStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,value)},document:{title:'Aventus | Sillocta',referrer:'https://referrer.example/?private=value#secret',querySelector:selector=>({getAttribute:()=>selector.includes('ga4')?gaId:String(vercel)}),getElementById:()=>null,createElement:()=>({}),head:{appendChild:script=>scripts.push(script)}},setTimeout:fn=>timers.push(fn)});
+function harness({privacy={},storage=new Map(),collector,gaId='',vercel=true,paint=false,animationFrames=false}={}){
+ const scripts=[],timers=[],frames=[],paintProbe={callback:null,disconnected:false};
+ const PaintObserver=class {static supportedEntryTypes=['paint'];constructor(callback){paintProbe.callback=callback;}observe(options){paintProbe.options=options;}disconnect(){paintProbe.disconnected=true;}};
+ const context=vm.createContext({...(paint?{PerformanceObserver:PaintObserver}:{}),...(animationFrames?{requestAnimationFrame:fn=>frames.push(fn)}:{}),navigator:privacy,location:{origin:'https://shop.example',pathname:'/perfume/creed-aventus'},URL,sessionStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,value)},document:{title:'Aventus | Sillocta',referrer:'https://referrer.example/?private=value#secret',querySelector:selector=>({getAttribute:()=>selector.includes('ga4')?gaId:String(vercel)}),getElementById:()=>null,createElement:()=>({}),head:{appendChild:script=>scripts.push(script)}},setTimeout:fn=>timers.push(fn)});
  context.window=context;if(collector)context.va=collector;vm.runInContext(code,context);
- return {metrics:context.SilloctaMetrics,context,scripts,timers,storage,events:()=>Array.from(context.vaq||[]).filter(([name])=>name==='event').map(([,data])=>JSON.parse(JSON.stringify(data)))};
+ return {metrics:context.SilloctaMetrics,context,scripts,timers,frames,paintProbe,storage,events:()=>Array.from(context.vaq||[]).filter(([name])=>name==='event').map(([,data])=>JSON.parse(JSON.stringify(data)))};
 }
 test('Funnel stages deduplicate views and checkout selections without counting an empty bag',()=>{
  const h=harness();h.metrics.viewProduct({id:1,email:'private@example.com'});h.metrics.viewProduct({id:1});h.metrics.addItem(1,'10',2);h.metrics.checkout([]);
@@ -61,4 +62,28 @@ test('Preview builds exclude production collection IDs and invalid IDs cannot en
  assert.match(measurementMetadata({VERCEL_ENV:'production',PUBLIC_GA4_MEASUREMENT_ID:'G-TEST1234'}),/G-TEST1234/);
  assert.equal(measurementMetadata({VERCEL_ENV:'production'}),'');
  assert.throws(()=>measurementMetadata({PUBLIC_GA4_MEASUREMENT_ID:'<script>unsafe</script>'}));
+});
+
+test('Collectors wait for actual content paint while early funnel events remain queued exactly once',()=>{
+ const h=harness({paint:true,gaId:'G-TEST1234'});
+ h.metrics.viewProduct({id:1});h.metrics.addItem(1,'5',2);
+ assert.equal(h.scripts.length,0);assert.equal(h.timers.length,0);
+ h.paintProbe.callback({getEntries:()=>[{name:'first-paint'}]});assert.equal(h.timers.length,0);
+ h.paintProbe.callback({getEntries:()=>[{name:'first-contentful-paint'}]});
+ assert.equal(h.paintProbe.disconnected,true);assert.equal(h.timers.length,1);
+ assert.deepEqual(h.events().map(e=>e.name),['view_item','add_to_cart']);
+ h.paintProbe.callback({getEntries:()=>[{name:'first-contentful-paint'}]});assert.equal(h.timers.length,1);
+ h.timers[0]();assert.equal(h.scripts.length,3);
+ assert.equal(Array.from(h.context.dataLayer).filter(entry=>entry[0]==='event').length,2);
+});
+
+test('Privacy changes before deferred collectors load still prevent every collector request',()=>{
+ const h=harness({paint:true});h.paintProbe.callback({getEntries:()=>[{name:'first-contentful-paint'}]});
+ h.context.navigator.globalPrivacyControl=true;h.timers[0]();assert.equal(h.scripts.length,0);
+});
+
+test('Browsers without paint timing retain a two-frame fallback before collector scheduling',()=>{
+ const h=harness({animationFrames:true});assert.equal(h.timers.length,0);
+ h.frames.shift()();assert.equal(h.timers.length,0);h.frames.shift()();assert.equal(h.timers.length,1);
+ h.timers[0]();assert.equal(h.scripts.length,2);
 });
