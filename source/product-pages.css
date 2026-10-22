@@ -189,3 +189,13 @@ html body .sl-product-page .sl-note-name{font:400 clamp(1.125rem,1.65vw,1.375rem
   html body .sl-product-page .sl-product-notes ul{gap:12px}
   html body .sl-product-page .sl-note-name{font-size:1.1875rem;line-height:1.25}
 }
+
+/* State exactly what is sold before presenting the olfactory details. */
+html body .sl-product-page .sl-product-decant-copy{font:300 .8125rem/1.8 Montserrat,sans-serif;color:#c6bbaa;margin:10px 0 0;max-width:34rem;text-wrap:pretty}
+html body .sl-product-info>.sl-product-price-line{margin:20px 0 24px;padding:17px 0;border-top:1px solid #cbb47729;border-bottom:1px solid #cbb47729;align-items:center}
+html body .sl-product-info>.sl-product-price-line .sl-product-label{font-size:.75rem;color:#bcb1a0;margin-bottom:6px}
+html body .sl-product-info>.sl-product-price-line .sl-product-stock{padding:5px 9px;border:1px solid #cbb47738;border-radius:3px;color:#ddcda8;font-size:.75rem;line-height:1.6;text-align:center}
+html body .sl-product-info>.sl-product-price-line .sl-product-stock.is-unavailable{color:#b7aca0;border-color:#b7aca030}
+@media(max-width:720px){html body .sl-product-info>.sl-product-price-line{margin:16px 0 20px;padding:14px 0;gap:14px}html body .sl-product-page .sl-product-decant-copy{font-size:.8125rem}}
+
+html body .sl-product-page .sl-product-delivery-note{font:300 .75rem/1.8 Montserrat,sans-serif;color:#b9ac97;margin:9px 0 0;text-wrap:pretty}
