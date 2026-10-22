@@ -938,5 +938,23 @@ html body .perfume-grid .card .sl-card-stock{display:flex;align-items:center;jus
 html body .perfume-grid .sl-card-stock>span{flex:0 0 4px;width:4px;height:4px;border-radius:50%;background:#cbb477}
 html body .perfume-grid .card .sl-card-stock.is-unavailable{color:#b7aca0!important}
 html body .perfume-grid .sl-card-stock.is-unavailable>span{background:#918579}
-html body .perfume-grid .card .sl-volume-price{font-size:.875rem!important;font-weight:400!important;line-height:1.6!important}
-@media(max-width:720px){html body .sl-commerce-intro{grid-template-columns:minmax(0,1fr);gap:12px;margin:24px 0;padding:22px 0}html body .sl-commerce-intro h2{font-size:28px}html body .sl-commerce-intro p{font-size:.8125rem}html body .perfume-grid .card .sl-volume-price{font-size:.8125rem!important}}
+@media(max-width:720px){html body .sl-commerce-intro{grid-template-columns:minmax(0,1fr);gap:12px;margin:24px 0;padding:22px 0}html body .sl-commerce-intro h2{font-size:28px}html body .sl-commerce-intro p{font-size:.8125rem}}
+
+/* Size purchase typography to the actual card, leaving room around every price. */
+html body .perfume-grid .sl-card-purchase{container:sl-purchase / inline-size}
+html body .perfume-grid .card .sl-volume-options{grid-template-columns:repeat(auto-fit,minmax(min(100%,104px),1fr))!important;gap:4px!important;padding:4px!important}
+html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:58px!important;padding:8px 8px!important}
+html body .perfume-grid .card .sl-volume-copy{width:auto;max-width:100%;flex-direction:column;gap:3px!important;line-height:1.5!important}
+html body .perfume-grid .card .sl-volume-copy>span:first-child{font-size:.75rem!important;line-height:1.5!important}
+html body .perfume-grid .card .sl-volume-price{font-size:.75rem!important;font-weight:400!important;line-height:1.5!important;letter-spacing:0!important;white-space:nowrap}
+html body .perfume-grid .card .sl-card-stock{min-width:0;gap:5px;flex-wrap:wrap;line-height:1.5!important;text-wrap:balance}
+html body .perfume-grid .card :is(h3,.sl-card-brand,.sl-card-note){max-width:100%;overflow-wrap:anywhere}
+@container sl-purchase (max-width:230px){
+  html body .perfume-grid .card .sl-volume-options{grid-template-columns:minmax(0,1fr)!important}
+  html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:44px!important;padding:9px 8px!important}
+  html body .perfume-grid .card .sl-volume-copy{width:100%;flex-direction:row;justify-content:space-between;gap:8px!important}
+}
+@container sl-purchase (max-width:150px){
+  html body .perfume-grid .card .sl-volume-options>.vbtn{min-height:58px!important}
+  html body .perfume-grid .card .sl-volume-copy{flex-direction:column;justify-content:center;gap:3px!important}
+}
