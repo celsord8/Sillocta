@@ -54,7 +54,11 @@ export function installCriticalStyles(html,css,options){
  // Every page receives the same complete, ordered cascade on first paint.
  // Detail pages no longer wait for a second sheet, restyle and two frames.
  const preload=options?.detail?productPreload(html):'';
- return html.replace(marker,()=>preload+'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
+ if(options?.detail)return html.replace(marker,()=>preload+'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
+ const href=html.match(marker)[1];
+ // Paint the complete first screen from a small, ordered critical cascade.
+ // Fetch the full sheet in parallel; its original order restores all panels.
+ return html.replace(marker,()=>'<style id="sl-full-styles">'+criticalStyles(css)+'</style><link rel="preload" as="style" href="'+href+'" onload="this.onload=null;this.rel=\'stylesheet\';document.documentElement.classList.add(\'sl-styles-ready\')"><noscript><link rel="stylesheet" href="'+href+'"></noscript>');
 }
 
 // Discover the detail image in the head, with exactly the same candidates and
