@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {consolidateStyles,compactStyles} from '../scripts/styles.mjs';
-import {iconStyles,criticalStyles,campaignPreload,revealFirstScreen} from '../scripts/loading.mjs';
+import {iconStyles,criticalStyles,campaignPreload,revealFirstScreen,loadRemainingStyles} from '../scripts/loading.mjs';
 import '../source/product-pages.js';
 import products from '../source/products.json' with {type:'json'};
 const read=name=>readFileSync(new URL('../'+name,import.meta.url),'utf8');
@@ -74,7 +74,7 @@ test('Critical loading preserves media conditions, vector shapes, full-style fal
  }
 });
 
-test('All pages receive the complete ordered cascade without a late stylesheet and retain editorial labels',()=>{
+test('Home paints its critical cascade and retains the complete original stylesheet while details retain the full cascade',()=>{
  const home=read('public/index.html'),sources=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'];
  const detail=read('public/perfume/dior-miss-dior.html');
  assert.equal((home.match(/id="sl-critical-styles"/g)||[]).length,0);
@@ -84,7 +84,10 @@ test('All pages receive the complete ordered cascade without a late stylesheet a
  assert.match(read('source/enhancements.js'),/byId\('sl-full-styles'\).*sl-styles-ready.*firstScreenStartedAt<2500/);
  const icons=iconStyles(JSON.parse(read('source/icons.json')));
  const full=consolidateStyles(icons+'\n'+sources.map(s=>read('source/'+s)).join('\n')).css;
- assert.ok(home.includes('<style id="sl-full-styles">'+compactStyles(full)+'</style>'));
+ assert.ok(home.includes('<style id="sl-full-styles">'+criticalStyles(full)+'</style>'));
+ assert.match(home,/<link id="sl-deferred-styles" rel="preload" as="style" fetchpriority="low" blocking="render"/);
+ assert.ok(home.includes('<noscript><link rel="stylesheet"'));
+ assert.ok(home.includes(loadRemainingStyles.toString()));
  assert.equal(read('public/storefront.css'),compactStyles(full));
  assert.ok(detail.includes('<style id="sl-full-styles">'+compactStyles(full)+'</style>'));
  assert.ok(criticalStyles(full).length<95000);
@@ -94,4 +97,30 @@ test('All pages receive the complete ordered cascade without a late stylesheet a
  assert.equal((home.match(/<span class="badge">/g)||[]).length,7);
  for(const label of ['Top Vendas','Best Seller','Tendência','Custo Benefício','Novo na coleção'])assert.ok(!home.includes('>'+label+'<'));
  assert.ok(!home.includes('<aside aria-hidden="true" id="mobile-menu-drawer"'));
+});
+
+function styleHarness(){
+ const frames=[],events=new Map(),linkEvents=new Map(),timers=new Map(),classes=[];
+ let resolveDecode;
+ const photo={complete:true,decode:()=>new Promise(resolve=>{resolveDecode=resolve;})};
+ const link={rel:'preload',sheet:null,addEventListener:(type,fn)=>linkEvents.set(type,fn)};
+ const document={readyState:'complete',getElementById:()=>link,querySelector:()=>photo,documentElement:{classList:{add:name=>classes.push(name)}},addEventListener:(type,fn)=>events.set(type,fn),removeEventListener:type=>events.delete(type)};
+ vm.runInNewContext('('+loadRemainingStyles.toString()+')()',{document,Promise,requestAnimationFrame:fn=>frames.push(fn),setTimeout(fn,ms){timers.set(ms,fn);return ms;},clearTimeout:id=>timers.delete(id)});
+ return {link,classes,events,timers,resolveDecode:()=>resolveDecode(),frame(){frames.splice(0).forEach(fn=>fn());},loaded(){link.sheet={};linkEvents.get('load')();}};
+}
+
+test('Remaining styles apply after the decoded opening photo has had a painted frame, with a settled cascade before transitions resume',async()=>{
+ const h=styleHarness();assert.equal(h.link.rel,'preload');h.resolveDecode();
+ for(let i=0;i<4;i++)await Promise.resolve();h.frame();assert.equal(h.link.rel,'preload');h.frame();assert.equal(h.link.rel,'stylesheet');
+ assert.equal(h.timers.size,0);assert.deepEqual(h.classes,[]);h.loaded();h.frame();assert.deepEqual(h.classes,[]);h.frame();assert.deepEqual(h.classes,['sl-styles-ready']);
+});
+
+test('Any early interaction requests the complete interface styles without waiting for image decoding',()=>{
+ for(const type of ['pointerdown','keydown','focusin','touchstart','wheel','scroll']){
+  const h=styleHarness();h.events.get(type)();assert.equal(h.link.rel,'stylesheet');assert.equal(h.events.size,0);assert.equal(h.timers.size,0);
+ }
+});
+
+test('A slow or unavailable opening photo cannot indefinitely defer the complete interface styles',()=>{
+ const h=styleHarness();h.timers.get(5000)();assert.equal(h.link.rel,'stylesheet');assert.equal(h.timers.size,0);
 });
