@@ -200,18 +200,3 @@ html body .sl-product-info>.sl-product-price-line .sl-product-stock.is-unavailab
 
 html body .sl-product-page .sl-product-delivery-note{font:300 .75rem/1.8 Montserrat,sans-serif;color:#b9ac97;margin:9px 0 0;text-wrap:pretty}
 
-/* Balance prices, labels and touch targets without reserving unused icon space. */
-html body .sl-product-page .sl-product-volume button{box-sizing:border-box;padding:9px 12px;min-height:58px;font-size:.75rem;line-height:1.5}
-html body .sl-product-page .sl-product-volume .sl-volume-copy{width:100%;min-width:0;gap:4px;line-height:1.5}
-html body .sl-product-page .sl-product-volume .sl-volume-price{font-size:.8125rem;font-weight:400;line-height:1.5;letter-spacing:0;white-space:nowrap}
-html body .sl-product-page .sl-product-volume .sl-volume-check{display:none}
-html body .sl-product-info>.sl-product-price-line{gap:12px 20px}
-html body .sl-product-info>.sl-product-price-line>div{min-width:0;max-width:100%}
-html body .sl-product-page .sl-product-prices{gap:4px 10px}
-html body .sl-product-page #product-price{font-size:clamp(26px,2.5vw,31px);line-height:1.25}
-html body .sl-product-page #product-old-price{font-size:.6875rem;line-height:1.6}
-html body .sl-product-info>.sl-product-price-line .sl-product-stock{box-sizing:border-box;max-width:100%;font-size:.6875rem;line-height:1.6;padding:5px 8px;text-wrap:balance}
-html body .sl-product-page .sl-product-quantity-row{flex-wrap:wrap;gap:16px}
-html body .sl-product-page .sl-product-selection-total strong{font-size:1rem;line-height:1.5}
-html body .sl-product-page :is(.sl-product-bag,.sl-product-primary,.sl-product-availability){font-size:.8125rem;line-height:1.6;overflow-wrap:anywhere}
-@media(max-width:360px){html body .sl-product-page .sl-product-volume>div{gap:8px}html body .sl-product-page .sl-product-volume button{padding-inline:8px}}
