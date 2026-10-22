@@ -75,6 +75,27 @@ export function loadRemainingStyles(){
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 }
 
+// Temporary preview instrumentation: observe actual presentation separately
+// from download, stylesheet application and the first carousel movement.
+function observeOpeningPaint(){
+ const marks=[];
+ const record=(key,time=performance.now())=>{
+  marks.push(key+Math.round(time));
+  document.querySelector('#campaign-card-1 img')?.setAttribute('data-sl-paint',marks.join('|'));
+ };
+ record('H');
+ try{new PerformanceObserver(list=>{for(const entry of list.getEntries())if(entry.identifier==='sl-opening')record('E',entry.renderTime);}).observe({type:'element',buffered:true});}catch{}
+ try{new PerformanceObserver(list=>{for(const entry of list.getEntries())record(entry.element?.closest?.('#campaign-card-1')?'L':'O',entry.startTime);}).observe({type:'largest-contentful-paint',buffered:true});}catch{}
+ new MutationObserver(entries=>{for(const entry of entries){
+  if(entry.target.id==='sl-deferred-styles'&&entry.target.rel==='stylesheet')record('C');
+  if(entry.target===document.documentElement&&entry.target.classList.contains('sl-styles-ready'))record('R');
+ }}).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class','rel']});
+ document.addEventListener('load',event=>{if(event.target?.matches?.('#campaign-card-1 img')){record('I');requestAnimationFrame(()=>requestAnimationFrame(()=>record('P')));}},true);
+ document.addEventListener('DOMContentLoaded',()=>record('D'),{once:true});
+ document.addEventListener('scroll',event=>{if(event.target?.matches?.('.sl-campaign-track'))record('S');},{capture:true,once:true});
+ document.fonts?.addEventListener('loadingdone',()=>record('F'));
+}
+
 export function installCriticalStyles(html,css,options){
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
@@ -83,7 +104,8 @@ export function installCriticalStyles(html,css,options){
  const preload=options?.detail?productPreload(html):'';
  if(options?.detail)return html.replace(marker,()=>preload+'<style id="sl-full-styles">'+compactStyles(css)+'</style>');
  const href=html.match(marker)[1];
- return html.replace(marker,()=>'<style id="sl-full-styles">'+criticalStyles(css)+'</style><link id="sl-deferred-styles" rel="preload" as="style" fetchpriority="low" blocking="render" href="'+href+'"><noscript><link rel="stylesheet" href="'+href+'"></noscript><script>('+loadRemainingStyles.toString()+')();</script>');
+ html=html.replace(/(id="campaign-card-1"[\s\S]*?<img) /,'$1 data-sl-paint="pending" elementtiming="sl-opening" ');
+ return html.replace(marker,()=>'<style id="sl-full-styles">'+criticalStyles(css)+'</style><link id="sl-deferred-styles" rel="preload" as="style" fetchpriority="low" blocking="render" href="'+href+'"><noscript><link rel="stylesheet" href="'+href+'"></noscript><script>('+observeOpeningPaint.toString()+')();('+loadRemainingStyles.toString()+')();</script>');
 }
 
 // Discover the detail image in the head, with exactly the same candidates and
