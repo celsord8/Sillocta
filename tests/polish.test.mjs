@@ -99,6 +99,15 @@ test('Home paints its critical cascade and retains the complete original stylesh
  assert.ok(!home.includes('<aside aria-hidden="true" id="mobile-menu-drawer"'));
 });
 
+test('Only the opening campaign photo paints synchronously; all original responsive candidates and other async photos remain intact',()=>{
+ const home=read('public/index.html'),source=read('source/index.html');
+ const photo=(html,id)=>html.match(new RegExp('id="campaign-card-'+id+'"[\\s\\S]*?<img\\b[^>]*>'))?.[0];
+ assert.match(photo(home,1),/decoding="sync"/);
+ assert.equal(photo(home,1).replace('decoding="sync"','decoding="async"'),photo(source,1));
+ for(const id of [6,2,12,3,26])assert.equal(photo(home,id),photo(source,id));
+ assert.match(read('public/perfume/dior-miss-dior.html'),/class="sl-product-photo"><img[^>]*decoding="async"/);
+});
+
 function styleHarness(){
  const frames=[],events=new Map(),linkEvents=new Map(),timers=new Map(),classes=[];
  let resolveDecode;
