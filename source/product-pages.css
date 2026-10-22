@@ -200,3 +200,24 @@ html body .sl-product-info>.sl-product-price-line .sl-product-stock.is-unavailab
 
 html body .sl-product-page .sl-product-delivery-note{font:300 .75rem/1.8 Montserrat,sans-serif;color:#b9ac97;margin:9px 0 0;text-wrap:pretty}
 
+/* Delivery estimates share the purchase typography without changing approved controls. */
+.sl-product-delivery{margin:22px 0 10px;padding:18px 0;border-top:1px solid #cbb47729;border-bottom:1px solid #cbb47729;min-width:0}
+.sl-product-delivery label{display:block;font:400 .75rem/1.6 Montserrat,sans-serif;color:#c6baa5;margin-bottom:8px}
+.sl-product-delivery-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+html body .sl-product-page .sl-product-delivery :is(input,select){box-sizing:border-box;display:block;width:100%;min-width:0;min-height:44px;padding:10px 12px;border:1px solid #cbb47745;border-radius:4px;background:#090807;color:#dfd4c1;font:400 .875rem/1.5 Montserrat,sans-serif}
+html body .sl-product-page .sl-product-delivery input{font-size:16px}
+.sl-product-delivery input::placeholder{color:#a99c87}
+html body .sl-product-page .sl-product-delivery input[aria-invalid=true]{border-color:#d4a68b}
+html body .sl-product-page #product-delivery-submit{min-width:104px;min-height:44px;padding:10px 12px;border:1px solid #cbb47765;border-radius:4px;background:transparent;color:#decca6;font:400 .75rem/1.5 Montserrat,sans-serif}
+html body .sl-product-page #product-delivery-submit:hover:not(:disabled){border-color:#dfc994;background:#cbb4770a}
+.sl-product-delivery-status,.sl-product-delivery-deadline{font:300 .75rem/1.7 Montserrat,sans-serif;color:#c9bea9;margin:10px 0}
+.sl-product-delivery-status:empty{display:none}
+#product-delivery-result{margin-top:14px}
+html body .sl-product-page .sl-product-delivery select{padding-right:10px;font-size:.75rem}
+.sl-product-delivery dl{margin:14px 0 0;font:400 .75rem/1.7 Montserrat,sans-serif}
+.sl-product-delivery dl>div{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 16px;padding:4px 0}
+.sl-product-delivery dt{color:#bdb09c}.sl-product-delivery dd{margin:0;color:#dfd0b1;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sl-product-delivery dl>.sl-product-delivery-total{border-top:1px solid #cbb47729;margin-top:8px;padding-top:12px}
+.sl-product-delivery-total dd{font-size:1rem}
+@media(max-width:360px){.sl-product-delivery-form{gap:8px}html body .sl-product-page #product-delivery-submit{min-width:94px;padding-inline:8px}}
+
