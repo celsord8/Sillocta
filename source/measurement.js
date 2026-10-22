@@ -94,6 +94,22 @@
       document.head.appendChild(script);
     }
   };
-  if ('requestIdleCallback' in window) window.requestIdleCallback(load, {timeout:3500});
-  else window.setTimeout(load, 1800);
+  // Prepare all event queues immediately, but leave the first visible frame
+  // free of collector downloads and execution. Idle time before any paint
+  // can simply mean the browser is waiting for images or fonts.
+  let scheduled=false;
+  const schedule=()=>{
+    if(scheduled)return;scheduled=true;
+    if ('requestIdleCallback' in window) window.requestIdleCallback(load, {timeout:3500});
+    else window.setTimeout(load, 0);
+  };
+  if(typeof PerformanceObserver==='function'&&PerformanceObserver.supportedEntryTypes?.includes('paint')){
+    const observer=new PerformanceObserver(list=>{
+      if(!list.getEntries().some(entry=>entry.name==='first-contentful-paint'))return;
+      observer.disconnect();schedule();
+    });
+    observer.observe({type:'paint',buffered:true});
+  }else if(typeof window.requestAnimationFrame==='function'){
+    window.requestAnimationFrame(()=>window.requestAnimationFrame(schedule));
+  }else window.setTimeout(load, 1800);
 })();
