@@ -31,7 +31,7 @@
   const after=cards.map(duplicate),tail=cards.map(duplicate);
   for(const clone of [...after,...tail])track.appendChild(clone);
   const copies=[...after,...tail],all=[...cards,...after,...tail];
-  const waitingImages=new WeakSet();
+  const waitingImages=new WeakMap(),decodedImages=new WeakMap();
   let pending=false,layoutPending=false,timer=0,preloadTimer=0,settleTimer=0;
   let hovered=false,focused=false,pressed=false,manualUntil=0,looping=false,centered=false,origin=0,period=0;
   const positions=new Map();
@@ -84,14 +84,28 @@
     const candidates=visible().filter(card=>indexes.get(card)===index);
     move(candidates.reduce((best,card)=>!best||Math.abs(offset(card)-track.scrollLeft)<Math.abs(offset(best)-track.scrollLeft)?card:best,null));
   };
-  const waitForImage=image=>{
-    if(!image||image.complete!==false)return false;
-    if(!waitingImages.has(image)){
-      waitingImages.add(image);
-      const ready=()=>{waitingImages.delete(image);queueAutoplay();};
-      image.addEventListener('load',ready,{once:true});
+  const waitForImage=(image,resume=true)=>{
+    if(!image||(image.complete!==false&&(typeof image.decode!=='function'||decodedImages.get(image)===(image.currentSrc||image.src||''))))return false;
+    const existing=waitingImages.get(image);
+    if(existing){existing.resume ||= resume;return true;}
+    const pending={resume,done:false,source:image.currentSrc||image.src||''};waitingImages.set(image,pending);
+    const ready=()=>{
+      if(pending.done)return;pending.done=true;
+      waitingImages.delete(image);decodedImages.set(image,pending.source);
+      if(pending.resume)queueAutoplay();
+    };
+    const decode=()=>{
+      if(typeof image.decode!=='function'){ready();return;}
+      pending.source=image.currentSrc||image.src||'';
+      let result;try{result=image.decode();}catch{ready();return;}
+      // A completed download can still have no painted frame. Preserve the
+      // full two-second dwell after decoding and the next committed frame.
+      Promise.resolve(result).catch(()=>{}).then(()=>requestAnimationFrame(()=>requestAnimationFrame(ready)));
+    };
+    if(image.complete===false){
+      image.addEventListener('load',decode,{once:true});
       image.addEventListener('error',ready,{once:true});
-    }
+    }else decode();
     return true;
   };
   const queueAutoplay=()=>{
@@ -107,7 +121,7 @@
     preloadTimer=setTimeout(()=>{
       preloadTimer=0;if(!canPlay())return;
       all.filter(card=>indexes.get(card)===next).forEach(card=>{
-        const img=card.querySelector('img');if(img){img.loading='eager';img.fetchPriority='low';}
+        const img=card.querySelector('img');if(img){img.loading='eager';img.fetchPriority='low';waitForImage(img,false);}
       });
     },Math.max(0,delay-1200));
     timer=setTimeout(()=>{
