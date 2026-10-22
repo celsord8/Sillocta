@@ -49,6 +49,9 @@ export function criticalStyles(css,{detail=false}={}){
 }
 
 export function installCriticalStyles(html,css,options){
+ // The visible LCP photograph should paint with the next frame, rather than
+ // allowing asynchronous decoding to leave its already-loaded pixels blank.
+ html=html.replace(/(id="campaign-card-1"[\s\S]*?<img[^>]*?)decoding="async"/,'$1decoding="sync"');
  const marker=/<link rel="stylesheet" href="(\/storefront\.css\?v=[^"]+)">/;
  if(!marker.test(html))throw Error('Missing stylesheet marker');
  // Every page receives the same complete, ordered cascade on first paint.
