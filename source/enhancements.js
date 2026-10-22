@@ -9,6 +9,7 @@ const buyFeedback=new WeakMap();
 let whatsappOpening=false,whatsappResetTimer;
 let cepTimer,cepController,cepPromise,cepInputCode='',cepResolvedCode='',cepPendingCode='',cepMessage='',cepBusy=false;
 const cepCache=new Map(),cepAutofilled={};
+const productDelivery={sequence:0,controller:null,timer:null,expiry:null,result:null,key:'',selected:''};
 window._checkout={pagamento:'pix'};window._giftWrap=false;window._couponCode='';window._couponPct=0;window._orderObs='';
 const byId=id=>document.getElementById(id);
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -539,7 +540,7 @@ function isStandaloneStorefront(){return window.location.protocol==='file:'||doc
 function productImage(p){return document.querySelector(`.card[data-product-id="${p.id}"] .img-box img`)?.getAttribute('src')||'/'+p.image;}
 function removeLocalProduct(){
   if(!document.body.classList.contains('sl-local-product'))return;
-  clearTimeout(productButtonTimer);byId('product-page')?.remove();document.body.classList.remove('sl-local-product','sl-detail-view');
+  clearTimeout(productButtonTimer);clearProductDelivery();byId('product-page')?.remove();document.body.classList.remove('sl-local-product','sl-detail-view');
   document.title=localHomeTitle;const meta=document.querySelector('meta[name="description"]');if(meta)meta.content=localHomeDescription;
   syncMenuState();
 }
@@ -559,6 +560,66 @@ function updateProductSelection(){
   if(byId('product-stock'))byId('product-stock').textContent=volume+' ml · '+(p.available?'Disponível':'Temporariamente esgotado');
   if(byId('product-total'))byId('product-total').textContent=brl(p.prices[volume]*quantity);
   for(const [id,disabled] of [['product-minus',quantity<=1],['product-plus',quantity>=99]])if(byId(id))byId(id).disabled=disabled;
+  syncProductDeliverySelection();
+}
+function productDeliverySelection(){
+  const p=currentProduct(),page=byId('product-page'),input=byId('product-delivery-cep');
+  if(!p?.available||!page||!input)return null;
+  const volume=page.dataset.volume,quantity=Number(byId('product-quantity')?.textContent)||1,cep=input.value.replace(/\D/g,'');
+  if(!['5','10'].includes(volume)||!Number.isInteger(quantity)||quantity<1||quantity>99)return null;
+  return {page,cep,volume,quantity,pid:p.id,key:[p.id,volume,quantity,cep].join(':')};
+}
+function clearProductDelivery(message=''){
+  productDelivery.sequence++;productDelivery.controller?.abort();clearTimeout(productDelivery.timer);clearTimeout(productDelivery.expiry);
+  productDelivery.result=null;productDelivery.key='';productDelivery.selected='';
+  const result=byId('product-delivery-result'),status=byId('product-delivery-status'),button=byId('product-delivery-submit');
+  if(result){result.hidden=true;result.innerHTML='';}if(status)status.textContent=message;
+  if(byId('product-delivery-note'))byId('product-delivery-note').textContent='Consulte a entrega para este perfume, no volume e na quantidade escolhidos.';
+  byId('product-delivery')?.setAttribute('aria-busy','false');
+  if(button){button.disabled=false;button.textContent='Consultar';}
+}
+function changeProductDeliveryCep(input){
+  input.value=maskCEP(input.value);input.removeAttribute('aria-invalid');clearProductDelivery();
+}
+function syncProductDeliverySelection(){
+  const selection=productDeliverySelection();
+  if(!productDelivery.key||selection?.key===productDelivery.key)return;
+  clearProductDelivery('Seleção atualizada. Recalculando a entrega…');
+  if(selection&&/^\d{8}$/.test(selection.cep))productDelivery.timer=setTimeout(()=>consultProductDelivery(),650);
+}
+async function consultProductDelivery(){
+  const selection=productDeliverySelection();if(!selection)return;
+  clearProductDelivery();
+  if(!/^\d{8}$/.test(selection.cep)||/^(\d)\1{7}$/.test(selection.cep)){
+    byId('product-delivery-cep').setAttribute('aria-invalid','true');byId('product-delivery-status').textContent='Informe um CEP válido com 8 números.';return;
+  }
+  const sequence=productDelivery.sequence,controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),15000);productDelivery.controller=controller;productDelivery.key=selection.key;
+  const current=()=>sequence===productDelivery.sequence&&selection.page===byId('product-page')&&productDeliverySelection()?.key===selection.key;
+  const button=byId('product-delivery-submit');button.disabled=true;button.textContent='Consultando…';byId('product-delivery').setAttribute('aria-busy','true');byId('product-delivery-status').textContent='Consultando opções de entrega…';
+  try{
+    if(typeof paymentApi!=='function')throw Error('A consulta está indisponível agora. Tente novamente em instantes.');
+    if(!paymentFlow.enabled){const config=await paymentApi('config',{signal:controller.signal});if(!current())return;if(!config.enabled||!config.shippingEnabled)throw Error('A consulta está indisponível agora. Tente novamente em instantes.');}
+    const quote=await paymentApi('quote',{method:'POST',body:JSON.stringify({items:[{pid:selection.pid,volume:selection.volume,quantity:selection.quantity}],cep:selection.cep,coupon:'',gift:false}),signal:controller.signal});
+    if(!current())return;
+    if(quote.shippingSimulation!==false)throw Error('A cotação está indisponível agora. Consulte a entrega na sacola.');
+    if(!Number.isFinite(quote.expiresAt)||quote.expiresAt<=Date.now()||!Number.isInteger(quote.totalCents)||quote.totalCents<=0||!Array.isArray(quote.options)||!quote.options.length||quote.options.some(o=>typeof o.id!=='string'||!o.id||typeof o.name!=='string'||!Number.isInteger(o.priceCents)||o.priceCents<0))throw Error('Não foi possível obter opções de entrega. Confira o CEP e tente novamente.');
+    productDelivery.result=quote;productDelivery.selected=quote.options.reduce((best,o)=>o.priceCents<best.priceCents?o:best).id;
+    renderProductDelivery();
+    productDelivery.expiry=setTimeout(()=>{if(current())clearProductDelivery('Esta cotação expirou. Consulte a entrega novamente.');},quote.expiresAt-Date.now());
+  }catch(error){if(current()){clearProductDelivery();byId('product-delivery-status').textContent=error.message||'Não foi possível consultar. Tente novamente.';}}
+  finally{clearTimeout(timeout);if(current()){button.disabled=false;button.textContent='Consultar';byId('product-delivery').setAttribute('aria-busy','false');}}
+}
+function selectProductDelivery(id){
+  const quote=productDelivery.result;if(!quote||quote.expiresAt<=Date.now()){clearProductDelivery('Esta cotação expirou. Consulte a entrega novamente.');return;}
+  if(quote.options.some(option=>option.id===id)){const focused=typeof document!=='undefined'&&document.activeElement===byId('product-delivery-service');productDelivery.selected=id;renderProductDelivery();if(focused)byId('product-delivery-service')?.focus({preventScroll:true});}
+}
+function renderProductDelivery(){
+  const quote=productDelivery.result,selection=productDeliverySelection(),result=byId('product-delivery-result');if(!quote||!result||selection?.key!==productDelivery.key)return;
+  const chosen=quote.options.find(o=>o.id===productDelivery.selected);if(!chosen)return;
+  const days=chosen.daysRange,deadline=Array.isArray(days)&&days.length===2&&days.every(n=>Number.isInteger(n)&&n>=0)?days[0]+' a '+days[1]+' dias úteis após a postagem.':'Prazo a confirmar com a transportadora.';
+  result.hidden=false;result.innerHTML='<label for="product-delivery-service">Opções de entrega</label><select id="product-delivery-service" onchange="selectProductDelivery(this.value)">'+quote.options.map(o=>'<option value="'+escapeHtml(o.id)+'"'+(o.id===chosen.id?' selected':'')+'>'+escapeHtml(o.name)+' · '+(o.priceCents?brl(o.priceCents):'Grátis')+'</option>').join('')+'</select><p class="sl-product-delivery-deadline">'+escapeHtml(deadline)+'</p><dl><div><dt>Perfume · '+escapeHtml(selection.quantity+' × '+selection.volume+' ml')+'</dt><dd>'+brl(quote.totalCents)+'</dd></div><div><dt>Entrega</dt><dd>'+(chosen.priceCents?brl(chosen.priceCents):'Grátis')+'</dd></div><div class="sl-product-delivery-total"><dt>Total com entrega</dt><dd>'+brl(quote.totalCents+chosen.priceCents)+'</dd></div></dl>';
+  byId('product-delivery-status').textContent='Entrega calculada para sua seleção.';
+  byId('product-delivery-note').textContent='Valores e prazos estimados. Outros itens, cupons e presente são recalculados na sacola.';
 }
 function selectProductVolume(button){
   const p=currentProduct(),volume=button.dataset.productVolume;if(!p?.available||!p.prices[volume])return;
