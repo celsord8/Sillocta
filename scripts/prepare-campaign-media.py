@@ -1,7 +1,11 @@
 """Prepare native-resolution carousel crops; never alter or upscale originals."""
 from pathlib import Path
 from PIL import Image, ImageOps, ImageChops, ImageStat
-import hashlib, io, json, math, re
+import argparse, hashlib, io, json, math, re
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--product-id', type=int, help='Prepare only this campaign, retaining all other derivatives.')
+args = parser.parse_args()
 
 root = Path(__file__).resolve().parent.parent
 source = root / 'source'
@@ -12,6 +16,8 @@ sizes = {
     'desktop': '(max-width: 1060px) calc((100vw - 48px) * .62), 620px',
 }
 for campaign in campaigns:
+    if args.product_id is not None and campaign['productId'] != args.product_id:
+        continue
     original = Image.open(source / campaign['image']).convert('RGB')
     assert hashlib.sha256((source / campaign['image']).read_bytes()).hexdigest() == campaign['media']['originalSha256']
     focus = tuple(float(part.strip('%')) / 100 for part in campaign['position'].split())
