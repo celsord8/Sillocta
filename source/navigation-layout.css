@@ -189,6 +189,8 @@ html body #colecao-selector :is(#sel-masc-label,#sel-fem-label)>i{display:inline
 @media(max-width:360px){html body .sl-header-wordmark{font-size:20px;letter-spacing:.06em;padding-left:.06em}}
 @media(min-width:361px){html body .sl-header-actions{gap:4px}}
 html body #menu-trigger,
+html body .sl-header-actions button{--sl-header-surface:linear-gradient(180deg,#25232180,#14131194)}
+html body #menu-trigger,
 html body .sl-header-actions button,
 html body .sl-product-page :is(.sl-product-share,.sl-product-bag,.sl-product-availability),
 html body #continue-shopping-btn{
@@ -202,6 +204,10 @@ html body .sl-product-page :is(.sl-product-share,.sl-product-bag,.sl-product-ava
 html body #continue-shopping-btn:hover{
   background:linear-gradient(180deg,#302b24eb,#1b1813f2)!important;
 }
+html body #menu-trigger,
+html body .sl-header-actions button{background:var(--sl-header-surface)!important}
+html body #menu-trigger:hover,
+html body .sl-header-actions button:hover{background:linear-gradient(180deg,#302b24a3,#1b1813b8)!important}
 html body .perfume-grid .card .sl-volume-options>.vbtn,
 html body .sl-product-page .sl-product-volume button{
   background:linear-gradient(180deg,#23211e9c,#141310b3)!important;
@@ -250,11 +256,29 @@ html body .sl-product-page .sl-product-primary:active:not(:disabled){
   html body #menu-trigger::before,
   html body .sl-header-actions button::before{
     content:'';position:absolute;inset:4px;z-index:-1;pointer-events:none;border-radius:var(--sl-radius-control);
-    background:linear-gradient(180deg,#252321e0,#141311eb);
+    background:var(--sl-header-surface);
     box-shadow:inset 0 1px 0 #ffffff16,inset 0 0 0 1px #cbb47724,0 2px 5px #0002;
   }
   html body #menu-trigger:hover::before,
-  html body .sl-header-actions button:hover::before{background:linear-gradient(180deg,#302b24eb,#1b1813f2)}
+  html body .sl-header-actions button:hover::before{background:linear-gradient(180deg,#302b24a3,#1b1813b8)}
   html body #cc{top:4px;right:2px;min-width:15px;height:15px;font-size:9px}
 }
 @media(max-width:360px){html body .sl-header-wordmark{font-size:18.5px}}
+
+/* Close controls retain opaque icons and a quiet translucent inset surface. */
+html body #cart-drawer>#cart-drawer-head button,
+html body #mobile-menu-drawer .mobile-menu-head button,
+html body .sl-guide-close{position:relative;isolation:isolate}
+html body #footer-info-close{isolation:isolate}
+html body #cart-drawer>#cart-drawer-head button::before,
+html body #mobile-menu-drawer .mobile-menu-head button::before,
+html body .sl-guide-close::before,
+html body #footer-info-close::before{
+  content:'';position:absolute;inset:6px;z-index:-1;pointer-events:none;box-sizing:border-box;
+  border:1px solid #cbb47724;border-radius:var(--sl-radius-control);
+  background:linear-gradient(180deg,#2523214d,#14131161);
+}
+html body #cart-drawer>#cart-drawer-head button:hover::before,
+html body #mobile-menu-drawer .mobile-menu-head button:hover::before,
+html body .sl-guide-close:hover::before,
+html body #footer-info-close:hover::before{border-color:#cbb47750;background:linear-gradient(180deg,#302b247a,#1b18138f)}
