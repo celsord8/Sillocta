@@ -165,7 +165,7 @@ html body .sl-product-page :is(.sl-product-primary,.sl-product-bag,.sl-product-a
 html body .sl-product-page .sl-product-primary{background:transparent!important;border-color:#cbb47770;color:#decca6}
 html body .sl-product-page .sl-product-primary:hover:not(:disabled){border-color:#dfc994;background:#cbb4770a!important;color:#f0dfb9}
 html body .sl-product-page .sl-product-primary:active:not(:disabled){border-color:#e5d1a4;background:#cbb47715!important}
-html body .sl-product-page .sl-product-bag{width:auto;max-width:100%;min-height:44px;padding:10px 0;border:0;margin-top:5px;color:#bfb3a0;justify-content:flex-start}
+html body .sl-product-page .sl-product-bag{width:100%;max-width:21rem;min-height:44px;padding:10px 14px;border:1px solid #cbb47745;margin-top:10px;color:#bfb3a0;justify-content:center}
 html body .sl-product-page .sl-product-bag:hover{color:#e4d0a8}
 html body .sl-product-page .sl-product-availability{border-color:#cbb47770}
 html body .sl-product-page .sl-product-icon{flex:0 0 17px;width:17px;height:17px;stroke-width:1.4}
