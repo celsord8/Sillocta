@@ -282,3 +282,16 @@ html body #cart-drawer>#cart-drawer-head button:hover::before,
 html body #mobile-menu-drawer .mobile-menu-head button:hover::before,
 html body .sl-guide-close:hover::before,
 html body #footer-info-close:hover::before{border-color:#cbb47750;background:linear-gradient(180deg,#302b247a,#1b18138f)}
+
+/* Payment choices share the translucent finish while selection stays explicit. */
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn{
+  background:linear-gradient(180deg,#25232180,#14131194)!important;
+  box-shadow:inset 0 1px 0 #ffffff12!important;
+}
+html body #cart-drawer.sl-orders-checkout .sl-pay-btn.is-on{
+  background:linear-gradient(180deg,#cbb47724,#cbb4770d)!important;
+  box-shadow:inset 0 1px 0 #f1deb82b!important;
+}
+@media(hover:hover){html body #cart-drawer.sl-orders-checkout .sl-pay-btn:not(.is-on):hover:not(:disabled){
+  background:linear-gradient(180deg,#302b24a3,#1b1813b8)!important;
+}}
