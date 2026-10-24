@@ -186,6 +186,8 @@ html body #menu-trigger>i{display:inline-flex;align-items:center;justify-content
 html body #colecao-selector :is(#sel-masc-label,#sel-fem-label)>i{display:inline-flex;align-items:center;justify-content:center;line-height:1}
 
 /* Satin surfaces: static light and fine inset edges, with no extra motion or blur. */
+@media(max-width:360px){html body .sl-header-wordmark{font-size:20px;letter-spacing:.06em;padding-left:.06em}}
+@media(min-width:361px){html body .sl-header-actions{gap:4px}}
 html body #menu-trigger,
 html body .sl-header-actions button,
 html body .sl-product-page :is(.sl-product-share,.sl-product-bag,.sl-product-availability),
