@@ -150,140 +150,140 @@
   },
   {
     "productId": 6,
-    "image": "assets/campaign-miss-dior.webp",
-    "position": "50% 45%",
-    "alt": "Natalie Portman entre flores, na campanha oficial de Miss Dior Eau de Parfum.",
-    "sourcePage": "https://www.dior.com/en_us/beauty/discover-miss-dior-eau-de-parfum/discover-miss-dior-eau-de-parfum.html",
-    "originalImage": "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Library-Sites-DiorSharedLibrary/default/dw15ac0a55/images/beauty/discovery-pages/fragrance/MDEDP2021/Poster_video_TVC_MD.JPG?sw=1680",
-    "width": 1680,
-    "height": 938,
-    "originalSha256": "42f0068f0e5b21f72942e40f0e23ca291543d758253a94df6723f50246b7fbda",
+    "image": "assets/campaign-miss-dior-floral.jpg",
+    "position": "50% 40%",
+    "alt": "Frasco de Miss Dior Eau de Parfum com laço prateado entre flores, em fotografia oficial da Dior.",
+    "sourcePage": "https://www.dior.com/pt_br/beauty/discover-miss-dior-eau-de-parfum/discover-miss-dior-eau-de-parfum.html",
+    "originalImage": "https://www.dior.com/on/demandware.static/-/Library-Sites-DiorSharedLibrary/default/dw687f320b/images/beauty/discovery-pages/fragrance/MDEDP2021/MissDiorSlider11.jpg",
+    "width": 1850,
+    "height": 2000,
+    "originalSha256": "8ec65e82966e78f6c5a567ccdd9fa91f80cb4c4dbc1f04802dea6e83294f881d",
     "media": {
-      "width": 1680,
-      "height": 938,
-      "originalSha256": "c8f0c6b262a10e5363232022b955f2eabde27e3951ecc87d1403e7f2d21c3df7",
+      "width": 1850,
+      "height": 2000,
+      "originalSha256": "8ec65e82966e78f6c5a567ccdd9fa91f80cb4c4dbc1f04802dea6e83294f881d",
       "sources": [
         {
-          "url": "assets/campaign-miss-dior.webp",
-          "width": 1680,
-          "bytes": 320378
+          "url": "assets/campaign-miss-dior-floral.jpg",
+          "width": 1850,
+          "bytes": 326338
         }
       ]
     },
     "displayMedia": {
       "mobile": {
         "ratio": 1.78,
-        "focus": "50% 45%",
-        "nativeWidth": 1669,
-        "nativeHeight": 938,
+        "focus": "50% 40%",
+        "nativeWidth": 1850,
+        "nativeHeight": 1039,
         "sizes": "(max-width: 360px) calc((100vw - 28px) * .84), calc((100vw - 36px) * .84)",
         "sources": [
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-480-384dc2a2e9c4.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-480-9a9511bdbafa.webp",
             "width": 480,
             "height": 270,
-            "bytes": 86238,
+            "bytes": 59236,
             "quality": 95,
-            "psnr": 35.52
+            "psnr": 38.97
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-640-dfe4b139f5b3.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-640-26a22c56a324.webp",
             "width": 640,
             "height": 360,
-            "bytes": 141740,
+            "bytes": 99200,
             "quality": 95,
-            "psnr": 37.65
+            "psnr": 40.37
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-960-09ff70ca229a.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-960-98a5adc2ae78.webp",
             "width": 960,
             "height": 539,
-            "bytes": 279248,
+            "bytes": 200874,
             "quality": 95,
-            "psnr": 40.42
+            "psnr": 42.13
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-1280-0f83c2f25286.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-1280-4861514ded9c.webp",
             "width": 1280,
             "height": 719,
-            "bytes": 419334,
+            "bytes": 313646,
             "quality": 95,
-            "psnr": 41.6
+            "psnr": 43.02
           }
         ],
         "avifSources": [
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-480-d0c0dc784dd9.avif",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-480-3f6b9da62454.avif",
             "width": 480,
             "height": 270,
-            "bytes": 60989,
+            "bytes": 40031,
             "quality": 80,
-            "psnr": 34.65
+            "psnr": 37.22
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-640-5f0076083d36.avif",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-640-e6a7402770b6.avif",
             "width": 640,
             "height": 360,
-            "bytes": 95443,
+            "bytes": 65709,
             "quality": 80,
-            "psnr": 35.73
+            "psnr": 37.83
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-960-8136699ebc41.avif",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-960-d666cfa0805a.avif",
             "width": 960,
             "height": 539,
-            "bytes": 171106,
+            "bytes": 131792,
             "quality": 80,
-            "psnr": 37.47
+            "psnr": 38.9
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-mobile-1280-f83a1169f998.avif",
+            "url": "assets/responsive/campaign-miss-dior-floral-mobile-1280-e950a13d4fb5.avif",
             "width": 1280,
             "height": 719,
-            "bytes": 242610,
+            "bytes": 206458,
             "quality": 80,
-            "psnr": 38.83
+            "psnr": 39.66
           }
         ]
       },
       "desktop": {
         "ratio": 2.15,
-        "focus": "50% 45%",
-        "nativeWidth": 1680,
-        "nativeHeight": 781,
+        "focus": "50% 40%",
+        "nativeWidth": 1850,
+        "nativeHeight": 860,
         "sizes": "(max-width: 1060px) calc((100vw - 48px) * .62), 620px",
         "sources": [
           {
-            "url": "assets/responsive/campaign-miss-dior-desktop-480-6682bb81775a.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-desktop-480-52c8f9bee355.webp",
             "width": 480,
             "height": 223,
-            "bytes": 71388,
+            "bytes": 50028,
             "quality": 95,
-            "psnr": 35.45
+            "psnr": 38.74
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-desktop-640-4d9cd778ed08.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-desktop-640-d03b3ca5c651.webp",
             "width": 640,
             "height": 298,
-            "bytes": 117190,
+            "bytes": 84400,
             "quality": 95,
-            "psnr": 37.45
+            "psnr": 40.23
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-desktop-960-002628e843a4.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-desktop-960-d83d04f499ee.webp",
             "width": 960,
             "height": 447,
-            "bytes": 231254,
+            "bytes": 170802,
             "quality": 95,
-            "psnr": 40.38
+            "psnr": 42.14
           },
           {
-            "url": "assets/responsive/campaign-miss-dior-desktop-1280-5bf78475efd1.webp",
+            "url": "assets/responsive/campaign-miss-dior-floral-desktop-1280-45aaa057a495.webp",
             "width": 1280,
             "height": 595,
-            "bytes": 347160,
+            "bytes": 266824,
             "quality": 95,
-            "psnr": 41.46
+            "psnr": 42.99
           }
         ]
       }

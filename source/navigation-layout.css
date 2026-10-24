@@ -184,3 +184,49 @@ html body :is(.sl-product-icon,.sl-control-icon,.sl-quantity-icon,.sl-close-icon
 html body .sl-header-actions button>i,
 html body #menu-trigger>i{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1}
 html body #colecao-selector :is(#sel-masc-label,#sel-fem-label)>i{display:inline-flex;align-items:center;justify-content:center;line-height:1}
+
+/* Satin surfaces: static light and fine inset edges, with no extra motion or blur. */
+html body #menu-trigger,
+html body .sl-header-actions button,
+html body .sl-product-page :is(.sl-product-share,.sl-product-bag,.sl-product-availability),
+html body #continue-shopping-btn{
+  border-radius:var(--sl-radius-control)!important;
+  background:linear-gradient(180deg,#252321e0,#141311eb)!important;
+  box-shadow:inset 0 1px 0 #ffffff16,inset 0 0 0 1px #cbb47724,0 2px 5px #0002!important;
+}
+html body #menu-trigger:hover,
+html body .sl-header-actions button:hover,
+html body .sl-product-page :is(.sl-product-share,.sl-product-bag,.sl-product-availability):hover,
+html body #continue-shopping-btn:hover{
+  background:linear-gradient(180deg,#302b24eb,#1b1813f2)!important;
+}
+html body .perfume-grid .card .sl-volume-options>.vbtn,
+html body .sl-product-page .sl-product-volume button{
+  background:linear-gradient(180deg,#23211e9c,#141310b3)!important;
+  box-shadow:inset 0 1px 0 #ffffff0d!important;
+}
+html body .perfume-grid .card .sl-volume-options>.vbtn.on,
+html body .sl-product-page .sl-product-volume button[aria-pressed=true]{
+  background:linear-gradient(180deg,#cbb47720,#cbb4770c)!important;
+  box-shadow:inset 0 1px 0 #f1deb82b,inset 0 0 0 1px #cbb4770a!important;
+}
+html body #hero-txt>button,
+html body .perfume-grid .card .btn-buy,
+html body .sl-product-page .sl-product-primary{
+  background:linear-gradient(180deg,#d5bf87,#c5ad72)!important;
+  box-shadow:inset 0 1px 0 #fff5df66,inset 0 -1px 0 #5c451b26,0 2px 5px #0002!important;
+}
+html body #hero-txt>button:hover,
+html body .perfume-grid .card .btn-buy:hover,
+html body .sl-product-page .sl-product-primary:hover:not(:disabled){
+  background:linear-gradient(180deg,#e3cfa0,#d2ba80)!important;
+}
+html body .sl-product-page .sl-product-primary:active:not(:disabled){
+  background:linear-gradient(180deg,#c5ad72,#cbb477)!important;
+}
+@media(max-width:720px){
+  html body .perfume-grid .card .btn-buy,
+  html body .perfume-grid .card .btn-buy:is(:hover,:active){background:transparent!important;box-shadow:none!important}
+  html body .perfume-grid .card .btn-buy::before{background:linear-gradient(180deg,#d5bf87,#c5ad72);box-shadow:inset 0 1px 0 #fff5df66,inset 0 -1px 0 #5c451b26}
+  html body .perfume-grid .card .btn-buy:hover::before{background:linear-gradient(180deg,#e3cfa0,#d2ba80)}
+}
