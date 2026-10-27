@@ -476,6 +476,17 @@ function showPaymentStatus(orderId){
       body:[{title:'Frete e prazo',html:'<p>Informe o CEP na sacola e selecione uma das opções disponíveis. O valor da entrega entra no total do pedido. Os prazos exibidos são estimativas da opção escolhida.</p>'},{title:'Pagamento e postagem',html:'<p>A aprovação do pagamento não significa que o pedido já foi enviado. Para informações sobre a preparação e a postagem, fale com o atendimento usando o número do pedido.</p>'},{title:'Acompanhamento',html:'<p>Após a postagem, solicite o código e o link de rastreamento ao atendimento. Confira o endereço antes de finalizar; se precisar corrigir algo, avise o atendimento o quanto antes.</p>'}],
       actions:[{label:'Consultar entrega',kind:'primary',href:'https://wa.me/5585991857074'},{label:'Fechar',kind:'secondary',action:'close'}]
     },
+    termos: {
+      kicker:'Termos da loja',title:'Sua escolha, com todas as informações.',subtitle:'Condições de navegação e apresentação dos decants da Sillocta.',
+      body:[
+        {title:'O produto apresentado',html:'<p>Os produtos do catálogo são decants de 5 ml ou 10 ml. As imagens dos frascos originais identificam as fragrâncias; o frasco original inteiro não acompanha o decant. Confira o perfume, o volume e a quantidade antes de adicionar à sacola.</p>'},
+        {title:'Valores e disponibilidade',html:'<p>Os preços são apresentados em reais e correspondem ao volume selecionado. Confira os itens, eventuais descontos, o frete e o total na sacola. Produtos identificados como esgotados não estão disponíveis para adicionar ao pedido.</p>'},
+        {title:'Pagamentos nesta versão',html:'<p>O checkout integrado opera em ambiente de teste. Simulações de pagamento não representam uma compra real nem geram envio. Para consultar a possibilidade de uma compra efetiva, fale com o atendimento antes de efetuar qualquer pagamento.</p>'},
+        {title:'Entrega e atendimento',html:'<p>As estimativas de entrega dependem do CEP e da opção de frete. A aprovação de um pagamento não comprova postagem. Confirme as condições de uma compra efetiva com o atendimento.</p>'},
+        {title:'Privacidade, trocas e devoluções',html:'<p>Consulte a Política de privacidade e as informações de Trocas e Devoluções disponíveis no rodapé. Para dúvidas sobre sua seleção ou sobre essas informações, utilize o atendimento pelo WhatsApp.</p>'}
+      ],
+      actions:[{label:'Atendimento',kind:'primary',href:'https://wa.me/5585991857074'},{label:'Fechar',kind:'secondary',action:'close'}]
+    },
     privacidade: {
       kicker:'Privacidade',title:'Como seus dados são utilizados.',subtitle:'Informações sobre a navegação e o checkout da Sillocta.',
       body:[{title:'Métricas de navegação',html:'<p>Utilizamos métricas agregadas da Vercel para acompanhar visitas e desempenho. Os campos do checkout não são enviados para essas métricas, e parâmetros de busca e fragmentos são removidos dos endereços medidos. Preferências Do Not Track e Global Privacy Control são respeitadas.</p>'},{title:'Dados do pedido',html:'<p>Nome, contato, endereço e, quando solicitado, documento são utilizados para processar a compra, o pagamento, a entrega e o atendimento. Os dados necessários são enviados aos serviços de pagamento e logística envolvidos nessas etapas.</p>'},{title:'Pagamento',html:'<p>O formulário seguro do Mercado Pago processa os dados do cartão. A loja utiliza um token para solicitar o pagamento, sem receber o número completo do cartão ou seu código de segurança.</p>'},{title:'Neste navegador',html:'<p>A sacola e os favoritos usam armazenamento local para manter suas escolhas. Informações de acompanhamento do pagamento podem permanecer na sessão. Você pode remover esses dados pelas configurações do navegador; isso também remove as seleções salvas.</p>'},{title:'Contato sobre dados',html:'<p>Para solicitar informações, correção ou exclusão de dados, entre em contato pelo canal de atendimento. Alguns registros podem precisar ser conservados para cumprir obrigações legais ou concluir um pedido.</p>'}],
@@ -752,16 +763,6 @@ document.addEventListener('focusout',()=>requestAnimationFrame(syncCheckoutViewp
 
 window.addEventListener('pageshow',resetWhatsAppButton);
 
-// A bounded, decorative enhancement. Collection and checkout controls keep
-// their existing behavior; touch devices use the CSS cycle without a cursor.
-// Extend the existing accessible information dialogs on every storefront page.
-for(const [key,label] of [['entrega','Entrega e prazos'],['privacidade','Privacidade']]){
-  const anchor=document.querySelector('#site-footer [data-footer-modal="como"]');
-  if(anchor&&!document.querySelector('#site-footer [data-footer-modal="'+key+'"]')){
-    const link=document.createElement('a');link.href='#footer-info-modal';link.dataset.footerModal=key;link.textContent=label;
-    link.addEventListener('click',event=>{event.preventDefault();openFooterInfo(key);});anchor.parentElement.appendChild(link);
-  }
-}
 
 function initializeHeroMotion(){
   const hero=document.getElementById('hero');
