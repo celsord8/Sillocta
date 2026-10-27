@@ -26,7 +26,7 @@ const bundleVersions=new Map();
 const versionBundles=html=>html.replace(/<script defer src="\/([^"?]+\.js)\?v=([^"&]+)"><\/script>/g,(tag,name,version)=>{
  const hash=bundleVersions.get(name);if(!hash)throw Error('Unversioned browser bundle: '+name);
  return tag.replace('?v='+version,'?v='+version+'-'+hash);
-});
+}).replace(/\/storefront\.css\?v=[^"\s]+/g,'/storefront.css?v='+bundleVersions.get('storefront.css'));
 const originalHome=openingFontPreloads(readFileSync(path.join(source,'index.html'),'utf8'));
 const home=installHeroBootstrap(originalHome.replace(/<meta name="viewport"[^>]*>/,viewport=>viewport+campaignPreload(originalHome)),readFileSync(path.join(source,'enhancements.js'),'utf8'));
 const heroStart=home.indexOf('<section id="hero">'),shopEnd=home.indexOf('</main>',heroStart);
@@ -51,11 +51,13 @@ for(const name of ['measurement.js','enhancements.js','product-pages.js','campai
  writeFileSync(path.join(output,name),result.code);
  bundleVersions.set(name,createHash('sha256').update(result.code).digest('hex').slice(0,12));
 }
-const styles=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css'].map(name=>readFileSync(path.join(source,name),'utf8'));
+const styles=['storefront.css','enhancements.css','product-pages.css','campaigns.css','checkout-orders.css','navigation-layout.css','controls.css'].map(name=>readFileSync(path.join(source,name),'utf8'));
 const icons=iconStyles(JSON.parse(readFileSync(path.join(source,'icons.json'),'utf8')));
 const openingStyles=openingFontStyles(output);
 const bundled=consolidateStyles(icons+'\n'+styles.join('\n'));
-writeFileSync(path.join(output,'storefront.css'),compactStyles(bundled.css));
+const compiledStyles=compactStyles(bundled.css);
+writeFileSync(path.join(output,'storefront.css'),compiledStyles);
+bundleVersions.set('storefront.css',createHash('sha256').update(compiledStyles).digest('hex').slice(0,12));
 writeFileSync(path.join(output,'index.html'),versionBundles(installCriticalStyles(addMetadata(home,'/'),bundled.css)));
 for(const product of products){
   const route=pages.path(product);
